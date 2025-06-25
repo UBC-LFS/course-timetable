@@ -1,0 +1,337 @@
+{% extends 'timetable/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+  .timetable-grid {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .timetable-grid th,
+  .timetable-grid td {
+    border: 1px solid #eee;
+    text-align: center;
+    padding: 5px 0;
+    min-width: 50px;
+  }
+
+  .time-col {
+    background-color: #fafafa;
+    font-weight: 500;
+    padding: 0px;
+  }
+
+  .rounded-corner-table {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #eee;
+  }
+
+  .filters-container select {
+    height: 40px;
+    border-radius: 8px;
+  }
+
+  .primary-bg {
+    background-color: #002145;
+  }
+
+  /* Add this to your existing <style> section */
+.course-cell {
+  position: relative;
+  height: 60px;
+}
+
+.course-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  background-color: #ecf3f7;
+  color: rgb(44, 41, 41);
+  padding: 5px;
+  font-size: 12px;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+/* Shift right for the second course (if overlap) */
+.course-item.overlap {
+  left: 50%;
+  z-index: 2;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+}
+
+</style>
+
+<div class="container-fluid py-4 px-4">
+  <div class="row gy-4 flex-column">
+    
+    <!--──────── LEFT: FILTERS ────────-->
+    <div class="col-12">
+      <form method="get" action="{% url 'landing_page' %}"class="card shadow-sm p-3 rounded-2 filters-container flex-row justify-content-between">
+        <h4 class="fw-semibold mt-4">Filters</h4>
+
+        <!-- <div class="mb-3">
+          <label class="form-label">Code</label>
+          <option value="">Code</option>
+          {% for course in codes %}
+            <label value="{{ course }}">
+              <input type="checkbox" value="{{ course }}" name="code[]">{{ course }}
+            </label>
+            {% endfor %}
+        </div> -->
+        <div class="mb-3 dropdown">
+          <label class="form-label d-block">Code</label>
+          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Code
+          </button>
+          <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
+            {% for course in codes %}
+              <li>
+                <label class="form-check-label d-block">
+                  <input class="form-check-input me-1" type="checkbox" name="code[]" value="{{ course }}">
+                  {{ course }}
+                </label>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="mb-3 dropdown">
+          <label class="form-label d-block">Number</label>
+          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Number
+          </button>
+          <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
+            {% for number in numbers %}
+              <li>
+                <label class="form-check-label d-block">
+                  <input class="form-check-input me-1" type="checkbox" name="number[]" value="{{ number }}">
+                  {{ number }}
+                </label>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="mb-3 dropdown">
+          <label class="form-label d-block">Section</label>
+          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Section
+          </button>
+          <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
+            {% for section in sections %}
+              <li>
+                <label class="form-check-label d-block">
+                  <input class="form-check-input me-1" type="checkbox" name="section[]" value="{{ section }}">
+                  {{ section }}
+                </label>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="mb-3 dropdown">
+          <label class="form-label d-block">Term</label>
+          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Term
+          </button>
+          <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
+            {% for term in terms %}
+              <li>
+                <label class="form-check-label d-block">
+                  <input class="form-check-input me-1" type="checkbox" name="term[]" value="{{ term }}">
+                  {{ term }}
+                </label>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="mb-3 dropdown">
+          <label class="form-label d-block">Start time</label>
+          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Start
+          </button>
+          <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
+            {% for start in times %}
+              <li>
+                <label class="form-check-label d-block">
+                  <input class="form-check-input me-1" type="checkbox" name="start[]" value="{{ start }}">
+                  {{ start }}
+                </label>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="mb-3 dropdown">
+          <label class="form-label d-block">End time</label>
+          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            End
+          </button>
+          <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
+            {% for end in times %}
+              <li>
+                <label class="form-check-label d-block">
+                  <input class="form-check-input me-1" type="checkbox" name="end[]" value="{{ end }}">
+                  {{ end }}
+                </label>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="mb-3 dropdown">
+          <label class="form-label d-block">Days of the week</label>
+          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Days
+          </button>
+          <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
+            {% for day in days %}
+              <li>
+                <label class="form-check-label d-block">
+                  <input class="form-check-input me-1" type="checkbox" name="day[]" value="{{ day }}">
+                  {{ day }}
+                </label>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-10 mt-5" style="transform: translateY(-16px);">Apply filters</button>
+      </form>
+    </div>
+
+    <!--──────── RIGHT: TIMETABLE ────────-->
+    <div class="col-12">
+      <div class="card shadow-sm p-4 rounded-3">
+        <h4 class="fw-semibold text-center mb-4">Course Timetable</h4>
+        <div class="table-responsive rounded-corner-table">
+          
+        <!-- <div>
+          {% if courses|length == 0 %}
+            <p class="text-center">No courses found for the selected filters.</p>
+          {% else %}
+
+            {% for course in courses %}
+            <p>{{ course }}</p>
+            <p>{{course.code}} - {{ course.number }}</p>
+            <p>Start-time: {{ course.start }}</p>
+            <p>End-time: {{ course.end }}</p>
+            <p>day: {{ course.day }}</p>
+            
+            {% endfor %}
+          {% endif %}
+        </div> -->
+          <table class="timetable-grid">
+            <thead>
+              <tr>
+                <th class="time-col"></th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thurs</th>
+                <th>Fri</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for hour in hour_list %}
+              <tr>
+                <td class="time-col">{{ hour }}:00</td>
+                <td class="course-cell" style="position: relative;">
+                  {% for course in courses %}
+                  {% if 'Mon' in course.day.name %}
+                  {% if course.start.name|slice:":2" == hour %}
+                  <div class="course-item {% if course.overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute;">
+                    <strong>{{ course.code }}-{{ course.number }}</strong>
+                  </div>
+                  {% endif %}
+                  {% endif %}
+                  {% endfor %}
+                </td>
+                <td class="course-cell">
+                  {% for course in courses %}
+                  {% if 'Tue' in course.day.name %}
+                  {% if course.start.name|slice:":2" == hour %}
+                  <div class="course-item {% if course.overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}">
+                    <strong>{{ course.code }}-{{ course.number }}</strong>
+                  </div>
+                  {% endif %}
+                  {% endif %}
+                  {% endfor %}
+                </td>
+                <td class="course-cell">
+                  {% for course in courses %}
+                  {% if 'Wed' in course.day.name %}
+                  {% if course.start.name|slice:":2" == hour %}
+                  <div class="course-item {% if course.overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}">
+                    <strong>{{ course.code }}-{{ course.number }}</strong>
+                  </div>
+                  {% endif %}
+                  {% endif %}
+                  {% endfor %}
+                </td>
+                <td class="course-cell">
+                  {% for course in courses %}
+                  {% if 'Thurs' in course.day.name %}
+                  {% if course.start.name|slice:":2" == hour %}
+                  <div class="course-item {% if course.overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}">
+                    <strong>{{ course.code }}-{{ course.number }}</strong>
+                  </div>
+                  {% endif %}
+                  {% endif %}
+                  {% endfor %}
+                </td>
+                <td class="course-cell">
+                  {% for course in courses %}
+                  {% if 'Fri' in course.day.name %}
+                  {% if course.start.name|slice:":2" == hour %}
+                  <div class="course-item {% if course.overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}">
+                    <strong>{{ course.code }}-{{ course.number }}</strong>
+                  </div>
+                  {% endif %}
+                  {% endif %}
+                  {% endfor %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+
+        <!-- 
+        
+        proposed solution:
+         1. make a bunch of if statements to check if the course is on the right day, then if statement to check the start and end time. If yes then render the course
+
+        -->
+        <!-- <table>
+          {}
+        
+        </table> -->
+
+<!-- 
+        <div>
+          {% if courses|length == 0 %}
+            <p class="text-center">No courses found for the selected filters.</p>
+          {% else %}
+
+            {% for course in courses %}
+            <p>{{ course }}</p>
+            <p>{{course.code}} - {{ course.number }}</p>
+            <p>Start-time: {{ course.start }}</p>
+            <p>End-time: {{ course.end }}</p>
+            
+            {% endfor %}
+          {% endif %}
+        </div> -->
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
