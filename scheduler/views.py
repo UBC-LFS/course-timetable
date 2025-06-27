@@ -65,17 +65,49 @@ def landing_page(request):
             overlap_tracker = defaultdict(list)
             for course in courses:
                 attached_days = course.day.name.split('_')  # Handle multiple days
-                for i, day_ in enumerate(attached_days):
+                for day_ in attached_days:
                     key = (day_, course.start.name[:2])  # e.g., ('Mon', '13')
                     overlap_tracker[key].append(course)
                     # Mark overlapping courses        
                     # print(overlap_tracker)
-                    for group in overlap_tracker.values():
-                        if len(group) > 1:
-                            for c in group:
-                                c.overlaps = len(group) * (100 / len(courses))
-                        else:
-                            group[0].overlaps = False
+                print(overlap_tracker)              
+            for course_group in overlap_tracker.values():
+                # len(group) is the number of courses that overlap
+                #1 / n = the width of each course in the calendar cell
+                # need to find the width of the calendar cell
+                
+                
+                # find inbetween end < time < start
+                
+                # take the end time of each course and compare it to the start time of all the other courses
+                    # this number rerpsents the overlap
+                    # assign overlap to course when this is true
+                
+                
+                
+                
+                
+                #attributes to calculate overlap
+                if len(course_group) > 1:
+                    print(len(course_group))
+                    for c in course_group:
+                        c.overlap_width = 1.0 / float(len(course_group)) if len(course_group) > 0 else 1.0
+                        c.overlap_width *= 100
+                        c.overlap_width = round(c.overlap_width, 2)
+                        
+                        # calculate offset left
+                        c.offset_left = c.overlap_width * course_group.index(c)
+                        
+                        if c.offset_left > 0:
+                            c.offset_left -= course_group.index(c)
+                            
+                        # calculate z-index
+                        c.z_index_num = course_group.index(c) + 1
+                        
+                        # see if it overs 
+                        c.overlaps = True
+                else:
+                    course_group[0].overlaps = False
                             
                             
         # for course in courses:
@@ -95,7 +127,7 @@ def landing_page(request):
             course.pixel_height = course.duration_minutes * PIXELS_PER_MINUTE
             
             course.offset_top = (start.minute) * PIXELS_PER_MINUTE
-            course.offset_left = course.overlaps
+            # course.offset_left = course.overlaps
                         
             if course.code.name == "APBI":
                 course.color = "#7BDFF2"
