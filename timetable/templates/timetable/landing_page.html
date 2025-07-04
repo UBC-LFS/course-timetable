@@ -23,7 +23,6 @@
 
   .rounded-corner-table {
     border-radius: 12px;
-    overflow: hidden;
     border: 1px solid #eee;
   }
 
@@ -36,14 +35,14 @@
     background-color: #002145;
   }
 
-  /* Add this to your existing <style> section */
+/* Add this to your existing <style> section in the template */
 .course-cell {
   position: relative;
   height: 60px;
 }
 
 .course-item {
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 50%;
   background-color: #ecf3f7;
@@ -52,25 +51,29 @@
   font-size: 12px;
   border-radius: 5px;
   z-index: 1;
+  cursor: pointer; /* Add cursor pointer to indicate interactivity */
 }
 
 /* Shift right for the second course (if overlap) */
 .course-item.overlap {
-  /* left: 50%; */
-  /* z-index: 2; */
   border-left: 1px solid white;
   border-right: 1px solid white;
+  z-index: 2;
 }
 
 .course-tooltip {
-  position: absolute;
-  background-color: #bfe0e9;
-  border: 1px solid;
-  padding: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  z-index: 9999 !important;
-  transform: translateX(80px) translateY(-50%);
-  display: none; /* Initially hidden */
+  position: fixed; /* Changed from absolute to fixed */
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 10000 !important; /* Increased z-index significantly */
+  display: none;
+  border-radius: 6px;
+  max-width: 300px;
+  font-size: 14px;
+  line-height: 1.4;
+  /* Remove the transform: translateX(80px); as we'll position it with JavaScript */
 }
 
 </style>
@@ -255,7 +258,7 @@
                   {% for course in courses %}
                   {% if 'Mon' in course.day.name %}
                   {% if course.start.name|slice:":2" == hour %}
-                  <div class="course-item {% if course.overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute; width: {{ course.overlap_width }}%; left: {{ course.offset_left }}%; z-index: {{ course.z_index_num }};" data-description="description">
+                  <div class="course-item {% if course.overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute; width: {{ course.overlap_width }}%; left: {{ course.offset_left }}%;"  data-code="{{ course.code }}" data-number="{{ course.number }}" data-start="{{ course.start.name }}" data-end="{{ course.end.name }}" data-day="{{ course.day.name }}" data-section="{{ course.section }}">
                     <strong>{{ course.code }}-{{ course.number }}</strong>
                   </div>
                   {% endif %}
