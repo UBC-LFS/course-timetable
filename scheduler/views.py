@@ -114,7 +114,25 @@ def landing_page(request):
             courses = courses.filter(day__name__in=filter_day)
         
         if courses.exists():
-        
+            
+            DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+            START_TIME = '08:00:00'
+            END_TIME = '19:00:00'
+            INTERVAL = timedelta(minutes=15)
+            
+            slots = {}
+            current_time = START_TIME
+            while current_time <= END_TIME:
+                time_str = current_time.strftime("%H:%M")
+                for day in DAYS:
+                    slots[(day, time_str)] = None  # None = not occupied
+                current_time += INTERVAL
+            
+            # create slots dictionary with all time slots for each day
+            
+            
+            
+            
             
             # Group courses by day and start time or by their start time and end time
             # This will help in identifying overlaps
