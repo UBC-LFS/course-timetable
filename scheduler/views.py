@@ -130,7 +130,20 @@ def landing_page(request):
             
             # create slots dictionary with all time slots for each day
             
-            
+            # iterate through each course and fill the slots dictionary
+            for course in courses:
+                attached_days = course.day.name.split('_')
+                for day in attached_days:
+                    start_time = course.start.name[:5]  # e.g., '13:00'
+                    end_time = course.end.name[:5]  # e.g., '15:00'
+                    # Iterate through the time slots for the course
+                    current_time = datetime.strptime(start_time, "%H:%M")
+                    end_time_dt = datetime.strptime(end_time, "%H:%M")
+                    while current_time < end_time_dt:
+                        time_str = current_time.strftime("%H:%M")
+                        if (day, time_str) in slots:
+                            slots[(day, time_str)] = course
+                        current_time += INTERVAL
             
             
             
