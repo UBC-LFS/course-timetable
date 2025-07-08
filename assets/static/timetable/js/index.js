@@ -17,8 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const start = course.getAttribute("data-start");
             const end = course.getAttribute("data-end");
             const day = course.getAttribute("data-day");
+            const des = course.getAttribute("data-name");
             const days = day.split("_").join(", ");
-            tooltip.innerHTML = `${code} ${number} ${section} <br> Start: ${start} <br> End: ${end} <br> Day: ${days}` || "<p> Description not available</p>";
+            tooltip.innerHTML = `${code} ${number} ${section} <br> Start: ${start} <br> End: ${end} <br> Day: ${days} <br> Description: ${des}`|| "<p> Description not available</p>";
             tooltip.style.display = "block";
             
             // Position the tooltip near the mouse cursor

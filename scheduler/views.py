@@ -14,6 +14,59 @@ from datetime import datetime, timedelta
 # when filtering, iterate through courses and filter by current iteration
     # - do this for every filter
     
+'''
+#increment the start time by 15 minutes until you hit the end time - 15 minutes
+  as you increment, add to corresponding key in the dictionary. Minus 15 minutes because each key represents a 15 minute interval.
+8:00:
+8:15:
+8:30:
+8:45:
+9:00:
+9:15:
+9:30
+9:45
+10:00: 1
+10:15: 1, 2
+10:30: 1, 2
+10:45: 1, 2, 3
+11:00: 3
+11:15: 3,
+11:30: 3,  
+11:45: 3,
+12:00
+12:15
+12:30
+12:45
+13:00
+13:15
+13:30
+13:45
+14:00
+14:15
+14:30
+14:45
+15:00
+15:15
+15:30
+15:45
+16:00
+16:15
+16:30
+16:45
+17:00
+17:15
+17:30
+17:45
+18:00
+18:15 
+18:30
+18:45
+19:00
+
+
+
+'''
+
 PIXELS_PER_MINUTE = 1  # Adjust this value to change the height of each minute in pixels
 
 def landing_page(request):
@@ -61,16 +114,25 @@ def landing_page(request):
             courses = courses.filter(day__name__in=filter_day)
         
         if courses.exists():
-            # Group courses by day and start time
+        
+            
+            # Group courses by day and start time or by their start time and end time
+            # This will help in identifying overlaps
             overlap_tracker = defaultdict(list)
             for course in courses:
-                attached_days = course.day.name.split('_')  # Handle multiple days
-                for day_ in attached_days:
-                    key = (day_, course.start.name[:2])  # e.g., ('Mon', '13')
+                attached_days_start = course.day.name.split('_')  # Handle multiple days
+                for day_ in attached_days_start:
+                    key = (day_, course.start.name[:5])  # e.g., ('Mon', '13')
                     overlap_tracker[key].append(course)
+                    
+                    if course not in overlap_tracker:
+                        key = (day_, course.end.name[:5])  # e.g., ('Mon', '15')
+                        overlap_tracker[key].append(course)
+                        # add course if
                     # Mark overlapping courses        
                     # print(overlap_tracker)
-                print(overlap_tracker)              
+                print(overlap_tracker) 
+            
             for course_group in overlap_tracker.values():
                 # len(group) is the number of courses that overlap
                 #1 / n = the width of each course in the calendar cell
@@ -82,12 +144,15 @@ def landing_page(request):
                 # take the end time of each course and compare it to the start time of all the other courses
                     # this number rerpsents the overlap
                     # assign overlap to course when this is true
+                    
+
                 
                 
                 
                 
                 
                 #attributes to calculate overlap
+                # add the overlap to be inside of the different time frames
                 if len(course_group) > 1:
                     print(len(course_group))
                     for c in course_group:
