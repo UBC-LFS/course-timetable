@@ -115,22 +115,28 @@ def landing_page(request):
         
         if courses.exists():
             
-            DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
-            START_TIME = '08:00:00'
-            END_TIME = '19:00:00'
+            DAYS = ['Mon', 'Tues', 'Wed', 'Thu', 'Fri']
+            START_TIME = '08:00'
+            END_TIME = '19:00'
             INTERVAL = timedelta(minutes=15)
-            
+            start = datetime.strptime(START_TIME, "%H:%M")
+            end = datetime.strptime(END_TIME, "%H:%M")
+
             slots = {}
-            current_time = START_TIME
-            while current_time <= END_TIME:
+            current_time = start
+            while current_time < end:
                 time_str = current_time.strftime("%H:%M")
                 for day in DAYS:
-                    slots[(day, time_str)] = None  # None = not occupied
+                    slots[(day, time_str)] = []  # None = not occupied
                 current_time += INTERVAL
+            print(slots)
             
             # create slots dictionary with all time slots for each day
             
             # iterate through each course and fill the slots dictionary
+            
+            
+            ## I'm not splitting up the start to end times, I'm only checking to see if it matches the already start and end times in the slots
             for course in courses:
                 attached_days = course.day.name.split('_')
                 for day in attached_days:
@@ -142,39 +148,67 @@ def landing_page(request):
                     while current_time < end_time_dt:
                         time_str = current_time.strftime("%H:%M")
                         if (day, time_str) in slots:
-                            slots[(day, time_str)] = course
+                            print("true")
+                        else:
+                            print("this is the inputed", day, time_str)
+                            print("this is the slots", slots)
+                        if (day, time_str) in slots:
+                            print(f"Adding {course} to slot {day} at {time_str}")
+                            slots[(day, time_str)].append(course)
                         current_time += INTERVAL
-            
-            
+
+                        
+                        
+            for slot, course_group in slots.items():
+                if len(course_group) > 1:
+                    for c in course_group:
+                        if getattr(c, 'overlap_width', None) is None:
+                            c.overlap_width = 1.0 / float(len(course_group)) if len(course_group) > 0 else 1.0
+                            c.overlap_width *= 100
+                            c.overlap_width = round(c.overlap_width, 2)
+                            
+                            # calculate offset left
+                            c.offset_left = c.overlap_width * course_group.index(c)
+                            
+                            # if c.offset_left > 0:
+                            #     c.offset_left -= course_group.index(c)
+                                
+                            # calculate z-index
+                            c.z_index_num = course_group.index(c) + 1
+                            
+                            # see if it overs 
+                            c.overlaps = True
+
+                        
             
             # Group courses by day and start time or by their start time and end time
             # This will help in identifying overlaps
-            overlap_tracker = defaultdict(list)
-            for course in courses:
-                attached_days_start = course.day.name.split('_')  # Handle multiple days
-                for day_ in attached_days_start:
-                    key = (day_, course.start.name[:5])  # e.g., ('Mon', '13')
-                    overlap_tracker[key].append(course)
+            # overlap_tracker = defaultdict(list)
+            # for course in courses:
+            #     attached_days_start = course.day.name.split('_')  # Handle multiple days
+            #     for day_ in attached_days_start:
+            #         key = (day_, course.start.name[:5])  # e.g., ('Mon', '13')
+            #         overlap_tracker[key].append(course)
                     
-                    if course not in overlap_tracker:
-                        key = (day_, course.end.name[:5])  # e.g., ('Mon', '15')
-                        overlap_tracker[key].append(course)
-                        # add course if
-                    # Mark overlapping courses        
-                    # print(overlap_tracker)
-                print(overlap_tracker) 
+            #         if course not in overlap_tracker:
+            #             key = (day_, course.end.name[:5])  # e.g., ('Mon', '15')
+            #             overlap_tracker[key].append(course)
+            #             # add course if
+            #         # Mark overlapping courses        
+            #         # print(overlap_tracker)
+            #     print(overlap_tracker) 
             
-            for course_group in overlap_tracker.values():
-                # len(group) is the number of courses that overlap
-                #1 / n = the width of each course in the calendar cell
-                # need to find the width of the calendar cell
+            # for course_group in overlap_tracker.values():
+            #     # len(group) is the number of courses that overlap
+            #     #1 / n = the width of each course in the calendar cell
+            #     # need to find the width of the calendar cell
                 
                 
-                # find inbetween end < time < start
+            #     # find inbetween end < time < start
                 
-                # take the end time of each course and compare it to the start time of all the other courses
-                    # this number rerpsents the overlap
-                    # assign overlap to course when this is true
+            #     # take the end time of each course and compare it to the start time of all the other courses
+            #         # this number rerpsents the overlap
+            #         # assign overlap to course when this is true
                     
 
                 
@@ -182,28 +216,28 @@ def landing_page(request):
                 
                 
                 
-                #attributes to calculate overlap
-                # add the overlap to be inside of the different time frames
-                if len(course_group) > 1:
-                    print(len(course_group))
-                    for c in course_group:
-                        c.overlap_width = 1.0 / float(len(course_group)) if len(course_group) > 0 else 1.0
-                        c.overlap_width *= 100
-                        c.overlap_width = round(c.overlap_width, 2)
+            #     #attributes to calculate overlap
+            #     # add the overlap to be inside of the different time frames
+            #     if len(course_group) > 1:
+            #         print(len(course_group))
+            #         for c in course_group:
+            #             c.overlap_width = 1.0 / float(len(course_group)) if len(course_group) > 0 else 1.0
+            #             c.overlap_width *= 100
+            #             c.overlap_width = round(c.overlap_width, 2)
                         
-                        # calculate offset left
-                        c.offset_left = c.overlap_width * course_group.index(c)
+            #             # calculate offset left
+            #             c.offset_left = c.overlap_width * course_group.index(c)
                         
-                        if c.offset_left > 0:
-                            c.offset_left -= course_group.index(c)
+            #             if c.offset_left > 0:
+            #                 c.offset_left -= course_group.index(c)
                             
-                        # calculate z-index
-                        c.z_index_num = course_group.index(c) + 1
+            #             # calculate z-index
+            #             c.z_index_num = course_group.index(c) + 1
                         
-                        # see if it overs 
-                        c.overlaps = True
-                else:
-                    course_group[0].overlaps = False
+            #             # see if it overs 
+            #             c.overlaps = True
+            #     else:
+            #         course_group[0].overlaps = False
                             
                             
         # for course in courses:
