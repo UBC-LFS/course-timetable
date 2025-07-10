@@ -199,8 +199,8 @@ def landing_page(request):
             }
             
         
-        ''' Used to render the days in the timetable landing page '''
-        day_list = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
+    ''' Used to render the days in the timetable landing page '''
+    day_list = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
     
     ''' Returns the variables created in this view and makes them accessible in the template through their key names '''
     return render(request, 'timetable/landing_page.html', {
