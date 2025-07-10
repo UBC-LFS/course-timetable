@@ -258,7 +258,7 @@
                   {% for course in courses %}
                   {% if 'Mon' in course.day.name %}
                   {% if course.start.name|slice:":2" == hour %}
-                  <div class="course-item {% if course.overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute; width: {{ course.overlap_width }}%; left: {{ course.offset_left }}%;"  data-code="{{ course.code }}" data-number="{{ course.number }}" data-start="{{ course.start.name }}" data-end="{{ course.end.name }}" data-day="{{ course.day.name }}" data-section="{{ course.section }}">
+                  <div class="course-item {% if course.Mon_overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute; width: {{ course.Mon_overlap_width }}%; left: {{ course.Mon_offset_left }}%;"  data-code="{{ course.code }}" data-number="{{ course.number }}" data-start="{{ course.start.name }}" data-end="{{ course.end.name }}" data-day="{{ course.day.name }}" data-section="{{ course.section }}">
                     <strong>{{ course.code }}-{{ course.number }}</strong>
                   </div>
                   {% endif %}
@@ -267,9 +267,9 @@
                 </td>
                 <td class="course-cell" style="position: relative;">
                   {% for course in courses %}
-                  {% if 'Tue' in course.day.name %}
+                  {% if 'Tues' in course.day.name %}
                   {% if course.start.name|slice:":2" == hour %}
-                  <div class="course-item {% if course.overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute; width: {{ course.overlap_width }}%; left: {{ course.offset_left }}%;"  data-code="{{ course.code }}" data-number="{{ course.number }}" data-start="{{ course.start.name }}" data-end="{{ course.end.name }}" data-day="{{ course.day.name }}" data-section="{{ course.section }}" data-name="{{ course.name }}">
+                  <div class="course-item {% if course.Tues_overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute; width: {{ course.Tues_overlap_width }}%; left: {{ course.Tues_offset_left }}%;"  data-code="{{ course.code }}" data-number="{{ course.number }}" data-start="{{ course.start.name }}" data-end="{{ course.end.name }}" data-day="{{ course.day.name }}" data-section="{{ course.section }}">
                     <strong>{{ course.code }}-{{ course.number }}</strong>
                   </div>
                   {% endif %}

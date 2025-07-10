@@ -84,7 +84,6 @@ def landing_page(request):
     
     
     filter_code = request.GET.getlist('code[]')
-    print(filter_code)
     filter_number = request.GET.getlist('number[]')
     filter_section = request.GET.getlist('section[]')
     filter_term = request.GET.getlist('term[]')
@@ -95,7 +94,6 @@ def landing_page(request):
 
     
     if (filter_code or filter_number or filter_section or filter_term or filter_start or filter_end or filter_day):
-        print(filter_code, filter_number, filter_section, filter_term, filter_start, filter_end, filter_day)
         courses = Course.objects.all()
     
         if filter_code:
@@ -129,7 +127,6 @@ def landing_page(request):
                 for day in DAYS:
                     slots[(day, time_str)] = []  # None = not occupied
                 current_time += INTERVAL
-            print(slots)
             
             # create slots dictionary with all time slots for each day
             
@@ -147,37 +144,55 @@ def landing_page(request):
                     end_time_dt = datetime.strptime(end_time, "%H:%M")
                     while current_time < end_time_dt:
                         time_str = current_time.strftime("%H:%M")
+                        #print("this is the slots", slots)
+                        
+                        # import pprint
+                        # print("-----------------------------")  
+                        # pprint.pprint(slots)
+                        # print("-----------------------------")
+                        
                         if (day, time_str) in slots:
-                            print("true")
-                        else:
-                            print("this is the inputed", day, time_str)
-                            print("this is the slots", slots)
-                        if (day, time_str) in slots:
-                            print(f"Adding {course} to slot {day} at {time_str}")
+                            # print(f"Adding {course} to slot {day} at {time_str}")
                             slots[(day, time_str)].append(course)
                         current_time += INTERVAL
 
-                        
+                        # "Mon,Tues,Wed"
+                        # [Mon, Tues, Wed]
+                        # c.${day}_overlap : x
                         
             for slot, course_group in slots.items():
                 if len(course_group) > 1:
                     for c in course_group:
-                        if getattr(c, 'overlap_width', None) is None:
-                            c.overlap_width = 1.0 / float(len(course_group)) if len(course_group) > 0 else 1.0
-                            c.overlap_width *= 100
-                            c.overlap_width = round(c.overlap_width, 2)
-                            
+                        slot_day, slot_time = slot
+
+                        if getattr(c, f"{slot_day}_overlap_width", None) is None:
+                            overlap_width = 1.0 / float(len(course_group)) if len(course_group) > 0 else 1.0
+                            overlap_width *= 100
+                            overlap_width = round(overlap_width, 2)
+                            setattr(c, f"{slot_day}_overlap_width", overlap_width)
                             # calculate offset left
-                            c.offset_left = c.overlap_width * course_group.index(c)
-                            
-                            # if c.offset_left > 0:
-                            #     c.offset_left -= course_group.index(c)
+                            setattr(c, f"{slot_day}_offset_left", overlap_width * course_group.index(c))
+
+                            # if offset_left > 0:
+                            #     offset_left -= course_group.index(c)
                                 
                             # calculate z-index
-                            c.z_index_num = course_group.index(c) + 1
+                            # setattr(c, f"{slot_day}_z_index", course_group.index(c) + 1)
                             
                             # see if it overs 
-                            c.overlaps = True
+                            setattr(c, f"{slot_day}_overlaps", True)
+                            
+                            '''
+                            course has attributes of each day dynamically added:
+                            - overlap_width
+                            - offset_left
+                            - z_index
+                            - overlaps
+                            '''
+                            
+                            
+                        
+                        
 
                         
             
