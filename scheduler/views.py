@@ -19,7 +19,8 @@ VIEWS WORK FLOW:
 8. Render the landing page with the courses and their overlap data
 '''
 
-PIXELS_PER_MINUTE = 1  # Adjust this value to change the height of each minute in pixels
+''' This constant defines how many pixels each minute of course duration will take up in the timetable view.'''
+PIXELS_PER_MINUTE = 1
 
 '''This function handles the landing page of the timetable application.'''
 def landing_page(request):
@@ -68,6 +69,7 @@ def landing_page(request):
         '''If there are courses after filtering, proceed to create the timetable slots and calculate overlaps'''
         if courses.exists():
             
+            '''Outline for the timetable slots and overlaps'''
             DAYS = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
             START_TIME = '08:00'
             END_TIME = '19:00'
@@ -75,6 +77,8 @@ def landing_page(request):
             start = datetime.strptime(START_TIME, "%H:%M")
             end = datetime.strptime(END_TIME, "%H:%M")
 
+            '''Create a slots dictionary to hold all time slots for each day in 15 minute intervals.'''
+            '''The keys will be tuples of (day, time) and the values will be lists'''
             slots = {}
             current_time = start
             while current_time < end:
@@ -92,19 +96,20 @@ def landing_page(request):
                     end_time = course.end.name[:5]  # e.g., '15:00'
                     current_time = datetime.strptime(start_time, "%H:%M") # strip times into datetime
                     end_time_dt = datetime.strptime(end_time, "%H:%M")  # strip times into datetime
+                    
+                    '''Iterate from start time to end time in 15 minute intervals and add the course to the corresponding slot'''
                     while current_time < end_time_dt:
                         time_str = current_time.strftime("%H:%M")
                         
-                        
                         if (day, time_str) in slots:
-                            # print(f"Adding {course} to slot {day} at {time_str}")
                             slots[(day, time_str)].append(course)
                         current_time += INTERVAL
-
                         
             '''
             #increment the start time by 15 minutes until you hit the end time - 15 minutes
             as you increment, add to corresponding key in the dictionary. Minus 15 minutes because each key represents a 15 minute interval.
+            It will look like this:
+            
             10:00: 1
             10:15: 1, 2
             10:30: 1, 2
@@ -115,38 +120,33 @@ def landing_page(request):
             11:45: 3,
             12:00
             '''
-
-                        
+            
+            
+            '''Iterate through the slots dictionary to calculate overlaps and add attributes to each course'''
             for slot, course_group in slots.items():
+                '''If there is > 1 course in a slot, then continue to calculate overlaps'''
                 if len(course_group) > 1:
                     for c in course_group:
                         slot_day, slot_time = slot
 
+                        ''' Check if the course already has attributes for this day, if not, create them '''
                         if getattr(c, f"{slot_day}_overlap_width", None) is None:
                             overlap_width = 1.0 / float(len(course_group)) if len(course_group) > 0 else 1.0
                             overlap_width *= 100
                             overlap_width = round(overlap_width, 2)
-                            setattr(c, f"{slot_day}_overlap_width", overlap_width)
-                            # calculate offset left
-                            setattr(c, f"{slot_day}_offset_left", overlap_width * course_group.index(c))
-
-                            # if offset_left > 0:
-                            #     offset_left -= course_group.index(c)
-                                
-                            # calculate z-index
-                            # setattr(c, f"{slot_day}_z_index", course_group.index(c) + 1)
-                            
-                            # see if it overs 
-                            setattr(c, f"{slot_day}_overlaps", True)
                             
                             '''
                             course has attributes of each day dynamically added:
                             - overlap_width
                             - offset_left
-                            - z_index
                             - overlaps
                             '''
                             
+                            setattr(c, f"{slot_day}_overlap_width", overlap_width)
+                            setattr(c, f"{slot_day}_offset_left", overlap_width * course_group.index(c))
+                            setattr(c, f"{slot_day}_overlaps", True) # For styling purposes
+                            
+        ''' For each course, assign a color and pixel height based off its duration'''
         for course in courses:
             start = datetime.strptime(course.start.name, "%H:%M:%S")
             end = datetime.strptime(course.end.name, "%H:%M:%S")
