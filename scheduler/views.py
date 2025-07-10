@@ -23,7 +23,8 @@ PIXELS_PER_MINUTE = 1  # Adjust this value to change the height of each minute i
 
 '''This function handles the landing page of the timetable application.'''
 def landing_page(request):
-    ### 
+    
+    '''Variables from the fixtures/database'''
     hour_list = ["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"]
     term = CourseTerm.objects.all()
     code = CourseCode.objects.all()
@@ -31,11 +32,11 @@ def landing_page(request):
     section = CourseSection.objects.all()
     time = CourseTime.objects.all()
     day = CourseDay.objects.all()
-    
-    
+
+    '''Instantiate the variable that will hold the courses after filtering'''
     courses = None
-    
-    #grabs all filters used in the request
+
+    '''Get the filter values from the landing page request'''
     filter_code = request.GET.getlist('code[]')
     filter_number = request.GET.getlist('number[]')
     filter_section = request.GET.getlist('section[]')
@@ -45,7 +46,7 @@ def landing_page(request):
     filter_day = request.GET.getlist('day[]')
     
 
-    # filters the fixture data and widdles down to just the filtered output
+    '''Filters the fixture data and widdles down to just the filtered output'''
     if (filter_code or filter_number or filter_section or filter_term or filter_start or filter_end or filter_day):
         courses = Course.objects.all()
     
@@ -64,6 +65,7 @@ def landing_page(request):
         if filter_day:
             courses = courses.filter(day__name__in=filter_day)
         
+        '''If there are courses after filtering, proceed to create the timetable slots and calculate overlaps'''
         if courses.exists():
             
             DAYS = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
@@ -81,25 +83,18 @@ def landing_page(request):
                     slots[(day, time_str)] = []
                 current_time += INTERVAL
             
-            # create slots dictionary with all time slots for each day
             
-            # iterate through each course and fill the slots dictionary
-            
+            '''Iterate through the courses and add them to the corresponding time slots in the slots dictionary.'''
             for course in courses:
                 attached_days = course.day.name.split('_')
                 for day in attached_days:
                     start_time = course.start.name[:5]  # e.g., '13:00'
                     end_time = course.end.name[:5]  # e.g., '15:00'
-                    # Iterate through the time slots for the course
-                    current_time = datetime.strptime(start_time, "%H:%M")
-                    end_time_dt = datetime.strptime(end_time, "%H:%M")
+                    current_time = datetime.strptime(start_time, "%H:%M") # strip times into datetime
+                    end_time_dt = datetime.strptime(end_time, "%H:%M")  # strip times into datetime
                     while current_time < end_time_dt:
                         time_str = current_time.strftime("%H:%M")
-                        #print("this is the slots", slots)
                         
-                        # print("-----------------------------")  
-                        # pprint.pprint(slots)
-                        # print("-----------------------------")
                         
                         if (day, time_str) in slots:
                             # print(f"Adding {course} to slot {day} at {time_str}")
