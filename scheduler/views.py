@@ -76,7 +76,7 @@ def landing_page(request):
         
         if courses.exists():
             
-            DAYS = ['Mon', 'Tues', 'Wed', 'Thu', 'Fri']
+            DAYS = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
             START_TIME = '08:00'
             END_TIME = '19:00'
             INTERVAL = timedelta(minutes=15)
@@ -149,9 +149,6 @@ def landing_page(request):
                             - z_index
                             - overlaps
                             '''
-                            print(getattr(c, f"{slot_day}_overlap_width", None))
-                            print(f"{slot_day}_overlap_width")
-                            
                             
         for course in courses:
             start = datetime.strptime(course.start.name, "%H:%M:%S")
@@ -205,10 +202,6 @@ def landing_page(request):
                 }
             }
             
-            print("-----------------------------")  
-            pprint.pprint(course.day_data)
-            print("-----------------------------")
-        
             
         day_list = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
             
