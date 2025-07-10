@@ -5,35 +5,25 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 import pprint
 
-
-# from  import Timetable
-
-# def landing_page(request):
-#     return render(request, 'timetable/base.html', {})
-
-# make each request an array. Display the array in the filters tool in the frontend.
-# when filtering, iterate through courses and filter by current iteration
-    # - do this for every filter
-    
 '''
-#increment the start time by 15 minutes until you hit the end time - 15 minutes
-  as you increment, add to corresponding key in the dictionary. Minus 15 minutes because each key represents a 15 minute interval.
-10:00: 1
-10:15: 1, 2
-10:30: 1, 2
-10:45: 1, 2, 3
-11:00: 3
-11:15: 3,
-11:30: 3,  
-11:45: 3,
-12:00
-
+TODO READ BEFORE CONTINUING:
+VIEWS WORK FLOW:
+1. Grab all variables from fixtures/database
+2. Grab all filters inputted by user from Landing Page
+3. Filter the courses based on the filters
+4. Create a slots dictionary with all time slots for each day split up into 15 minute intervals
+    - This will represent the time slots in the timetable to find conflicting courses/overlaps
+5. Iterate through all courses to find their start/end time and add courses to their corresponding time slots in the slots dictionary
+6. If a slot has > 1 course in it, calculate the overlap width, offset left for each course in that slot
+7. Create a dictionary (day_data) for each course that has its overlap info for each day
+8. Render the landing page with the courses and their overlap data
 '''
 
 PIXELS_PER_MINUTE = 1  # Adjust this value to change the height of each minute in pixels
 
+'''This function handles the landing page of the timetable application.'''
 def landing_page(request):
-    # grabs all data from fixtures 
+    ### 
     hour_list = ["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"]
     term = CourseTerm.objects.all()
     code = CourseCode.objects.all()
@@ -88,7 +78,7 @@ def landing_page(request):
             while current_time < end:
                 time_str = current_time.strftime("%H:%M")
                 for day in DAYS:
-                    slots[(day, time_str)] = []  # None = not occupied
+                    slots[(day, time_str)] = []
                 current_time += INTERVAL
             
             # create slots dictionary with all time slots for each day
@@ -116,9 +106,21 @@ def landing_page(request):
                             slots[(day, time_str)].append(course)
                         current_time += INTERVAL
 
-                        # "Mon,Tues,Wed"
-                        # [Mon, Tues, Wed]
-                        # c.${day}_overlap : x
+                        
+            '''
+            #increment the start time by 15 minutes until you hit the end time - 15 minutes
+            as you increment, add to corresponding key in the dictionary. Minus 15 minutes because each key represents a 15 minute interval.
+            10:00: 1
+            10:15: 1, 2
+            10:30: 1, 2
+            10:45: 1, 2, 3
+            11:00: 3
+            11:15: 3,
+            11:30: 3,  
+            11:45: 3,
+            12:00
+            '''
+
                         
             for slot, course_group in slots.items():
                 if len(course_group) > 1:
