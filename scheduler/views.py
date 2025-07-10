@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import CourseTerm, CourseCode, CourseNumber, CourseSection, CourseTime, CourseDay, Course
 from collections import defaultdict
 from datetime import datetime, timedelta
+import pprint
 
 
 # from  import Timetable
@@ -17,14 +18,6 @@ from datetime import datetime, timedelta
 '''
 #increment the start time by 15 minutes until you hit the end time - 15 minutes
   as you increment, add to corresponding key in the dictionary. Minus 15 minutes because each key represents a 15 minute interval.
-8:00:
-8:15:
-8:30:
-8:45:
-9:00:
-9:15:
-9:30
-9:45
 10:00: 1
 10:15: 1, 2
 10:30: 1, 2
@@ -34,43 +27,13 @@ from datetime import datetime, timedelta
 11:30: 3,  
 11:45: 3,
 12:00
-12:15
-12:30
-12:45
-13:00
-13:15
-13:30
-13:45
-14:00
-14:15
-14:30
-14:45
-15:00
-15:15
-15:30
-15:45
-16:00
-16:15
-16:30
-16:45
-17:00
-17:15
-17:30
-17:45
-18:00
-18:15 
-18:30
-18:45
-19:00
-
-
 
 '''
 
 PIXELS_PER_MINUTE = 1  # Adjust this value to change the height of each minute in pixels
 
 def landing_page(request):
-    # data = 
+    # grabs all data from fixtures 
     hour_list = ["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"]
     term = CourseTerm.objects.all()
     code = CourseCode.objects.all()
@@ -82,7 +45,7 @@ def landing_page(request):
     
     courses = None
     
-    
+    #grabs all filters used in the request
     filter_code = request.GET.getlist('code[]')
     filter_number = request.GET.getlist('number[]')
     filter_section = request.GET.getlist('section[]')
@@ -92,7 +55,7 @@ def landing_page(request):
     filter_day = request.GET.getlist('day[]')
     
 
-    
+    # filters the fixture data and widdles down to just the filtered output
     if (filter_code or filter_number or filter_section or filter_term or filter_start or filter_end or filter_day):
         courses = Course.objects.all()
     
@@ -132,8 +95,6 @@ def landing_page(request):
             
             # iterate through each course and fill the slots dictionary
             
-            
-            ## I'm not splitting up the start to end times, I'm only checking to see if it matches the already start and end times in the slots
             for course in courses:
                 attached_days = course.day.name.split('_')
                 for day in attached_days:
@@ -146,7 +107,6 @@ def landing_page(request):
                         time_str = current_time.strftime("%H:%M")
                         #print("this is the slots", slots)
                         
-                        # import pprint
                         # print("-----------------------------")  
                         # pprint.pprint(slots)
                         # print("-----------------------------")
@@ -189,6 +149,8 @@ def landing_page(request):
                             - z_index
                             - overlaps
                             '''
+                            print(getattr(c, f"{slot_day}_overlap_width", None))
+                            print(f"{slot_day}_overlap_width")
                             
                             
         for course in courses:
@@ -212,8 +174,43 @@ def landing_page(request):
                 course.color = "#EADB9A"
             elif course.code.name == "LFS":
                 course.color = "#FFAAA5"
+        
+        
+        for course in courses:
+            course.day_data = {
+                "Mon": {
+                    "overlap": getattr(course, 'Mon_overlaps', None),
+                    "width": getattr(course, 'Mon_overlap_width', None),
+                    "left": getattr(course, 'Mon_offset_left', None)
+                },
+                "Tues": {
+                    "overlap": getattr(course, 'Tues_overlaps', None),
+                    "width": getattr(course, 'Tues_overlap_width', None),
+                    "left": getattr(course, 'Tues_offset_left', None)
+                },
+                "Wed": {
+                    "overlap": getattr(course, 'Wed_overlaps', None),
+                    "width": getattr(course, 'Wed_overlap_width', None),
+                    "left": getattr(course, 'Wed_offset_left', None)
+                },
+                "Thurs": {
+                    "overlap": getattr(course, 'Thurs_overlaps', None),
+                    "width": getattr(course, 'Thurs_overlap_width', None),
+                    "left": getattr(course, 'Thurs_offset_left', None)
+                },
+                "Fri": {
+                    "overlap": getattr(course, 'Fri_overlaps', None),
+                    "width": getattr(course, 'Fri_overlap_width', None),
+                    "left": getattr(course, 'Fri_offset_left', None)
+                }
+            }
             
+            print("-----------------------------")  
+            pprint.pprint(course.day_data)
+            print("-----------------------------")
+        
             
+        day_list = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
             
     return render(request, 'timetable/landing_page.html', {
         'hour_list': hour_list,
@@ -224,8 +221,7 @@ def landing_page(request):
         'times': time,
         'days': day,
         'courses': courses,
-        
+        'day_list': day_list,
         })
     
     
-    # {% if course.overlaps %}overlap{% endif %}

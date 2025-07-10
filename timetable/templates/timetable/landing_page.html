@@ -1,6 +1,7 @@
 {% extends 'timetable/base.html' %}
 {% load static %}
 {% block content %}
+{% load custom_filters %}
 <style>
   .timetable-grid {
     border-collapse: collapse;
@@ -254,94 +255,31 @@
               {% for hour in hour_list %}
               <tr>
                 <td class="time-col">{{ hour }}:00</td>
+                {% for day in day_list %}
+                <!-- create array [Mon, Tues, etc] -->
+                <!-- iterate through array having dynamic day and you're done -->
                 <td class="course-cell" style="position: relative;">
+                  
                   {% for course in courses %}
-                  {% if 'Mon' in course.day.name %}
+
+                  {% with course|get_day:day as data %}
+                  {% if day in course.day.name %}
                   {% if course.start.name|slice:":2" == hour %}
-                  <div class="course-item {% if course.Mon_overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute; width: {{ course.Mon_overlap_width }}%; left: {{ course.Mon_offset_left }}%;"  data-code="{{ course.code }}" data-number="{{ course.number }}" data-start="{{ course.start.name }}" data-end="{{ course.end.name }}" data-day="{{ course.day.name }}" data-section="{{ course.section }}">
+                  <div class="course-item {% if data.overlap %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute; width: {{ data.width }}%; left: {{ data.left }}%;"  data-code="{{ course.code }}" data-number="{{ course.number }}" data-start="{{ course.start.name }}" data-end="{{ course.end.name }}" data-day="{{ course.day.name }}" data-section="{{ course.section }}">
                     <strong>{{ course.code }}-{{ course.number }}</strong>
                   </div>
                   {% endif %}
                   {% endif %}
+                  {% endwith %}
                   {% endfor %}
                 </td>
-                <td class="course-cell" style="position: relative;">
-                  {% for course in courses %}
-                  {% if 'Tues' in course.day.name %}
-                  {% if course.start.name|slice:":2" == hour %}
-                  <div class="course-item {% if course.Tues_overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute; width: {{ course.Tues_overlap_width }}%; left: {{ course.Tues_offset_left }}%;"  data-code="{{ course.code }}" data-number="{{ course.number }}" data-start="{{ course.start.name }}" data-end="{{ course.end.name }}" data-day="{{ course.day.name }}" data-section="{{ course.section }}">
-                    <strong>{{ course.code }}-{{ course.number }}</strong>
-                  </div>
-                  {% endif %}
-                  {% endif %}
-                  {% endfor %}
-                </td>
-                <td class="course-cell" style="position: relative;">
-                  {% for course in courses %}
-                  {% if 'Wed' in course.day.name %}
-                  {% if course.start.name|slice:":2" == hour %}
-                  <div class="course-item {% if course.Wed_overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute; width: {{ course.Wed_overlap_width }}%; left: {{ course.Wed_offset_left }}%;"  data-code="{{ course.code }}" data-number="{{ course.number }}" data-start="{{ course.start.name }}" data-end="{{ course.end.name }}" data-day="{{ course.day.name }}" data-section="{{ course.section }}">
-                    <strong>{{ course.code }}-{{ course.number }}</strong>
-                  </div>
-                  {% endif %}
-                  {% endif %}
-                  {% endfor %}
-                </td>
-                <td class="course-cell" style="position: relative;">
-                  {% for course in courses %}
-                  {% if 'Thurs' in course.day.name %}
-                  {% if course.start.name|slice:":2" == hour %}
-                  <div class="course-item {% if course.Thurs_overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute; width: {{ course.Thurs_overlap_width }}%; left: {{ course.Thurs_offset_left }}%;"  data-code="{{ course.code }}" data-number="{{ course.number }}" data-start="{{ course.start.name }}" data-end="{{ course.end.name }}" data-day="{{ course.day.name }}" data-section="{{ course.section }}">
-                    <strong>{{ course.code }}-{{ course.number }}</strong>
-                  </div>
-                  {% endif %}
-                  {% endif %}
-                  {% endfor %}
-                </td>
-                <td class="course-cell" style="position: relative;">
-                  {% for course in courses %}
-                  {% if 'Fri' in course.day.name %}
-                  {% if course.start.name|slice:":2" == hour %}
-                  <div class="course-item {% if course.Fri_overlaps %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute; width: {{ course.Fri_overlap_width }}%; left: {{ course.Fri_offset_left }}%;"  data-code="{{ course.code }}" data-number="{{ course.number }}" data-start="{{ course.start.name }}" data-end="{{ course.end.name }}" data-day="{{ course.day.name }}" data-section="{{ course.section }}">
-                    <strong>{{ course.code }}-{{ course.number }}</strong>
-                  </div>
-                  {% endif %}
-                  {% endif %}
-                  {% endfor %}
-                </td>
+                {% endfor %}
               </tr>
               {% endfor %}
+                <!-- Repeat for each day of the week -->
             </tbody>
           </table>
         </div>
-
-
-        <!-- 
-        
-        proposed solution:
-         1. make a bunch of if statements to check if the course is on the right day, then if statement to check the start and end time. If yes then render the course
-
-        -->
-        <!-- <table>
-          {}
-        
-        </table> -->
-
-<!-- 
-        <div>
-          {% if courses|length == 0 %}
-            <p class="text-center">No courses found for the selected filters.</p>
-          {% else %}
-
-            {% for course in courses %}
-            <p>{{ course }}</p>
-            <p>{{course.code}} - {{ course.number }}</p>
-            <p>Start-time: {{ course.start }}</p>
-            <p>End-time: {{ course.end }}</p>
-            
-            {% endfor %}
-          {% endif %}
-        </div> -->
       </div>
     </div>
 
