@@ -106,7 +106,7 @@ def landing_page(request):
                         current_time += INTERVAL
                         
             '''
-            #increment the start time by 15 minutes until you hit the end time - 15 minutes
+            Increment the start time by 15 minutes until you hit the end time - 15 minutes
             as you increment, add to corresponding key in the dictionary. Minus 15 minutes because each key represents a 15 minute interval.
             It will look like this:
             
@@ -154,7 +154,6 @@ def landing_page(request):
             course.pixel_height = course.duration_minutes * PIXELS_PER_MINUTE
             
             course.offset_top = (start.minute) * PIXELS_PER_MINUTE
-            # course.offset_left = course.overlaps
                         
             if course.code.name == "APBI":
                 course.color = "#7BDFF2"
@@ -169,7 +168,7 @@ def landing_page(request):
             elif course.code.name == "LFS":
                 course.color = "#FFAAA5"
         
-        
+        ''' For each course, create a day_data dictionary that holds the overlap info for each day '''
         for course in courses:
             course.day_data = {
                 "Mon": {
@@ -199,9 +198,11 @@ def landing_page(request):
                 }
             }
             
-            
+        
+        ''' Used to render the days in the timetable landing page '''
         day_list = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
-            
+    
+    ''' Returns the variables created in this view and makes them accessible in the template through their key names '''
     return render(request, 'timetable/landing_page.html', {
         'hour_list': hour_list,
         'terms': term,
