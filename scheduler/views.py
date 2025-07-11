@@ -197,8 +197,8 @@ def landing_page(request):
                     "left": getattr(course, 'Fri_offset_left', None)
                 }
             }
-            
-        
+     
+     
     ''' Used to render the days in the timetable landing page '''
     day_list = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
     
