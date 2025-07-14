@@ -36,7 +36,6 @@
     background-color: #002145;
   }
 
-/* Add this to your existing <style> section in the template */
 .course-cell {
   position: relative;
   height: 60px;
@@ -52,7 +51,7 @@
   font-size: 12px;
   border-radius: 5px;
   z-index: 1;
-  cursor: pointer; /* Add cursor pointer to indicate interactivity */
+  cursor: pointer; 
 }
 
 /* Shift right for the second course (if overlap) */
@@ -63,18 +62,17 @@
 }
 
 .course-tooltip {
-  position: fixed; /* Changed from absolute to fixed */
+  position: fixed;
   background-color: #ffffff;
   border: 1px solid #ccc;
   padding: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  z-index: 10000 !important; /* Increased z-index significantly */
+  z-index: 10000 !important;
   display: none;
   border-radius: 6px;
   max-width: 300px;
   font-size: 14px;
   line-height: 1.4;
-  /* Remove the transform: translateX(80px); as we'll position it with JavaScript */
 }
 
 </style>
@@ -82,20 +80,13 @@
 <div class="container-fluid py-4 px-4">
   <div class="row gy-4 flex-column">
     
-    <!--──────── LEFT: FILTERS ────────-->
+    <!--──────── FILTERS ────────-->
     <div class="col-12">
+      <!-- Filters Form -->
       <form method="get" action="{% url 'landing_page' %}"class="card shadow-sm p-3 rounded-2 filters-container flex-row justify-content-between">
         <h4 class="fw-semibold mt-4" id="filter-title">Filters</h4>
 
-        <!-- <div class="mb-3">
-          <label class="form-label">Code</label>
-          <option value="">Code</option>
-          {% for course in codes %}
-            <label value="{{ course }}">
-              <input type="checkbox" value="{{ course }}" name="code[]">{{ course }}
-            </label>
-            {% endfor %}
-        </div> -->
+        <!-- Each section pulls from Views.py to populate the dropdowns -->
         <div class="mb-3 dropdown">
           <label class="form-label d-block">Code</label>
           <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -113,6 +104,7 @@
           </ul>
         </div>
 
+        <!-- Each section pulls from Views.py to populate the dropdowns -->
         <div class="mb-3 dropdown">
           <label class="form-label d-block">Number</label>
           <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -130,6 +122,7 @@
           </ul>
         </div>
 
+        <!-- Each section pulls from Views.py to populate the dropdowns -->
         <div class="mb-3 dropdown">
           <label class="form-label d-block">Section</label>
           <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -147,6 +140,7 @@
           </ul>
         </div>
 
+        <!-- Each section pulls from Views.py to populate the dropdowns -->
         <div class="mb-3 dropdown">
           <label class="form-label d-block">Term</label>
           <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -164,6 +158,7 @@
           </ul>
         </div>
 
+        <!-- Each section pulls from Views.py to populate the dropdowns -->
         <div class="mb-3 dropdown">
           <label class="form-label d-block">Start time</label>
           <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -181,6 +176,7 @@
           </ul>
         </div>
 
+        <!-- Each section pulls from Views.py to populate the dropdowns -->
         <div class="mb-3 dropdown">
           <label class="form-label d-block">End time</label>
           <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -198,6 +194,7 @@
           </ul>
         </div>
 
+        <!-- Each section pulls from Views.py to populate the dropdowns -->
         <div class="mb-3 dropdown">
           <label class="form-label d-block">Days of the week</label>
           <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -215,31 +212,18 @@
           </ul>
         </div>
 
+        <!-- Submit filters button-->
         <button type="submit" class="btn btn-primary w-10 mt-5" style="transform: translateY(-16px);">Apply filters</button>
       </form>
     </div>
 
-    <!--──────── RIGHT: TIMETABLE ────────-->
+    <!--──────── TIMETABLE ────────-->
     <div class="col-12">
       <div class="card shadow-sm p-4 rounded-3">
         <h4 class="fw-semibold text-center mb-4">Course Timetable</h4>
         <div class="table-responsive rounded-corner-table">
           
-        <!-- <div>
-          {% if courses|length == 0 %}
-            <p class="text-center">No courses found for the selected filters.</p>
-          {% else %}
-
-            {% for course in courses %}
-            <p>{{ course }}</p>
-            <p>{{course.code}} - {{ course.number }}</p>
-            <p>Start-time: {{ course.start }}</p>
-            <p>End-time: {{ course.end }}</p>
-            <p>day: {{ course.day }}</p>
-            
-            {% endfor %}
-          {% endif %}
-        </div> -->
+          <!-- Timetable Grid -->
           <table class="timetable-grid">
             <thead>
               <tr>
@@ -251,20 +235,23 @@
                 <th>Fri</th>
               </tr>
             </thead>
+
+          <!-- For each day go through hour list and insert course if it has matching day and hour-->
             <tbody>
               {% for hour in hour_list %}
               <tr>
                 <td class="time-col">{{ hour }}:00</td>
                 {% for day in day_list %}
-                <!-- create array [Mon, Tues, etc] -->
-                <!-- iterate through array having dynamic day and you're done -->
+
+                <!-- Using template tags, dynamically render courses if they match the hour and day-->
                 <td class="course-cell" style="position: relative;">
                   
                   {% for course in courses %}
-
                   {% with course|get_day:day as data %}
                   {% if day in course.day.name %}
                   {% if course.start.name|slice:":2" == hour %}
+                  <!-- Data in div is used to populate the tooltip (Check index.js for more info)-->
+                  <!-- Styling is retrieved from Views.py -->
                   <div class="course-item {% if data.overlap %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute; width: {{ data.width }}%; left: {{ data.left }}%;"  data-code="{{ course.code }}" data-number="{{ course.number }}" data-start="{{ course.start.name }}" data-end="{{ course.end.name }}" data-day="{{ course.day.name }}" data-section="{{ course.section }}">
                     <strong>{{ course.code }}-{{ course.number }}</strong>
                   </div>
@@ -276,7 +263,6 @@
                 {% endfor %}
               </tr>
               {% endfor %}
-                <!-- Repeat for each day of the week -->
             </tbody>
           </table>
         </div>
