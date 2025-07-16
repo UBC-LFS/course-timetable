@@ -1,0 +1,30 @@
+{% extends 'authentication/base.html' %}
+{% block authentication-content %}
+
+{% load static %}
+
+<div class="col-lg-10 col-12 mx-auto">
+    <div class="row">
+        <div class="col-md-6 col-10 mx-auto">
+            <div class="card">
+                <img src="{% static 'images/resized-inventory-min.jpg' %}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Inventory</5>
+                    <a href="{% url 'inventory:home' %}">Go to</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-10 mx-auto">
+            <div class="card">
+                <img src="{% static 'images/resized-checkout-min.jpg' %}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Checkout</5>
+                    <a href="{% url 'checkout:borrow_return' %}">Go to</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
