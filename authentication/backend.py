@@ -21,14 +21,15 @@ def is_ldap_user(cwl, password):
     try:
         # Authentication step using the CWL and password
         # Create a connection to the LDAP server
-        cwl_conn = Connection(ldap_server,
-                              user=bind_dn,
-                              password=password,
-                              authentication='SIMPLE',
-                              check_names=True,
-                              client_strategy='SYNC',
-                              auto_bind=True,
-                              raise_exceptions=False)
+        cwl_conn = Connection(
+            ldap_server,
+            user=bind_dn,
+            password=password,
+            authentication='SIMPLE',
+            check_names=True,
+            client_strategy='SYNC',
+            auto_bind=True,
+            raise_exceptions=False)
 
         # Attempt to bind (authenticate) with the provided credentials
         valid_cwl = cwl_conn.bind()
@@ -39,7 +40,7 @@ def is_ldap_user(cwl, password):
         
         '''----------------AUTHORIZATION SECTION---------------------------------'''
 
-        # If authentication is successful, check if the user is in the staff group
+        # If authentication is successful, begin to authorize the user
         lfs_conn = Connection(
             ldap_server,
             user=os.environ['CHECKOUT_INVENTORY_LDAP_AUTH_DN'],
@@ -49,6 +50,8 @@ def is_ldap_user(cwl, password):
             client_strategy='SYNC',
             auto_bind=True,
             raise_exceptions=False)
+        
+        # Attempt to bind (authenticate) with the provided credentials
         lfs_conn.bind()
 
         # This is for authorization, checking if the user is in the staff group
