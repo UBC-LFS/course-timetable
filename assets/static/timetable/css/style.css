@@ -1,0 +1,79 @@
+.primary-bg {
+  background-color: #002145;
+}
+
+.timetable-grid {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.timetable-grid th,
+.timetable-grid td {
+  border: 1px solid #eee;
+  text-align: center;
+  padding: 5px 0;
+  min-width: 50px;
+}
+
+.time-col {
+  background-color: #fafafa;
+  font-weight: 500;
+  padding: 0px;
+}
+
+.rounded-corner-table {
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.filters-container select {
+  height: 40px;
+  border-radius: 8px;
+}
+
+.primary-bg {
+  background-color: #002145;
+}
+
+.course-cell {
+  position: relative;
+  height: 60px;
+}
+
+.course-item {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  background-color: #ecf3f7;
+  color: rgb(44, 41, 41);
+  padding: 5px;
+  font-size: 12px;
+  border-radius: 5px;
+  z-index: 1;
+  cursor: pointer; 
+}
+
+/* Shift right for the second course (if overlap) */
+.course-item.overlap {
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  z-index: 2;
+}
+
+.course-tooltip {
+  position: fixed;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 10000 !important;
+  display: none;
+  border-radius: 6px;
+  max-width: 300px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.big-title {
+  color: green;
+}

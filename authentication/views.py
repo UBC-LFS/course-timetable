@@ -24,32 +24,43 @@ General flow:
 
 '''
 
-@method_decorator([never_cache], name='dispatch')
-class LoginView(FormView):
-    template_name = 'authentication/login.html'
+#TODO: Get CWL and Password from template and pass it into ldap
 
-    def form_valid(self, form):
-        email = form.cleaned_data.get('email')
-        cwl = form.cleaned_data.get('cwl')
-        password = form.cleaned_data.get('password')
+# if is_ldap_user(cwl, password):
+#             messages.success(self.request, 'Welcome back {}'.format(self.request.user))
+#             return redirect('inventory:home')
+#         else:
+#             messages.error(self.request, 'Invalid CWL or password, please try again')
+#             return redirect('authentication:login')
+
+
+'''--------------------- OLD CODE -----------------------------------'''
+# @method_decorator([never_cache], name='dispatch')
+# class LoginView(FormView):
+#     template_name = 'authentication/login.html'
+
+#     def form_valid(self, form):
+#         email = form.cleaned_data.get('email')
+#         cwl = form.cleaned_data.get('cwl')
+#         password = form.cleaned_data.get('password')
         
-        user = authenticate(self.request, email=email)
-        if not user:
-            messages.error(self.request, 'Invalid email address, please try again')
-            return redirect('authentication:login')
+#         user = authenticate(self.request, email=email) 
+#         if not user:
+#             messages.error(self.request, 'Invalid email address, please try again')
+#             return redirect('authentication:login')
 
-        if is_ldap_user(cwl, password):
-            messages.success(self.request, 'Welcome back {}'.format(self.request.user))
-            return redirect('inventory:home')
-        else:
-            messages.error(self.request, 'Invalid CWL or password, please try again')
-            return redirect('authentication:login')
+#         if is_ldap_user(cwl, password):
+#             messages.success(self.request, 'Welcome back {}'.format(self.request.user))
+#             return redirect('inventory:home')
+#         else:
+#             messages.error(self.request, 'Invalid CWL or password, please try again')
+#             return redirect('authentication:login')
 
 
-@method_decorator([never_cache], name='dispatch')
-class LogoutView(View):
-    def get(self, request):
-        messages.success(request, 'See you again {}'.format(request.user))
-        logout(self.request)
-        clear_session(self.request)
-        return redirect('index')
+# @method_decorator([never_cache], name='dispatch')
+# class LogoutView(View):
+#     def get(self, request):
+#         messages.success(request, 'See you again {}'.format(request.user))
+#         logout(self.request)
+#         clear_session(self.request)
+#         return redirect('index')
