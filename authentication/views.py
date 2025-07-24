@@ -33,10 +33,10 @@ def ldap_login(request):
                 return redirect('timetable:landing_page')
             else:
                 messages.error(request, 'Invalid CWL or password, please try again')
-                return redirect('authentication:login')
+                return redirect('authentication:ldap_login')
         else:
             messages.error(request, 'Please enter both CWL and Password')
-            return redirect('authentication:login')
+            return redirect('authentication:ldap_login')
     
     return render(request, 'authentication/login.html') 
 
