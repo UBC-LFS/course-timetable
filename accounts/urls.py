@@ -1,7 +1,7 @@
 from django.urls import path, include
-from authentication import views
+from accounts import views
 
-app_name = 'authentication'
+app_name = 'accounts'
 
 
 urlpatterns = [

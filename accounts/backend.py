@@ -70,19 +70,19 @@ def is_ldap_user(cwl, password):
         return False
 
 
-class MyLDAPBackend(BaseBackend):
-    """ A custom LDAP authentication backend """
+# class MyLDAPBackend(BaseBackend):
+#     """ A custom LDAP authentication backend """
 
-    def authenticate(self, request, email):
-        try:
-            user = User.objects.get(email=email)
-            return user
-        except User.DoesNotExist:
-            return None
+#     def authenticate(self, request, email):
+#         try:
+#             user = User.objects.get(email=email)
+#             return user
+#         except User.DoesNotExist:
+#             return None
 
-    def get_user(self, user_id):
-        user = get_user_model()
-        try:
-            return user.objects.get(id=user_id)
-        except User.DoesNotExist:
-            return None
+#     def get_user(self, user_id):
+#         user = get_user_model()
+#         try:
+#             return user.objects.get(id=user_id)
+#         except User.DoesNotExist:
+#             return None

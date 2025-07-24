@@ -16,11 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic.base import RedirectView
+
 
 app_name = 'timetable'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', RedirectView.as_view(url='/auth/login/')),
     path('', include('scheduler.urls', namespace='scheduler')),
-    path('auth/', include('authentication.urls', namespace='authentication'))
+    path('auth/', include('accounts.urls', namespace='accounts'))
 ] 
