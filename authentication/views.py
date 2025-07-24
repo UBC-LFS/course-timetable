@@ -26,12 +26,16 @@ General flow:
 
 #TODO: Get CWL and Password from template and pass it into ldap
 
-# if is_ldap_user(cwl, password):
-#             messages.success(self.request, 'Welcome back {}'.format(self.request.user))
-#             return redirect('inventory:home')
-#         else:
-#             messages.error(self.request, 'Invalid CWL or password, please try again')
-#             return redirect('authentication:login')
+@method_decorator([never_cache], name='dispatch')
+def login(request):
+    
+    if request.GET.get('cwl') and request.GET.get('password'):
+        if is_ldap_user(request.GET.get('cwl'), request.GET.get('password')):
+            messages.success(request, 'Welcome back {}'.format(request.user))
+            return redirect('inventory:home')
+        else:
+            messages.error(request, 'Invalid CWL or password, please try again')
+            return redirect('authentication:login')
 
 
 '''--------------------- OLD CODE -----------------------------------'''
