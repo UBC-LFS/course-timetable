@@ -1,15 +1,12 @@
 {% extends 'authentication/base.html' %}
 {% block authentication-content %}
 
-{% load crispy_forms_tags %}
 
 <div class="row">
     <div class="col-6 mx-auto">
         <h1> Log in </h1>
         <form method="post">
         {% csrf_token %}
-
-        {{ form | crispy }}
 
         <input class="btn btn-outline-primary" type="submit" value="Login">
         </form>

@@ -1,6 +1,5 @@
 import os
 from django.contrib.auth import get_user_model
-from authentication.models import User
 from django.contrib.auth.backends import BaseBackend
 from django.conf import settings
 
@@ -64,7 +63,7 @@ def is_ldap_user(cwl, password):
             attributes=ALL_ATTRIBUTES
         )
 
-        is_inventory_staff = len(lfs_conn.entries) > 0
+        is_inventory_staff = len(lfs_conn.entries) > 0 # TODO 
 
         return is_inventory_staff
     except LDAPBindError:

@@ -1,11 +1,8 @@
-from django.views import View
 from django.shortcuts import redirect
-from django.contrib.auth import authenticate, logout, clear_session
-from django.views.generic.edit import FormView
 from django.contrib import messages
 from django.views.decorators.cache import never_cache
 from django.utils.decorators import method_decorator
-
+from django.shortcuts import render
 from authentication.backend import is_ldap_user
 
 # Create your views here.
@@ -26,45 +23,26 @@ General flow:
 
 #TODO: Get CWL and Password from template and pass it into ldap
 
-@method_decorator([never_cache], name='dispatch')
-def login(request):
+@never_cache
+def ldap_login(request):
     
-    if request.GET.get('cwl') and request.GET.get('password'):
-        if is_ldap_user(request.GET.get('cwl'), request.GET.get('password')):
-            messages.success(request, 'Welcome back {}'.format(request.user))
-            return redirect('inventory:home')
+    if request.method == 'POST':
+        if request.POST.get('cwl') and request.POST.get('password'):
+            if is_ldap_user(request.POST.get('cwl'), request.POST.get('password')):
+                messages.success(request, 'Welcome back {}'.format(request.user))
+                return redirect('timetable:landing_page')
+            else:
+                messages.error(request, 'Invalid CWL or password, please try again')
+                return redirect('authentication:login')
         else:
-            messages.error(request, 'Invalid CWL or password, please try again')
+            messages.error(request, 'Please enter both CWL and Password')
             return redirect('authentication:login')
+    
+    return render(request, 'authentication/login.html') 
 
-
-'''--------------------- OLD CODE -----------------------------------'''
-# @method_decorator([never_cache], name='dispatch')
-# class LoginView(FormView):
-#     template_name = 'authentication/login.html'
-
-#     def form_valid(self, form):
-#         email = form.cleaned_data.get('email')
-#         cwl = form.cleaned_data.get('cwl')
-#         password = form.cleaned_data.get('password')
-        
-#         user = authenticate(self.request, email=email) 
-#         if not user:
-#             messages.error(self.request, 'Invalid email address, please try again')
-#             return redirect('authentication:login')
-
-#         if is_ldap_user(cwl, password):
-#             messages.success(self.request, 'Welcome back {}'.format(self.request.user))
-#             return redirect('inventory:home')
-#         else:
-#             messages.error(self.request, 'Invalid CWL or password, please try again')
-#             return redirect('authentication:login')
-
-
-# @method_decorator([never_cache], name='dispatch')
-# class LogoutView(View):
-#     def get(self, request):
-#         messages.success(request, 'See you again {}'.format(request.user))
-#         logout(self.request)
-#         clear_session(self.request)
-#         return redirect('index')
+@never_cache
+def ldap_logout(request):
+    messages.success(request, 'See you again {}'.format(request.user))
+    # logout(request)
+    # clear_session(request)
+    return redirect('index')

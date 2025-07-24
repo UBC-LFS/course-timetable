@@ -16,9 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from scheduler import views
+from scheduler import views as sViews
+from authentication import views as aView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.landing_page, name='landing_page'),
+    path('home/', sViews.landing_page, name='landing_page'),
+    path('', aView.ldap_login, name='ldap_login'),
 ] 
