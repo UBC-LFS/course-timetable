@@ -16,12 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from scheduler import views as sViews
-from authentication import views as aView
 
+app_name = 'timetable'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', sViews.landing_page, name='landing_page'),
+    path('', include('scheduler.urls', namespace='scheduler')),
     path('auth/', include('authentication.urls', namespace='authentication'))
 ] 

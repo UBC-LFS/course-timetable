@@ -30,7 +30,7 @@ def ldap_login(request):
         if request.POST.get('cwl') and request.POST.get('password'):
             if is_ldap_user(request.POST.get('cwl'), request.POST.get('password')):
                 messages.success(request, 'Welcome back {}'.format(request.user))
-                return redirect('timetable:landing_page')
+                return redirect('scheduler:landing_page')
             else:
                 messages.error(request, 'Invalid CWL or password, please try again')
                 return redirect('authentication:ldap_login')
