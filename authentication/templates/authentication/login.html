@@ -7,8 +7,10 @@
         <h1> Log in </h1>
         <form method="post">
         {% csrf_token %}
-
-        <input class="btn btn-outline-primary" type="submit" value="Login">
+        <input name="cwl" type="text">
+        <input name="password" type="password">
+        <button class="btn btn-outline-primary" type="submit" value="Login"> Log in
+        </button>
         </form>
     </div>
 </div>
