@@ -7,19 +7,24 @@ from django.conf import settings
 from ldap3 import ALL_ATTRIBUTES, SUBTREE, Server, Connection
 from ldap3.core.exceptions import LDAPBindError
 import json
+import os
+
+### TODO: need to getenvs!!!!!!
 
 
+
+## !!!
 def authenticate(username, password) -> bool:
     '''------------AUTHENTICATION SECTION---------------------------'''
 
   
-    server = Server(settings.CHECKOUT_INVENTORY_LDAP_URI) # Get LDAP server URI from environment variable
-
+    server = Server(os.getenv('SCHEDULER_LDAP_URI')) # Get LDAP server URI from environment variable
+    
     try:
         # Create a connection to the LDAP server
         auth_conn = Connection(
             server,
-            user = "uid={},{}".format(username, settings.CHECKOUT_INVENTORY_LDAP_MEMBER_DN),
+            user = "uid={},{}".format(username, os.getenv(CHECKOUT_INVENTORY_LDAP_MEMBER_DN)),
             password = password,
             authentication = 'SIMPLE',
             check_names = True,
@@ -38,8 +43,8 @@ def authenticate(username, password) -> bool:
         '''----------AUTHORIZATION SECTION-----------------'''
         conn = Connection(
             server,
-            user = settings.CHECKOUT_INVENTORY_LDAP_AUTH_DN,
-            password = settings.CHECKOUT_INVENTORY_LDAP_AUTH_PASSWORD,
+            user = os.getenv(CHECKOUT_INVENTORY_LDAP_AUTH_DN),
+            password = os.getenv(CHECKOUT_INVENTORY_LDAP_AUTH_PASSWORD),
             authentication = 'SIMPLE',
             check_names = True,
             client_strategy = 'SYNC',
@@ -51,8 +56,8 @@ def authenticate(username, password) -> bool:
         conn.bind()
 
         conn.search(
-            search_base = "uid={0},{1}".format(username, settings.CHECKOUT_INVENTORY_LDAP_MEMBER_DN),
-            search_filter = settings.CHECKOUT_INVENTORY_LDAP_SEARCH_FILTER,
+            search_base = "uid={0},{1}".format(username, os.getenv(CHECKOUT_INVENTORY_LDAP_MEMBER_DN)),
+            search_filter = os.getenv(CHECKOUT_INVENTORY_LDAP_SEARCH_FILTER),
             search_scope = SUBTREE,
             attributes = ALL_ATTRIBUTES
         )

@@ -5,7 +5,7 @@ from django.shortcuts import render
 from accounts.backend import is_ldap_user
 from django.contrib.auth import login as djangoLogin
 from django.contrib.auth.models import User
-
+import os
 from core import auth
 
 # Create your views here.
@@ -52,46 +52,47 @@ def ldap_login(request):
     
     # if request.user.is_authenticated:
     #     return redirect('scheduler:landing_page')
-    
     cwl = request.POST.get('cwl')
     password = request.POST.get('password')
     
-    # if not cwl or not password:
-    #     messages.error(request, 'An error occurred. You have entered incorrect CWL or Password.')
-    #     return redirect('accounts:ldap_login')
-    
-    result = auth.authenticate(cwl, password)
-    
-    if result:
+    if cwl and password:
         
-        user = None
+        result = auth.authenticate(cwl, password)
         
-        if User.objects.filter(username=cwl).exists():
-            user = User.objects.get(username=cwl)
-        else:
-            # Create a new user entry
-            user = User.objects.create_user(
-                password=None, # Do not store password
-                username=cwl,
-                is_superuser=False,
-                is_staff=True,
-                is_active=True
-            )
-            user.save()
-        
-        djangoLogin(request, user)
+        if result:
+            
+            user = None
+            
+            if User.objects.filter(username=cwl).exists():
+                user = User.objects.get(username=cwl)
+            else:
+                # Create a new user entry
+                user = User.objects.create_user(
+                    password=None, # Do not store password
+                    username=cwl,
+                    is_superuser=False,
+                    is_staff=True,
+                    is_active=True
+                )
+                user.save()
+            
+            djangoLogin(request, user)
 
-        
-        if user.is_staff and not user.is_superuser:
-            return redirect('scheduler:landing_page_no_auth')
-        elif user.is_staff and user.is_superuser:
-            return redirect('scheduler:landing_page')
+            
+            if user.is_staff and not user.is_superuser:
+                return redirect('scheduler:landing_page_no_auth')
+            elif user.is_staff and user.is_superuser:
+                return redirect('scheduler:landing_page')
+            else:
+                messages.error(request, 'An error occurred. No Access.')
+                return redirect('accounts:ldap_login')
+                        
         else:
-            messages.error(request, 'An error occurred. No Access.')
-            return redirect('accounts:ldap_login')
-                    
-    else:
-        messages.error(request, 'An error occurred. You have entered incorrect CWL or Password. Or, your CWL ID does not exist. Please contact your system administrator.')
+            messages.error(request, 'An error occurred. You have entered incorrect CWL or Password. Or, your CWL ID does not exist. Please contact your system administrator.')
+    
+    return render(request, 'accounts/login.html', {
+        
+    })
 
 @never_cache
 def ldap_logout(request):

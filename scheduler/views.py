@@ -32,6 +32,9 @@ PIXELS_PER_MINUTE = 1
 '''This function handles the landing page of the timetable application.'''
 def landing_page(request):
     
+    if not request.user.is_authenticated:
+       return redirect('accounts:ldap_login')
+    
     '''Variables from the fixtures/database'''
     hour_list = ["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"]
     term = CourseTerm.objects.all()
