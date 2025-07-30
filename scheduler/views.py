@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from .models import CourseTerm, CourseCode, CourseNumber, CourseSection, CourseTime, CourseDay, Course
 from collections import defaultdict
 from datetime import datetime, timedelta
-import pprint
+from django.shortcuts import redirect
+
 
 '''
 TODO READ BEFORE CONTINUING:
@@ -19,11 +20,20 @@ VIEWS WORK FLOW:
 8. Render the landing page with the courses and their overlap data
 '''
 
+
+# def redirect_root(request):
+#     if request.user.is_authenticated:
+#         return redirect('scheduler:landing_pade')
+#     return redirect('accounts:ldap_login')
+
 ''' This constant defines how many pixels each minute of course duration will take up in the timetable view.'''
 PIXELS_PER_MINUTE = 1
 
 '''This function handles the landing page of the timetable application.'''
 def landing_page(request):
+    
+    if not request.user.is_authenticated:
+       return redirect('accounts:ldap_login')
     
     '''Variables from the fixtures/database'''
     hour_list = ["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"]
