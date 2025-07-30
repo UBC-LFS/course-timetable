@@ -100,3 +100,15 @@ def ldap_logout(request):
     # clear_session(request)
     return redirect('accounts:ldap_logout')
 
+
+def view_users(request):
+    
+    users_list = User.objects.all()
+    
+    return render(request, 'accounts/users/view_users.html', {
+        'users': users_list
+    })
+
+def create_user(request):
+    return render(request, 'accounts/users/create_user.html')
+

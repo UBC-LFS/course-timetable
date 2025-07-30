@@ -1,0 +1,139 @@
+{% extends 'timetable/base.html' %}
+
+{% block content %}
+
+ <div class="col-md-10">
+            <h3 class="page-title text-underline">View Users</h3>
+
+            <div class="mt-5 table-responsive">
+
+<!---------------- GENERAL TABLE INFORMATION ---------------------------->
+                <table class="table table-bordered table-striped table-hover table-responsive-md table-fs-085rem text-center table-vertical-middle">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>CWL</th>
+                        <th>Email</th>
+                        <th>LC Staff?</th>
+                        <th>Active?</th>
+                        <th>Supervisor</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }} </td>
+                            <td>{{ user.first_name }}</td>
+                            <td>{{ user.last_name }}</td>
+                            <td>{{ user.profile.cwl }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.is_staff}}</td>
+                            <td>{{ user.is_active }}</td>
+                            <td>
+                                {% if user.profile.rfid %}
+                                    <small class="text-secondary">Encoded</small> <br/>
+
+                                    <button type="button" class="btn btn-danger btn-xs fs-10" data-bs-toggle="modal"
+                                            data-bs-target="#delete-rfid-modal-{{ user.id }}">
+                                        <i class="fa fa-window-close" aria-hidden="true"></i>
+                                    </button>
+
+                        
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-toolbar">
+                                    <button class="btn btn-xs btn-danger fs-10" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#delete-user-{{ user.id }}">Delete
+                                    </button>
+
+ <!-- -------------------------DELETING INFORMATION PAGE -------------------------- -->
+                                    <div class="modal fade" id="delete-user-{{ user.id }}" tabindex="-1"
+                                         aria-labelledby="delete-user-label-{{ user.id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="delete-user-label-{{ user.id }}">Delete
+                                                        User</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <div class="modal-item text-left">
+                                                        <h5 class="text-danger">Are you sure to delete this user?</h5>
+
+                                                        <div class="list-note list-note-gray-600">
+                                                            <h5>User Information</h5>
+                                                            <ul class="list-left-15">
+                                                                <li>ID: {{ user.id }}</li>
+                                                                <li>
+                                                                    First Name:
+                                                                    {% if user.first_name %}
+                                                                        {{ user.first_name }}
+                                                                    {% else %}
+                                                                        None
+                                                                    {% endif %}
+                                                                </li>
+                                                                <li>
+                                                                    Last Name:
+                                                                    {% if user.last_name %}
+                                                                        {{ user.last_name }}
+                                                                    {% else %}
+                                                                        None
+                                                                    {% endif %}
+                                                                </li>
+                                                                <li>
+                                                                    CWL:
+                                                                    {% if user.profile.cwl %}
+                                                                        {{ user.profile.cwl }}
+                                                                    {% else %}
+                                                                        None
+                                                                    {% endif %}
+                                                                </li>
+                                                                <li>
+                                                                    Email:
+                                                                    {% if user.email %}
+                                                                        {{ user.email }}
+                                                                    {% else %}
+                                                                        None
+                                                                    {% endif %}
+                                                                </li>
+                                                                <li>Is Staff: {{ user.is_staff }}</li>
+                                                                <li>Is Active: {{ user.is_active }}</li>
+                                                            </ul>
+                                                        </div>
+
+                                                     
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="100%">No users found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-md-2">
+            <h4 class="page-title text-center">Menu</h4>
+            <a class="btn btn-outline-primary d-block mt-3 mb-5"
+               href="{% url 'accounts:create_user' %}?next={{ request.get_full_path }}">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                Create User
+            </a>
+        </div>
+    </div>
+{% endblock %}

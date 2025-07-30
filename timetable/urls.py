@@ -27,5 +27,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', scheduler_views.redirect_root),
     path('home/', include('scheduler.urls', namespace='scheduler')),
-    path('auth/', include('accounts.urls', namespace='accounts'))
+    path('users/', include('accounts.urls', namespace='accounts'))
 ] 

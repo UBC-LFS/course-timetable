@@ -56,7 +56,7 @@ def authenticate(username, password) -> bool:
         conn.bind()
 
         conn.search(
-            search_base = "uid={0},{1}".format(username, os.getenv(CHECKOUT_INVENTORY_LDAP_MEMBER_DN)),
+            search_base = "uid={0},{1}".format(username, os.getenv('SCHEDULER_LDAP_SEARCH_BASE')),
             search_filter = os.getenv(CHECKOUT_INVENTORY_LDAP_SEARCH_FILTER),
             search_scope = SUBTREE,
             attributes = ALL_ATTRIBUTES
