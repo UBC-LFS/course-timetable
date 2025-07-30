@@ -108,7 +108,59 @@ def view_users(request):
     return render(request, 'accounts/users/view_users.html', {
         'users': users_list
     })
+    
+def update_user(request, user_id):
+    if request.method == 'POST':
+        user = User.objects.get(id=user_id)
+        print(user)
+        data = request.POST
+        
+        user.first_name = data.get('first_name', user.first_name)
+        user.last_name = data.get('last_name', user.last_name)
+        user.email = data.get('email', user.email)
+        user.is_staff = data.get('is_staff', user.is_staff)
+        user.is_active = data.get('is_active', user.is_active)
+        user.is_staff = bool(data.get('is_staff')) 
+        user.is_active = bool(data.get('is_active')) 
 
-def create_user(request):
-    return render(request, 'accounts/users/create_user.html')
+        user.save()
+
+    return redirect('accounts:view_users')
+# def create_user_page(request):
+    
+#     first_name
+#     last_name
+#     email
+#     is_staff
+#     is_active
+    
+    
+#     user = User.objects.create(
+#         first_name = first_name,
+#         last_name = last_name,
+#         email = email,
+#         is_staff = is_staff,
+#         is_active = is_active
+#     )
+    
+#     return render(request, 'accounts/users/create_user.html')
+
+def create_user(first_name, last_name, email, is_staff, is_active):
+    
+    first_name
+    last_name
+    email
+    is_staff
+    is_active
+    
+    
+    user = User.objects.create(
+        first_name = first_name,
+        last_name = last_name,
+        email = email,
+        is_staff = is_staff,
+        is_active = is_active
+    )
+    
+    return user
 

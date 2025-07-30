@@ -77,3 +77,35 @@
 .big-title {
   color: green;
 }
+
+
+/* Styling for viewing users page */
+
+.view-container {
+  height: 100dvh;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.view-users-title h3,
+.create-user-container h4 {
+    font-weight: 600;
+    text-align: center;
+}
+
+.table-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.viewing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; 
+}
+
+.btn-toolbar {
+  justify-content: space-around;
+}
+

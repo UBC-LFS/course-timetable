@@ -1,139 +1,190 @@
 {% extends 'timetable/base.html' %}
+{% load static %}
 
 {% block content %}
 
- <div class="col-md-10">
+<div class="view-container">
+    
+    <div class="viewing-header ml-1">
+        <!-- Title -->
+        <div class="view-users-title text-center">
             <h3 class="page-title text-underline">View Users</h3>
+        </div>
+        
+        <!-- Create User Button -->
+        <div class="create-user-container text-center mb-5">
+            <a class="btn btn-outline-primary mt-3"
+            href="{% url 'accounts:create_user' %}?next={{ request.get_full_path }}">
+            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            Create User
+            </a>
+        </div>
 
-            <div class="mt-5 table-responsive">
+    </div>
 
-<!---------------- GENERAL TABLE INFORMATION ---------------------------->
-                <table class="table table-bordered table-striped table-hover table-responsive-md table-fs-085rem text-center table-vertical-middle">
-                    <thead>
+    <!-- User Table -->
+    <div class="table-wrapper table-responsive w-100">
+        <table class="table table-bordered table-striped table-hover table-responsive-md text-center table-vertical-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>CWL</th>
+                    <th>Email</th>
+                    <th>LC Staff?</th>
+                    <th>Active?</th>
+                    <th>Supervisor</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
                     <tr>
-                        <th>ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>CWL</th>
-                        <th>Email</th>
-                        <th>LC Staff?</th>
-                        <th>Active?</th>
-                        <th>Supervisor</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for user in users %}
-                        <tr>
-                            <td>{{ user.id }} </td>
-                            <td>{{ user.first_name }}</td>
-                            <td>{{ user.last_name }}</td>
-                            <td>{{ user.profile.cwl }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.is_staff}}</td>
-                            <td>{{ user.is_active }}</td>
-                            <td>
-                                {% if user.profile.rfid %}
-                                    <small class="text-secondary">Encoded</small> <br/>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.profile.cwl }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.is_staff }}</td>
+                        <td>{{ user.is_active }}</td>
+                        <td>{{ user.is_superuser }}</td>
+                        <td>
 
-                                    <button type="button" class="btn btn-danger btn-xs fs-10" data-bs-toggle="modal"
-                                            data-bs-target="#delete-rfid-modal-{{ user.id }}">
-                                        <i class="fa fa-window-close" aria-hidden="true"></i>
-                                    </button>
+                            <!--- TOOLS [EDIT, DELETE]-->
+                            <div class="btn-toolbar">
+                                <button type="button" class="btn btn-warning btn-xs fs-10 me-2" data-bs-toggle="modal" data-bs-target="#edit-user-modal-{{ user.id }}">Edit</button>
 
-                        
-                                {% endif %}
-                            </td>
-                            <td>
-                                <div class="btn-toolbar">
-                                    <button class="btn btn-xs btn-danger fs-10" type="button" data-bs-toggle="modal"
-                                            data-bs-target="#delete-user-{{ user.id }}">Delete
-                                    </button>
+                                <div class="modal fade" id="edit-user-modal-{{ user.id }}" tabindex="-1" aria-labelledby="edit-user-modal-label-{{ user.id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="edit-user-modal-label-{{ user.id }}">Edit User</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-left edit-modal-content">
+                                                <form action="{% url 'accounts:update_user' user.id %}" method="post" name="user-form">
+                                                    {% csrf_token %}
 
- <!-- -------------------------DELETING INFORMATION PAGE -------------------------- -->
-                                    <div class="modal fade" id="delete-user-{{ user.id }}" tabindex="-1"
-                                         aria-labelledby="delete-user-label-{{ user.id }}" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="delete-user-label-{{ user.id }}">Delete
-                                                        User</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
+                                                    <div class="two-columns">
+                                                        <div class="column left-50 pe-3">
+                                                            <div id="div_id_first_name_{{ user.id }}" class="mb-3">
+                                                                <label for="id_first_name_{{ user.id }}" class="form-label">First Name</label>
+                                                                <input id="id_first_name_{{ user.id }}" class="form-control-sm" type="text" name="first_name" maxlength="150" value="{% if user.first_name %}{{ user.first_name }}{% endif %}" />
+                                                                <div id="hint_id_first_name_{{ user.id }}" class="form-text">Maximum length is 150 characters.</div>
+                                                            </div>
 
-                                                    <div class="modal-item text-left">
-                                                        <h5 class="text-danger">Are you sure to delete this user?</h5>
+                                                            <div id="div_id_last_name_{{ user.id }}" class="mb-3">
+                                                                <label for="id_last_name_{{ user.id }}" class="form-label">Last Name</label>
+                                                                <input id="id_last_name_{{ user.id }}" class="form-control-sm" type="text" name="last_name" maxlength="150" value="{% if user.last_name %}{{ user.last_name }}{% endif %}" />
+                                                                <div id="hint_id_last_name_{{ user.id }}" class="form-text">Maximum length is 150 characters.</div>
+                                                            </div>
 
-                                                        <div class="list-note list-note-gray-600">
-                                                            <h5>User Information</h5>
-                                                            <ul class="list-left-15">
-                                                                <li>ID: {{ user.id }}</li>
-                                                                <li>
-                                                                    First Name:
-                                                                    {% if user.first_name %}
-                                                                        {{ user.first_name }}
-                                                                    {% else %}
-                                                                        None
-                                                                    {% endif %}
-                                                                </li>
-                                                                <li>
-                                                                    Last Name:
-                                                                    {% if user.last_name %}
-                                                                        {{ user.last_name }}
-                                                                    {% else %}
-                                                                        None
-                                                                    {% endif %}
-                                                                </li>
-                                                                <li>
-                                                                    CWL:
-                                                                    {% if user.profile.cwl %}
-                                                                        {{ user.profile.cwl }}
-                                                                    {% else %}
-                                                                        None
-                                                                    {% endif %}
-                                                                </li>
-                                                                <li>
-                                                                    Email:
-                                                                    {% if user.email %}
-                                                                        {{ user.email }}
-                                                                    {% else %}
-                                                                        None
-                                                                    {% endif %}
-                                                                </li>
-                                                                <li>Is Staff: {{ user.is_staff }}</li>
-                                                                <li>Is Active: {{ user.is_active }}</li>
-                                                            </ul>
+                                                            <div id="div_id_username_{{ user.id }}" class="mb-3">
+                                                                <label for="id_username_{{ user.id }}" class="form-label requiredField">CWL</label>
+                                                                <input id="id_username_{{ user.id }}" class="form-control-sm" type="text" name="cwl" maxlength="150" value="{% if user.profile.cwl %}{{ user.profile.cwl }}{% endif %}" />
+                                                                <input type="hidden" name="old_cwl" value="{% if user.profile.cwl %}{{ user.profile.cwl }}{% endif %}" />
+                                                                <div id="hint_id_username_{{ user.id }}" class="form-text">Maximum length is 150 characters.</div>
+                                                            </div>
+
+                                                            <div id="div_id_email_{{ user.id }}" class="mb-3">
+                                                                <label for="id_email_{{ user.id }}" class="form-label">
+                                                                    Email
+                                                                </label>
+                                                                <input id="id_email_{{ user.id }}" class="form-control-sm" type="email" name="email" maxlength="254" value="{% if user.email %}{{ user.email }}{% endif %}" required />
+                                                                <div id="hint_id_email_{{ user.id }}" class="form-text">Maximum length is 254 characters.</div>
+                                                            </div>
                                                         </div>
 
-                                                     
+                                                        <div class="column right-50 ps-3">
+                                                            <div id="div_id_supervisor_first_name_{{ user.id }}" class="mb-3">
+                                                                <label for="id_supervisor_first_name_{{ user.id }}" class="form-label">Supervisor's First Name</label>
+                                                                <input id="id_supervisor_first_name_{{ user.id }}" class="form-control-sm" type="text" name="supervisor_first_name" maxlength="150" value="{% if user.profile.supervisor_first_name %}{{ user.profile.supervisor_first_name }}{% endif %}" />
+                                                                <div id="hint_id_supervisor_first_name_{{ user.id }}" class="form-text">Maximum length is 150 characters. It's optional to create a guest user.</div>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label for="id_supervisor_last_name_{{ user.id }}" class="form-label">Supervisor's Last Name</label>
+                                                                <input id="id_supervisor_last_name_{{ user.id }}" class="form-control-sm" type="text" name="supervisor_last_name" maxlength="150" value="{% if user.profile.supervisor_last_name %}{{ user.profile.supervisor_last_name }}{% endif %}" />
+                                                                <div id="hint_id_supervisor_last_name_{{ user.id }}" class="form-text">Maximum length is 150 characters. It's optional to create a guest user.</div>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label for="id_phone_{{ user.id }}" class="form-label">Phone</label>
+                                                                <input id="id_phone_{{ user.id }}" class="form-control-sm" type="text" name="phone" maxlength="30" value="{% if user.profile.phone %}{{ user.profile.phone }}{% endif %}" />
+                                                                <div id="hint_id_phone_{{ user.id }}" class="form-text">Maximum length is 50 characters. It's optional to create a guest user.</div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <div id="div_id_is_staff_{{ user.id }}" class="mb-3 form-check">
+                                                                    <input type="checkbox" name="is_staff" class="checkboxinput form-check-input" id="id_is_staff_{{ user.id }}" {% if user.is_staff %}checked{% endif %} />
+                                                                    <label for="id_is_staff_{{ user.id }}" class="form-label">LC Staff?</label>
+                                                                    <div class="form-text">Designates whether the user can log into this admin site.</div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <div id="div_id_is_active_{{ user.id }}" class="mb-3 form-check">
+                                                                    <input type="checkbox" name="is_active" class="checkboxinput form-check-input" id="id_is_active_{{ user.id }}" {% if user.is_active %}checked{% endif %} />
+                                                                    <label for="id_is_active_{{ user.id }}" class="form-label">Active?</label>
+                                                                    <div class="form-text">Designates whether this user should be treated as active. Unselect this instead of deleting accounts.</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
+                                                    <input type="hidden" name="id" value="{{ user.id }}" />
+                                                    <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+
+                                                    <input class="btn btn-warning my-2 d-block mx-auto" type="submit" value="Update User" />
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-xs btn-danger fs-10" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#delete-user-{{ user.id }}">Delete
+                                </button>
+
+                                <!-- POP UP: Delete -->
+                                <div class="modal fade" id="delete-user-{{ user.id }}" tabindex="-1"
+                                     aria-labelledby="delete-user-label-{{ user.id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="delete-user-label-{{ user.id }}">Delete User</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-start">
+                                                <h5 class="text-danger">Are you sure to delete this user?</h5>
+                                                <div class="list-note list-note-gray-600">
+                                                    <h5>User Information</h5>
+                                                    <ul class="list-left-15">
+                                                        <li>ID: {{ user.id }}</li>
+                                                        <li>First Name: {{ user.first_name|default:"None" }}</li>
+                                                        <li>Last Name: {{ user.last_name|default:"None" }}</li>
+                                                        <li>CWL: {{ user.profile.cwl|default:"None" }}</li>
+                                                        <li>Email: {{ user.email|default:"None" }}</li>
+                                                        <li>Is Staff: {{ user.is_staff }}</li>
+                                                        <li>Is Active: {{ user.is_active }}</li>
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="100%">No users found</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-        <div class="col-md-2">
-            <h4 class="page-title text-center">Menu</h4>
-            <a class="btn btn-outline-primary d-block mt-3 mb-5"
-               href="{% url 'accounts:create_user' %}?next={{ request.get_full_path }}">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                Create User
-            </a>
-        </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="100%">No users found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+
+</div>
+
 {% endblock %}
