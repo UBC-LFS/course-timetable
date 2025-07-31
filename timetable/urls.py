@@ -25,7 +25,7 @@ app_name = 'timetable'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', scheduler_views.redirect_root),
+    path('', scheduler_views.redirect_root),
     path('home/', include('scheduler.urls', namespace='scheduler')),
     path('users/', include('accounts.urls', namespace='accounts'))
 ] 

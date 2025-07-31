@@ -224,5 +224,9 @@ def landing_page(request):
         'courses': courses,
         'day_list': day_list,
         })
-    
+
+def redirect_root(request):
+    if request.user.is_authenticated:
+        return redirect('scheduler:landing_page')
+    return redirect('accounts:ldap_login')
     

@@ -109,3 +109,10 @@
   justify-content: space-around;
 }
 
+
+/* LOGIN section */
+
+.login-container {
+  height: 73.3vh;
+  display: flex;
+}
