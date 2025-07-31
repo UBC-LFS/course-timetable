@@ -103,6 +103,9 @@ def ldap_logout(request):
 
 def view_users(request):
     
+    # if not request.user.is_authenticated:
+    #     return redirect('accounts:ldap_login') # uncomment when auth works
+    
     users_list = User.objects.all()
     
     return render(request, 'accounts/users/view_users.html', {

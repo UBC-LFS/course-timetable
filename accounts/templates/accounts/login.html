@@ -1,23 +1,42 @@
 {% extends 'accounts/base.html' %}
 {% block authentication-content %}
 
+<div class="login-container d-flex justify-content-center align-items-center">
+    <div class="row w-100">
+        
+        <!-- Info Card -->
+        <div class="col-md-6 d-flex align-items-center card-div" style="width: 40%;">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title">Hello!</h2>
+                    <p class="card-text text-wrap">
+                        This is a Course Schedule Management System designed to help you manage your course schedules efficiently. I hope you enjoy using it!
+                    </p>
+                </div>
+            </div>
+        </div>
 
-<div class="login-container d-flex justify-content-space-around align-items-center">
+        <!-- Login Card -->
+        <div class="col-md-6 d-flex align-items-center" style="width: 40%;">
+            <div class="card w-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Log In</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="cwl" class="form-label">CWL</label>
+                            <input name="cwl" id="cwl" type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input name="password" id="password" type="password" class="form-control" required>
+                        </div>
+                        <button class="btn btn-primary w-100" type="submit">Log In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-    <div>
-        Other section
-    </div>
-
-
-    <div class="col-6 mx-auto">
-        <h1> Log in </h1>
-        <form method="post">
-        {% csrf_token %}
-        <input name="cwl" type="text">
-        <input name="password" type="password">
-        <button class="btn btn-outline-primary" type="submit" value="Login"> Log in
-        </button>
-        </form>
     </div>
 </div>
 

@@ -115,4 +115,9 @@
 .login-container {
   height: 73.3vh;
   display: flex;
+  justify-content: space-around;
+}
+
+.card-div {
+  margin-left: 110px;
 }
