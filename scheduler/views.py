@@ -31,7 +31,9 @@ PIXELS_PER_MINUTE = 1
 
 '''This function handles the landing page of the timetable application.'''
 def landing_page(request):
-    
+
+    # print(f"heyy {request.user.is_authenticated}")
+
     if not request.user.is_authenticated:
        return redirect('accounts:ldap_login')
     

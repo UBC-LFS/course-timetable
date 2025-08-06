@@ -11,17 +11,17 @@ import os
 
 def authenticate(username, password) -> bool:
     '''------------AUTHENTICATION SECTION---------------------------'''
-    try:
-        server = Server(settings.LDAP_URI)  # Get LDAP server URI from environment variable
-    except:
-        raise ValueError("LDAP_URI environment variable is not set or invalid.")
+    server = Server(settings.LDAP_URI)  # Get LDAP server URI from environment variable
     
+    print("uid={},{}".format(username, settings.LDAP_USER_SEARCH_BASE))
+    
+    print(f"server {server}")
     try:
         
         # Create a connection to the LDAP server
         auth_conn = Connection(
             server,
-            user="uid={},{}".format(username, os.getenv('LDAP_USER_SEARCH_BASE')),
+            user="uid={},{}".format(username, settings.LDAP_USER_SEARCH_BASE),
             password=password,
             authentication = 'SIMPLE',
             check_names = True,
@@ -30,9 +30,11 @@ def authenticate(username, password) -> bool:
             raise_exceptions = False
         )
 
+        print(f"auth_conn: {auth_conn}")
+
         # Attempt to bind (authenticate) with the provided credentials
         is_valid = auth_conn.bind()
-        
+        print(f"is_valid: {is_valid}")
         # If not a valid authentication, return False
         if not is_valid:
             return False #authentication failed
@@ -40,32 +42,42 @@ def authenticate(username, password) -> bool:
         '''----------AUTHORIZATION SECTION-----------------'''
         conn = Connection(
             server,
-            user = os.getenv('LDAP_DEFAULT_BIND_DN'),
-            password = os.getenv('LDAP_PASSWORD'),
+            user = settings.LDAP_DEFAULT_BIND_DN,
+            password = settings.LDAP_PASSWORD,
             authentication = 'SIMPLE',
             check_names = True,
             client_strategy = 'SYNC',
             auto_bind = True,
             raise_exceptions = False
         )
+        print(f"conn: {conn}")
 
         # Attempt to bind (authorization) with the provided credentials
-        conn.bind()
+        conn.bind() # Boolean 
+        
+        print(f"conn.bind(): {conn.bind()}")
+
+        print(f"filter: {settings.LDAP_MEMBER_FILTER}")
 
         conn.search(
-            search_base = os.getenv('LDAP_GROUP_SEARCH_BASE'),
-            search_filter = os.getenv('LDAP_MEMBER_FILTER'),
+            search_base =  "uid={0},{1}".format(username, settings.LDAP_GROUP_SEARCH_BASE),
+            search_filter = settings.LDAP_MEMBER_FILTER,
+            # search_filter = settings.LDAP_MEMBER_FILTER,
             search_scope = SUBTREE,
             attributes = ALL_ATTRIBUTES
         )
+        
+        print(f"conn.response: {conn.response_to_json()}")
 
         entries = json.loads(conn.response_to_json())['entries']
 
         # If not a valid authorization, return False
+        print(f"entries: {entries}")
         if len(entries) == 0:
             return False #authorization failed
 
         return True
 
     except LDAPBindError:
+        print("LDAP authentication failed.")
         return False

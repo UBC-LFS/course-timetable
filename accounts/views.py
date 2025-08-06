@@ -59,10 +59,16 @@ def ldap_login(request):
         
         result = auth.authenticate(cwl, password)
         
+        print("hERE")
+        
+        print(f"result: {result}")
+        
         if result:
             
             user = None
-            
+
+            print(cwl)
+
             if User.objects.filter(username=cwl).exists():
                 user = User.objects.get(username=cwl)
             else:
@@ -75,13 +81,11 @@ def ldap_login(request):
                     is_active=True
                 )
                 user.save()
-            
-            djangoLogin(request, user)
 
-            
-            if user.is_staff and not user.is_superuser:
-                return redirect('scheduler:landing_page_no_auth')
-            elif user.is_staff and user.is_superuser:
+            print(user.is_authenticated)
+            print(f"user: {user}")
+            if user:
+                djangoLogin(request, user)
                 return redirect('scheduler:landing_page')
             else:
                 messages.error(request, 'An error occurred. No Access.')
