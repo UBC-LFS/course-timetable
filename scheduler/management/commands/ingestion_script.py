@@ -23,32 +23,32 @@ def parse_code_and_number(course_code):
         try:
             code, rest = course_code.split(' ', 1)
             number, section = rest.split(' ', 1)
-            return code.strip(), number.strip(), section.strip()
+            return number.strip(), section.strip()
         except Exception as e:
             print(f"Failed to parse course_code {course_code}: {e}")
-            return None, None, None
+            return None, None
     
     try:
         prefix, rest = course_code.split(' ', 1)
         code = prefix.split('_')[0]
         number = rest[0:3].strip()
         section = rest.split('-')[1]
-        return code.strip(), number.strip(), section.strip()
+        return number.strip(), section.strip()
     except Exception as e:
         print(f"Failed to parse course_code {course_code}: {e}")
-        return None, None, None
+        return None, None
 
 def get_or_create_instance(model, name):
     obj, _ = model.objects.get_or_create(name=name)
     return obj
 
-def parse_end_time(start_str, duration_str):
-    
+def parse_end_time(start_str, duration_str) -> str:
+    '''Parse the end time from start time and duration'''
     if not start_str or pd.isna(start_str):
-        return None
+        return "Unknown"
     if not duration_str or pd.isna(duration_str):
-        return None
-    
+        return "Unknown"
+
     try:
         start_time = datetime.strptime(start_str, "%H:%M")
         end_time = start_time  # Default to start time if parsing fails
@@ -75,21 +75,25 @@ class Command(BaseCommand):
     help = 'Ingest courses from Excel file into the database'
 
     def handle(self, *args, **kwargs):    
-        path = "timetable/scheduler/course_data_xls/Course_Map_Raw_Data (1).xlsx"  # update if different
+        path = "../timetable/scheduler/course_data_xls/Course_Map_Raw_Data (1).xlsx"  # update if different
         xl = pd.ExcelFile(path)
         
         for sheet in xl.sheet_names:
             df = xl.parse(sheet)
 
             for _, row in df.iterrows():
-                name = row.get("Course Code", "")
+                full_code = row.get("Course Code", "")
+                course_code = row.get("Subject", "")
                 term = parse_term(row.get("Term", ""))
                 days = row.get("Days", "")
                 start = row.get("Start time", "")
                 duration = row.get("Duration", "")
+                
+                if pd.isna(start):
+                    continue
 
-                code, number, section = parse_code_and_number(name)
-                if not all([code, number, section, start]):
+                number, section = parse_code_and_number(full_code)
+                if not all([number, section, start]):
                     continue
 
                 end = parse_end_time(start, duration)
@@ -100,11 +104,11 @@ class Command(BaseCommand):
                 else:
                     day = str(days).replace(", ", "_")
 
-                print(f"Parsed Course - Code: {code}, Number: {number}, Section: {section}, Term: {term}, Day: {day}, Start: {start}, End: {end}")
+                print(f"Parsed Course - Code: {course_code}, Number: {number}, Section: {section}, Term: {term}, Day: {day}, Start: {start}, End: {end}")
 
                 # Get or create related objects
                 term_obj = get_or_create_instance(CourseTerm, term)
-                code_obj = get_or_create_instance(CourseCode, code)
+                code_obj = get_or_create_instance(CourseCode, course_code)
                 number_obj = get_or_create_instance(CourseNumber, number)
                 section_obj = get_or_create_instance(CourseSection, section)
                 start_obj = get_or_create_instance(CourseTime, start)
@@ -112,7 +116,7 @@ class Command(BaseCommand):
                 day_obj = get_or_create_instance(CourseDay, day)
 
                 # Create course name and slug
-                course_name = f"{code}-{number}-{section}-{term}"
+                course_name = f"{course_code}-{number}-{section}-{term}"
                 slug = slugify(course_name)
 
                 # Create course if not exists

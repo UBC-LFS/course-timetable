@@ -160,8 +160,22 @@ def landing_page(request):
                             
         ''' For each course, assign a color and pixel height based off its duration'''
         for course in courses:
-            start = datetime.strptime(course.start.name, "%H:%M:%S")
-            end = datetime.strptime(course.end.name, "%H:%M:%S")
+            for t_format in ("%H:%M:%S", "%H:%M"):
+                try:
+                    start = datetime.strptime(course.start.name, t_format)
+                    start = start.strftime("%H:%M")
+                    start = datetime.strptime(start, "%H:%M")
+                except:
+                    continue
+            
+            for t_format in ("%H:%M:%S", "%H:%M"):
+                try:
+                    end = datetime.strptime(course.end.name, t_format)
+                    end = end.strftime("%H:%M")
+                    end = datetime.strptime(end, "%H:%M")
+                except:
+                    continue
+                
             course.duration_minutes = (end - start).seconds // 60
             course.pixel_height = course.duration_minutes * PIXELS_PER_MINUTE
             

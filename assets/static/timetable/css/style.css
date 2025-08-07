@@ -1,3 +1,10 @@
+.sticky {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+
 .primary-bg {
   background-color: #002145;
 }
@@ -113,8 +120,10 @@
 /* LOGIN section */
 
 .login-container {
-  height: 73.3vh;
+  height: 80dvh;
+  align-items: center;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
 }
 

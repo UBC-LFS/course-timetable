@@ -152,22 +152,51 @@ def update_user(request, user_id):
     
 #     return render(request, 'accounts/users/create_user.html')
 
-def create_user(first_name, last_name, email, is_staff, is_active):
+def create_user(request):
     
-    first_name
-    last_name
-    email
-    is_staff
-    is_active
+    first_name = request.POST.get('first_name', '')
+    last_name = request.POST.get('last_name', '')
+    email = request.POST.get('email', '')
+    is_staff = request.POST.get('is_staff', False)
+    is_active = request.POST.get('is_active', False)
+    
+    print(f"First name: {first_name} and Last name: {last_name}")
+    
+    
+    if not first_name or not last_name or not email:
+        messages.error(request, 'First name, last name, and email are required.')
+        return render(request, 'accounts/users/create_user.html')
+
+    if User.objects.filter(email=email).exists():
+        messages.error(request, 'A user with this email already exists.')
+        return render(request, 'accounts/users/create_user.html')
+
+    if is_staff == 'on':
+        is_staff = True
+    else:
+        is_staff = False
+
+    if is_active == 'on':
+        is_active = True
+    else:
+        is_active = False
+
+    print(first_name, last_name, email, is_staff, is_active)
+    print("here")
     
     
     user = User.objects.create(
-        first_name = first_name,
-        last_name = last_name,
-        email = email,
-        is_staff = is_staff,
-        is_active = is_active
+        username=request.POST.get("cwl"),
+        first_name=first_name,
+        last_name=last_name,
+        email=email,
+        is_staff=is_staff,
+        is_active=is_active
     )
     
-    return user
+    
+    
+    return render(request, 'accounts/users/create_user.html', {
+        
+    })
 
