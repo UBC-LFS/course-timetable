@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.views.decorators.cache import never_cache
 from django.shortcuts import render
 from accounts.backend import is_ldap_user
-from django.contrib.auth import login as djangoLogin
+from django.contrib.auth import login as djangoLogin, logout as djangoLogout
 from django.contrib.auth.models import User
 import os
 from core import auth
@@ -101,8 +101,8 @@ def ldap_login(request):
 @never_cache
 def ldap_logout(request):
     messages.success(request, 'See you again {}'.format(request.user))
-    # clear_session(request)
-    return redirect('accounts:ldap_logout')
+    djangoLogout(request)
+    return redirect('accounts:ldap_login')
 
 
 def view_users(request):
