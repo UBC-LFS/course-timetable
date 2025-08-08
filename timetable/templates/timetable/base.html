@@ -48,7 +48,7 @@
     <div class="container-fluid">
         <ul class="nav">
             <!-- {% comment %}Replace # with real dropdowns/urls later{% endcomment %} -->
-            <li class="nav-item"><a class="nav-link text-black" href="#">Edit Courses</a></li>
+            <li class="nav-item"><a class="nav-link text-black" href="{% url 'scheduler:view_courses' %}">View Courses</a></li>
             <li class="nav-item"><a class="nav-link text-black" href="{% url 'accounts:create_user' %}">Create User</a></li>
             <li class="nav-item"><a class="nav-link text-black" href="{% url 'accounts:view_users' %}">View Users</a></li>
         </ul>

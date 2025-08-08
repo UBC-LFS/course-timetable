@@ -245,4 +245,11 @@ def redirect_root(request):
     if request.user.is_authenticated:
         return redirect('scheduler:landing_page')
     return redirect('accounts:ldap_login')
+
+def view_courses(request):
     
+    courses = Course.objects.all()
+    
+    return render(request, 'timetable/view_courses.html', {
+        'courses': courses
+    })

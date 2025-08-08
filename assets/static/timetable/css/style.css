@@ -89,7 +89,7 @@
 /* Styling for viewing users page */
 
 .view-container {
-  height: 100dvh;
+  min-height: 100dvh;
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -129,4 +129,13 @@
 
 .card-div {
   margin-left: 110px;
+}
+
+
+/* VIEW COURSES section */
+
+.view-courses-container {
+  min-height: 100dvh;
+  margin-left: 10px;
+  margin-right: 10px;
 }

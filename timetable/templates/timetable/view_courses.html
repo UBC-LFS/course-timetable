@@ -1,0 +1,130 @@
+{% extends 'timetable/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="view-courses-container">
+    <h3 class="mt-2 mb-2">
+        View courses and edit
+    </h3>
+
+    <div class="table-wrapper table-responsive w-10 ml-5 mr-5">
+        <table class="table table-bordered table-striped table-hover table-responsive-md text-center table-vertical-middle">
+            <tr>
+                <!-- <th>Name</th> -->
+                <th>Code</th>
+                <th>Number</th>
+                <th>Section</th>
+                <th>Term</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Day</th>
+                <th>Edit</th>
+            </tr>
+            {% for course in courses %}
+            <tr>
+                <!-- <td>{{ course.name }}</td> -->
+                <td>{{ course.code }}</td>
+                <td>{{ course.number }}</td>
+                <td>{{ course.section }}</td>
+                <td>{{ course.term }}</td>
+                <td>{{ course.start }}</td>
+                <td>{{ course.end }}</td>
+                <td>{{ course.day }}</td>
+                <td>
+                    <div>
+                        <button type="button" class="btn btn-warning btn-xs fs-10 me-2" data-bs-toggle="modal" data-bs-target="#edit-user-modal-{{ user.id }}">Edit</button>
+                        <div class="modal fade" id="edit-user-modal-{{ user.id }}" tabindex="-1" aria-labelledby="edit-user-modal-label-{{ user.id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="edit-user-modal-label-{{ user.id }}">Edit User</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-left edit-modal-content">
+                                        <form action="{% url 'accounts:update_user' user.id %}" method="post" name="user-form">
+                                            {% csrf_token %}
+                                            
+                                            <div class="two-columns">
+                                                <div class="column left-50 pe-3">
+                                                    <div id="div_id_first_name_{{ user.id }}" class="mb-3">
+                                                        <label for="id_first_name_{{ user.id }}" class="form-label">First Name</label>
+                                                        <input id="id_first_name_{{ user.id }}" class="form-control-sm" type="text" name="first_name" maxlength="150" value="{% if user.first_name %}{{ user.first_name }}{% endif %}" />
+                                                        <div id="hint_id_first_name_{{ user.id }}" class="form-text">Maximum length is 150 characters.</div>
+                                                    </div>
+                                                    
+                                                    <div id="div_id_last_name_{{ user.id }}" class="mb-3">
+                                                        <label for="id_last_name_{{ user.id }}" class="form-label">Last Name</label>
+                                                        <input id="id_last_name_{{ user.id }}" class="form-control-sm" type="text" name="last_name" maxlength="150" value="{% if user.last_name %}{{ user.last_name }}{% endif %}" />
+                                                        <div id="hint_id_last_name_{{ user.id }}" class="form-text">Maximum length is 150 characters.</div>
+                                                    </div>
+                                                    
+                                                    <div id="div_id_username_{{ user.id }}" class="mb-3">
+                                                        <label for="id_username_{{ user.id }}" class="form-label requiredField">CWL</label>
+                                                        <input id="id_username_{{ user.id }}" class="form-control-sm" type="text" name="cwl" maxlength="150" value="{% if user.profile.cwl %}{{ user.profile.cwl }}{% endif %}" />
+                                                        <input type="hidden" name="old_cwl" value="{% if user.profile.cwl %}{{ user.profile.cwl }}{% endif %}" />
+                                                        <div id="hint_id_username_{{ user.id }}" class="form-text">Maximum length is 150 characters.</div>
+                                                    </div>
+                                                    
+                                                    <div id="div_id_email_{{ user.id }}" class="mb-3">
+                                                        <label for="id_email_{{ user.id }}" class="form-label">
+                                                            Email
+                                                        </label>
+                                                        <input id="id_email_{{ user.id }}" class="form-control-sm" type="email" name="email" maxlength="254" value="{% if user.email %}{{ user.email }}{% endif %}" required />
+                                                        <div id="hint_id_email_{{ user.id }}" class="form-text">Maximum length is 254 characters.</div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="column right-50 ps-3">
+                                                    <div id="div_id_supervisor_first_name_{{ user.id }}" class="mb-3">
+                                                        <label for="id_supervisor_first_name_{{ user.id }}" class="form-label">Supervisor's First Name</label>
+                                                        <input id="id_supervisor_first_name_{{ user.id }}" class="form-control-sm" type="text" name="supervisor_first_name" maxlength="150" value="{% if user.profile.supervisor_first_name %}{{ user.profile.supervisor_first_name }}{% endif %}" />
+                                                        <div id="hint_id_supervisor_first_name_{{ user.id }}" class="form-text">Maximum length is 150 characters. It's optional to create a guest user.</div>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <label for="id_supervisor_last_name_{{ user.id }}" class="form-label">Supervisor's Last Name</label>
+                                                        <input id="id_supervisor_last_name_{{ user.id }}" class="form-control-sm" type="text" name="supervisor_last_name" maxlength="150" value="{% if user.profile.supervisor_last_name %}{{ user.profile.supervisor_last_name }}{% endif %}" />
+                                                        <div id="hint_id_supervisor_last_name_{{ user.id }}" class="form-text">Maximum length is 150 characters. It's optional to create a guest user.</div>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <label for="id_phone_{{ user.id }}" class="form-label">Phone</label>
+                                                        <input id="id_phone_{{ user.id }}" class="form-control-sm" type="text" name="phone" maxlength="30" value="{% if user.profile.phone %}{{ user.profile.phone }}{% endif %}" />
+                                                        <div id="hint_id_phone_{{ user.id }}" class="form-text">Maximum length is 50 characters. It's optional to create a guest user.</div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div id="div_id_is_staff_{{ user.id }}" class="mb-3 form-check">
+                                                            <input type="checkbox" name="is_staff" class="checkboxinput form-check-input" id="id_is_staff_{{ user.id }}" {% if user.is_staff %}checked{% endif %} />
+                                                            <label for="id_is_staff_{{ user.id }}" class="form-label">LC Staff?</label>
+                                                            <div class="form-text">Designates whether the user can log into this admin site.</div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <div id="div_id_is_active_{{ user.id }}" class="mb-3 form-check">
+                                                            <input type="checkbox" name="is_active" class="checkboxinput form-check-input" id="id_is_active_{{ user.id }}" {% if user.is_active %}checked{% endif %} />
+                                                            <label for="id_is_active_{{ user.id }}" class="form-label">Active?</label>
+                                                            <div class="form-text">Designates whether this user should be treated as active. Unselect this instead of deleting accounts.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <input type="hidden" name="id" value="{{ user.id }}" />
+                                            <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+                                            
+                                            <input class="btn btn-warning my-2 d-block mx-auto" type="submit" value="Update User" />
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}
