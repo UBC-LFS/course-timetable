@@ -4,6 +4,8 @@ from .models import CourseTerm, CourseCode, CourseNumber, CourseSection, CourseT
 from collections import defaultdict
 from datetime import datetime, timedelta
 from django.shortcuts import redirect
+from django.utils.text import slugify
+from django.contrib import messages
 
 
 '''
@@ -249,7 +251,61 @@ def redirect_root(request):
 def view_courses(request):
     
     courses = Course.objects.all()
-    
+    terms = CourseTerm.objects.all()
+    times = CourseTime.objects.all()
+    days = CourseDay.objects.all()
+
     return render(request, 'timetable/view_courses.html', {
-        'courses': courses
+        'courses': courses,
+        'terms': terms,
+        'times': times,
+        'days': days
     })
+
+
+def edit_course(request, course_id):
+    if request.method == 'POST':
+        course = Course.objects.get(id=course_id)
+        
+        data = request.POST
+
+        code = data.get('code', course.code)
+        number = data.get('number', course.number)
+        section = data.get('section', course.section)
+        term = data.get('term', course.term)
+        start = data.get('start', course.start)
+        end = data.get('end', course.end)
+        day = data.get('day', course.day)
+
+
+        if datetime.strptime(end, "%H:%M") < datetime.strptime(start, "%H:%M"):
+            messages.error(request, 'End time must be after start time.')
+            return redirect('scheduler:view_courses')
+
+        course_code_obj, created = CourseCode.objects.get_or_create(name=code)
+        course_number_obj, created = CourseNumber.objects.get_or_create(name=number)
+        course_section_obj, created = CourseSection.objects.get_or_create(name=section)
+        course_term_obj, created = CourseTerm.objects.get_or_create(name=term)
+        course_start_obj, created = CourseTime.objects.get_or_create(name=start)
+        course_end_obj, created = CourseTime.objects.get_or_create(name=end)
+        course_day_obj, created = CourseDay.objects.get_or_create(name=day)
+
+        course.code = course_code_obj
+        course.number = course_number_obj
+        course.section = course_section_obj
+        course.term = course_term_obj
+        course.start = course_start_obj
+        course.end = course_end_obj
+        course.day = course_day_obj
+
+        course_name = f"{code}-{number}-{section}-{term}"
+        slug = slugify(course_name)
+
+        if Course.objects.filter(slug=slug).exists():
+            messages.error(request, 'A course with this name already exists.')
+            return redirect('scheduler:view_courses')
+    
+        course.save()
+
+        return redirect('scheduler:view_courses')
+

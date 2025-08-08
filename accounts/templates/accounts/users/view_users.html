@@ -83,7 +83,6 @@
                                                             <div id="div_id_username_{{ user.id }}" class="mb-3">
                                                                 <label for="id_username_{{ user.id }}" class="form-label requiredField">CWL</label>
                                                                 <input id="id_username_{{ user.id }}" class="form-control-sm" type="text" name="cwl" maxlength="150" value="{% if user.profile.cwl %}{{ user.profile.cwl }}{% endif %}" />
-                                                                <input type="hidden" name="old_cwl" value="{% if user.profile.cwl %}{{ user.profile.cwl }}{% endif %}" />
                                                                 <div id="hint_id_username_{{ user.id }}" class="form-text">Maximum length is 150 characters.</div>
                                                             </div>
 

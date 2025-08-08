@@ -7,8 +7,10 @@
         View courses and edit
     </h3>
 
+    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search courses..." class="mb-2">
+
     <div class="table-wrapper table-responsive w-10 ml-5 mr-5">
-        <table class="table table-bordered table-striped table-hover table-responsive-md text-center table-vertical-middle">
+        <table class="table table-bordered table-striped table-hover table-responsive-md text-center table-vertical-middle" id="courseTable" tag="courseTableElement">
             <tr>
                 <!-- <th>Name</th> -->
                 <th>Code</th>
@@ -20,8 +22,10 @@
                 <th>Day</th>
                 <th>Edit</th>
             </tr>
-            {% for course in courses %}
-            <tr>
+            <tbody>
+
+                {% for course in courses %}
+                <tr>
                 <!-- <td>{{ course.name }}</td> -->
                 <td>{{ course.code }}</td>
                 <td>{{ course.number }}</td>
@@ -30,82 +34,88 @@
                 <td>{{ course.start }}</td>
                 <td>{{ course.end }}</td>
                 <td>{{ course.day }}</td>
-                <td>
+                <td class="ignore-search">
                     <div>
-                        <button type="button" class="btn btn-warning btn-xs fs-10 me-2" data-bs-toggle="modal" data-bs-target="#edit-user-modal-{{ user.id }}">Edit</button>
-                        <div class="modal fade" id="edit-user-modal-{{ user.id }}" tabindex="-1" aria-labelledby="edit-user-modal-label-{{ user.id }}" aria-hidden="true">
+                        <button type="button" class="btn btn-warning btn-xs fs-10 me-2" data-bs-toggle="modal" data-bs-target="#edit-course-modal-{{ course.id }}">Edit</button>
+                        <div class="modal fade" id="edit-course-modal-{{ course.id }}" tabindex="-1" aria-labelledby="edit-course-modal-label-{{ course.id }}" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="edit-user-modal-label-{{ user.id }}">Edit User</h1>
+                                        <h1 class="modal-title fs-5" id="edit-course-modal-label-{{ course.id }}">Edit Course</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body text-left edit-modal-content">
-                                        <form action="{% url 'accounts:update_user' user.id %}" method="post" name="user-form">
+                                    <div class="modal-body text-left edit-modal-content flex-md-row">
+                                        <form action="{% url 'scheduler:edit_course' course.id %}" method="post" name="user-form">
                                             {% csrf_token %}
                                             
                                             <div class="two-columns">
                                                 <div class="column left-50 pe-3">
-                                                    <div id="div_id_first_name_{{ user.id }}" class="mb-3">
-                                                        <label for="id_first_name_{{ user.id }}" class="form-label">First Name</label>
-                                                        <input id="id_first_name_{{ user.id }}" class="form-control-sm" type="text" name="first_name" maxlength="150" value="{% if user.first_name %}{{ user.first_name }}{% endif %}" />
-                                                        <div id="hint_id_first_name_{{ user.id }}" class="form-text">Maximum length is 150 characters.</div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Code</label>
+                                                        <input class="form-control-sm" type="text" name="code" maxlength="4" value="{% if course.code.name %}{{ course.code.name }}{% endif %}" />
+                                                        <div id="hint_id_first_name_{{ user.id }}" class="form-text">Maximum length is 4 characters.</div>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Number</label>
+                                                        <input class="form-control-sm" type="text" name="number" maxlength="4" value="{% if course.number.name %}{{ course.number.name }}{% endif %}" />
+                                                        <div class="form-text">Maximum length is 4 characters.</div>
                                                     </div>
                                                     
-                                                    <div id="div_id_last_name_{{ user.id }}" class="mb-3">
-                                                        <label for="id_last_name_{{ user.id }}" class="form-label">Last Name</label>
-                                                        <input id="id_last_name_{{ user.id }}" class="form-control-sm" type="text" name="last_name" maxlength="150" value="{% if user.last_name %}{{ user.last_name }}{% endif %}" />
-                                                        <div id="hint_id_last_name_{{ user.id }}" class="form-text">Maximum length is 150 characters.</div>
-                                                    </div>
-                                                    
-                                                    <div id="div_id_username_{{ user.id }}" class="mb-3">
-                                                        <label for="id_username_{{ user.id }}" class="form-label requiredField">CWL</label>
-                                                        <input id="id_username_{{ user.id }}" class="form-control-sm" type="text" name="cwl" maxlength="150" value="{% if user.profile.cwl %}{{ user.profile.cwl }}{% endif %}" />
-                                                        <input type="hidden" name="old_cwl" value="{% if user.profile.cwl %}{{ user.profile.cwl }}{% endif %}" />
-                                                        <div id="hint_id_username_{{ user.id }}" class="form-text">Maximum length is 150 characters.</div>
+                                                    <div  class="mb-3">
+                                                        <label  class="form-label requiredField">Section</label>
+                                                        <input class="form-control-sm" type="text" name="section" maxlength="3" value="{% if course.section.name %}{{ course.section.name }}{% endif %}" />
+                                                        <div id="hint_id_username_{{ user.id }}" class="form-text">Maximum length is 3 characters.</div>
                                                     </div>
                                                     
                                                     <div id="div_id_email_{{ user.id }}" class="mb-3">
-                                                        <label for="id_email_{{ user.id }}" class="form-label">
-                                                            Email
-                                                        </label>
-                                                        <input id="id_email_{{ user.id }}" class="form-control-sm" type="email" name="email" maxlength="254" value="{% if user.email %}{{ user.email }}{% endif %}" required />
-                                                        <div id="hint_id_email_{{ user.id }}" class="form-text">Maximum length is 254 characters.</div>
+                                                        <label class="form-label">Term</label>
+                                                        <select name="term" id="">
+                                                            <option value="{{ course.term.name }}">{{ course.term.name }}</option>
+                                                            {% for term in terms %}
+                                                                {% if term.name != course.term.name %}
+                                                                    <option value="{{ term.name }}">{{ term.name }}</option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 
                                                 <div class="column right-50 ps-3">
-                                                    <div id="div_id_supervisor_first_name_{{ user.id }}" class="mb-3">
-                                                        <label for="id_supervisor_first_name_{{ user.id }}" class="form-label">Supervisor's First Name</label>
-                                                        <input id="id_supervisor_first_name_{{ user.id }}" class="form-control-sm" type="text" name="supervisor_first_name" maxlength="150" value="{% if user.profile.supervisor_first_name %}{{ user.profile.supervisor_first_name }}{% endif %}" />
-                                                        <div id="hint_id_supervisor_first_name_{{ user.id }}" class="form-text">Maximum length is 150 characters. It's optional to create a guest user.</div>
+                                                    <div id="div_id_email_{{ user.id }}" class="mb-3">
+                                                        <label class="form-label">Start time</label>
+                                                        <select name="start" id="">
+                                                            <option value="{{ course.start.name }}">{{ course.start.name }}</option>
+                                                            {% for start in times %}
+                                                                {% if start.name != course.start.name %}
+                                                                    <option value="{{ start }}">{{ start }}</option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </select>
                                                     </div>
                                                     
-                                                    <div class="mb-3">
-                                                        <label for="id_supervisor_last_name_{{ user.id }}" class="form-label">Supervisor's Last Name</label>
-                                                        <input id="id_supervisor_last_name_{{ user.id }}" class="form-control-sm" type="text" name="supervisor_last_name" maxlength="150" value="{% if user.profile.supervisor_last_name %}{{ user.profile.supervisor_last_name }}{% endif %}" />
-                                                        <div id="hint_id_supervisor_last_name_{{ user.id }}" class="form-text">Maximum length is 150 characters. It's optional to create a guest user.</div>
+                                                    <div id="div_id_email_{{ user.id }}" class="mb-3">
+                                                        <label class="form-label">End time</label>
+                                                        <select name="end" id="">
+                                                            <option value="{{ course.end.name }}">{{ course.end.name }}</option>
+                                                            {% for end in times %}
+                                                                {% if end.name != course.end.name %}
+                                                                    <option value="{{ end }}">{{ end }}</option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </select>
                                                     </div>
                                                     
-                                                    <div class="mb-3">
-                                                        <label for="id_phone_{{ user.id }}" class="form-label">Phone</label>
-                                                        <input id="id_phone_{{ user.id }}" class="form-control-sm" type="text" name="phone" maxlength="30" value="{% if user.profile.phone %}{{ user.profile.phone }}{% endif %}" />
-                                                        <div id="hint_id_phone_{{ user.id }}" class="form-text">Maximum length is 50 characters. It's optional to create a guest user.</div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <div id="div_id_is_staff_{{ user.id }}" class="mb-3 form-check">
-                                                            <input type="checkbox" name="is_staff" class="checkboxinput form-check-input" id="id_is_staff_{{ user.id }}" {% if user.is_staff %}checked{% endif %} />
-                                                            <label for="id_is_staff_{{ user.id }}" class="form-label">LC Staff?</label>
-                                                            <div class="form-text">Designates whether the user can log into this admin site.</div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class="mb-3">
-                                                        <div id="div_id_is_active_{{ user.id }}" class="mb-3 form-check">
-                                                            <input type="checkbox" name="is_active" class="checkboxinput form-check-input" id="id_is_active_{{ user.id }}" {% if user.is_active %}checked{% endif %} />
-                                                            <label for="id_is_active_{{ user.id }}" class="form-label">Active?</label>
-                                                            <div class="form-text">Designates whether this user should be treated as active. Unselect this instead of deleting accounts.</div>
-                                                        </div>
+                                                    <div id="div_id_email_{{ user.id }}" class="mb-3">
+                                                        <label class="form-label">Days</label>
+                                                        <select name="day" id="">
+                                                            <option value="{{ course.day.name }}">{{ course.day.name }}</option>
+                                                            {% for day in days %}
+                                                                {% if day.name != course.day.name %}
+                                                                    <option value="{{ day }}">{{ day }}</option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -113,7 +123,7 @@
                                             <input type="hidden" name="id" value="{{ user.id }}" />
                                             <input type="hidden" name="next" value="{{ request.get_full_path }}" />
                                             
-                                            <input class="btn btn-warning my-2 d-block mx-auto" type="submit" value="Update User" />
+                                            <input class="btn btn-success my-2 d-block mx-auto" type="submit" value="Edit Course" />
                                         </form>
                                     </div>
                                 </div>
@@ -123,6 +133,7 @@
                 </td>
             </tr>
             {% endfor %}
+            </tbody>
         </table>
     </div>
 </div>

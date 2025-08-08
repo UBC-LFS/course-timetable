@@ -61,3 +61,29 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+
+const searchTable = () => {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    let rows = document.querySelectorAll("#courseTable tbody tr");
+
+    
+    for (let i = 1; i < rows.length; i++) {
+            let cells = rows[i].getElementsByTagName("td");
+            let match = false;
+
+            for (let i = 0; i < cells.length; i++) {
+                if (i === cells.length - 1){
+                    continue; // skip Job column
+                    
+                }
+
+                if (cells[i].textContent.toLowerCase().includes(input)) {
+                    match = true;
+                    break;
+                }
+            }
+
+            rows[i].style.display = (input === "" || match) ? "" : "none";
+        }
+}
