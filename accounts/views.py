@@ -161,8 +161,8 @@ def create_user(request):
     is_active = request.POST.get('is_active', False)
     
     if not first_name or not last_name or not email:
-        messages.error(request, 'First name, last name, and email are required.')
-        return render(request, 'accounts/users/create_user.html')
+       print('First name, last name, and email are required.')
+       return render(request, 'accounts/users/create_user.html')
 
     if User.objects.filter(email=email).exists():
         print('A user with this email already exists.')
