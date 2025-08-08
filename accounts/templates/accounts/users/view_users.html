@@ -58,88 +58,87 @@
                                 <div class="modal fade" id="edit-user-modal-{{ user.id }}" tabindex="-1" aria-labelledby="edit-user-modal-label-{{ user.id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="edit-user-modal-label-{{ user.id }}">Edit User</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="edit-user-modal-label-{{ user.id }}">Edit User</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <form action="{% url 'accounts:update_user' user.id %}" method="post" name="user-form" class="mx-auto" style="max-width: 800px;">
+                                            {% csrf_token %}
+                                            
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="id_first_name_{{ user.id }}" class="form-label">First Name</label>
+                                                    <input id="id_first_name_{{ user.id }}" name="first_name" type="text" maxlength="150" class="form-control" value="{% if user.first_name %}{{ user.first_name }}{% endif %}">
+                                                    <div class="form-text">Maximum length is 150 characters.</div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="id_last_name_{{ user.id }}" class="form-label">Last Name</label>
+                                                    <input id="id_last_name_{{ user.id }}" name="last_name" type="text" maxlength="150" class="form-control" value="{% if user.last_name %}{{ user.last_name }}{% endif %}">
+                                                    <div class="form-text">Maximum length is 150 characters.</div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="id_username_{{ user.id }}" class="form-label requiredField">CWL</label>
+                                                    <input id="id_username_{{ user.id }}" name="cwl" type="text" maxlength="150" class="form-control" value="{% if user.profile.cwl %}{{ user.profile.cwl }}{% endif %}">
+                                                    <div class="form-text">Maximum length is 150 characters.</div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="id_email_{{ user.id }}" class="form-label">Email</label>
+                                                    <input id="id_email_{{ user.id }}" name="email" type="email" maxlength="254" required class="form-control" value="{% if user.email %}{{ user.email }}{% endif %}">
+                                                    <div class="form-text">Maximum length is 254 characters.</div>
+                                                </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="id_supervisor_first_name_{{ user.id }}" class="form-label">Supervisor's First Name</label>
+                                                    <input id="id_supervisor_first_name_{{ user.id }}" name="supervisor_first_name" type="text" maxlength="150" class="form-control" value="{% if user.profile.supervisor_first_name %}{{ user.profile.supervisor_first_name }}{% endif %}">
+                                                    <div class="form-text">Maximum length is 150 characters. Optional for guest users.</div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="id_supervisor_last_name_{{ user.id }}" class="form-label">Supervisor's Last Name</label>
+                                                    <input id="id_supervisor_last_name_{{ user.id }}" name="supervisor_last_name" type="text" maxlength="150" class="form-control" value="{% if user.profile.supervisor_last_name %}{{ user.profile.supervisor_last_name }}{% endif %}">
+                                                    <div class="form-text">Maximum length is 150 characters. Optional for guest users.</div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="id_phone_{{ user.id }}" class="form-label">Phone</label>
+                                                    <input id="id_phone_{{ user.id }}" name="phone" type="text" maxlength="30" class="form-control" value="{% if user.profile.phone %}{{ user.profile.phone }}{% endif %}">
+                                                    <div class="form-text">Maximum length is 50 characters. Optional for guest users.</div>
+                                                </div>
+
+                                                <div class="form-check mb-3">
+                                                    <input type="checkbox" name="is_staff" class="form-check-input" id="id_is_staff_{{ user.id }}" {% if user.is_staff %}checked{% endif %}>
+                                                    <label class="form-check-label" for="id_is_staff_{{ user.id }}">LC Staff?</label>
+                                                    <div class="form-text">Designates whether the user can log into this admin site.</div>
+                                                </div>
+
+                                                <div class="form-check mb-3">
+                                                    <input type="checkbox" name="is_active" class="form-check-input" id="id_is_active_{{ user.id }}" {% if user.is_active %}checked{% endif %}>
+                                                    <label class="form-check-label" for="id_is_active_{{ user.id }}">Active?</label>
+                                                    <div class="form-text">Designates whether this user should be treated as active. Unselect this instead of deleting accounts.</div>
+                                                </div>
+                                                </div>
                                             </div>
-                                            <div class="modal-body text-left edit-modal-content">
-                                                <form action="{% url 'accounts:update_user' user.id %}" method="post" name="user-form">
-                                                    {% csrf_token %}
 
-                                                    <div class="two-columns">
-                                                        <div class="column left-50 pe-3">
-                                                            <div id="div_id_first_name_{{ user.id }}" class="mb-3">
-                                                                <label for="id_first_name_{{ user.id }}" class="form-label">First Name</label>
-                                                                <input id="id_first_name_{{ user.id }}" class="form-control-sm" type="text" name="first_name" maxlength="150" value="{% if user.first_name %}{{ user.first_name }}{% endif %}" />
-                                                                <div id="hint_id_first_name_{{ user.id }}" class="form-text">Maximum length is 150 characters.</div>
-                                                            </div>
+                                            <input type="hidden" name="id" value="{{ user.id }}">
+                                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
 
-                                                            <div id="div_id_last_name_{{ user.id }}" class="mb-3">
-                                                                <label for="id_last_name_{{ user.id }}" class="form-label">Last Name</label>
-                                                                <input id="id_last_name_{{ user.id }}" class="form-control-sm" type="text" name="last_name" maxlength="150" value="{% if user.last_name %}{{ user.last_name }}{% endif %}" />
-                                                                <div id="hint_id_last_name_{{ user.id }}" class="form-text">Maximum length is 150 characters.</div>
-                                                            </div>
-
-                                                            <div id="div_id_username_{{ user.id }}" class="mb-3">
-                                                                <label for="id_username_{{ user.id }}" class="form-label requiredField">CWL</label>
-                                                                <input id="id_username_{{ user.id }}" class="form-control-sm" type="text" name="cwl" maxlength="150" value="{% if user.profile.cwl %}{{ user.profile.cwl }}{% endif %}" />
-                                                                <div id="hint_id_username_{{ user.id }}" class="form-text">Maximum length is 150 characters.</div>
-                                                            </div>
-
-                                                            <div id="div_id_email_{{ user.id }}" class="mb-3">
-                                                                <label for="id_email_{{ user.id }}" class="form-label">
-                                                                    Email
-                                                                </label>
-                                                                <input id="id_email_{{ user.id }}" class="form-control-sm" type="email" name="email" maxlength="254" value="{% if user.email %}{{ user.email }}{% endif %}" required />
-                                                                <div id="hint_id_email_{{ user.id }}" class="form-text">Maximum length is 254 characters.</div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="column right-50 ps-3">
-                                                            <div id="div_id_supervisor_first_name_{{ user.id }}" class="mb-3">
-                                                                <label for="id_supervisor_first_name_{{ user.id }}" class="form-label">Supervisor's First Name</label>
-                                                                <input id="id_supervisor_first_name_{{ user.id }}" class="form-control-sm" type="text" name="supervisor_first_name" maxlength="150" value="{% if user.profile.supervisor_first_name %}{{ user.profile.supervisor_first_name }}{% endif %}" />
-                                                                <div id="hint_id_supervisor_first_name_{{ user.id }}" class="form-text">Maximum length is 150 characters. It's optional to create a guest user.</div>
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                                <label for="id_supervisor_last_name_{{ user.id }}" class="form-label">Supervisor's Last Name</label>
-                                                                <input id="id_supervisor_last_name_{{ user.id }}" class="form-control-sm" type="text" name="supervisor_last_name" maxlength="150" value="{% if user.profile.supervisor_last_name %}{{ user.profile.supervisor_last_name }}{% endif %}" />
-                                                                <div id="hint_id_supervisor_last_name_{{ user.id }}" class="form-text">Maximum length is 150 characters. It's optional to create a guest user.</div>
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                                <label for="id_phone_{{ user.id }}" class="form-label">Phone</label>
-                                                                <input id="id_phone_{{ user.id }}" class="form-control-sm" type="text" name="phone" maxlength="30" value="{% if user.profile.phone %}{{ user.profile.phone }}{% endif %}" />
-                                                                <div id="hint_id_phone_{{ user.id }}" class="form-text">Maximum length is 50 characters. It's optional to create a guest user.</div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div id="div_id_is_staff_{{ user.id }}" class="mb-3 form-check">
-                                                                    <input type="checkbox" name="is_staff" class="checkboxinput form-check-input" id="id_is_staff_{{ user.id }}" {% if user.is_staff %}checked{% endif %} />
-                                                                    <label for="id_is_staff_{{ user.id }}" class="form-label">LC Staff?</label>
-                                                                    <div class="form-text">Designates whether the user can log into this admin site.</div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                                <div id="div_id_is_active_{{ user.id }}" class="mb-3 form-check">
-                                                                    <input type="checkbox" name="is_active" class="checkboxinput form-check-input" id="id_is_active_{{ user.id }}" {% if user.is_active %}checked{% endif %} />
-                                                                    <label for="id_is_active_{{ user.id }}" class="form-label">Active?</label>
-                                                                    <div class="form-text">Designates whether this user should be treated as active. Unselect this instead of deleting accounts.</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <input type="hidden" name="id" value="{{ user.id }}" />
-                                                    <input type="hidden" name="next" value="{{ request.get_full_path }}" />
-
-                                                    <input class="btn btn-warning my-2 d-block mx-auto" type="submit" value="Update User" />
-                                                </form>
+                                            <div class="d-flex justify-content-center mt-4">
+                                                <button type="submit" class="btn btn-warning px-5">Update User</button>
                                             </div>
+                                            </form>
+                                        </div>
                                         </div>
                                     </div>
-                                </div>
+                                    </div>
+
 
                                 <button class="btn btn-xs btn-danger fs-10" type="button" data-bs-toggle="modal"
                                         data-bs-target="#delete-user-{{ user.id }}">Delete
@@ -155,6 +154,8 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body text-start">
+                                                <form action="{% url 'accounts:delete_user' user.id %}" method="post">
+                                                    {% csrf_token %}
                                                 <h5 class="text-danger">Are you sure to delete this user?</h5>
                                                 <div class="list-note list-note-gray-600">
                                                     <h5>User Information</h5>
@@ -168,9 +169,11 @@
                                                         <li>Is Active: {{ user.is_active }}</li>
                                                     </ul>
                                                 </div>
+                                                <button class="btn btn-xs btn-danger fs-10" type="submit" >Delete User</button>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </td>

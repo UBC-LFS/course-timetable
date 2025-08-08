@@ -160,15 +160,12 @@ def create_user(request):
     is_staff = request.POST.get('is_staff', False)
     is_active = request.POST.get('is_active', False)
     
-    print(f"First name: {first_name} and Last name: {last_name}")
-    
-    
     if not first_name or not last_name or not email:
         messages.error(request, 'First name, last name, and email are required.')
         return render(request, 'accounts/users/create_user.html')
 
     if User.objects.filter(email=email).exists():
-        messages.error(request, 'A user with this email already exists.')
+        print('A user with this email already exists.')
         return render(request, 'accounts/users/create_user.html')
 
     if is_staff == 'on':
@@ -185,7 +182,7 @@ def create_user(request):
     print("here")
     
     
-    user = User.objects.create(
+    User.objects.create(
         username=request.POST.get("cwl"),
         first_name=first_name,
         last_name=last_name,
@@ -193,10 +190,16 @@ def create_user(request):
         is_staff=is_staff,
         is_active=is_active
     )
-    
-    
-    
-    return render(request, 'accounts/users/create_user.html', {
-        
-    })
+
+    return redirect('accounts:view_users')
+
+
+def delete_user(request, user_id):
+    user = User.objects.get(id=user_id)
+    try:
+        user.delete()
+        print("User Successfully deleted")
+    except Exception as e:
+        print(f"Error deleting user {user_id}: {e}")
+    return redirect('accounts:view_users')
 
