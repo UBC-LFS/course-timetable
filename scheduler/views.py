@@ -33,6 +33,8 @@ PIXELS_PER_MINUTE = 1
 
 '''This function handles the landing page of the timetable application.'''
 def landing_page(request):
+    
+    submitted = False
 
     # print(f"heyy {request.user.is_authenticated}")
 
@@ -59,11 +61,13 @@ def landing_page(request):
     filter_start = request.GET.getlist('start[]')
     filter_end = request.GET.getlist('end[]')
     filter_day = request.GET.getlist('day[]')
-    
+
+    print(filter_code, filter_number, filter_section, filter_term, filter_start, filter_end, filter_day)
 
     '''Filters the fixture data and widdles down to just the filtered output'''
     if (filter_code or filter_number or filter_section or filter_term or filter_start or filter_end or filter_day):
         courses = Course.objects.all()
+        submitted = True
     
         if filter_code:
             courses = courses.filter(code__name__in=filter_code)
@@ -80,6 +84,7 @@ def landing_page(request):
         if filter_day:
             courses = courses.filter(day__name__in=filter_day)
         
+        print(len(courses))
         '''If there are courses after filtering, proceed to create the timetable slots and calculate overlaps'''
         if courses.exists():
             
@@ -241,6 +246,7 @@ def landing_page(request):
         'days': day,
         'courses': courses,
         'day_list': day_list,
+        'submitted': submitted
         })
 
 def redirect_root(request):

@@ -2,7 +2,13 @@
 {% load static %}
 {% block content %}
 {% load custom_filters %}
-
+<!-- 
+- add column to courses year
+- edit navbar reorganize into admin folder
+- talk to brandon about fixtures
+- create a course
+- figure out way to clone db to new year ( check w brandon ) (TA app already does that )
+-->
 
 <div class="container-fluid py-4 px-4">
   <div class="row gy-4 flex-column">
@@ -163,8 +169,16 @@
               </tr>
             </thead>
 
-          <!-- For each day go through hour list and insert course if it has matching day and hour-->
+
+            <!-- For each day go through hour list and insert course if it has matching day and hour-->
             <tbody>
+              {% if submitted and not courses %}
+              <div class="error-courses-container">
+
+                <h3 class="error-no-courses">No Courses Found</h3>
+              </div>
+              {% endif %}
+
               {% for hour in hour_list %}
               <tr>
                 <td class="time-col">{{ hour }}:00</td>
@@ -172,7 +186,6 @@
 
                 <!-- Using template tags, dynamically render courses if they match the hour and day-->
                 <td class="course-cell" style="position: relative;">
-                  
                   {% for course in courses %}
                   {% with course|get_day:day as data %}
                   {% if day in course.day.name %}

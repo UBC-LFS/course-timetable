@@ -69,6 +69,7 @@ class Course(models.Model):
     end = models.ForeignKey(CourseTime, on_delete=models.DO_NOTHING, related_name='courses_end')
     day = models.ForeignKey(CourseDay, on_delete=models.DO_NOTHING)
     slug = models.SlugField(max_length=256, unique=True)
+    year = models.CharField(max_length=10)
     
     def __str__(self):
         return self.name

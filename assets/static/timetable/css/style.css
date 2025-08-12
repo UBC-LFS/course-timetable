@@ -137,3 +137,26 @@
   margin-left: 10px;
   margin-right: 10px;
 }
+
+.error-no-courses {
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid red;
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.error-courses-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
