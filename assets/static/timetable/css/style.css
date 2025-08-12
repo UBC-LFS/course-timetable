@@ -160,3 +160,9 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.courses-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
