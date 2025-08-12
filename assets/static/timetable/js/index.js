@@ -62,6 +62,27 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// Display dropdown selections
+document.addEventListener("DOMContentLoaded", function() {
+
+  document.querySelectorAll(".dropdown-select").forEach(dropdown => {
+    const button = dropdown.querySelector("button");
+    const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
+    const defaultText = button.getAttribute("data-default");
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener("change", () => {
+        const selected = Array.from(checkboxes)
+          .filter(c => c.checked)
+          .map(c => c.value);
+
+        button.textContent = selected.length
+          ? selected.join(", ")
+          : defaultText;
+      });
+    });
+  });
+});
 
 const searchTable = () => {
     let input = document.getElementById("searchInput").value.toLowerCase();
