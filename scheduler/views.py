@@ -39,6 +39,7 @@ def landing_page(request):
     # print(f"heyy {request.user.is_authenticated}")
 
     if not request.user.is_authenticated:
+       print("yeah bye")
        return redirect('accounts:ldap_login')
     
     '''Variables from the fixtures/database'''
@@ -61,8 +62,6 @@ def landing_page(request):
     filter_start = request.GET.getlist('start[]')
     filter_end = request.GET.getlist('end[]')
     filter_day = request.GET.getlist('day[]')
-
-    print(filter_code, filter_number, filter_section, filter_term, filter_start, filter_end, filter_day)
 
     '''Filters the fixture data and widdles down to just the filtered output'''
     if (filter_code or filter_number or filter_section or filter_term or filter_start or filter_end or filter_day):
@@ -316,4 +315,50 @@ def edit_course(request, course_id):
         course.save()
 
         return redirect('scheduler:view_courses')
+    
 
+
+def create_course(request):
+    if request.method == 'POST':
+        data = request.POST
+
+        code = data.get('code')
+        print(code)
+        number = data.get('number')
+        section = data.get('section')
+        term = data.get('term')
+        start = data.get('start')
+        end = data.get('end')
+        day = data.get('day')
+        print(day)
+
+        course_code_obj, created = CourseCode.objects.get_or_create(name=code)
+        course_number_obj, created = CourseNumber.objects.get_or_create(name=number)
+        course_section_obj, created = CourseSection.objects.get_or_create(name=section)
+        course_term_obj, created = CourseTerm.objects.get_or_create(name=term)
+        course_start_obj, created = CourseTime.objects.get_or_create(name=start)
+        course_end_obj, created = CourseTime.objects.get_or_create(name=end)
+        course_day_obj, created = CourseDay.objects.get_or_create(name=day)
+
+
+        course_name = f"{code}-{number}-{section}-{term}"
+        slug = slugify(course_name)
+
+        if Course.objects.filter(slug=slug).exists():
+            messages.error(request, 'A course with this name already exists.')
+            return redirect('scheduler:view_courses')
+
+        course = Course(
+            name=course_name,
+            slug=slug,
+            code=course_code_obj,
+            number=course_number_obj,
+            section=course_section_obj,
+            term=course_term_obj,
+            start=course_start_obj,
+            end=course_end_obj,
+            day=course_day_obj
+        )
+        course.save()
+
+        return redirect('scheduler:view_courses')

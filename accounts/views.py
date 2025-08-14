@@ -41,6 +41,8 @@ General flow:
 @never_cache
 def ldap_login(request):
     
+    print(f"authenticated: {request.user.is_authenticated}")
+    
     '''
     1. If result is valid then by default the person is a staff member
     2. Now we need to check if they are a superuser
@@ -86,7 +88,9 @@ def ldap_login(request):
             print(f"user: {user}")
             if user:
                 djangoLogin(request, user)
-                return redirect('scheduler:landing_page')
+                # return redirect('scheduler:landing_page')
+                return redirect('accounts:ldap_login')
+                
             else:
                 messages.error(request, 'An error occurred. No Access.')
                 return redirect('accounts:ldap_login')
@@ -100,7 +104,7 @@ def ldap_login(request):
 
 @never_cache
 def ldap_logout(request):
-    messages.success(request, 'See you again {}'.format(request.user))
+    print('See you again {}'.format(request.user))
     djangoLogout(request)
     return redirect('accounts:ldap_login')
 

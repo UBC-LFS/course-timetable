@@ -1,4 +1,4 @@
-{% extends 'timetable/base.html' %}
+<!-- {% extends 'timetable/base.html' %}
 {% load static %}
 
 {% block content %}
@@ -13,23 +13,30 @@
                 
 
                 <!-- Dropdown to filter by year -->
-                <div class="dropdown dropdown-select">
+                <div class="dropdown">
                     <form method="get" action="{% url 'scheduler:view_courses' %}" class="year-form">
-                        <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownButton" data-default="Year">
-                            Year Search
-                        </button>
-                        <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
-                            {% for year in years %}
-                        <li>
-                            <label class="form-check-label d-block">
-                            <input class="form-check-input me-1 year-checkbox" type="checkbox" name="year[]" value="{{ year }}">
-                            {{ year }}
-                            </label>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    </form>
-                </div>
+                        {% csrf_token %}
+                            <div class="navbar">
+                                <span style="margin-right: 10px;">
+                                    
+                                    <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownButton" data-default="Year">
+                                        Year Search
+                                    </button>
+                                    <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
+                                        {% for year in years %}
+                                        <li>
+                                            <label class="form-check-label d-block">
+                                                <input class="form-check-input me-1 year-checkbox" type="checkbox" name="year[]" value="{{ year }}">
+                                                {{ year }}
+                                            </label>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </span>
+                                <button type="submit" class="btn btn-primary">Search Year</button>
+                            </div>
+                        </form>
+                    </div>
             </div>
             
             <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search courses..." class="mb-2">
@@ -46,74 +53,95 @@
                     </div>
 
                     <div class="modal-body">
-                        <form action="{% url 'accounts:update_user' user.id %}" method="post" name="user-form" class="mx-auto" style="max-width: 800px;">
+                        <form action="{% url 'scheduler:create_course' %}" method="post" class="mx-auto" style="max-width: 800px;">
                             {% csrf_token %}
                             
                             <div class="row g-3">
                                 <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="id_code_{{ course.id }}" class="form-label">Code</label>
+                                        <input id="id_code_{{ course.id }}" name="code" type="text" maxlength="150" placeholder="ie. FNH, APBI" class="form-control" value="{% if course.code.name %}{{ course.code.name }}{% endif %}">
+                                        <p>Max Character Length: 4</p>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="id_number_{{ course.id }}" class="form-label">Number</label>
+                                        <input id="id_number_{{ course.id }}" name="number" type="text" maxlength="150"  placeholder="ie. 100, 101" class="form-control" value="{% if course.number.name %}{{ course.number.name }}{% endif %}">
+                                        <p>Max Character Length: 4</p>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="id_section_{{ user.id }}" class="form-label requiredField">Section</label>
+                                        <input id="id_section_{{ user.id }}" name="section" type="text" maxlength="150" placeholder="ie. 001, D01" class="form-control" value="{% if course.section.name %}{{ course.section.name }}{% endif %}">
+                                        <p>Max Character Length: 4</p>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">HELPELP</label>
+                                        <select class="form-select" name="day">
+                                            <option value="{{ course.day.name }}">{{ course.day.name }}</option>
+                                            {% for day in days %}
+                                                {% if day.name != course.day.name %}
+                                                    <option value="{{ day }}">{{ day }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                            </div>
+
+                            <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="id_first_name_{{ user.id }}" class="form-label">First Name</label>
-                                    <input id="id_first_name_{{ user.id }}" name="first_name" type="text" maxlength="150" class="form-control" value="{% if user.first_name %}{{ user.first_name }}{% endif %}">
-                                    <div class="form-text">Maximum length is 150 characters.</div>
+                                    <label class="form-label">Term</label>
+                                    <select class="form-select" name="term">
+                                        <option value="{{ course.term.name }}">{{ course.term.name }}</option>
+                                        {% for term in terms %}
+                                            {% if term.name != course.term.name %}
+                                                <option value="{{ term }}">{{ term }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="id_last_name_{{ user.id }}" class="form-label">Last Name</label>
-                                    <input id="id_last_name_{{ user.id }}" name="last_name" type="text" maxlength="150" class="form-control" value="{% if user.last_name %}{{ user.last_name }}{% endif %}">
-                                    <div class="form-text">Maximum length is 150 characters.</div>
+                                    <label class="form-label">Start Time</label>
+                                    <select class="form-select" name="start">
+                                        <option value="{{ course.start.name }}">{{ course.start.name }}</option>
+                                        {% for start in times %}
+                                            {% if start.name != course.start.name %}
+                                                <option value="{{ start }}">{{ start }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="id_username_{{ user.id }}" class="form-label requiredField">CWL</label>
-                                    <input id="id_username_{{ user.id }}" name="cwl" type="text" maxlength="150" class="form-control" value="{% if user.profile.cwl %}{{ user.profile.cwl }}{% endif %}">
-                                    <div class="form-text">Maximum length is 150 characters.</div>
+                                    <label class="form-label">End Time</label>
+                                    <select class="form-select" name="end">
+                                        <option value="{{ course.end.name }}">{{ course.end.name }}</option>
+                                        {% for end in times %}
+                                            {% if end.name != course.end.name %}
+                                                <option value="{{ end }}">{{ end }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="id_email_{{ user.id }}" class="form-label">Email</label>
-                                    <input id="id_email_{{ user.id }}" name="email" type="email" maxlength="254" required class="form-control" value="{% if user.email %}{{ user.email }}{% endif %}">
-                                    <div class="form-text">Maximum length is 254 characters.</div>
-                                </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="id_supervisor_first_name_{{ user.id }}" class="form-label">Supervisor's First Name</label>
-                                    <input id="id_supervisor_first_name_{{ user.id }}" name="supervisor_first_name" type="text" maxlength="150" class="form-control" value="{% if user.profile.supervisor_first_name %}{{ user.profile.supervisor_first_name }}{% endif %}">
-                                    <div class="form-text">Maximum length is 150 characters. Optional for guest users.</div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="id_supervisor_last_name_{{ user.id }}" class="form-label">Supervisor's Last Name</label>
-                                    <input id="id_supervisor_last_name_{{ user.id }}" name="supervisor_last_name" type="text" maxlength="150" class="form-control" value="{% if user.profile.supervisor_last_name %}{{ user.profile.supervisor_last_name }}{% endif %}">
-                                    <div class="form-text">Maximum length is 150 characters. Optional for guest users.</div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="id_phone_{{ user.id }}" class="form-label">Phone</label>
-                                    <input id="id_phone_{{ user.id }}" name="phone" type="text" maxlength="30" class="form-control" value="{% if user.profile.phone %}{{ user.profile.phone }}{% endif %}">
-                                    <div class="form-text">Maximum length is 50 characters. Optional for guest users.</div>
-                                </div>
-
-                                <div class="form-check mb-3">
-                                    <input type="checkbox" name="is_staff" class="form-check-input" id="id_is_staff_{{ user.id }}" {% if user.is_staff %}checked{% endif %}>
-                                    <label class="form-check-label" for="id_is_staff_{{ user.id }}">LC Staff?</label>
-                                    <div class="form-text">Designates whether the user can log into this admin site.</div>
-                                </div>
-
-                                <div class="form-check mb-3">
-                                    <input type="checkbox" name="is_active" class="form-check-input" id="id_is_active_{{ user.id }}" {% if user.is_active %}checked{% endif %}>
-                                    <label class="form-check-label" for="id_is_active_{{ user.id }}">Active?</label>
-                                    <div class="form-text">Designates whether this user should be treated as active. Unselect this instead of deleting accounts.</div>
-                                </div>
+                                    <label class="form-label">Year</label>
+                                    <select class="form-select" name="year">
+                                        <option value="{{ course.year }}">{{ course.year }}</option>
+                                        {% for year in years %}
+                                            {% if year != course.year %}
+                                                <option value="{{ year }}">{{ year }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
 
-                            <input type="hidden" name="id" value="{{ user.id }}">
-                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
-
                             <div class="d-flex justify-content-center mt-4">
-                                <button type="submit" class="btn btn-sucess px-5">Create course</button>
+                                <button type="submit" class="btn btn-success px-5">Create course</button>
+                            </div>
                             </div>
                         </form>
                     </div>
@@ -134,6 +162,7 @@
                 <th>Start</th>
                 <th>End</th>
                 <th>Day</th>
+                <th>Year</th>
                 <th>Edit</th>
             </tr>
             <tbody>
@@ -148,43 +177,59 @@
                 <td>{{ course.start }}</td>
                 <td>{{ course.end }}</td>
                 <td>{{ course.day }}</td>
+                <td>{{ course.year }}</td>
                 <td class="ignore-search">
                     <div>
-                        <button type="button" class="btn btn-warning btn-xs fs-10 me-2" data-bs-toggle="modal" data-bs-target="#edit-course-modal-{{ course.id }}">Edit</button>
+                        <!-- Trigger Button -->
+                        <button type="button" 
+                                class="btn btn-warning btn-sm me-2" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#edit-course-modal-{{ course.id }}">
+                            Edit
+                        </button>
+
+                        <!-- Modal -->
                         <div class="modal fade" id="edit-course-modal-{{ course.id }}" tabindex="-1" aria-labelledby="edit-course-modal-label-{{ course.id }}" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
+
+                                    <!-- Modal Header -->
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="edit-course-modal-label-{{ course.id }}">Edit Course</h1>
+                                        <h5 class="modal-title" id="edit-course-modal-label-{{ course.id }}">Edit Course</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body text-left edit-modal-content flex-md-row">
-                                        <form action="{% url 'scheduler:edit_course' course.id %}" method="post" name="user-form">
+
+                                    <!-- Modal Body -->
+                                    <div class="modal-body">
+                                        <form action="{% url 'scheduler:edit_course' course.id %}" method="post" class="needs-validation" novalidate>
                                             {% csrf_token %}
-                                            
-                                            <div class="two-columns">
-                                                <div class="column left-50 pe-3">
+                                            <div class="row">
+                                                <!-- Left Column -->
+                                                <div class="col-md-6">
                                                     <div class="mb-3">
                                                         <label class="form-label">Code</label>
-                                                        <input class="form-control-sm" type="text" name="code" maxlength="4" value="{% if course.code.name %}{{ course.code.name }}{% endif %}" />
-                                                        <div id="hint_id_first_name_{{ user.id }}" class="form-text">Maximum length is 4 characters.</div>
+                                                        <input type="text" class="form-control" name="code" maxlength="4"
+                                                            value="{% if course.code.name %}{{ course.code.name }}{% endif %}">
+                                                        <div class="form-text">Max 4 characters.</div>
                                                     </div>
 
                                                     <div class="mb-3">
                                                         <label class="form-label">Number</label>
-                                                        <input class="form-control-sm" type="text" name="number" maxlength="4" value="{% if course.number.name %}{{ course.number.name }}{% endif %}" />
-                                                        <div class="form-text">Maximum length is 4 characters.</div>
+                                                        <input type="text" class="form-control" name="number" maxlength="4"
+                                                            value="{% if course.number.name %}{{ course.number.name }}{% endif %}">
+                                                        <div class="form-text">Max 4 characters.</div>
                                                     </div>
-                                                    
-                                                    <div  class="mb-3">
-                                                        <label  class="form-label requiredField">Section</label>
-                                                        <input class="form-control-sm" type="text" name="section" maxlength="3" value="{% if course.section.name %}{{ course.section.name }}{% endif %}" />
-                                                        <div id="hint_id_username_{{ user.id }}" class="form-text">Maximum length is 3 characters.</div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Section</label>
+                                                        <input type="text" class="form-control" name="section" maxlength="3"
+                                                            value="{% if course.section.name %}{{ course.section.name }}{% endif %}">
+                                                        <div class="form-text">Max 3 characters.</div>
                                                     </div>
-                                                    
-                                                    <div id="div_id_email_{{ user.id }}" class="mb-3">
+
+                                                    <div class="mb-3">
                                                         <label class="form-label">Term</label>
-                                                        <select name="term" id="">
+                                                        <select class="form-select" name="term">
                                                             <option value="{{ course.term.name }}">{{ course.term.name }}</option>
                                                             {% for term in terms %}
                                                                 {% if term.name != course.term.name %}
@@ -194,11 +239,12 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                
-                                                <div class="column right-50 ps-3">
-                                                    <div id="div_id_email_{{ user.id }}" class="mb-3">
-                                                        <label class="form-label">Start time</label>
-                                                        <select name="start" id="">
+
+                                                <!-- Right Column -->
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Start Time</label>
+                                                        <select class="form-select" name="start">
                                                             <option value="{{ course.start.name }}">{{ course.start.name }}</option>
                                                             {% for start in times %}
                                                                 {% if start.name != course.start.name %}
@@ -207,10 +253,10 @@
                                                             {% endfor %}
                                                         </select>
                                                     </div>
-                                                    
-                                                    <div id="div_id_email_{{ user.id }}" class="mb-3">
-                                                        <label class="form-label">End time</label>
-                                                        <select name="end" id="">
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">End Time</label>
+                                                        <select class="form-select" name="end">
                                                             <option value="{{ course.end.name }}">{{ course.end.name }}</option>
                                                             {% for end in times %}
                                                                 {% if end.name != course.end.name %}
@@ -219,10 +265,10 @@
                                                             {% endfor %}
                                                         </select>
                                                     </div>
-                                                    
-                                                    <div id="div_id_email_{{ user.id }}" class="mb-3">
+
+                                                    <div class="mb-3">
                                                         <label class="form-label">Days</label>
-                                                        <select name="day" id="">
+                                                        <select class="form-select" name="day">
                                                             <option value="{{ course.day.name }}">{{ course.day.name }}</option>
                                                             {% for day in days %}
                                                                 {% if day.name != course.day.name %}
@@ -231,19 +277,37 @@
                                                             {% endfor %}
                                                         </select>
                                                     </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Year</label>
+                                                        <select class="form-select" name="year">
+                                                            <option value="{{ course.year }}">{{ course.year }}</option>
+                                                            {% for year in years %}
+                                                                {% if year != course.year %}
+                                                                    <option value="{{ year }}">{{ year }}</option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
 
-                                            <input type="hidden" name="id" value="{{ user.id }}" />
-                                            <input type="hidden" name="next" value="{{ request.get_full_path }}" />
-                                            
-                                            <input class="btn btn-success my-2 d-block mx-auto" type="submit" value="Edit Course" />
+                                            <!-- Hidden Fields -->
+                                            <input type="hidden" name="id" value="{{ user.id }}">
+                                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+
+                                            <!-- Submit Button -->
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-warning">Edit Course</button>
+                                            </div>
                                         </form>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </td>
             </tr>
             {% endfor %}
@@ -252,4 +316,4 @@
     </div>
 </div>
 
-{% endblock %}
+{% endblock %} -->
