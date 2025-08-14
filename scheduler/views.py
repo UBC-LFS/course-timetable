@@ -260,12 +260,14 @@ def view_courses(request):
     terms = CourseTerm.objects.all()
     times = CourseTime.objects.all()
     days = CourseDay.objects.all()
+    years = courses.values_list('year', flat=True).distinct()
 
     return render(request, 'timetable/view_courses.html', {
         'courses': courses,
         'terms': terms,
         'times': times,
-        'days': days
+        'days': days,
+        'years': years
     })
 
 

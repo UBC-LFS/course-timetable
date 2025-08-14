@@ -108,3 +108,11 @@ const searchTable = () => {
             rows[i].style.display = (input === "" || match) ? "" : "none";
         }
 }
+
+
+document.querySelectorAll('.year-checkbox').forEach(cb => {
+        cb.addEventListener('change', function() {
+            console.log("submitted")
+            document.querySelector('.year-form').submit();
+        });
+    });

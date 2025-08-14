@@ -20,17 +20,36 @@
   <div class="container-fluid px-4 bg-primary d-flex justify-content-between align-items-center">
     <!-- left side -->
     <div class="d-flex align-items-center">
-      <a class="navbar-brand fw-semibold text-white" href="#">
+      <a class="navbar-brand fw-semibold text-white" href="{% url 'scheduler:landing_page' %}">
         Time Table Application
       </a>
     </div>
 
+    {% if user.is_authenticated %}
     <!-- right side -->
     <div class="collapse navbar-collapse justify-content-end" id="mainNav">
       <ul class="navbar-nav mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link active text-white" href="{% url 'scheduler:landing_page' %}">Home</a>
         </li>
+        <li>
+        <div class="dropdown dropdown-select" style="padding-right: 3px; padding-left: 3px;">
+          <button style="background: none; color: white;	padding: 0;	margin-top: 8px; font: inherit;	cursor: pointer;	outline: inherit; border: none" data-bs-toggle="dropdown" aria-expanded="false">
+            Admin
+          </button>
+            <ul class="dropdown-menu" style="height: fit-content; overflow-y: auto;">
+                <li>
+                  <a class="dropdown-item" href="{% url 'accounts:create_user' %}">Create User</a>
+                  <a class="dropdown-item" href="{% url 'accounts:view_users' %}">View Users</a>
+                </li>
+            </ul>
+        </div>
+        </li>
+        <li>
+
+          <a class="nav-link active text-white" style="padding-right: 3px"href="{% url 'scheduler:view_courses' %}">Courses</a>
+        </li>
+
         <li>
 
           {% if user.is_authenticated %}
@@ -39,18 +58,19 @@
         </li>
       </ul>
     </div>
+    {% endif %}
   </div>
 </header>
 
 {% if user.is_authenticated %}
 <!-- ──────────── SECONDARY GREY BAR ──────────── -->
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light bg-white">
     <div class="container-fluid">
         <ul class="nav">
-            <!-- {% comment %}Replace # with real dropdowns/urls later{% endcomment %} -->
-            <li class="nav-item"><a class="nav-link text-black" href="{% url 'scheduler:view_courses' %}">View Courses</a></li>
+            <!-- Replace # with real dropdowns/urls later  -->
+            <!-- <li class="nav-item"><a class="nav-link text-black" href="{% url 'scheduler:view_courses' %}">View Courses</a></li>
             <li class="nav-item"><a class="nav-link text-black" href="{% url 'accounts:create_user' %}">Create User</a></li>
-            <li class="nav-item"><a class="nav-link text-black" href="{% url 'accounts:view_users' %}">View Users</a></li>
+            <li class="nav-item"><a class="nav-link text-black" href="{% url 'accounts:view_users' %}">View Users</a></li> -->
         </ul>
     </div>
 </nav>

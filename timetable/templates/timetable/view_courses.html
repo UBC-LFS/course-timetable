@@ -4,10 +4,33 @@
 {% block content %}
 <div class="view-courses-container">
     <div class="courses-navbar">
+            <div class="navbar">
 
-            <h3 class="mt-2 mb-2">
-                Courses
-            </h3>
+                <h3 class="mt-2 mb-2" style="margin-right: 20px;">
+                    Courses
+                </h3>
+
+                
+
+                <!-- Dropdown to filter by year -->
+                <div class="dropdown dropdown-select">
+                    <form method="get" action="{% url 'scheduler:view_courses' %}" class="year-form">
+                        <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownButton" data-default="Year">
+                            Year Search
+                        </button>
+                        <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
+                            {% for year in years %}
+                        <li>
+                            <label class="form-check-label d-block">
+                            <input class="form-check-input me-1 year-checkbox" type="checkbox" name="year[]" value="{{ year }}">
+                            {{ year }}
+                            </label>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    </form>
+                </div>
+            </div>
             
             <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search courses..." class="mb-2">
             
@@ -90,7 +113,7 @@
                             <input type="hidden" name="next" value="{{ request.get_full_path }}">
 
                             <div class="d-flex justify-content-center mt-4">
-                                <button type="submit" class="btn btn-warning px-5">Update User</button>
+                                <button type="submit" class="btn btn-sucess px-5">Create course</button>
                             </div>
                         </form>
                     </div>
