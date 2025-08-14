@@ -128,6 +128,7 @@ def update_user(request, user_id):
         
         user.first_name = data.get('first_name', user.first_name)
         user.last_name = data.get('last_name', user.last_name)
+        user.username = data.get('cwl', user.username)
         user.email = data.get('email', user.email)
         user.is_staff = data.get('is_staff', user.is_staff)
         user.is_active = data.get('is_active', user.is_active)
