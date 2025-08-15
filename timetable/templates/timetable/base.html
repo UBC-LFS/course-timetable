@@ -25,6 +25,7 @@
       </a>
     </div>
 
+    {% if user.is_authenticated %}
     <!-- right side -->
     <div class="collapse navbar-collapse justify-content-end" id="mainNav">
       <ul class="navbar-nav mb-2 mb-lg-0">
@@ -52,11 +53,13 @@
         <li>
 
           {% if user.is_authenticated %}
-          <a class="nav-link active text-white" href="{% url 'accounts:ldap_logout' %}">Log out</a>
+          <a class="nav-link active text-white" href="{% url 'accounts:ldap_logout' %}">Logout</a>
           {% endif %}
         </li>
       </ul>
     </div>
+    {% endif %}
+
   </div>
 </header>
 
