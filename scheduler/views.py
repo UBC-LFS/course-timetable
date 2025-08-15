@@ -39,7 +39,6 @@ def landing_page(request):
     # print(f"heyy {request.user.is_authenticated}")
 
     if not request.user.is_authenticated:
-       print("yeah bye")
        return redirect('accounts:ldap_login')
     
     '''Variables from the fixtures/database'''

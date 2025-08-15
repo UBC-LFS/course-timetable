@@ -88,8 +88,7 @@ def ldap_login(request):
             print(f"user: {user}")
             if user:
                 djangoLogin(request, user)
-                # return redirect('scheduler:landing_page')
-                return redirect('accounts:ldap_login')
+                return redirect('scheduler:landing_page')
                 
             else:
                 messages.error(request, 'An error occurred. No Access.')

@@ -1,6 +1,6 @@
 import pandas as pd
 from django.core.management.base import BaseCommand
-from scheduler.models import Course, CourseCode, CourseNumber, CourseTerm, CourseSection, CourseTime, CourseDay
+from scheduler.models import Course, CourseCode, CourseNumber, CourseTerm, CourseSection, CourseTime, CourseDay, CourseYear
 from django.utils.text import slugify
 from datetime import datetime, timedelta
 
@@ -75,7 +75,7 @@ class Command(BaseCommand):
     help = 'Ingest courses from Excel file into the database'
 
     def handle(self, *args, **kwargs):    
-        path = "../timetable/scheduler/course_data_xls/Course_Map_Raw_Data (1).xlsx"  # update if different
+        path = "../timetable/scheduler/course_data_xls/Course_Map_Raw_Data.xlsx"  # update if different
         xl = pd.ExcelFile(path)
         
         for sheet in xl.sheet_names:
@@ -114,6 +114,7 @@ class Command(BaseCommand):
                 start_obj = get_or_create_instance(CourseTime, start)
                 end_obj = get_or_create_instance(CourseTime, end)
                 day_obj = get_or_create_instance(CourseDay, day)
+                year_obj = get_or_create_instance(CourseYear, "2025-26")
 
                 # Create course name and slug
                 course_name = f"{course_code}-{number}-{section}-{term}"
@@ -130,7 +131,8 @@ class Command(BaseCommand):
                         'section': section_obj,
                         'start': start_obj,
                         'end': end_obj,
-                        'day': day_obj
+                        'day': day_obj,
+                        'year': year_obj
                     }
                 )
 

@@ -57,7 +57,14 @@ class CourseDay(models.Model):
     def __str__(self):
         return self.name
 
+class CourseYear(models.Model):
+    name = models.CharField(max_length=256, unique=True)
 
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
 
 class Course(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -68,9 +75,9 @@ class Course(models.Model):
     start = models.ForeignKey(CourseTime, on_delete=models.DO_NOTHING, related_name='courses_start')
     end = models.ForeignKey(CourseTime, on_delete=models.DO_NOTHING, related_name='courses_end')
     day = models.ForeignKey(CourseDay, on_delete=models.DO_NOTHING)
+    year = models.ForeignKey(CourseYear, on_delete=models.DO_NOTHING, default=1)
     slug = models.SlugField(max_length=256, unique=True)
-    year = models.CharField(max_length=10)
-    
+
     def __str__(self):
         return self.name
     
