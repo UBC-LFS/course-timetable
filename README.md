@@ -97,17 +97,12 @@ DATABASE_PORT = os.environ.get('TIMETABLE_DB_PORT')
 DEBUG = False
 ```
 
-5. Add a Media root directory to store certificate files
-```
-MEDIA_ROOT = 'your_media_root'
-```
-
-6. Add your allowed_hosts in *settings.py*
+5. Add your allowed_hosts in *settings.py*
 ```
 ALLOWED_HOSTS = ['YOUR_HOST']
 ```
 
-7. Create staticfiles in your directory
+6. Create staticfiles in your directory
 ```
 $ python manage.py collectstatic --noinput
 
@@ -117,9 +112,9 @@ $ python manage.py collectstatic --noinput
 # https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Deployment
 ```
 
-8. Create a database in Postgresql
+9. Create a database in Postgresql
 
-9. Create database tables, and migrate
+10. Create database tables, and migrate
 ```
 $ python manage.py migrate
 ```
@@ -129,7 +124,7 @@ $ python manage.py migrate
 $ python manage.py loaddata timetable/fixtures/*.json
 ```
 
-12. See a deployment checklist and change your settings
+11. See a deployment checklist and change your settings
 ```
 $ python manage.py check --deploy
 
@@ -143,12 +138,12 @@ $ python manage.py check --deploy
 # X_FRAME_OPTIONS = 'DENY'
 ```
 
-13. Now, it's good to go. Run this web application in your production!
+12. Now, it's good to go. Run this web application in your production!
 ```
 $ python manage.py runserver
 ```
 
-14. Timezone in settings.py
+13. Timezone in settings.py
 https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
 ```
