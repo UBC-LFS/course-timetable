@@ -13,7 +13,7 @@ def authenticate(username, password) -> bool:
     '''------------AUTHENTICATION SECTION---------------------------'''
     server = Server(settings.LDAP_URI)  # Get LDAP server URI from environment variable
     
-    print("uid={},{}".format(username, settings.LDAP_USER_SEARCH_BASE))
+    # print("uid={},{}".format(username, settings.LDAP_USER_SEARCH_BASE))
     
     print(f"server {server}")
     try:
@@ -30,11 +30,11 @@ def authenticate(username, password) -> bool:
             raise_exceptions = False
         )
 
-        print(f"auth_conn: {auth_conn}")
+        # print(f"auth_conn: {auth_conn}")
 
         # Attempt to bind (authenticate) with the provided credentials
         is_valid = auth_conn.bind()
-        print(f"is_valid: {is_valid}")
+        # print(f"is_valid: {is_valid}")
         # If not a valid authentication, return False
         if not is_valid:
             return False #authentication failed
@@ -50,14 +50,12 @@ def authenticate(username, password) -> bool:
             auto_bind = True,
             raise_exceptions = False
         )
-        print(f"conn: {conn}")
+        # print(f"conn: {conn}")
 
         # Attempt to bind (authorization) with the provided credentials
         conn.bind() # Boolean 
         
-        print(f"conn.bind(): {conn.bind()}")
-
-        print(f"filter: {settings.LDAP_MEMBER_FILTER}")
+        # print(f"conn.bind(): {conn.bind()}")
 
         conn.search(
             search_base =  "uid={0},{1}".format(username, settings.LDAP_GROUP_SEARCH_BASE),
@@ -67,12 +65,12 @@ def authenticate(username, password) -> bool:
             attributes = ALL_ATTRIBUTES
         )
         
-        print(f"conn.response: {conn.response_to_json()}")
+        # print(f"conn.response: {conn.response_to_json()}")
 
         entries = json.loads(conn.response_to_json())['entries']
 
         # If not a valid authorization, return False
-        print(f"entries: {entries}")
+        # print(f"entries: {entries}")
         if len(entries) == 0:
             return False #authorization failed
 

@@ -40,9 +40,6 @@ General flow:
 
 @never_cache
 def ldap_login(request):
-    
-    print(f"authenticated: {request.user.is_authenticated}")
-    
     '''
     1. If result is valid then by default the person is a staff member
     2. Now we need to check if they are a superuser
@@ -61,15 +58,9 @@ def ldap_login(request):
         
         result = auth.authenticate(cwl, password)
         
-        print("hERE")
-        
-        print(f"result: {result}")
-        
         if result:
             
             user = None
-
-            print(cwl)
 
             if User.objects.filter(username=cwl).exists():
                 user = User.objects.get(username=cwl)
@@ -83,9 +74,6 @@ def ldap_login(request):
                     is_active=True
                 )
                 user.save()
-
-            print(user.is_authenticated)
-            print(f"user: {user}")
             if user:
                 djangoLogin(request, user)
                 return redirect('scheduler:landing_page')
@@ -183,7 +171,6 @@ def create_user(request):
         is_active = False
 
     print(first_name, last_name, email, is_staff, is_active)
-    print("here")
     
     
     User.objects.create(
