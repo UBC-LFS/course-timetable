@@ -54,7 +54,7 @@ $ pip3 install --upgrade pip
 #### 5. Install requirements
 
 ```
-$ cd ta-application-system
+$ cd timetable
 $ pip3 install -r requirements.txt
 
 # errors might occur in some packages, then install the following packages
