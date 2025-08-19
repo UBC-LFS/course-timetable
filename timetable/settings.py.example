@@ -38,8 +38,6 @@ LDAP_PASSWORD = os.getenv('LDAP_PASSWORD')  # password for the default bind DN
 LDAP_GROUP_SEARCH_BASE = os.getenv('LDAP_GROUP_SEARCH_BASE')  # base DN for group
 LDAP_MEMBER_FILTER = os.getenv('LDAP_MEMBER_FILTER')  # filter to find members in a group
 
-BYPASS_LDAP = True
-
 ALLOWED_HOSTS = []
 
 # Application definition
