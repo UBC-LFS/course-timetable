@@ -1,0 +1,44 @@
+[
+{
+  "model": "scheduler.coursecode",
+  "pk": 1,
+  "fields": {
+    "name": "APBI"
+  }
+},
+{
+  "model": "scheduler.coursecode",
+  "pk": 2,
+  "fields": {
+    "name": "FNH"
+  }
+},
+{
+  "model": "scheduler.coursecode",
+  "pk": 4,
+  "fields": {
+    "name": "FRE"
+  }
+},
+{
+  "model": "scheduler.coursecode",
+  "pk": 5,
+  "fields": {
+    "name": "GRS"
+  }
+},
+{
+  "model": "scheduler.coursecode",
+  "pk": 6,
+  "fields": {
+    "name": "LFS"
+  }
+},
+{
+  "model": "scheduler.coursecode",
+  "pk": 7,
+  "fields": {
+    "name": "Code"
+  }
+}
+]

@@ -42,7 +42,7 @@ def is_ldap_user(cwl, password):
         # If authentication is successful, begin to authorize the user
         lfs_conn = Connection(
             ldap_server,
-            user=os.environ['CHECKOUT_INVENTORY_LDAP_AUTH_DN'],
+            user=os.environ['CHECKOUT_INVENTORY_LLDAP_AUTH_DN'],
             password=os.environ['CHECKOUT_INVENTORY_LDAP_AUTH_PASSWORD'],
             authentication='SIMPLE',
             check_names=True,

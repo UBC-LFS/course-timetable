@@ -1,0 +1,779 @@
+[
+{
+  "model": "scheduler.coursenumber",
+  "pk": 1,
+  "fields": {
+    "name": "100"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 2,
+  "fields": {
+    "name": "101"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 3,
+  "fields": {
+    "name": "150"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 4,
+  "fields": {
+    "name": "200"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 5,
+  "fields": {
+    "name": "250"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 6,
+  "fields": {
+    "name": "252"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 7,
+  "fields": {
+    "name": "260"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 8,
+  "fields": {
+    "name": "265"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 9,
+  "fields": {
+    "name": "290"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 10,
+  "fields": {
+    "name": "300"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 11,
+  "fields": {
+    "name": "301"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 12,
+  "fields": {
+    "name": "302"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 13,
+  "fields": {
+    "name": "303"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 14,
+  "fields": {
+    "name": "306"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 15,
+  "fields": {
+    "name": "309"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 16,
+  "fields": {
+    "name": "311"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 17,
+  "fields": {
+    "name": "312"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 18,
+  "fields": {
+    "name": "313"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 19,
+  "fields": {
+    "name": "314"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 20,
+  "fields": {
+    "name": "315"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 21,
+  "fields": {
+    "name": "316"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 22,
+  "fields": {
+    "name": "317"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 23,
+  "fields": {
+    "name": "318"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 24,
+  "fields": {
+    "name": "322"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 25,
+  "fields": {
+    "name": "325"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 26,
+  "fields": {
+    "name": "326"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 27,
+  "fields": {
+    "name": "327"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 28,
+  "fields": {
+    "name": "328"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 29,
+  "fields": {
+    "name": "330"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 30,
+  "fields": {
+    "name": "335"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 31,
+  "fields": {
+    "name": "340"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 32,
+  "fields": {
+    "name": "342"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 33,
+  "fields": {
+    "name": "350"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 34,
+  "fields": {
+    "name": "351"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 35,
+  "fields": {
+    "name": "355"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 36,
+  "fields": {
+    "name": "360"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 37,
+  "fields": {
+    "name": "361"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 38,
+  "fields": {
+    "name": "370"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 39,
+  "fields": {
+    "name": "371"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 40,
+  "fields": {
+    "name": "374"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 41,
+  "fields": {
+    "name": "385"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 42,
+  "fields": {
+    "name": "398"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 43,
+  "fields": {
+    "name": "401"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 44,
+  "fields": {
+    "name": "402"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 45,
+  "fields": {
+    "name": "403"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 46,
+  "fields": {
+    "name": "405"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 47,
+  "fields": {
+    "name": "410"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 48,
+  "fields": {
+    "name": "413"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 49,
+  "fields": {
+    "name": "414"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 50,
+  "fields": {
+    "name": "415"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 51,
+  "fields": {
+    "name": "416"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 52,
+  "fields": {
+    "name": "420"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 53,
+  "fields": {
+    "name": "425"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 54,
+  "fields": {
+    "name": "428"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 55,
+  "fields": {
+    "name": "440"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 56,
+  "fields": {
+    "name": "450"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 57,
+  "fields": {
+    "name": "451"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 58,
+  "fields": {
+    "name": "455"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 59,
+  "fields": {
+    "name": "460"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 60,
+  "fields": {
+    "name": "470"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 61,
+  "fields": {
+    "name": "472"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 62,
+  "fields": {
+    "name": "473"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 63,
+  "fields": {
+    "name": "474"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 64,
+  "fields": {
+    "name": "475"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 65,
+  "fields": {
+    "name": "477"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 66,
+  "fields": {
+    "name": "490"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 67,
+  "fields": {
+    "name": "496B"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 68,
+  "fields": {
+    "name": "520"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 69,
+  "fields": {
+    "name": "523"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 70,
+  "fields": {
+    "name": "528"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 71,
+  "fields": {
+    "name": "529"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 72,
+  "fields": {
+    "name": "222"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 73,
+  "fields": {
+    "name": "443"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 74,
+  "fields": {
+    "name": "496A"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 75,
+  "fields": {
+    "name": "110"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 76,
+  "fields": {
+    "name": "400"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 77,
+  "fields": {
+    "name": "496"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 78,
+  "fields": {
+    "name": "390"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 79,
+  "fields": {
+    "name": "397A"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 80,
+  "fields": {
+    "name": "397B"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 81,
+  "fields": {
+    "name": "497B"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 82,
+  "fields": {
+    "name": "497E"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 83,
+  "fields": {
+    "name": "160"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 84,
+  "fields": {
+    "name": "161"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 85,
+  "fields": {
+    "name": "345"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 86,
+  "fields": {
+    "name": "375"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 87,
+  "fields": {
+    "name": "380"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 88,
+  "fields": {
+    "name": "404"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 89,
+  "fields": {
+    "name": "480"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 90,
+  "fields": {
+    "name": "482"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 91,
+  "fields": {
+    "name": "483"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 92,
+  "fields": {
+    "name": "497"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 93,
+  "fields": {
+    "name": "499"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 94,
+  "fields": {
+    "name": "210"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 95,
+  "fields": {
+    "name": "214"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 96,
+  "fields": {
+    "name": "244"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 97,
+  "fields": {
+    "name": "319"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 98,
+  "fields": {
+    "name": "324"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 99,
+  "fields": {
+    "name": "406"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 100,
+  "fields": {
+    "name": "419"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 101,
+  "fields": {
+    "name": "422"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 102,
+  "fields": {
+    "name": "423"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 103,
+  "fields": {
+    "name": "426"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 104,
+  "fields": {
+    "name": "427"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 105,
+  "fields": {
+    "name": "442"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 106,
+  "fields": {
+    "name": "444"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 107,
+  "fields": {
+    "name": "465"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 108,
+  "fields": {
+    "name": "498"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 109,
+  "fields": {
+    "name": "394"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 110,
+  "fields": {
+    "name": "500"
+  }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 111,
+  "fields": {
+    "name": "Num"
+  }
+}
+]

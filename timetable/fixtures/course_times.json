@@ -1,0 +1,177 @@
+[
+{
+  "model": "scheduler.coursetime",
+  "pk": 28,
+  "fields": {
+    "name": "12:00"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 29,
+  "fields": {
+    "name": "13:00"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 30,
+  "fields": {
+    "name": "14:00"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 31,
+  "fields": {
+    "name": "15:00"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 32,
+  "fields": {
+    "name": "16:00"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 33,
+  "fields": {
+    "name": "10:00"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 34,
+  "fields": {
+    "name": "11:00"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 35,
+  "fields": {
+    "name": "12:30"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 36,
+  "fields": {
+    "name": "09:30"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 37,
+  "fields": {
+    "name": "15:30"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 38,
+  "fields": {
+    "name": "17:00"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 39,
+  "fields": {
+    "name": "18:00"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 43,
+  "fields": {
+    "name": "17:30"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 44,
+  "fields": {
+    "name": "19:00"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 45,
+  "fields": {
+    "name": "10:30"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 46,
+  "fields": {
+    "name": "09:00"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 47,
+  "fields": {
+    "name": "16:30"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 48,
+  "fields": {
+    "name": "19:30"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 49,
+  "fields": {
+    "name": "13:30"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 50,
+  "fields": {
+    "name": "18:30"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 51,
+  "fields": {
+    "name": "08:00"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 52,
+  "fields": {
+    "name": "11:30"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 53,
+  "fields": {
+    "name": "08:30"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 54,
+  "fields": {
+    "name": "14:30"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 55,
+  "fields": {
+    "name": "Unknown"
+  }
+}
+]

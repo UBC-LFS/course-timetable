@@ -79,11 +79,11 @@ $ pip install -r requirements.txt
 ```
 SECRET_KEY = os.environ.get('TIMETABLE_SECRET_KEY')
 LDAP_URI = os.getenv('LDAP_URI')  # or 'ldaps://...' if using SSL
-LDAP_DEFAULT_BIND_DN = os.getenv('LDAP_DEFAULT_BIND_DN')  # base DN for user lookup
-LDAP_USER_SEARCH_BASE = os.getenv('LDAP_USER_SEARCH_BASE')  # base DN for user search
-LDAP_PASSWORD = os.getenv('LDAP_PASSWORD')  # password for the default bind DN
+LDAP_AUTH_DN = os.getenv('LDAP_AUTH_DN')  # base DN for user lookup
+LDAP_MEMBER_DN = os.getenv('LDAP_MEMBER_DN')  # base DN for user search
+LDAP_AUTH_PASSWORD = os.getenv('LDAP_AUTH_PASSWORD')  # password for the default bind DN
 LDAP_GROUP_SEARCH_BASE = os.getenv('LDAP_GROUP_SEARCH_BASE')  # base DN for group
-LDAP_MEMBER_FILTER = os.getenv('LDAP_MEMBER_FILTER')  # filter to find members in a group
+LDAP_SEARCH_FILTER = os.getenv('LDAP_SEARCH_FILTER')  # filter to find members in a group
 DATABASE_ENGINE = os.environ.get('TIMETABLE_DB_ENGINE'),
 DATABASE_NAME = os.environ.get('TIMETABLE_DB_NAME'),
 DATABASE_USER = os.environ.get('TIMETABLE_DB_USER'),

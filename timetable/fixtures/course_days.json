@@ -1,0 +1,233 @@
+[
+{
+  "model": "scheduler.courseday",
+  "pk": 1,
+  "fields": {
+    "name": "Mon"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 2,
+  "fields": {
+    "name": "Tues"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 3,
+  "fields": {
+    "name": "Wed"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 4,
+  "fields": {
+    "name": "Thurs"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 5,
+  "fields": {
+    "name": "Fri"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 6,
+  "fields": {
+    "name": "Mon_Wed_Fri"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 7,
+  "fields": {
+    "name": "Tues_Thurs"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 8,
+  "fields": {
+    "name": "Mon_Fri"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 9,
+  "fields": {
+    "name": "Tues_Wed"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 10,
+  "fields": {
+    "name": "Wed_Fri"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 11,
+  "fields": {
+    "name": "Mon_Tues"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 12,
+  "fields": {
+    "name": "Thurs_Fri"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 13,
+  "fields": {
+    "name": "Mon_Thurs"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 14,
+  "fields": {
+    "name": "Tues_Fri"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 15,
+  "fields": {
+    "name": "Wed_Thurs"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 16,
+  "fields": {
+    "name": "Mon_Tues_Thurs"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 17,
+  "fields": {
+    "name": "Tues_Wed_Fri"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 18,
+  "fields": {
+    "name": "Mon_Wed_Thurs"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 19,
+  "fields": {
+    "name": "Mon_Tues_Fri"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 20,
+  "fields": {
+    "name": "Wed_Thurs_Fri"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 21,
+  "fields": {
+    "name": "Tue_Thurs"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 22,
+  "fields": {
+    "name": "Tue"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 23,
+  "fields": {
+    "name": "Unknown"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 24,
+  "fields": {
+    "name": "Tue_Thur"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 25,
+  "fields": {
+    "name": "Tue Thur"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 26,
+  "fields": {
+    "name": "Mon_Wed"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 27,
+  "fields": {
+    "name": "Friday"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 29,
+  "fields": {
+    "name": "Wed "
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 30,
+  "fields": {
+    "name": "Monday"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 31,
+  "fields": {
+    "name": "Tue Thurs"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 32,
+  "fields": {
+    "name": "Tue_Thus"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 33,
+  "fields": {
+    "name": "Mon_Tues_Wed_Thurs_Fri"
+  }
+},
+{
+  "model": "scheduler.courseday",
+  "pk": 46,
+  "fields": {
+    "name": "Mon. "
+  }
+}
+]

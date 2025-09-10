@@ -13,7 +13,7 @@ def authenticate(username, password) -> bool:
     '''------------AUTHENTICATION SECTION---------------------------'''
     server = Server(settings.LDAP_URI)  # Get LDAP server URI from environment variable
     
-    # print("uid={},{}".format(username, settings.LDAP_USER_SEARCH_BASE))
+    # print("uid={},{}".format(username, settings.LDAP_MEMBER_DN))
     
     print(f"server {server}")
     try:
@@ -21,7 +21,7 @@ def authenticate(username, password) -> bool:
         # Create a connection to the LDAP server
         auth_conn = Connection(
             server,
-            user="uid={},{}".format(username, settings.LDAP_USER_SEARCH_BASE),
+            user="uid={},{}".format(username, settings.LDAP_MEMBER_DN),
             password=password,
             authentication = 'SIMPLE',
             check_names = True,
@@ -42,8 +42,8 @@ def authenticate(username, password) -> bool:
         '''----------AUTHORIZATION SECTION-----------------'''
         conn = Connection(
             server,
-            user = settings.LDAP_DEFAULT_BIND_DN,
-            password = settings.LDAP_PASSWORD,
+            user = settings.LDAP_AUTH_DN,
+            password = settings.LDAP_AUTH_PASSWORD,
             authentication = 'SIMPLE',
             check_names = True,
             client_strategy = 'SYNC',
@@ -58,9 +58,9 @@ def authenticate(username, password) -> bool:
         # print(f"conn.bind(): {conn.bind()}")
 
         conn.search(
-            search_base =  "uid={0},{1}".format(username, settings.LDAP_GROUP_SEARCH_BASE),
-            search_filter = settings.LDAP_MEMBER_FILTER,
-            # search_filter = settings.LDAP_MEMBER_FILTER,
+            search_base =  "uid={0},{1}".format(username, settings.LDAP_MEMBER_DN),
+            search_filter = settings.LDAP_SEARCH_FILTER,
+            # search_filter = settings.LDAP_SEARCH_FILTER,
             search_scope = SUBTREE,
             attributes = ALL_ATTRIBUTES
         )
