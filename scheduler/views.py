@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import CourseTerm, CourseCode, CourseNumber, CourseSection, CourseTime, CourseDay, Course
+from .models import CourseTerm, CourseCode, CourseNumber, CourseSection, CourseTime, CourseDay, Course, CourseYear
 from collections import defaultdict
 from datetime import datetime, timedelta
 from django.shortcuts import redirect
 from django.utils.text import slugify
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 '''
@@ -259,20 +261,52 @@ def redirect_root(request):
         return redirect('scheduler:landing_page')
     return redirect('accounts:ldap_login')
 
+# To be changed
 def view_courses(request):
-    
+    # Get separate search params
+    code_query = request.GET.get("code", "").strip()
+    number_query = request.GET.get("number", "").strip()
+    section_query = request.GET.get("section", "").strip()
+    term_query = request.GET.get("term", "").strip()
+    year_query = request.GET.get("year", "").strip()
+
     courses = Course.objects.all()
+
+    # Apply filters only if field is provided
+    if code_query:
+        courses = courses.filter(code__name__icontains=code_query)
+    if number_query:
+        courses = courses.filter(number__name__icontains=number_query)
+    if section_query:
+        courses = courses.filter(section__name__icontains=section_query)
+    if term_query:
+        courses = courses.filter(term__name__icontains=term_query)
+    if year_query:
+        courses = courses.filter(year__name__icontains=year_query)
+
+    # Pagination
+    paginator = Paginator(courses, 20)  # 20 per page
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     terms = CourseTerm.objects.all()
     times = CourseTime.objects.all()
     days = CourseDay.objects.all()
-    years = courses.values_list('year', flat=True).distinct()
+    years = CourseYear.objects.all()
 
-    return render(request, 'timetable/view_courses.html', {
-        'courses': courses,
-        'terms': terms,
-        'times': times,
-        'days': days,
-        'years': years
+    querydict = request.GET.copy()
+    if "page" in querydict:
+        querydict.pop("page")   # remove old page param
+    querystring = querydict.urlencode()
+
+    return render(request, "timetable/view_courses.html", {
+        "courses": page_obj,
+        "page_obj": page_obj,
+        "terms": terms,
+        "times": times,
+        "days": days,
+        "years": years,
+        "querystring": querystring,  # pass cleaned querystring
     })
 
 

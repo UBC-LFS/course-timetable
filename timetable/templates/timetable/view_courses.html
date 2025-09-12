@@ -39,7 +39,17 @@
                     </div>
             </div>
             
-            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search courses..." class="mb-2">
+            <!-- To be changed -->
+            <form method="get" action="{% url 'scheduler:view_courses' %}" class="mb-3 d-flex flex-wrap gap-2">
+                <input type="text" name="code" placeholder="Code (e.g. FNH)" value="{{ code_query }}" class="form-control w-auto">
+                <input type="text" name="number" placeholder="Number (e.g. 200)" value="{{ number_query }}" class="form-control w-auto">
+                <input type="text" name="section" placeholder="Section (e.g. 001)" value="{{ section_query }}" class="form-control w-auto">
+                <input type="text" name="term" placeholder="Term (e.g. 1)" value="{{ term_query }}" class="form-control w-auto">
+                <input type="text" name="year" placeholder="Year (e.g. 2025)" value="{{ year_query }}" class="form-control w-auto">
+              
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+              
             
         <div class="btn-toolbar">
             <button type="button" class="btn btn-success btn-xs fs-10 me-2" data-bs-toggle="modal" data-bs-target="#edit-user-modal-{{ user.id }}">Create Course</button>
@@ -314,6 +324,53 @@
             </tbody>
         </table>
     </div>
+
+    <!--To be changed-->
+    <!--──────── PAGINATION CONTROLS ────────-->
+    <div class="pagination-container mt-3 d-flex justify-content-center">
+        <nav aria-label="Course pagination">
+        <ul class="pagination">
+    
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link"
+                href="?{{ querystring }}&page={{ page_obj.previous_page_number }}">
+                Previous
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+            {% endif %}
+    
+            {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+            {% else %}
+                <li class="page-item">
+                <a class="page-link"
+                    href="?{{ querystring }}&page={{ num }}">
+                    {{ num }}
+                </a>
+                </li>
+            {% endif %}
+            {% endfor %}
+    
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link"
+                href="?{{ querystring }}&page={{ page_obj.next_page_number }}">
+                Next
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+    
+        </ul>
+        </nav>
+    </div>
+  
+      
 </div>
 
 {% endblock %}
