@@ -52,6 +52,8 @@ def landing_page(request):
 
     '''Instantiate the variable that will hold the courses after filtering'''
     courses = None
+    valid_courses = []
+    invalid_courses = []
 
     '''Get the filter values from the landing page request'''
     filter_code = request.GET.getlist('code[]')
@@ -105,9 +107,13 @@ def landing_page(request):
                 current_time += INTERVAL
             
             
-            '''Iterate through the courses and add them to the corresponding time slots in the slots dictionary.'''
+            '''Iterate through the courses and add them (valid) to the corresponding time slots in the slots dictionary.'''
             for course in courses:
                 attached_days = course.day.name.split('_')
+                if course.start.name == "Unknown" or course.end.name == "Unknown":
+                    invalid_courses.append(course)
+                    continue
+                valid_courses.append(course)
                 for day in attached_days:
                     start_time = course.start.name[:5]  # e.g., '13:00'
                     end_time = course.end.name[:5]  # e.g., '15:00'
@@ -163,8 +169,8 @@ def landing_page(request):
                             setattr(c, f"{slot_day}_offset_left", overlap_width * course_group.index(c))
                             setattr(c, f"{slot_day}_overlaps", True) # For styling purposes
                             
-        ''' For each course, assign a color and pixel height based off its duration'''
-        for course in courses:
+        ''' For each valid course, assign a color and pixel height based off its duration'''
+        for course in valid_courses:
             for t_format in ("%H:%M:%S", "%H:%M"):
                 try:
                     start = datetime.strptime(course.start.name, t_format)
@@ -199,8 +205,8 @@ def landing_page(request):
             elif course.code.name == "LFS":
                 course.color = "#FFAAA5"
         
-        ''' For each course, create a day_data dictionary that holds the overlap info for each day '''
-        for course in courses:
+        ''' For each valid course, create a day_data dictionary that holds the overlap info for each day '''
+        for course in valid_courses:
             course.day_data = {
                 "Mon": {
                     "overlap": getattr(course, 'Mon_overlaps', None),
@@ -242,7 +248,8 @@ def landing_page(request):
         'sections': section,
         'times': time,
         'days': day,
-        'courses': courses,
+        'courses': valid_courses,
+        'invalid_courses': invalid_courses,
         'day_list': day_list,
         'submitted': submitted
         })

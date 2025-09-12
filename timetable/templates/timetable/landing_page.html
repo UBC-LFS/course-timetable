@@ -208,6 +208,23 @@
         </div>
       </div>
     </div>
+    
+    <!--──────── COURSES WITHOUT SCHEDULED TIMES ────────-->
+    {% if invalid_courses %}
+    <div class="col-12 mt-4">
+      <div class="card shadow-sm p-4 rounded-3">
+        <h4 class="fw-semibold text-center mb-3">Courses Without Scheduled Times</h4>
+        <ul class="list-group">
+          {% for course in invalid_courses %}
+          <li class="list-group-item">
+            {{ course.code }} {{ course.number }} {{ course.section }} {{ course.term }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% endif %}
+
   </div>
 </div>
 {% endblock %}
