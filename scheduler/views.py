@@ -261,18 +261,20 @@ def redirect_root(request):
         return redirect('scheduler:landing_page')
     return redirect('accounts:ldap_login')
 
-# To be changed
+
+
+
 def view_courses(request):
-    # Get separate search params
+    # Queries
     code_query = request.GET.get("code", "").strip()
     number_query = request.GET.get("number", "").strip()
     section_query = request.GET.get("section", "").strip()
-    term_query = request.GET.get("term", "").strip()
+    term_query = request.GET.getlist("term")   # now supports multiple checkbox values
     year_query = request.GET.get("year", "").strip()
 
     courses = Course.objects.all()
 
-    # Apply filters only if field is provided
+    # Filters
     if code_query:
         courses = courses.filter(code__name__icontains=code_query)
     if number_query:
@@ -280,34 +282,37 @@ def view_courses(request):
     if section_query:
         courses = courses.filter(section__name__icontains=section_query)
     if term_query:
-        courses = courses.filter(term__name__icontains=term_query)
+        courses = courses.filter(term__name__in=term_query)
     if year_query:
         courses = courses.filter(year__name__icontains=year_query)
 
     # Pagination
-    paginator = Paginator(courses, 20)  # 20 per page
+    paginator = Paginator(courses, 20)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    terms = CourseTerm.objects.all()
-    times = CourseTime.objects.all()
-    days = CourseDay.objects.all()
-    years = CourseYear.objects.all()
+    # Build distinct years → extract first 4 chars (2025 from 2025-26)
+    all_years = CourseYear.objects.values_list("name", flat=True).distinct()
+    dropdown_years = sorted({y[:4] for y in all_years if y})  # set of start years
 
     querydict = request.GET.copy()
     if "page" in querydict:
-        querydict.pop("page")   # remove old page param
+        querydict.pop("page")
     querystring = querydict.urlencode()
 
     return render(request, "timetable/view_courses.html", {
         "courses": page_obj,
         "page_obj": page_obj,
-        "terms": terms,
-        "times": times,
-        "days": days,
-        "years": years,
-        "querystring": querystring,  # pass cleaned querystring
+        "terms": ["T1", "T2", "T1_T2"],   # explicit checkboxes
+        "years": dropdown_years,          # cleaned years
+        "querystring": querystring,
+        "code_query": code_query,
+        "number_query": number_query,
+        "section_query": section_query,
+        "term_query": term_query,
+        "year_query": year_query,
     })
+
 
 
 def edit_course(request, course_id):

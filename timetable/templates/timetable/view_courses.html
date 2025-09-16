@@ -38,19 +38,42 @@
                         </form>
                     </div>
             </div>
-            
-            <!-- To be changed -->
-            <form method="get" action="{% url 'scheduler:view_courses' %}" class="mb-3 d-flex flex-wrap gap-2">
+
+
+            <form method="get" action="{% url 'scheduler:view_courses' %}" class="mb-3 d-flex flex-wrap gap-3">
                 <input type="text" name="code" placeholder="Code (e.g. FNH)" value="{{ code_query }}" class="form-control w-auto">
                 <input type="text" name="number" placeholder="Number (e.g. 200)" value="{{ number_query }}" class="form-control w-auto">
                 <input type="text" name="section" placeholder="Section (e.g. 001)" value="{{ section_query }}" class="form-control w-auto">
-                <input type="text" name="term" placeholder="Term (e.g. 1)" value="{{ term_query }}" class="form-control w-auto">
-                <input type="text" name="year" placeholder="Year (e.g. 2025)" value="{{ year_query }}" class="form-control w-auto">
+              
+                <!-- ✅ Term checkboxes -->
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" name="term" value="T1"
+                         {% if "T1" in term_query %}checked{% endif %}>
+                  <label class="form-check-label">T1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" name="term" value="T2"
+                         {% if "T2" in term_query %}checked{% endif %}>
+                  <label class="form-check-label">T2</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" name="term" value="T1_T2"
+                         {% if "T1_T2" in term_query %}checked{% endif %}>
+                  <label class="form-check-label">T1_T2</label>
+                </div>
+              
+                <!-- ✅ Year dropdown -->
+                <select name="year" class="form-select w-auto">
+                  <option value="">Year</option>
+                  {% for y in years %}
+                    <option value="{{ y }}" {% if y == year_query %}selected{% endif %}>{{ y }}</option>
+                  {% endfor %}
+                </select>
               
                 <button type="submit" class="btn btn-primary">Search</button>
-            </form>
+              </form>
               
-            
+
         <div class="btn-toolbar">
             <button type="button" class="btn btn-success btn-xs fs-10 me-2" data-bs-toggle="modal" data-bs-target="#edit-user-modal-{{ user.id }}">Create Course</button>
 
@@ -325,7 +348,7 @@
         </table>
     </div>
 
-    <!--To be changed-->
+    
     <!--──────── PAGINATION CONTROLS ────────-->
     <div class="pagination-container mt-3 d-flex justify-content-center">
         <nav aria-label="Course pagination">
