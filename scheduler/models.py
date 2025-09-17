@@ -7,14 +7,18 @@ from django.utils.translation import gettext_lazy as _
 import datetime as dt    
 
 class CourseTerm(models.Model):
-    name = models.CharField(max_length=256)
+    full_name = models.CharField(max_length=100, unique=True)
+    short_name = models.CharField(max_length=20, unique=True)
     
+    class Meta:
+        ordering = ['full_name']
+
     def __str__(self):
         return self.name
 
 class CourseCode(models.Model):
-    """ Create a CourseCode model """
-    name = models.CharField(max_length=5, unique=True)
+    name = models.CharField(max_length=20, unique=True)
+    
     class Meta:
         ordering = ['name']
 
@@ -22,8 +26,8 @@ class CourseCode(models.Model):
         return self.name
 
 class CourseNumber(models.Model):
-    """ Create a CourseNumber model """
-    name = models.CharField(max_length=5, unique=True)
+    name = models.CharField(max_length=20, unique=True)
+    
     class Meta:
         ordering = ['name']
 
@@ -31,8 +35,8 @@ class CourseNumber(models.Model):
         return self.name
 
 class CourseSection(models.Model):
-    """ Create a CourseSection model """
-    name = models.CharField(max_length=12, unique=True)
+    name = models.CharField(max_length=20, unique=True)
+    
     class Meta:
         ordering = ['name']
 
@@ -40,7 +44,7 @@ class CourseSection(models.Model):
         return self.name
 
 class CourseTime(models.Model):
-    name = models.CharField(max_length=10, unique=True)
+    name = models.CharField(max_length=20, unique=True)
     
     class Meta:
         ordering = ['name']
@@ -49,7 +53,7 @@ class CourseTime(models.Model):
         return self.name
 
 class CourseDay(models.Model):
-    name = models.CharField(max_length=256, unique=True)
+    name = models.CharField(max_length=50, unique=True)
     
     class Meta:
         ordering = ['name']
@@ -57,8 +61,18 @@ class CourseDay(models.Model):
     def __str__(self):
         return self.name
 
+
 class CourseYear(models.Model):
-    name = models.CharField(max_length=256, unique=True)
+    name = models.CharField(max_length=20, unique=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+    
+class CourseYearLevel(models.Model):
+    name = models.CharField(max_length=20, unique=True)
 
     class Meta:
         ordering = ['name']
@@ -67,28 +81,32 @@ class CourseYear(models.Model):
         return self.name
 
 class Course(models.Model):
-    name = models.CharField(max_length=50, unique=True)
     term = models.ForeignKey(CourseTerm, on_delete=models.DO_NOTHING)
     code = models.ForeignKey(CourseCode, on_delete=models.DO_NOTHING)
     number = models.ForeignKey(CourseNumber, on_delete=models.DO_NOTHING)
     section = models.ForeignKey(CourseSection, on_delete=models.DO_NOTHING)
-    start = models.ForeignKey(CourseTime, on_delete=models.DO_NOTHING, related_name='courses_start')
-    end = models.ForeignKey(CourseTime, on_delete=models.DO_NOTHING, related_name='courses_end')
-    day = models.ForeignKey(CourseDay, on_delete=models.DO_NOTHING)
-    year = models.ForeignKey(CourseYear, on_delete=models.DO_NOTHING, default=1)
-    slug = models.SlugField(max_length=256, unique=True)
+    academic_year = models.ForeignKey(CourseYear, on_delete=models.DO_NOTHING)
+    start_time = models.ForeignKey(CourseTime, on_delete=models.CASCADE, null=True, blank=True)
+    end_time = models.ForeignKey(CourseTime, on_delete=models.CASCADE, null=True, blank=True)
+    day = models.ForeignKey(CourseDay, on_delete=models.CASCADE, null=True, blank=True)
+    slug = models.SlugField(max_length=256, unique=True)    # URL-friendly identifier
 
-    def __str__(self):
-        return self.name
-    
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.code.name  + '-' + self.number.name + '-' + self.section.name + '-' + '-' + self.term.name)
-        super(Course, self).save(*args, **kwargs)
-
-
-class Program(models.Model):
-    name = models.CharField(max_length=256, unique=True, null=True)
+        self.slug = slugify(
+            f"{self.code.name}-{self.number.name}-{self.section.name}-"
+            f"{self.academic_year.name}-{self.term.name}"
+        )
+        super().save(*args, **kwargs)
     
+    def __str__(self):
+        return f"{self.code.name} {self.number.name} {self.section.name} ({self.academic_year.name}, {self.term.name})"
+    
+class Program(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    courses = models.ManyToManyField(Course, related_name="programs")  # many-to-many
+    
+    class Meta: 
+        ordering = ['name']
     
     def __str__(self):
         return self.name
