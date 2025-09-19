@@ -7,13 +7,10 @@ from django.utils.translation import gettext_lazy as _
 import datetime as dt    
 
 class CourseTerm(models.Model):
-    # full_name: Teem1 (what is on csv file)
-    # short_name: T1
-    full_name = models.CharField(max_length=100, unique=True)
-    short_name = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=20, unique=True)
     
     class Meta:
-        ordering = ['full_name']
+        ordering = ['name']
 
     def __str__(self):
         return self.name
