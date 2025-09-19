@@ -1,139 +1,124 @@
 import pandas as pd
 from django.core.management.base import BaseCommand
-from scheduler.models import Course, CourseCode, CourseNumber, CourseTerm, CourseSection, CourseTime, CourseDay, CourseYear
+from scheduler.models import (
+    Course, CourseCode, CourseNumber, CourseSection, CourseTerm,
+    CourseDay, CourseTime, CourseYear, ProgramYearLevel, ProgramName, Program
+)
 from django.utils.text import slugify
 from datetime import datetime, timedelta
 
-def parse_term(term_str):
-    if not pd.isna(term_str):
-        if '&' in term_str:
-            return "T1_T2"
-        elif "1" in term_str:
-            return "T1"
-        elif "2" in term_str:
-            return "T2"
-        return term_str
-    else:
-        return "Unknown"
-
-def parse_code_and_number(course_code):
-    # Ex: LFS_V 101-D01
-    
-    if "GRS" in course_code:
-        try:
-            code, rest = course_code.split(' ', 1)
-            number, section = rest.split(' ', 1)
-            return number.strip(), section.strip()
-        except Exception as e:
-            print(f"Failed to parse course_code {course_code}: {e}")
-            return None, None
-    
-    try:
-        prefix, rest = course_code.split(' ', 1)
-        code = prefix.split('_')[0]
-        number = rest[0:3].strip()
-        section = rest.split('-')[1]
-        return number.strip(), section.strip()
-    except Exception as e:
-        print(f"Failed to parse course_code {course_code}: {e}")
-        return None, None
-
-def get_or_create_instance(model, name):
-    obj, _ = model.objects.get_or_create(name=name)
-    return obj
-
-def parse_end_time(start_str, duration_str) -> str:
-    '''Parse the end time from start time and duration'''
-    if not start_str or pd.isna(start_str):
-        return "Unknown"
-    if not duration_str or pd.isna(duration_str):
-        return "Unknown"
-
-    try:
-        start_time = datetime.strptime(start_str, "%H:%M")
-        end_time = start_time  # Default to start time if parsing fails
-        if "hr" in duration_str:
-            if ".5" in duration_str:
-                hours = int(duration_str.replace("hr", "").strip().split(".")[0])
-                minutes = 30
-            else:
-                hours = int(duration_str.replace("hr", "").strip())
-                minutes = 0
-            delta = timedelta(hours=hours, minutes=minutes)
-        elif "min" in duration_str:
-            minutes = int(duration_str.replace("min", "").strip())
-            delta = timedelta(minutes=minutes)
-        else:
-            delta = timedelta(hours=1)
-        end_time = (start_time + delta).strftime("%H:%M")
-        return end_time
-    except Exception as e:
-        print(f"Error parsing time: {start_str}, {duration_str}: {e}")
-        return None
 
 class Command(BaseCommand):
-    help = 'Ingest courses from Excel file into the database'
+    help = "Ingest courses and program relationships from Excel file"
 
-    def handle(self, *args, **kwargs):    
-        path = "../timetable/scheduler/course_data_xls/Course_Map_Raw_Data.xlsx"  # update if different
+    def handle(self, *args, **kwargs):
+        path = "scheduler/source_data/Course Map Raw Data 2.xlsx" # change if needed
         xl = pd.ExcelFile(path)
-        
-        for sheet in xl.sheet_names:
-            df = xl.parse(sheet)
 
+        for sheet_name in xl.sheet_names:
+            df = xl.parse(sheet_name)
+
+            # --- 1. Ensure ProgramYearLevel 1–5 exist ---
+            for lvl in range(1, 6):
+                ProgramYearLevel.objects.get_or_create(name= f"Year {lvl}")
+
+            # --- 2. Ensure ProgramName from header row (after 'Duration') ---
+            program_names = list(df.columns)[df.columns.get_loc("Duration") + 1 :]
+            for pname in program_names:
+                ProgramName.objects.get_or_create(name=pname.strip())
+
+            # --- 3. Ensure CourseYear 2025 exists ---
+            course_year_obj, _ = CourseYear.objects.get_or_create(name="2025")
+
+            # --- 4. Iterate through rows ---
             for _, row in df.iterrows():
+                subject = row.get("Subject", "")
                 full_code = row.get("Course Code", "")
-                course_code = row.get("Subject", "")
-                term = parse_term(row.get("Term", ""))
-                days = row.get("Days", "")
-                start = row.get("Start time", "")
-                duration = row.get("Duration", "")
-                
-                if pd.isna(start):
-                    continue
+                term_str = row.get("Term", "")
+                days = row.get("Days", None)
+                start_str = row.get("Start time", None)
+                duration_str = row.get("Duration", None)
 
-                number, section = parse_code_and_number(full_code)
-                if not all([number, section, start]):
+                # Parse course term
+                if pd.isna(term_str):
+                    #Skip courses with section XMT 
                     continue
-
-                end = parse_end_time(start, duration)
-                if isinstance(days, str):
-                    day = days.replace(", ", "_")
-                elif pd.isna(days):
-                    day = "Unknown"
+                elif "&" in term_str:
+                    term_val = "T1_T2"
+                elif "1" in term_str:
+                    term_val = "T1"
+                elif "2" in term_str:
+                    term_val = "T2"
                 else:
-                    day = str(days).replace(", ", "_")
+                    # for future, if include summer term
+                    term_val = str(term_str)
 
-                print(f"Parsed Course - Code: {course_code}, Number: {number}, Section: {section}, Term: {term}, Day: {day}, Start: {start}, End: {end}")
+                term_obj, _ = CourseTerm.objects.get_or_create(name=term_val)
 
-                # Get or create related objects
-                term_obj = get_or_create_instance(CourseTerm, term)
-                code_obj = get_or_create_instance(CourseCode, course_code)
-                number_obj = get_or_create_instance(CourseNumber, number)
-                section_obj = get_or_create_instance(CourseSection, section)
-                start_obj = get_or_create_instance(CourseTime, start)
-                end_obj = get_or_create_instance(CourseTime, end)
-                day_obj = get_or_create_instance(CourseDay, day)
-                year_obj = get_or_create_instance(CourseYear, "2025-26")
+                # Parse number + section
+                try:
+                    num_section = full_code.split(" ")[1]  # e.g. "100-001"
+                    number, section = num_section.split("-")
+                except Exception:
+                    number, section = "Unknown", "Unknown"
 
-                # Create course name and slug
-                course_name = f"{course_code}-{number}-{section}-{term}"
-                slug = slugify(course_name)
 
-                # Create course if not exists
-                Course.objects.get_or_create(
-                    name=course_name,
-                    slug=slug,
+                code_obj, _ = CourseCode.objects.get_or_create(name=subject.strip())
+                number_obj, _ = CourseNumber.objects.get_or_create(name=number.strip())
+                section_obj, _ = CourseSection.objects.get_or_create(name=section.strip())
+
+                # Parse day + enforce time null if day is null
+                day_obj, start_obj, end_obj = None, None, None
+
+                if not pd.isna(days) and days:
+                    # Day exists → create CourseDay
+                    day_val = str(days).strip()
+                    day_obj, _ = CourseDay.objects.get_or_create(name=day_val)
+
+                    # Only parse times if day is valid
+                    if start_str and not pd.isna(start_str):
+                        start_val = str(start_str).strip()
+                        try:
+                            start_time = datetime.strptime(start_val, "%H:%M")
+                            if duration_str and "hr" in duration_str:
+                                hours = float(duration_str.replace("hr", "").strip())
+                                delta = timedelta(hours=hours)
+                            elif duration_str and "min" in duration_str:
+                                minutes = int(duration_str.replace("min", "").strip())
+                                delta = timedelta(minutes=minutes)
+                            else:
+                                delta = timedelta(hours=1)
+                            end_time = (start_time + delta).strftime("%H:%M")
+                        except Exception:
+                            end_time = None
+
+                        start_obj, _ = CourseTime.objects.get_or_create(name=start_val)
+                        if end_time:
+                            end_obj, _ = CourseTime.objects.get_or_create(name=end_time)
+
+                # Build Course
+                course, _ = Course.objects.get_or_create(
+                    code=code_obj,
+                    number=number_obj,
+                    section=section_obj,
+                    academic_year=course_year_obj,
+                    term=term_obj,
                     defaults={
-                        'term': term_obj,
-                        'code': code_obj,
-                        'number': number_obj,
-                        'section': section_obj,
-                        'start': start_obj,
-                        'end': end_obj,
-                        'day': day_obj,
-                        'year': year_obj
+                        "day": day_obj,
+                        "start_time": start_obj,
+                        "end_time": end_obj,
                     }
                 )
 
-        print('✅ Course ingestion complete')
+                # --- 5. Link course to programs ---
+                for pname in program_names:
+                    cell_val = row.get(pname, None)
+                    if pd.isna(cell_val) or str(cell_val).strip() == "Not Required":
+                        continue
+
+                    pname_obj = ProgramName.objects.get(name=pname.strip())
+                    level_obj = ProgramYearLevel.objects.get(name=cell_val.strip())  # "Year 1", "Year 2", etc.
+                    program, _ = Program.objects.get_or_create(name=pname_obj, year_level=level_obj)
+                    program.courses.add(course)
+
+        self.stdout.write(self.style.SUCCESS("Ingestion complete"))
