@@ -3,7 +3,7 @@
   "model": "scheduler.program",
   "pk": 1,
   "fields": {
-    "name": 1,
+    "name": "FNH",
     "year_level": 1,
     "courses": [
       1,
@@ -17,9 +17,9 @@
       14,
       15,
       16,
-      50,
-      51,
-      52
+      68,
+      69,
+      70
     ]
   }
 },
@@ -27,7 +27,7 @@
   "model": "scheduler.program",
   "pk": 2,
   "fields": {
-    "name": 2,
+    "name": "Food Science",
     "year_level": 1,
     "courses": [
       1,
@@ -41,9 +41,9 @@
       14,
       15,
       16,
-      50,
-      51,
-      52
+      68,
+      69,
+      70
     ]
   }
 },
@@ -51,7 +51,7 @@
   "model": "scheduler.program",
   "pk": 3,
   "fields": {
-    "name": 3,
+    "name": "Nutritional Sciences",
     "year_level": 1,
     "courses": [
       1,
@@ -65,9 +65,9 @@
       14,
       15,
       16,
-      50,
-      51,
-      52
+      68,
+      69,
+      70
     ]
   }
 },
@@ -75,7 +75,7 @@
   "model": "scheduler.program",
   "pk": 4,
   "fields": {
-    "name": 4,
+    "name": "Food and Nutritional Sciences",
     "year_level": 1,
     "courses": [
       1,
@@ -89,9 +89,9 @@
       14,
       15,
       16,
-      50,
-      51,
-      52
+      68,
+      69,
+      70
     ]
   }
 },
@@ -99,7 +99,7 @@
   "model": "scheduler.program",
   "pk": 5,
   "fields": {
-    "name": 5,
+    "name": "Dual Degree",
     "year_level": 1,
     "courses": [
       1,
@@ -113,9 +113,9 @@
       14,
       15,
       16,
-      50,
-      51,
-      52
+      68,
+      69,
+      70
     ]
   }
 },
@@ -123,7 +123,7 @@
   "model": "scheduler.program",
   "pk": 6,
   "fields": {
-    "name": 6,
+    "name": "Dietetics",
     "year_level": 1,
     "courses": [
       9,
@@ -134,9 +134,9 @@
       14,
       15,
       16,
-      50,
-      51,
-      52
+      68,
+      69,
+      70
     ]
   }
 },
@@ -144,7 +144,7 @@
   "model": "scheduler.program",
   "pk": 7,
   "fields": {
-    "name": 1,
+    "name": "FNH",
     "year_level": 2,
     "courses": [
       17,
@@ -164,13 +164,13 @@
       31,
       32,
       33,
-      53,
-      54,
-      55,
-      56,
-      57,
-      58,
-      59
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77
     ]
   }
 },
@@ -178,7 +178,7 @@
   "model": "scheduler.program",
   "pk": 8,
   "fields": {
-    "name": 2,
+    "name": "Food Science",
     "year_level": 2,
     "courses": [
       17,
@@ -198,13 +198,13 @@
       31,
       32,
       33,
-      53,
-      54,
-      55,
-      56,
-      57,
-      58,
-      59
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77
     ]
   }
 },
@@ -212,7 +212,7 @@
   "model": "scheduler.program",
   "pk": 9,
   "fields": {
-    "name": 3,
+    "name": "Nutritional Sciences",
     "year_level": 2,
     "courses": [
       17,
@@ -232,13 +232,13 @@
       31,
       32,
       33,
-      53,
-      54,
-      55,
-      56,
-      57,
-      58,
-      59
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77
     ]
   }
 },
@@ -246,7 +246,7 @@
   "model": "scheduler.program",
   "pk": 10,
   "fields": {
-    "name": 4,
+    "name": "Food and Nutritional Sciences",
     "year_level": 2,
     "courses": [
       17,
@@ -266,13 +266,13 @@
       31,
       32,
       33,
-      53,
-      54,
-      55,
-      56,
-      57,
-      58,
-      59
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77
     ]
   }
 },
@@ -280,7 +280,7 @@
   "model": "scheduler.program",
   "pk": 11,
   "fields": {
-    "name": 5,
+    "name": "Dual Degree",
     "year_level": 2,
     "courses": [
       17,
@@ -300,13 +300,13 @@
       31,
       32,
       33,
-      53,
-      54,
-      55,
-      56,
-      57,
-      58,
-      59
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77
     ]
   }
 },
@@ -314,7 +314,7 @@
   "model": "scheduler.program",
   "pk": 12,
   "fields": {
-    "name": 6,
+    "name": "Dietetics",
     "year_level": 2,
     "courses": [
       17,
@@ -334,13 +334,13 @@
       31,
       32,
       33,
-      53,
-      54,
-      55,
-      56,
-      57,
-      58,
-      59
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77
     ]
   }
 },
@@ -348,14 +348,14 @@
   "model": "scheduler.program",
   "pk": 13,
   "fields": {
-    "name": 1,
+    "name": "FNH",
     "year_level": 3,
     "courses": [
       37,
       38,
-      69,
-      99,
-      100
+      87,
+      117,
+      118
     ]
   }
 },
@@ -363,23 +363,23 @@
   "model": "scheduler.program",
   "pk": 14,
   "fields": {
-    "name": 2,
+    "name": "Food Science",
     "year_level": 4,
     "courses": [
       37,
       38,
-      111,
-      112,
-      113,
-      114,
-      115,
-      116,
-      117,
-      121,
-      122,
-      145,
-      146,
-      147
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      139,
+      140,
+      163,
+      164,
+      165
     ]
   }
 },
@@ -387,17 +387,17 @@
   "model": "scheduler.program",
   "pk": 15,
   "fields": {
-    "name": 3,
+    "name": "Nutritional Sciences",
     "year_level": 3,
     "courses": [
       37,
       38,
-      99,
-      100,
-      103,
-      104,
-      107,
-      108
+      117,
+      118,
+      121,
+      122,
+      125,
+      126
     ]
   }
 },
@@ -405,13 +405,13 @@
   "model": "scheduler.program",
   "pk": 16,
   "fields": {
-    "name": 4,
+    "name": "Food and Nutritional Sciences",
     "year_level": 5,
     "courses": [
       37,
       38,
-      103,
-      121
+      121,
+      139
     ]
   }
 },
@@ -419,16 +419,16 @@
   "model": "scheduler.program",
   "pk": 17,
   "fields": {
-    "name": 5,
+    "name": "Dual Degree",
     "year_level": 3,
     "courses": [
       37,
       38,
-      69,
-      94,
-      95,
-      96,
-      97
+      87,
+      112,
+      113,
+      114,
+      115
     ]
   }
 },
@@ -436,18 +436,18 @@
   "model": "scheduler.program",
   "pk": 18,
   "fields": {
-    "name": 6,
+    "name": "Dietetics",
     "year_level": 4,
     "courses": [
       37,
       38,
-      121,
-      123,
-      124,
-      127,
-      129,
-      131,
-      133
+      139,
+      141,
+      142,
+      145,
+      147,
+      149,
+      151
     ]
   }
 },
@@ -455,23 +455,23 @@
   "model": "scheduler.program",
   "pk": 19,
   "fields": {
-    "name": 2,
+    "name": "Food Science",
     "year_level": 3,
     "courses": [
-      60,
-      61,
-      62,
-      63,
-      64,
-      65,
-      66,
-      67,
-      68,
-      69,
-      70,
-      71,
-      72,
-      73
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91
     ]
   }
 },
@@ -479,23 +479,23 @@
   "model": "scheduler.program",
   "pk": 20,
   "fields": {
-    "name": 4,
+    "name": "Food and Nutritional Sciences",
     "year_level": 3,
     "courses": [
-      60,
-      61,
-      62,
-      63,
-      64,
-      65,
-      66,
-      67,
-      68,
-      69,
-      70,
-      71,
-      72,
-      73
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91
     ]
   }
 },
@@ -503,21 +503,21 @@
   "model": "scheduler.program",
   "pk": 21,
   "fields": {
-    "name": 6,
+    "name": "Dietetics",
     "year_level": 3,
     "courses": [
-      94,
-      95,
-      96,
-      98,
-      99,
-      100,
-      103,
-      104,
-      105,
-      106,
-      107,
-      108
+      112,
+      113,
+      114,
+      116,
+      117,
+      118,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126
     ]
   }
 },
@@ -525,27 +525,27 @@
   "model": "scheduler.program",
   "pk": 22,
   "fields": {
-    "name": 4,
+    "name": "Food and Nutritional Sciences",
     "year_level": 4,
     "courses": [
-      99,
-      100,
-      104,
-      107,
-      108,
-      111,
-      112,
-      113,
-      114,
-      115,
-      116,
       117,
+      118,
       122,
       125,
+      126,
+      129,
+      130,
+      131,
       132,
-      145,
-      146,
-      147
+      133,
+      134,
+      135,
+      140,
+      143,
+      150,
+      163,
+      164,
+      165
     ]
   }
 },
@@ -553,17 +553,17 @@
   "model": "scheduler.program",
   "pk": 23,
   "fields": {
-    "name": 5,
+    "name": "Dual Degree",
     "year_level": 4,
     "courses": [
-      99,
-      100,
-      111,
-      112,
-      113,
-      114,
-      115,
-      116
+      117,
+      118,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134
     ]
   }
 },
@@ -571,15 +571,15 @@
   "model": "scheduler.program",
   "pk": 24,
   "fields": {
-    "name": 1,
+    "name": "FNH",
     "year_level": 4,
     "courses": [
-      111,
-      112,
-      113,
-      114,
-      115,
-      116
+      129,
+      130,
+      131,
+      132,
+      133,
+      134
     ]
   }
 },
@@ -587,11 +587,11 @@
   "model": "scheduler.program",
   "pk": 25,
   "fields": {
-    "name": 3,
+    "name": "Nutritional Sciences",
     "year_level": 4,
     "courses": [
-      125,
-      132
+      143,
+      150
     ]
   }
 },
@@ -599,11 +599,11 @@
   "model": "scheduler.program",
   "pk": 26,
   "fields": {
-    "name": 6,
+    "name": "Dietetics",
     "year_level": 5,
     "courses": [
-      134,
-      135
+      152,
+      153
     ]
   }
 },
@@ -611,7 +611,7 @@
   "model": "scheduler.program",
   "pk": 27,
   "fields": {
-    "name": 7,
+    "name": "AANB",
     "year_level": 1,
     "courses": [
       1,
@@ -632,7 +632,7 @@
   "model": "scheduler.program",
   "pk": 28,
   "fields": {
-    "name": 8,
+    "name": "AANB Honours",
     "year_level": 1,
     "courses": [
       1,
@@ -653,7 +653,7 @@
   "model": "scheduler.program",
   "pk": 29,
   "fields": {
-    "name": 9,
+    "name": "SAGE",
     "year_level": 1,
     "courses": [
       1,
@@ -674,7 +674,7 @@
   "model": "scheduler.program",
   "pk": 30,
   "fields": {
-    "name": 10,
+    "name": "SAGE Honours",
     "year_level": 1,
     "courses": [
       1,
@@ -695,7 +695,7 @@
   "model": "scheduler.program",
   "pk": 31,
   "fields": {
-    "name": 7,
+    "name": "AANB",
     "year_level": 2,
     "courses": [
       17,
@@ -722,7 +722,7 @@
   "model": "scheduler.program",
   "pk": 32,
   "fields": {
-    "name": 8,
+    "name": "AANB Honours",
     "year_level": 2,
     "courses": [
       17,
@@ -749,7 +749,7 @@
   "model": "scheduler.program",
   "pk": 33,
   "fields": {
-    "name": 9,
+    "name": "SAGE",
     "year_level": 2,
     "courses": [
       17,
@@ -769,28 +769,11 @@
       31,
       32,
       33,
-      148,
-      149,
-      150,
-      151,
-      152,
-      153,
-      154,
-      155,
-      156,
-      157,
-      158,
-      159,
-      160,
-      161,
-      162,
-      163,
-      164,
-      165,
       166,
       167,
       168,
       169,
+      170,
       171,
       172,
       173,
@@ -800,7 +783,24 @@
       177,
       178,
       179,
-      180
+      180,
+      181,
+      182,
+      183,
+      184,
+      185,
+      186,
+      187,
+      189,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      196,
+      197,
+      198
     ]
   }
 },
@@ -808,7 +808,7 @@
   "model": "scheduler.program",
   "pk": 34,
   "fields": {
-    "name": 10,
+    "name": "SAGE Honours",
     "year_level": 2,
     "courses": [
       17,
@@ -828,28 +828,11 @@
       31,
       32,
       33,
-      148,
-      149,
-      150,
-      151,
-      152,
-      153,
-      154,
-      155,
-      156,
-      157,
-      158,
-      159,
-      160,
-      161,
-      162,
-      163,
-      164,
-      165,
       166,
       167,
       168,
       169,
+      170,
       171,
       172,
       173,
@@ -859,7 +842,24 @@
       177,
       178,
       179,
-      180
+      180,
+      181,
+      182,
+      183,
+      184,
+      185,
+      186,
+      187,
+      189,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      196,
+      197,
+      198
     ]
   }
 },
@@ -867,25 +867,25 @@
   "model": "scheduler.program",
   "pk": 35,
   "fields": {
-    "name": 9,
+    "name": "SAGE",
     "year_level": 3,
     "courses": [
       37,
       38,
-      185,
-      194,
-      195,
-      196,
-      197,
-      198,
-      199,
-      202,
       203,
-      204,
-      205,
-      206,
-      207,
-      212
+      212,
+      213,
+      214,
+      215,
+      216,
+      217,
+      220,
+      221,
+      222,
+      223,
+      224,
+      225,
+      230
     ]
   }
 },
@@ -893,26 +893,26 @@
   "model": "scheduler.program",
   "pk": 36,
   "fields": {
-    "name": 10,
+    "name": "SAGE Honours",
     "year_level": 3,
     "courses": [
       37,
       38,
-      185,
-      194,
-      195,
-      196,
-      197,
-      198,
-      199,
-      202,
       203,
-      204,
-      205,
-      206,
-      207,
-      209,
-      212
+      212,
+      213,
+      214,
+      215,
+      216,
+      217,
+      220,
+      221,
+      222,
+      223,
+      224,
+      225,
+      227,
+      230
     ]
   }
 },
@@ -920,12 +920,12 @@
   "model": "scheduler.program",
   "pk": 37,
   "fields": {
-    "name": 9,
+    "name": "SAGE",
     "year_level": 4,
     "courses": [
       41,
-      211,
-      229
+      229,
+      247
     ]
   }
 },
@@ -933,15 +933,15 @@
   "model": "scheduler.program",
   "pk": 38,
   "fields": {
-    "name": 10,
+    "name": "SAGE Honours",
     "year_level": 4,
     "courses": [
       41,
-      211,
       229,
-      255,
-      256,
-      257
+      247,
+      273,
+      274,
+      275
     ]
   }
 },
@@ -949,10 +949,10 @@
   "model": "scheduler.program",
   "pk": 39,
   "fields": {
-    "name": 8,
+    "name": "AANB Honours",
     "year_level": 3,
     "courses": [
-      209
+      227
     ]
   }
 },
@@ -960,12 +960,12 @@
   "model": "scheduler.program",
   "pk": 40,
   "fields": {
-    "name": 8,
+    "name": "AANB Honours",
     "year_level": 4,
     "courses": [
-      255,
-      256,
-      257
+      273,
+      274,
+      275
     ]
   }
 },
@@ -973,7 +973,7 @@
   "model": "scheduler.program",
   "pk": 41,
   "fields": {
-    "name": 11,
+    "name": "GRS",
     "year_level": 1,
     "courses": [
       1,
@@ -996,7 +996,7 @@
   "model": "scheduler.program",
   "pk": 42,
   "fields": {
-    "name": 11,
+    "name": "GRS",
     "year_level": 2,
     "courses": [
       17,
@@ -1018,7 +1018,8 @@
       33,
       47,
       48,
-      49
+      49,
+      50
     ]
   }
 },
@@ -1026,14 +1027,15 @@
   "model": "scheduler.program",
   "pk": 43,
   "fields": {
-    "name": 11,
+    "name": "GRS",
     "year_level": 3,
     "courses": [
       37,
       38,
-      47,
-      48,
-      49
+      52,
+      53,
+      54,
+      55
     ]
   }
 },
@@ -1041,13 +1043,14 @@
   "model": "scheduler.program",
   "pk": 44,
   "fields": {
-    "name": 11,
+    "name": "GRS",
     "year_level": 4,
     "courses": [
       41,
-      47,
-      48,
-      49
+      60,
+      61,
+      62,
+      63
     ]
   }
 },
@@ -1055,7 +1058,7 @@
   "model": "scheduler.program",
   "pk": 45,
   "fields": {
-    "name": 12,
+    "name": "Data Analytics",
     "year_level": 1,
     "courses": [
       1,
@@ -1076,7 +1079,7 @@
   "model": "scheduler.program",
   "pk": 46,
   "fields": {
-    "name": 13,
+    "name": "Business and Markets",
     "year_level": 1,
     "courses": [
       1,
@@ -1097,7 +1100,7 @@
   "model": "scheduler.program",
   "pk": 47,
   "fields": {
-    "name": 12,
+    "name": "Data Analytics",
     "year_level": 2,
     "courses": [
       17,
@@ -1117,8 +1120,8 @@
       31,
       32,
       33,
-      258,
-      261
+      276,
+      279
     ]
   }
 },
@@ -1126,7 +1129,7 @@
   "model": "scheduler.program",
   "pk": 48,
   "fields": {
-    "name": 13,
+    "name": "Business and Markets",
     "year_level": 2,
     "courses": [
       17,
@@ -1146,8 +1149,8 @@
       31,
       32,
       33,
-      258,
-      261
+      276,
+      279
     ]
   }
 },
@@ -1155,13 +1158,13 @@
   "model": "scheduler.program",
   "pk": 49,
   "fields": {
-    "name": 12,
+    "name": "Data Analytics",
     "year_level": 3,
     "courses": [
       37,
       38,
-      262,
-      264
+      280,
+      282
     ]
   }
 },
@@ -1169,18 +1172,18 @@
   "model": "scheduler.program",
   "pk": 50,
   "fields": {
-    "name": 13,
+    "name": "Business and Markets",
     "year_level": 3,
     "courses": [
       37,
       38,
-      259,
-      260,
-      262,
-      264,
-      265,
-      266,
-      267
+      277,
+      278,
+      280,
+      282,
+      283,
+      284,
+      285
     ]
   }
 },
@@ -1188,11 +1191,11 @@
   "model": "scheduler.program",
   "pk": 51,
   "fields": {
-    "name": 13,
+    "name": "Business and Markets",
     "year_level": 4,
     "courses": [
-      268,
-      269
+      286,
+      287
     ]
   }
 },
@@ -1200,11 +1203,11 @@
   "model": "scheduler.program",
   "pk": 52,
   "fields": {
-    "name": 12,
+    "name": "Data Analytics",
     "year_level": 4,
     "courses": [
-      270,
-      271
+      288,
+      289
     ]
   }
 }

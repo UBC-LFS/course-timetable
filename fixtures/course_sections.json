@@ -185,308 +185,308 @@
   "model": "scheduler.coursesection",
   "pk": 27,
   "fields": {
-    "name": "Unknown"
+    "name": "102"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 28,
   "fields": {
-    "name": "102"
+    "name": "103"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 29,
   "fields": {
-    "name": "103"
+    "name": "104"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 30,
   "fields": {
-    "name": "104"
+    "name": "105"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 31,
   "fields": {
-    "name": "105"
+    "name": "L1A"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 32,
   "fields": {
-    "name": "L1A"
+    "name": "L1B"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 33,
   "fields": {
-    "name": "L1B"
+    "name": "L1C"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 34,
   "fields": {
-    "name": "L1C"
+    "name": "L1D"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 35,
   "fields": {
-    "name": "L1D"
+    "name": "L1E"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 36,
   "fields": {
-    "name": "L1E"
+    "name": "L1F"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 37,
   "fields": {
-    "name": "L1F"
+    "name": "L1G"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 38,
   "fields": {
-    "name": "L1G"
+    "name": "L1H"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 39,
   "fields": {
-    "name": "L1H"
+    "name": "L2A"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 40,
   "fields": {
-    "name": "L2A"
+    "name": "L2B"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 41,
   "fields": {
-    "name": "L2B"
+    "name": "L2C"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 42,
   "fields": {
-    "name": "L2C"
+    "name": "L2D"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 43,
   "fields": {
-    "name": "L2D"
+    "name": "L2E"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 44,
   "fields": {
-    "name": "L2E"
+    "name": "L2F"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 45,
   "fields": {
-    "name": "L2F"
+    "name": "L2G"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 46,
   "fields": {
-    "name": "L2G"
+    "name": "L2H"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 47,
   "fields": {
-    "name": "L2H"
+    "name": "L02"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 48,
   "fields": {
-    "name": "L02"
+    "name": "E01"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 49,
   "fields": {
-    "name": "E01"
+    "name": "A_101"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 50,
   "fields": {
-    "name": "A_101"
+    "name": "A_102"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 51,
   "fields": {
-    "name": "A_102"
+    "name": "B_101"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 52,
   "fields": {
-    "name": "B_101"
+    "name": "B_102"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 53,
   "fields": {
-    "name": "B_102"
+    "name": "C"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 54,
   "fields": {
-    "name": "C"
+    "name": "E_001"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 55,
   "fields": {
-    "name": "E_001"
+    "name": "E_101"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 56,
   "fields": {
-    "name": "E_101"
+    "name": "E_102"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 57,
   "fields": {
-    "name": "E_102"
+    "name": "L03"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 58,
   "fields": {
-    "name": "L03"
+    "name": "L04"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 59,
   "fields": {
-    "name": "L04"
+    "name": "L05"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 60,
   "fields": {
-    "name": "L05"
+    "name": "L06"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 61,
   "fields": {
-    "name": "L06"
+    "name": "L07"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 62,
   "fields": {
-    "name": "L07"
+    "name": "L08"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 63,
   "fields": {
-    "name": "L08"
+    "name": "L09"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 64,
   "fields": {
-    "name": "L09"
+    "name": "L10"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 65,
   "fields": {
-    "name": "L10"
+    "name": "PR1"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 66,
   "fields": {
-    "name": "PR1"
+    "name": "PR2"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 67,
   "fields": {
-    "name": "PR2"
+    "name": "PR3"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 68,
   "fields": {
-    "name": "PR3"
+    "name": "PR4"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 69,
   "fields": {
-    "name": "PR4"
+    "name": "199"
   }
 },
 {
   "model": "scheduler.coursesection",
   "pk": 70,
   "fields": {
-    "name": "199"
+    "name": "Unknown"
   }
 },
 {

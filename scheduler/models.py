@@ -60,7 +60,6 @@ class CourseDay(models.Model):
     def __str__(self):
         return self.name
 
-
 class CourseYear(models.Model):
     name = models.CharField(max_length=20, unique=True)
 
@@ -72,15 +71,6 @@ class CourseYear(models.Model):
         
 class ProgramYearLevel(models.Model):
     name = models.CharField(max_length=20, unique=True)
-
-    class Meta:
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
-    
-class ProgramName(models.Model):
-    name = models.CharField(max_length=50, unique=True)
 
     class Meta:
         ordering = ['name']
@@ -109,14 +99,17 @@ class Course(models.Model):
     def __str__(self):
         return f"{self.code.name} {self.number.name} {self.section.name} ({self.academic_year.name}, {self.term.name})"
     
-#     
+    
 class Program(models.Model):
-    name = models.ForeignKey(ProgramName, on_delete=models.DO_NOTHING)
+    name = models.CharField(max_length=50) # only one AANB, no need foreign key
     year_level = models.ForeignKey(ProgramYearLevel, on_delete=models.DO_NOTHING)
     courses = models.ManyToManyField(Course, related_name="programs")  # many-to-many
     
+    class Meta:
+        unique_together = ("name", "year_level")  # composite uniqueness
+        
     def __str__(self):
-        return f"{self.name.name} {self.year_level.name}"
+        return f"{self.name} {self.year_level.name}"
     
 
 

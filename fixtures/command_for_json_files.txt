@@ -1,0 +1,18 @@
+python manage.py dumpdata scheduler.CourseTerm --indent 2 > fixtures/course_terms.json
+python manage.py dumpdata scheduler.CourseCode --indent 2 > fixtures/course_codes.json
+python manage.py dumpdata scheduler.CourseNumber --indent 2 > fixtures/course_numbers.json
+python manage.py dumpdata scheduler.CourseSection --indent 2 > fixtures/course_sections.json
+python manage.py dumpdata scheduler.CourseTime --indent 2 > fixtures/course_times.json
+python manage.py dumpdata scheduler.CourseDay --indent 2 > fixtures/course_days.json
+python manage.py dumpdata scheduler.CourseYear --indent 2 > fixtures/course_years.json
+python manage.py dumpdata scheduler.ProgramYearLevel --indent 2 > fixtures/program_year_levels.json
+python manage.py dumpdata scheduler.Course --indent 2 > fixtures/courses.json
+python manage.py dumpdata scheduler.Program --indent 2 > fixtures/programs.json
+
+
+
+
+
+
+
+

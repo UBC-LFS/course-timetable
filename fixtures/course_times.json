@@ -66,84 +66,105 @@
   "model": "scheduler.coursetime",
   "pk": 10,
   "fields": {
-    "name": "17:00"
+    "name": "15:30"
   }
 },
 {
   "model": "scheduler.coursetime",
   "pk": 11,
   "fields": {
-    "name": "18:00"
+    "name": "17:00"
   }
 },
 {
   "model": "scheduler.coursetime",
   "pk": 12,
   "fields": {
-    "name": "17:30"
+    "name": "18:00"
   }
 },
 {
   "model": "scheduler.coursetime",
   "pk": 13,
   "fields": {
-    "name": "15:30"
+    "name": "17:30"
   }
 },
 {
   "model": "scheduler.coursetime",
   "pk": 14,
   "fields": {
-    "name": "10:30"
+    "name": "19:00"
   }
 },
 {
   "model": "scheduler.coursetime",
   "pk": 15,
   "fields": {
-    "name": "09:00"
+    "name": "10:30"
   }
 },
 {
   "model": "scheduler.coursetime",
   "pk": 16,
   "fields": {
-    "name": "16:30"
+    "name": "09:00"
   }
 },
 {
   "model": "scheduler.coursetime",
   "pk": 17,
   "fields": {
-    "name": "13:30"
+    "name": "16:30"
   }
 },
 {
   "model": "scheduler.coursetime",
   "pk": 18,
   "fields": {
-    "name": "08:00"
+    "name": "19:30"
   }
 },
 {
   "model": "scheduler.coursetime",
   "pk": 19,
   "fields": {
-    "name": "08:30"
+    "name": "13:30"
   }
 },
 {
   "model": "scheduler.coursetime",
   "pk": 20,
   "fields": {
-    "name": "14:30"
+    "name": "18:30"
   }
 },
 {
   "model": "scheduler.coursetime",
   "pk": 21,
   "fields": {
+    "name": "08:00"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 22,
+  "fields": {
     "name": "11:30"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 23,
+  "fields": {
+    "name": "08:30"
+  }
+},
+{
+  "model": "scheduler.coursetime",
+  "pk": 24,
+  "fields": {
+    "name": "14:30"
   }
 }
 ]

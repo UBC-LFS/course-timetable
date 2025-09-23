@@ -2,9 +2,8 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 from scheduler.models import (
     Course, CourseCode, CourseNumber, CourseSection, CourseTerm,
-    CourseDay, CourseTime, CourseYear, ProgramYearLevel, ProgramName, Program
+    CourseDay, CourseTime, CourseYear, ProgramYearLevel, Program
 )
-from django.utils.text import slugify
 from datetime import datetime, timedelta
 
 
@@ -24,8 +23,6 @@ class Command(BaseCommand):
 
             # --- 2. Ensure ProgramName from header row (after 'Duration') ---
             program_names = list(df.columns)[df.columns.get_loc("Duration") + 1 :]
-            for pname in program_names:
-                ProgramName.objects.get_or_create(name=pname.strip())
 
             # --- 3. Ensure CourseYear 2025 exists ---
             course_year_obj, _ = CourseYear.objects.get_or_create(name="2025")
@@ -57,9 +54,14 @@ class Command(BaseCommand):
 
                 # Parse number + section
                 try:
-                    num_section = full_code.split(" ")[1]  # e.g. "100-001"
-                    number, section = num_section.split("-")
+                    parts = full_code.split(" ")  # e.g. "100-001" or "100 001"
+                    if subject.strip().upper() == "GRS":
+                        number, section = parts[1], parts[2]
+                    else:
+                        num_section = parts[1]
+                        number, section = num_section.split("-")
                 except Exception:
+                    # should not come here
                     number, section = "Unknown", "Unknown"
 
 
@@ -81,13 +83,8 @@ class Command(BaseCommand):
                         try:
                             start_time = datetime.strptime(start_val, "%H:%M")
                             if duration_str and "hr" in duration_str:
-                                hours = float(duration_str.replace("hr", "").strip())
+                                hours = float(duration_str.replace("hrs", "").replace("hr", "").strip())
                                 delta = timedelta(hours=hours)
-                            elif duration_str and "min" in duration_str:
-                                minutes = int(duration_str.replace("min", "").strip())
-                                delta = timedelta(minutes=minutes)
-                            else:
-                                delta = timedelta(hours=1)
                             end_time = (start_time + delta).strftime("%H:%M")
                         except Exception:
                             end_time = None
@@ -116,9 +113,8 @@ class Command(BaseCommand):
                     if pd.isna(cell_val) or str(cell_val).strip() == "Not Required":
                         continue
 
-                    pname_obj = ProgramName.objects.get(name=pname.strip())
                     level_obj = ProgramYearLevel.objects.get(name=cell_val.strip())  # "Year 1", "Year 2", etc.
-                    program, _ = Program.objects.get_or_create(name=pname_obj, year_level=level_obj)
+                    program, _ = Program.objects.get_or_create(name=pname.strip(), year_level=level_obj)
                     program.courses.add(course)
 
         self.stdout.write(self.style.SUCCESS("Ingestion complete"))
