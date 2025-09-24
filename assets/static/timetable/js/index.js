@@ -17,26 +17,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const start = course.getAttribute("data-start");
             const end = course.getAttribute("data-end");
             const day = course.getAttribute("data-day");
-            const des = course.getAttribute("data-name");
+            const academic_year = course.getAttribute("data-academic-year")
+            const term = course.getAttribute("data-term")
             const days = day.split("_").join(", ");
-            tooltip.innerHTML = `${code} ${number} ${section} <br> Start: ${start} <br> End: ${end} <br> Day: ${days}`;
+            tooltip.innerHTML = `${code} ${number} ${section} ${academic_year} ${term} <br> Start: ${start} <br> End: ${end} <br> Day: ${days}`;
             tooltip.style.display = "block";
             
-            // Position the tooltip near the mouse cursor
-            // tooltip.style.top = (e.clientY + 1000) + "px";
-            // tooltip.style.left = (e.clientX + 234523459872345987) + "px";
-            // const rect = course.getBoundingClientRect();
-            // tooltip.style.top = (rect.top - window.scrollY - 10) + "px";
-            // tooltip.style.left = (rect.right + window.scrollX + 30) + "px";
-            
-            // Ensure tooltip doesn't go off-screen
-            const tooltipRect = tooltip.getBoundingClientRect();
-            if (tooltipRect.right > window.innerWidth) {
-                tooltip.style.left = (rect.left + window.scrollX - tooltipRect.width - 10) + "px";
-            }
-            if (tooltipRect.top < 0) {
-                tooltip.style.top = (rect.bottom + window.scrollY + 10) + "px";
-            }
         });
 
         course.addEventListener("mouseleave", () => {
@@ -48,15 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
             if (tooltip.style.display === "block") {
                 tooltip.style.top = (e.clientY) + "px";
                 tooltip.style.left = (e.clientX + 50) + "px";
-                
-                // Ensure tooltip doesn't go off-screen
-                // const tooltipRect = tooltip.getBoundingClientRect();
-                // if (tooltipRect.right > window.innerWidth) {
-                //     tooltip.style.left = (e.pageX - tooltipRect.width - 10) + "px";
-                // }
-                // if (tooltipRect.top < 0) {
-                //     tooltip.style.top = (e.pageY + 10) + "px";
-                // }
             }
         });
     });

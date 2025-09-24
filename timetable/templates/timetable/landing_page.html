@@ -10,6 +10,21 @@
 - figure out way to clone db to new year ( check w brandon ) (TA app already does that )
 -->
 
+<!-- page-specific styles for timetable -->
+<style>
+  .timetable-grid .course-cell { position: relative; }
+  .course-item{
+    position: absolute;
+    border-radius: .4rem;
+    padding: .25rem .35rem;
+    font-size: .8rem;
+    line-height: 1.1;
+    color: #111;
+    box-shadow: 0 1px 2px rgba(0,0,0,.08);
+    overflow: hidden;
+  }
+</style>
+
 <div class="container-fluid py-4 px-4">
   <div class="row gy-4 flex-column">
     
@@ -162,7 +177,7 @@
               <tr>
                 <th class="time-col"></th>
                 <th>Mon</th>
-                <th>Tue</th>
+                <th>Tues</th>
                 <th>Wed</th>
                 <th>Thurs</th>
                 <th>Fri</th>
@@ -184,22 +199,34 @@
                 <td class="time-col">{{ hour }}:00</td>
                 {% for day in day_list %}
 
-                <!-- Using template tags, dynamically render courses if they match the hour and day-->
-                <td class="course-cell" style="position: relative;">
+                <td class="course-cell">
                   {% for course in courses %}
-                  {% with course|get_day:day as data %}
-                  {% if day in course.day.name %}
-                  {% if course.start.name|slice:":2" == hour %}
-                  <!-- Data in div is used to populate the tooltip (Check index.js for more info)-->
-                  <!-- Styling is retrieved from Views.py -->
-                  <div class="course-item {% if data.overlap %}overlap{% endif %}"style="height: {{ course.pixel_height }}px; background-color: {{ course.color }}; margin-top: {{ course.offset_top }}px; position: absolute; width: {{ data.width }}%; left: {{ data.left }}%;"  data-code="{{ course.code }}" data-number="{{ course.number }}" data-start="{{ course.start.name }}" data-end="{{ course.end.name }}" data-day="{{ course.day.name }}" data-section="{{ course.section }}">
-                    <strong>{{ course.code }}-{{ course.number }}</strong>
-                  </div>
-                  {% endif %}
-                  {% endif %}
-                  {% endwith %}
+                    {% with course|get_day:day as data %}
+                      {% if course.day and day in course.day.name %}
+                        {% if course.start_time and course.start_time.name|slice:":2" == hour %}
+                          <div class="course-item {% if data.overlap %}overlap{% endif %}"
+                               data-height="{{ course.pixel_height }}"
+                               data-bg="{{ course.color }}"
+                               data-top="{{ course.offset_top }}"
+                               data-width="{{ data.width|default:'100' }}"
+                               data-left="{{ data.left|default:'0' }}"
+                               data-code="{{ course.code.name }}"
+                               data-number="{{ course.number.name }}"
+                               data-start="{{ course.start_time.name }}"
+                               data-end="{{ course.end_time.name }}"
+                               data-day="{{ course.day.name }}"
+                               data-section="{{ course.section.name }}"
+                               data-academic-year="{{ course.academic_year.name }}"
+                               data-term="{{ course.term.name }}">
+                            <strong>{{ course.code.name }} {{ course.number.name }} {{ course.section.name }} {{ course.academic_year.name }} {{ course.term.name }}</strong>
+                          </div>
+                        {% endif %}
+                      {% endif %}
+                    {% endwith %}
                   {% endfor %}
                 </td>
+                
+                
                 {% endfor %}
               </tr>
               {% endfor %}
@@ -217,7 +244,7 @@
         <ul class="list-group">
           {% for course in invalid_courses %}
           <li class="list-group-item">
-            {{ course.code }} {{ course.number }} {{ course.section }} {{ course.term }}
+            {{ course.code }} {{ course.number }} {{ course.section }} {{course.academic_year}} {{ course.term }}
           </li>
           {% endfor %}
         </ul>
@@ -227,4 +254,24 @@
 
   </div>
 </div>
+
+<script>
+  (function () {
+    const items = document.querySelectorAll('.course-item');
+    items.forEach(el => {
+      const h = el.dataset.height,
+            t = el.dataset.top,
+            w = el.dataset.width,
+            l = el.dataset.left,
+            bg = el.dataset.bg;
+
+      if (h) el.style.height = h + 'px';
+      if (t) el.style.marginTop = t + 'px';
+      if (w) el.style.width = w + '%';
+      if (l) el.style.left = l + '%';
+      if (bg) el.style.backgroundColor = bg;
+    });
+  })();
+</script>
+
 {% endblock %}

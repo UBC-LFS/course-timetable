@@ -25,236 +25,138 @@ VIEWS WORK FLOW:
 '''
 
 
-# def redirect_root(request):
-#     if request.user.is_authenticated:
-#         return redirect('scheduler:landing_pade')
-#     return redirect('accounts:ldap_login')
 
 ''' This constant defines how many pixels each minute of course duration will take up in the timetable view.'''
 PIXELS_PER_MINUTE = 1
 
 '''This function handles the landing page of the timetable application.'''
 def landing_page(request):
-    
-    submitted = False
-
-    # print(f"heyy {request.user.is_authenticated}")
-
     if not request.user.is_authenticated:
-       return redirect('accounts:ldap_login')
-    
-    '''Variables from the fixtures/database'''
-    hour_list = ["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"]
-    term = CourseTerm.objects.all()
-    code = CourseCode.objects.all()
-    number = CourseNumber.objects.all()
-    section = CourseSection.objects.all()
-    time = CourseTime.objects.all()
-    day = CourseDay.objects.all()
+        return redirect('accounts:ldap_login')
 
-    '''Instantiate the variable that will hold the courses after filtering'''
-    courses = None
+    # dropdown data (same as before)
+    hour_list = ["08","09","10","11","12","13","14","15","16","17","18","19","20","21"]
+    terms   = CourseTerm.objects.all()
+    codes   = CourseCode.objects.all()
+    numbers = CourseNumber.objects.all()
+    sections= CourseSection.objects.all()
+    times   = CourseTime.objects.all()
+    days    = CourseDay.objects.all()
+
+    # stub filters: if any filter submitted, we still show ALL courses
+    submitted = any([
+        request.GET.getlist('code[]'),
+        request.GET.getlist('number[]'),
+        request.GET.getlist('section[]'),
+        request.GET.getlist('term[]'),
+        request.GET.getlist('start[]'),
+        request.GET.getlist('end[]'),
+        request.GET.getlist('day[]'),
+    ])
+
+    # always load everything for now
+    all_courses = Course.objects.select_related(
+        "code","number","section","term","academic_year","start_time","end_time","day"
+    ).all()
+
+    # split into valid (has day + start + end) vs invalid (missing any of them)
     valid_courses = []
     invalid_courses = []
+    for c in all_courses:
+        if c.day is None or c.start_time is None or c.end_time is None:
+            invalid_courses.append(c)
+        else:
+            valid_courses.append(c)
 
-    '''Get the filter values from the landing page request'''
-    filter_code = request.GET.getlist('code[]')
-    filter_number = request.GET.getlist('number[]')
-    filter_section = request.GET.getlist('section[]')
-    filter_term = request.GET.getlist('term[]')
-    filter_start = request.GET.getlist('start[]')
-    filter_end = request.GET.getlist('end[]')
-    filter_day = request.GET.getlist('day[]')
+    courses = valid_courses  # what the timetable will render
 
-    '''Filters the fixture data and widdles down to just the filtered output'''
-    if (filter_code or filter_number or filter_section or filter_term or filter_start or filter_end or filter_day):
-        courses = Course.objects.all()
-        submitted = True
-    
-        if filter_code:
-            courses = courses.filter(code__name__in=filter_code)
-        if filter_number:
-            courses = courses.filter(number__name__in=filter_number)
-        if filter_section:
-            courses = courses.filter(section__name__in=filter_section)
-        if filter_term:
-            courses = courses.filter(term__name__in=filter_term)
-        if filter_start:
-            courses = courses.filter(start__name__in=filter_start)
-        if filter_end:
-            courses = courses.filter(end__name__in=filter_end)
-        if filter_day:
-            courses = courses.filter(day__name__in=filter_day)
-        
-        print(len(courses))
-        '''If there are courses after filtering, proceed to create the timetable slots and calculate overlaps'''
-        if courses.exists():
-            
-            '''Outline for the timetable slots and overlaps'''
-            DAYS = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
-            START_TIME = '08:00'
-            END_TIME = '19:00'
-            INTERVAL = timedelta(minutes=15)
-            start = datetime.strptime(START_TIME, "%H:%M")
-            end = datetime.strptime(END_TIME, "%H:%M")
+    if courses:
+        # build time grid
+        DAYS = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
+        START_TIME = '08:00'
+        END_TIME   = '19:00'
+        INTERVAL   = timedelta(minutes=15)
+        start_dt   = datetime.strptime(START_TIME, "%H:%M")
+        end_dt     = datetime.strptime(END_TIME, "%H:%M")
 
-            '''Create a slots dictionary to hold all time slots for each day in 15 minute intervals.'''
-            '''The keys will be tuples of (day, time) and the values will be lists'''
-            slots = {}
-            current_time = start
-            while current_time < end:
-                time_str = current_time.strftime("%H:%M")
-                for day in DAYS:
-                    slots[(day, time_str)] = []
-                current_time += INTERVAL
-            
-            
-            '''Iterate through the courses and add them (valid) to the corresponding time slots in the slots dictionary.'''
-            for course in courses:
-                attached_days = course.day.name.split('_')
-                if course.start.name == "Unknown" or course.end.name == "Unknown":
-                    invalid_courses.append(course)
-                    continue
-                valid_courses.append(course)
-                for day in attached_days:
-                    start_time = course.start.name[:5]  # e.g., '13:00'
-                    end_time = course.end.name[:5]  # e.g., '15:00'
-                    current_time = datetime.strptime(start_time, "%H:%M") # strip times into datetime
-                    end_time_dt = datetime.strptime(end_time, "%H:%M")  # strip times into datetime
-                    
-                    '''Iterate from start time to end time in 15 minute intervals and add the course to the corresponding slot'''
-                    while current_time < end_time_dt:
-                        time_str = current_time.strftime("%H:%M")
-                        
-                        if (day, time_str) in slots:
-                            slots[(day, time_str)].append(course)
-                        current_time += INTERVAL
-                        
-            '''
-            Increment the start time by 15 minutes until you hit the end time - 15 minutes
-            as you increment, add to corresponding key in the dictionary. Minus 15 minutes because each key represents a 15 minute interval.
-            It will look like this:
-            
-            10:00: 1
-            10:15: 1, 2
-            10:30: 1, 2
-            10:45: 1, 2, 3
-            11:00: 3
-            11:15: 3,
-            11:30: 3,  
-            11:45: 3,
-            12:00
-            '''
-            
-            
-            '''Iterate through the slots dictionary to calculate overlaps and add attributes to each course'''
-            for slot, course_group in slots.items():
-                '''If there is > 1 course in a slot, then continue to calculate overlaps'''
-                if len(course_group) > 1:
-                    for c in course_group:
-                        slot_day, slot_time = slot
+        slots = {}
+        cur = start_dt
+        while cur < end_dt:
+            tstr = cur.strftime("%H:%M")
+            for d in DAYS:
+                slots[(d, tstr)] = []
+            cur += INTERVAL
 
-                        ''' Check if the course already has attributes for this day, if not, create them '''
-                        if getattr(c, f"{slot_day}_overlap_width", None) is None:
-                            overlap_width = 1.0 / float(len(course_group)) if len(course_group) > 0 else 1.0
-                            overlap_width *= 100
-                            overlap_width = round(overlap_width, 2)
-                            
-                            '''
-                            course has attributes of each day dynamically added:
-                            - overlap_width
-                            - offset_left
-                            - overlaps
-                            '''
-                            
-                            setattr(c, f"{slot_day}_overlap_width", overlap_width)
-                            setattr(c, f"{slot_day}_offset_left", overlap_width * course_group.index(c))
-                            setattr(c, f"{slot_day}_overlaps", True) # For styling purposes
-                            
-        ''' For each valid course, assign a color and pixel height based off its duration'''
-        for course in valid_courses:
-            for t_format in ("%H:%M:%S", "%H:%M"):
-                try:
-                    start = datetime.strptime(course.start.name, t_format)
-                    start = start.strftime("%H:%M")
-                    start = datetime.strptime(start, "%H:%M")
-                except:
-                    continue
-            
-            for t_format in ("%H:%M:%S", "%H:%M"):
-                try:
-                    end = datetime.strptime(course.end.name, t_format)
-                    end = end.strftime("%H:%M")
-                    end = datetime.strptime(end, "%H:%M")
-                except:
-                    continue
-                
-            course.duration_minutes = (end - start).seconds // 60
-            course.pixel_height = course.duration_minutes * PIXELS_PER_MINUTE
-            
-            course.offset_top = (start.minute) * PIXELS_PER_MINUTE
-                        
-            if course.code.name == "APBI":
-                course.color = "#7BDFF2"
-            elif course.code.name == "FNH":
-                course.color = "#B2F7EF"
-            elif course.code.name == "FOOD":
-                course.color = "#CBAACB"
-            elif course.code.name == "FRE":
-                course.color = "#F6C6EA"
-            elif course.code.name == "GRS":
-                course.color = "#EADB9A"
-            elif course.code.name == "LFS":
-                course.color = "#FFAAA5"
-        
-        ''' For each valid course, create a day_data dictionary that holds the overlap info for each day '''
-        for course in valid_courses:
-            course.day_data = {
-                "Mon": {
-                    "overlap": getattr(course, 'Mon_overlaps', None),
-                    "width": getattr(course, 'Mon_overlap_width', None),
-                    "left": getattr(course, 'Mon_offset_left', None)
-                },
-                "Tues": {
-                    "overlap": getattr(course, 'Tues_overlaps', None),
-                    "width": getattr(course, 'Tues_overlap_width', None),
-                    "left": getattr(course, 'Tues_offset_left', None)
-                },
-                "Wed": {
-                    "overlap": getattr(course, 'Wed_overlaps', None),
-                    "width": getattr(course, 'Wed_overlap_width', None),
-                    "left": getattr(course, 'Wed_offset_left', None)
-                },
-                "Thurs": {
-                    "overlap": getattr(course, 'Thurs_overlaps', None),
-                    "width": getattr(course, 'Thurs_overlap_width', None),
-                    "left": getattr(course, 'Thurs_offset_left', None)
-                },
-                "Fri": {
-                    "overlap": getattr(course, 'Fri_overlaps', None),
-                    "width": getattr(course, 'Fri_overlap_width', None),
-                    "left": getattr(course, 'Fri_offset_left', None)
-                }
+        # place courses into slots
+        for course in courses:
+            attached_days = course.day.name.split('_')  # same encoding as before
+            start_str = course.start_time.name[:5]
+            end_str   = course.end_time.name[:5]
+            cur = datetime.strptime(start_str, "%H:%M")
+            end = datetime.strptime(end_str, "%H:%M")
+
+            for d in attached_days:
+                cur_time = cur
+                while cur_time < end:
+                    t = cur_time.strftime("%H:%M")
+                    if (d, t) in slots:
+                        slots[(d, t)].append(course)
+                    cur_time += INTERVAL
+
+        # compute overlaps
+        for slot, group in slots.items():
+            if len(group) > 1:
+                for c in group:
+                    day_key, _ = slot
+                    if getattr(c, f"{day_key}_overlap_width", None) is None:
+                        w = round((100.0 / float(len(group))) if len(group) else 100.0, 2)
+                        setattr(c, f"{day_key}_overlap_width", w)
+                        setattr(c, f"{day_key}_offset_left", w * group.index(c))
+                        setattr(c, f"{day_key}_overlaps", True)
+
+        # visual props (height, offset, color)
+        for c in courses:
+            start = datetime.strptime(c.start_time.name[:5], "%H:%M")
+            end   = datetime.strptime(c.end_time.name[:5], "%H:%M")
+            c.duration_minutes = (end - start).seconds // 60
+            c.pixel_height = c.duration_minutes * PIXELS_PER_MINUTE
+            c.offset_top = (start.minute) * PIXELS_PER_MINUTE
+
+            # same palette as before
+            code = c.code.name
+            c.color = (
+                "#7BDFF2" if code == "APBI" else
+                "#B2F7EF" if code == "FNH"  else
+                "#CBAACB" if code == "FOOD" else
+                "#F6C6EA" if code == "FRE"  else
+                "#EADB9A" if code == "GRS"  else
+                "#FFAAA5" if code == "LFS"  else "#D3D3D3"
+            )
+
+        # per-day overlap data used by template
+        for c in courses:
+            c.day_data = {
+                "Mon":   {"overlap": getattr(c, 'Mon_overlaps',   None), "width": getattr(c, 'Mon_overlap_width',   None), "left": getattr(c, 'Mon_offset_left',   None)},
+                "Tues":  {"overlap": getattr(c, 'Tues_overlaps',  None), "width": getattr(c, 'Tues_overlap_width',  None), "left": getattr(c, 'Tues_offset_left',  None)},
+                "Wed":   {"overlap": getattr(c, 'Wed_overlaps',   None), "width": getattr(c, 'Wed_overlap_width',   None), "left": getattr(c, 'Wed_offset_left',   None)},
+                "Thurs": {"overlap": getattr(c, 'Thurs_overlaps', None), "width": getattr(c, 'Thurs_overlap_width', None), "left": getattr(c, 'Thurs_offset_left', None)},
+                "Fri":   {"overlap": getattr(c, 'Fri_overlaps',   None), "width": getattr(c, 'Fri_overlap_width',   None), "left": getattr(c, 'Fri_offset_left',   None)},
             }
-     
-     
-    ''' Used to render the days in the timetable landing page '''
-    day_list = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
-    
-    ''' Returns the variables created in this view and makes them accessible in the template through their key names '''
+
+    # render
     return render(request, 'timetable/landing_page.html', {
         'hour_list': hour_list,
-        'terms': term,
-        'codes': code,
-        'numbers': number,
-        'sections': section,
-        'times': time,
-        'days': day,
-        'courses': valid_courses,
+        'terms': terms,
+        'codes': codes,
+        'numbers': numbers,
+        'sections': sections,
+        'times': times,
+        'days': days,
+        'courses': courses,
         'invalid_courses': invalid_courses,
-        'day_list': day_list,
-        'submitted': submitted
-        })
+        'day_list': ['Mon','Tues','Wed','Thurs','Fri'],
+        'submitted': submitted,
+    })
 
 def redirect_root(request):
     if request.user.is_authenticated:
