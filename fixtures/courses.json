@@ -1015,7 +1015,7 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 8,
+    "day": 5,
     "slug": "fnh-160-101-2025-t1"
   }
 },
@@ -1030,7 +1030,7 @@
     "academic_year": 1,
     "start_time": 10,
     "end_time": 11,
-    "day": 8,
+    "day": 5,
     "slug": "fnh-160-201-2025-t2"
   }
 },
@@ -1045,7 +1045,7 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 8,
+    "day": 5,
     "slug": "fnh-161-201-2025-t2"
   }
 },
@@ -1060,7 +1060,7 @@
     "academic_year": 1,
     "start_time": 1,
     "end_time": 2,
-    "day": 9,
+    "day": 4,
     "slug": "fnh-200-101-2025-t1"
   }
 },
@@ -1075,7 +1075,7 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 8,
+    "day": 5,
     "slug": "fnh-200-102-2025-t1"
   }
 },
@@ -1090,7 +1090,7 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 10,
+    "day": 5,
     "slug": "fnh-200-103-2025-t2"
   }
 },
@@ -1105,7 +1105,7 @@
     "academic_year": 1,
     "start_time": 1,
     "end_time": 2,
-    "day": 11,
+    "day": 4,
     "slug": "fnh-200-104-2025-t2"
   }
 },
@@ -1135,7 +1135,7 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 12,
+    "day": 5,
     "slug": "fnh-250-001-2025-t1"
   }
 },
@@ -1150,7 +1150,7 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 11,
+    "day": 4,
     "slug": "fnh-250-002-2025-t2"
   }
 },
@@ -1165,7 +1165,7 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 8,
+    "day": 5,
     "slug": "fnh-300-001-2025-t1"
   }
 },
@@ -1195,7 +1195,7 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 13,
+    "day": 8,
     "slug": "fnh-301-001-2025-t1"
   }
 },
@@ -1225,7 +1225,7 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 8,
+    "day": 5,
     "slug": "fnh-302-101-2025-t1"
   }
 },
@@ -1255,7 +1255,7 @@
     "academic_year": 1,
     "start_time": 15,
     "end_time": 1,
-    "day": 14,
+    "day": 9,
     "slug": "fnh-303-001-2025-t2"
   }
 },
@@ -1270,7 +1270,7 @@
     "academic_year": 1,
     "start_time": 16,
     "end_time": 15,
-    "day": 14,
+    "day": 9,
     "slug": "fnh-309-001-2025-t2"
   }
 },
@@ -1375,7 +1375,7 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 11,
-    "day": 15,
+    "day": 5,
     "slug": "fnh-330-001-2025-t1"
   }
 },
@@ -1390,7 +1390,7 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 11,
-    "day": 15,
+    "day": 5,
     "slug": "fnh-330-002-2025-t2"
   }
 },
@@ -1675,7 +1675,7 @@
     "academic_year": 1,
     "start_time": 15,
     "end_time": 1,
-    "day": 16,
+    "day": 2,
     "slug": "fnh-340-002-2025-t2"
   }
 },
@@ -1690,7 +1690,7 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 10,
-    "day": 17,
+    "day": 7,
     "slug": "fnh-340-l01-2025-t2"
   }
 },
@@ -1705,7 +1705,7 @@
     "academic_year": 1,
     "start_time": 17,
     "end_time": 18,
-    "day": 17,
+    "day": 7,
     "slug": "fnh-340-l02-2025-t2"
   }
 },
@@ -1720,7 +1720,7 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 13,
+    "day": 8,
     "slug": "fnh-342-001-2025-t1"
   }
 },
@@ -1735,7 +1735,7 @@
     "academic_year": 1,
     "start_time": 19,
     "end_time": 4,
-    "day": 14,
+    "day": 9,
     "slug": "fnh-345-201-2025-t2"
   }
 },
@@ -1750,7 +1750,7 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 8,
+    "day": 5,
     "slug": "fnh-350-001-2025-t1"
   }
 },
@@ -1765,7 +1765,7 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 8,
+    "day": 5,
     "slug": "fnh-351-002-2025-t2"
   }
 },
@@ -1780,7 +1780,7 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 8,
+    "day": 5,
     "slug": "fnh-355-001-2025-t1"
   }
 },
@@ -1795,7 +1795,7 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 8,
+    "day": 5,
     "slug": "fnh-355-002-2025-t2"
   }
 },
@@ -1810,7 +1810,7 @@
     "academic_year": 1,
     "start_time": 10,
     "end_time": 11,
-    "day": 12,
+    "day": 5,
     "slug": "fnh-370-001-2025-t1"
   }
 },
@@ -1825,7 +1825,7 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 8,
+    "day": 5,
     "slug": "fnh-371-002-2025-t1"
   }
 },
@@ -1840,7 +1840,7 @@
     "academic_year": 1,
     "start_time": 16,
     "end_time": 15,
-    "day": 18,
+    "day": 10,
     "slug": "fnh-375-201-2025-t2"
   }
 },
@@ -1855,7 +1855,7 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 19,
+    "day": 3,
     "slug": "fnh-380-001-2025-t1"
   }
 },
@@ -1870,7 +1870,7 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 13,
-    "day": 14,
+    "day": 9,
     "slug": "fnh-398-001-2025-t1"
   }
 },
@@ -1885,7 +1885,7 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 11,
-    "day": 20,
+    "day": 1,
     "slug": "fnh-398-d01-2025-t1"
   }
 },
@@ -1900,7 +1900,7 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 8,
+    "day": 5,
     "slug": "fnh-401-001-2025-t2"
   }
 },
@@ -2050,7 +2050,7 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 10,
-    "day": 12,
+    "day": 5,
     "slug": "fnh-413-001-2025-t1"
   }
 },
@@ -2065,7 +2065,7 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 21,
+    "day": 1,
     "slug": "fnh-414-101-2025-t1"
   }
 },
@@ -2080,7 +2080,7 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 20,
-    "day": 22,
+    "day": 5,
     "slug": "fnh-415-001-2025-t1"
   }
 },
@@ -2170,7 +2170,7 @@
     "academic_year": 1,
     "start_time": 16,
     "end_time": 15,
-    "day": 18,
+    "day": 10,
     "slug": "fnh-470-001-2025-t1"
   }
 },
@@ -2185,7 +2185,7 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 23,
+    "day": 5,
     "slug": "fnh-472-001-2025-t1"
   }
 },
@@ -2230,7 +2230,7 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 18,
+    "day": 10,
     "slug": "fnh-475-002-2025-t2"
   }
 },
@@ -2275,7 +2275,7 @@
     "academic_year": 1,
     "start_time": 21,
     "end_time": null,
-    "day": 24,
+    "day": 11,
     "slug": "fnh-482-201-2025-t1"
   }
 },
@@ -2290,7 +2290,7 @@
     "academic_year": 1,
     "start_time": 21,
     "end_time": null,
-    "day": 24,
+    "day": 11,
     "slug": "fnh-483-101-2025-t2"
   }
 },
@@ -2305,7 +2305,7 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 13,
+    "day": 8,
     "slug": "fnh-490-001-2025-t2"
   }
 },
@@ -2830,7 +2830,7 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 18,
+    "day": 10,
     "slug": "apbi-244-001-2025-t1"
   }
 },
@@ -2935,7 +2935,7 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 18,
+    "day": 10,
     "slug": "apbi-260-001-2025-t1"
   }
 },
@@ -3445,7 +3445,7 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 18,
+    "day": 10,
     "slug": "apbi-405-002-2025-t2"
   }
 },
@@ -4135,7 +4135,7 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 25,
+    "day": 5,
     "slug": "fre-290-002-2025-t2"
   }
 },
@@ -4150,7 +4150,7 @@
     "academic_year": 1,
     "start_time": 23,
     "end_time": 6,
-    "day": 26,
+    "day": 10,
     "slug": "fre-302-001-2025-t2"
   }
 },
@@ -4180,7 +4180,7 @@
     "academic_year": 1,
     "start_time": 10,
     "end_time": 11,
-    "day": 25,
+    "day": 5,
     "slug": "fre-306-001-2025-t1"
   }
 },
@@ -4195,7 +4195,7 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 10,
-    "day": 25,
+    "day": 5,
     "slug": "fre-326-001-2025-t1"
   }
 },
@@ -4210,7 +4210,7 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 27,
+    "day": 10,
     "slug": "fre-340-001-2025-t1"
   }
 },
@@ -4225,7 +4225,7 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 25,
+    "day": 5,
     "slug": "fre-374-001-2025-t1"
   }
 },
@@ -4240,7 +4240,7 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 13,
-    "day": 28,
+    "day": 5,
     "slug": "fre-385-002-2025-t2"
   }
 },
@@ -4255,7 +4255,7 @@
     "academic_year": 1,
     "start_time": 21,
     "end_time": 9,
-    "day": 27,
+    "day": 10,
     "slug": "fre-394-101-2025-t1"
   }
 },
@@ -4270,7 +4270,7 @@
     "academic_year": 1,
     "start_time": 24,
     "end_time": 5,
-    "day": 27,
+    "day": 10,
     "slug": "fre-394-103-2025-t1"
   }
 },
@@ -4285,7 +4285,7 @@
     "academic_year": 1,
     "start_time": 22,
     "end_time": 2,
-    "day": 27,
+    "day": 10,
     "slug": "fre-420-002-2025-t2"
   }
 },
@@ -4315,7 +4315,7 @@
     "academic_year": 1,
     "start_time": 15,
     "end_time": 1,
-    "day": 29,
+    "day": 5,
     "slug": "fre-474-001-2025-t2"
   }
 },
@@ -4330,7 +4330,7 @@
     "academic_year": 1,
     "start_time": 10,
     "end_time": null,
-    "day": 30,
+    "day": 2,
     "slug": "fre-474-l01-2025-t2"
   }
 },
@@ -4345,7 +4345,7 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 29,
+    "day": 5,
     "slug": "fre-490-001-2025-t1"
   }
 },
@@ -4360,7 +4360,7 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 29,
+    "day": 5,
     "slug": "fre-490-002-2025-t2"
   }
 }

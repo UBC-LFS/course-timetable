@@ -74,7 +74,7 @@ def landing_page(request):
         # build time grid
         DAYS = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
         START_TIME = '08:00'
-        END_TIME   = '19:00'
+        END_TIME   = '20:00'
         INTERVAL   = timedelta(minutes=15)
         start_dt   = datetime.strptime(START_TIME, "%H:%M")
         end_dt     = datetime.strptime(END_TIME, "%H:%M")

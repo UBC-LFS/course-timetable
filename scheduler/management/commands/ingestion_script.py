@@ -6,9 +6,75 @@ from scheduler.models import (
 )
 from datetime import datetime, timedelta
 
-
+def normalize_days(raw):
+        if raw == "Mon":
+            return "Monday"
+        elif raw == "Wed":
+            return "Wednesday"
+        elif raw == "Fri":
+            return "Friday"
+        elif raw == "Mon, Wed, Fri":
+            return "Monday_Wednesday_Friday"
+        elif raw == "Tue, Thurs":
+            return "Tuesday_Thursday"
+        elif raw == "Thurs":
+            return "Thursday"
+        elif raw == "Tues, Thurs":
+            return "Tuesday_Thursday"
+        elif raw == "M, W, F":
+            return "Monday_Wednesday_Friday"
+        elif raw == "T, TH":
+            return "Tuesday_Thursday"
+        elif raw == "MWF":
+            return "Monday_Wednesday_Friday"
+        elif raw == "Tue Thur":
+            return "Tuesday_Thursday"
+        elif raw == "Mon, Fri":
+            return "Monday_Friday"
+        elif raw == "Wed, Fri":
+            return "Wednesday_Friday"
+        elif raw == "Tue, Thur":
+            return "Tuesday_Thursday"
+        elif raw == "Wednesday":
+            return "Wednesday"
+        elif raw == "Thursday":
+            return "Thursday"
+        elif raw == "Mon, Wed":
+            return "Monday_Wednesday"
+        elif raw == "Friday":
+            return "Friday"
+        elif raw == "Mon.":
+            return "Monday"
+        elif raw == "Monday":
+            return "Monday"
+        elif raw == "Tue Thurs":
+            return "Tuesday_Thursday"
+        elif raw == "Tue, Thus":
+            return "Tuesday_Thursday"
+        elif raw == "Mon, Tues, Wed, Thurs, Fri":
+            return "Monday_Tuesday_Wednesday_Thursday_Friday"
+        elif raw == "Tu Th":
+            return "Tuesday_Thursday"
+        elif raw == "Mon Wed":
+            return "Monday_Wednesday"
+        elif raw == "M W":
+            return "Monday_Wednesday"
+        elif raw == "Tue Thu":
+            return "Tuesday_Thursday"
+        elif raw == "Tu Thu":
+            return "Tuesday_Thursday"
+        elif raw == "W":
+            return "Wednesday"
+        elif raw == "Tue":
+            return "Tuesday"
+        else:
+            # add nee checking if needed
+            return raw
+        
 class Command(BaseCommand):
     help = "Ingest courses and program relationships from Excel file"
+    
+    
 
     def handle(self, *args, **kwargs):
         path = "scheduler/source_data/Course Map Raw Data 2.xlsx" # change if needed
@@ -74,7 +140,7 @@ class Command(BaseCommand):
 
                 if not pd.isna(days) and days:
                     # Day exists → create CourseDay
-                    day_val = str(days).strip()
+                    day_val = normalize_days(str(days).strip())
                     day_obj, _ = CourseDay.objects.get_or_create(name=day_val)
 
                     # Only parse times if day is valid

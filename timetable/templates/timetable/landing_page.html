@@ -10,19 +10,19 @@
 - figure out way to clone db to new year ( check w brandon ) (TA app already does that )
 -->
 
-<!-- page-specific styles for timetable, put in css file! --> 
+<!-- page-specific styles for timetable, put in css file!  -->
 <style>
-  .timetable-grid .course-cell { position: relative; }
-  .course-item{
-    position: absolute;
-    border-radius: .4rem;
-    padding: .25rem .35rem;
-    font-size: .8rem;
-    line-height: 1.1;
-    color: #111;
-    box-shadow: 0 1px 2px rgba(0,0,0,.08);
-    overflow: hidden;
-  }
+.timetable-grid .course-cell { position: relative; }
+.course-item{
+  position: absolute;
+  border-radius: .4rem;
+  padding: .25rem .35rem;
+  font-size: .8rem;
+  line-height: 1.1;
+  color: #111;
+  box-shadow: 0 1px 2px rgba(0,0,0,.08);
+  overflow: hidden;
+}
 </style>
 
 <div class="container-fluid py-4 px-4">
@@ -257,22 +257,22 @@
 
 <!-- put in js file -->
 <script>
-  (function () {
+(function () {
     const items = document.querySelectorAll('.course-item');
     items.forEach(el => {
-      const h = el.dataset.height,
+        const h = el.dataset.height,
             t = el.dataset.top,
             w = el.dataset.width,
             l = el.dataset.left,
             bg = el.dataset.bg;
 
-      if (h) el.style.height = h + 'px';
-      if (t) el.style.marginTop = t + 'px';
-      if (w) el.style.width = w + '%';
-      if (l) el.style.left = l + '%';
-      if (bg) el.style.backgroundColor = bg;
+        if (h) el.style.height = h + 'px';
+        if (t) el.style.marginTop = t + 'px';
+        if (w) el.style.width = w + '%';
+        if (l) el.style.left = l + '%';
+        if (bg) el.style.backgroundColor = bg;
     });
-  })();
+    })();
 </script>
 
 {% endblock %}

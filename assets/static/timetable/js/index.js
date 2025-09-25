@@ -93,3 +93,20 @@ document.querySelectorAll('.year-checkbox').forEach(cb => {
             document.querySelector('.year-form').submit();
         });
     });
+
+// (function () {
+//     const items = document.querySelectorAll('.course-item');
+//     items.forEach(el => {
+//         const h = el.dataset.height,
+//             t = el.dataset.top,
+//             w = el.dataset.width,
+//             l = el.dataset.left,
+//             bg = el.dataset.bg;
+
+//         if (h) el.style.height = h + 'px';
+//         if (t) el.style.marginTop = t + 'px';
+//         if (w) el.style.width = w + '%';
+//         if (l) el.style.left = l + '%';
+//         if (bg) el.style.backgroundColor = bg;
+//     });
+//     })();
