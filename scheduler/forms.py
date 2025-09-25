@@ -4,52 +4,48 @@ from .models import (
     CourseSection, CourseYear, CourseTime, CourseDay
 )
 
-class CourseForm(forms.ModelForm):
-    class Meta:
-        model = Course
-        fields = []  # IMPORTANT: don't let ModelForm auto-assign FK fields
-
-    # User inputs
+class CourseForm(forms.Form):
+    # User inputs (required fields have asterisk in label)
     code = forms.CharField(max_length=20, required=True, label="Code *")
     number = forms.CharField(max_length=20, required=True, label="Number *")
     section = forms.CharField(max_length=20, required=True, label="Section *")
     term = forms.CharField(max_length=20, required=True, label="Term *")
     academic_year = forms.CharField(max_length=20, required=True, label="Academic Year *")
 
-    day = forms.CharField(max_length=50, required=False, label="Day")
-    start_time = forms.CharField(max_length=20, required=False, label="Start Time")
-    end_time = forms.CharField(max_length=20, required=False, label="End Time")
+    # Optional fields
+    day = forms.CharField(max_length=50, required=False, label="Day")            # e.g. "Monday_Tuesday"
+    start_time = forms.CharField(max_length=20, required=False, label="Start")   # "HH:MM"
+    end_time = forms.CharField(max_length=20, required=False, label="End")       # "HH:MM"
 
-    def save(self, commit=True):
+    def save(self, instance: Course | None = None):
         """
-        Create/update a Course by mapping the user strings to FK instances.
+        Create or update a Course by mapping the user strings to FK instances.
         """
         data = self.cleaned_data
-        instance = self.instance if self.instance.pk else Course()
+        course = instance or Course()
 
         # Required FKs
-        instance.code, _ = CourseCode.objects.get_or_create(name=data["code"].strip())
-        instance.number, _ = CourseNumber.objects.get_or_create(name=data["number"].strip())
-        instance.section, _ = CourseSection.objects.get_or_create(name=data["section"].strip())
-        instance.term, _ = CourseTerm.objects.get_or_create(name=data["term"].strip())
-        instance.academic_year, _ = CourseYear.objects.get_or_create(name=data["academic_year"].strip())
+        course.code, _ = CourseCode.objects.get_or_create(name=data["code"].strip())
+        course.number, _ = CourseNumber.objects.get_or_create(name=data["number"].strip())
+        course.section, _ = CourseSection.objects.get_or_create(name=data["section"].strip())
+        course.term, _ = CourseTerm.objects.get_or_create(name=data["term"].strip())
+        course.academic_year, _ = CourseYear.objects.get_or_create(name=data["academic_year"].strip())
 
         # Optional FKs
         if data.get("day"):
-            instance.day, _ = CourseDay.objects.get_or_create(name=data["day"].strip())
+            course.day, _ = CourseDay.objects.get_or_create(name=data["day"].strip())
         else:
-            instance.day = None
+            course.day = None
 
         if data.get("start_time"):
-            instance.start_time, _ = CourseTime.objects.get_or_create(name=data["start_time"].strip())
+            course.start_time, _ = CourseTime.objects.get_or_create(name=data["start_time"].strip())
         else:
-            instance.start_time = None
+            course.start_time = None
 
         if data.get("end_time"):
-            instance.end_time, _ = CourseTime.objects.get_or_create(name=data["end_time"].strip())
+            course.end_time, _ = CourseTime.objects.get_or_create(name=data["end_time"].strip())
         else:
-            instance.end_time = None
+            course.end_time = None
 
-        if commit:
-            instance.save()
-        return instance
+        course.save()
+        return course

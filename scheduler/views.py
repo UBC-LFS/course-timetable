@@ -242,7 +242,6 @@ END_TIME_CHOICES   = _hhmm_range(8, 21)   # 08:00 → 21:00, every 30m
 YEAR_CHOICES       = [str(y) for y in range(2025, 2036)]
 
 def create_course(request):
-    # Build common context
     ctx = {
         "title": "Create Course",
         "term_options": TERM_CHOICES,
@@ -250,21 +249,20 @@ def create_course(request):
         "start_time_options": START_TIME_CHOICES,
         "end_time_options": END_TIME_CHOICES,
         "year_options": YEAR_CHOICES,
-        "selected_days": [],  # none checked initially
+        "selected_days": [],
     }
 
     if request.method == "POST":
-        # convert multiple checkboxes -> single string "Mon_Tues_..."
         data = request.POST.copy()
-        checked_days = data.getlist("day")  # many checkboxes named "day"
-        data["day"] = "_".join(checked_days) if checked_days else ""  # optional
-
+        checked_days = data.getlist("day")
+        data["day"] = "_".join(checked_days) if checked_days else ""
         form = CourseForm(data)
         if form.is_valid():
-            form.save()  # form.save() does get_or_create for FK tables
+            form.save()
             messages.success(request, "Course created successfully.")
             return redirect("scheduler:view_courses")
         messages.error(request, "Please correct the errors below.")
+        ctx["selected_days"] = checked_days
     else:
         form = CourseForm()
 
@@ -274,8 +272,6 @@ def create_course(request):
 
 def edit_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
-
-    # figure out which boxes are checked for edit view
     checked = course.day.name.split("_") if course.day else []
 
     ctx = {
@@ -292,27 +288,24 @@ def edit_course(request, course_id):
         data = request.POST.copy()
         checked_days = data.getlist("day")
         data["day"] = "_".join(checked_days) if checked_days else ""
-        form = CourseForm(data, instance=course)
+        form = CourseForm(data)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Course edited successfully.")
+            form.save(instance=course)
+            messages.success(request, "Course updated successfully.")
             return redirect("scheduler:view_courses")
         messages.error(request, "Please correct the errors below.")
+        ctx["selected_days"] = checked_days
     else:
-        # prefill the text fields with related .name values
-        form = CourseForm(
-            initial={
-                "code": course.code.name,
-                "number": course.number.name,
-                "section": course.section.name,
-                "term": course.term.name,
-                "academic_year": course.academic_year.name,
-                "start_time": course.start_time.name if course.start_time else "",
-                "end_time": course.end_time.name if course.end_time else "",
-                "day": course.day.name if course.day else "",
-            },
-            instance=course,
-        )
+        form = CourseForm(initial={
+            "code": course.code.name,
+            "number": course.number.name,
+            "section": course.section.name,
+            "term": course.term.name,
+            "academic_year": course.academic_year.name,
+            "start_time": course.start_time.name if course.start_time else "",
+            "end_time": course.end_time.name if course.end_time else "",
+            "day": course.day.name if course.day else "",
+        })
 
     ctx["form"] = form
     return render(request, "timetable/course_form.html", ctx)

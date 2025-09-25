@@ -558,5 +558,12 @@
   "fields": {
     "name": "00A"
   }
+},
+{
+  "model": "scheduler.coursesection",
+  "pk": 81,
+  "fields": {
+    "name": "00B"
+  }
 }
 ]

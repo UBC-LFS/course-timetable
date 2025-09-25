@@ -10,7 +10,7 @@
     "academic_year": 1,
     "start_time": 1,
     "end_time": 2,
-    "day": 1,
+    "day": 4,
     "slug": "test-600-00a-2025-t1_t2"
   }
 },
@@ -4362,6 +4362,21 @@
     "end_time": 7,
     "day": 5,
     "slug": "fre-490-002-2025-t2"
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 292,
+  "fields": {
+    "term": 1,
+    "code": 6,
+    "number": 102,
+    "section": 81,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "day": null,
+    "slug": "test-601-00b-2025-t1"
   }
 }
 ]
