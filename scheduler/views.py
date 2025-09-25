@@ -129,7 +129,6 @@ def landing_page(request):
             c.color = (
                 "#7BDFF2" if code == "APBI" else
                 "#B2F7EF" if code == "FNH"  else
-                "#CBAACB" if code == "FOOD" else
                 "#F6C6EA" if code == "FRE"  else
                 "#EADB9A" if code == "GRS"  else
                 "#FFAAA5" if code == "LFS"  else "#D3D3D3"
@@ -160,12 +159,11 @@ def landing_page(request):
         'submitted': submitted,
     })
 
+
 def redirect_root(request):
     if request.user.is_authenticated:
         return redirect('scheduler:landing_page')
     return redirect('accounts:ldap_login')
-
-
 
 
 def view_courses(request):
@@ -309,3 +307,24 @@ def edit_course(request, course_id):
 
     ctx["form"] = form
     return render(request, "timetable/course_form.html", ctx)
+
+def setting_course_term(request):
+    return HttpResponse("Course Term settings (stub)")
+
+def setting_course_code(request):
+    return HttpResponse("Course Code settings (stub)")
+
+def setting_course_number(request):
+    return HttpResponse("Course Number settings (stub)")
+
+def setting_course_section(request):
+    return HttpResponse("Course Section settings (stub)")
+
+def setting_course_time(request):
+    return HttpResponse("Course Time settings (stub)")
+
+def setting_course_year(request):
+    return HttpResponse("Course Year settings (stub)")
+
+def setting_program_year_level(request):
+    return HttpResponse("Program Year Level settings (stub)")

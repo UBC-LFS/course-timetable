@@ -74,8 +74,12 @@ def normalize_days(raw):
 class Command(BaseCommand):
     help = "Ingest courses and program relationships from Excel file"
     
-    
-
+    # note: 
+    # For the course day, use the format "Monday_Wednesday" 
+    # (spell out the full day names and separate them with a comma). 
+    # For example, a course held on Monday and Wednesday should be written as "Monday,Wednesday". 
+    # For courses, format them as GRS_V 497B-001, 
+    # use a space to separate the code and number, and a dash to separate the number and section.
     def handle(self, *args, **kwargs):
         path = "scheduler/source_data/Course Map Raw Data 2.xlsx" # change if needed
         xl = pd.ExcelFile(path)
@@ -140,6 +144,7 @@ class Command(BaseCommand):
 
                 if not pd.isna(days) and days:
                     # Day exists → create CourseDay
+                    # although "Monday,Friday", I change it to "Monday_Friday"
                     day_val = normalize_days(str(days).strip())
                     day_obj, _ = CourseDay.objects.get_or_create(name=day_val)
 

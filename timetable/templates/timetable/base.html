@@ -45,6 +45,7 @@
         <li class="nav-item">
           <a class="nav-link active text-white" href="{% url 'scheduler:landing_page' %}">Home</a>
         </li>
+        
         <li>
         <div class="dropdown dropdown-select" style="padding-right: 3px; padding-left: 3px;">
           <button style="background: none; color: white;	padding: 0;	margin-top: 8px; font: inherit;	cursor: pointer;	outline: inherit; border: none" data-bs-toggle="dropdown" aria-expanded="false">
@@ -58,6 +59,16 @@
             </ul>
         </div>
         </li>
+
+        <li class="nav-item">
+          <button class="nav-link active text-white btn btn-link p-0 ms-3"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#settingsModal">
+            Settings
+          </button>
+        </li>
+
         <li>
 
           <a class="nav-link active text-white" style="padding-right: 3px"href="{% url 'scheduler:view_courses' %}">Courses</a>
@@ -108,6 +119,33 @@
       <div class="footer-item">The Faculty of Land and Food Systems</div>
   </div>
 </footer>
+
+<!-- Settings Modal -->
+<div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="list-group">
+          <a class="list-group-item list-group-item-action" href="{% url 'scheduler:course_term' %}">Course Term</a>
+          <a class="list-group-item list-group-item-action" href="{% url 'scheduler:course_code' %}">Course Code</a>
+          <a class="list-group-item list-group-item-action" href="{% url 'scheduler:course_number' %}">Course Number</a>
+          <a class="list-group-item list-group-item-action" href="{% url 'scheduler:course_section' %}">Course Section</a>
+          <a class="list-group-item list-group-item-action" href="{% url 'scheduler:course_time' %}">Course Time</a>
+          <a class="list-group-item list-group-item-action" href="{% url 'scheduler:course_year' %}">Course Year</a>
+          <a class="list-group-item list-group-item-action" href="{% url 'scheduler:program_year_level' %}">Program Year Level</a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- Bootstrap JS bundle (contains Popper) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
