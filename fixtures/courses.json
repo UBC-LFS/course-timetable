@@ -4373,9 +4373,9 @@
     "number": 102,
     "section": 81,
     "academic_year": 1,
-    "start_time": null,
-    "end_time": null,
-    "day": null,
+    "start_time": 26,
+    "end_time": 25,
+    "day": 1,
     "slug": "test-601-00b-2025-t1"
   }
 }

@@ -1,4 +1,5 @@
 from django import forms
+from datetime import datetime 
 from .models import (
     Course, CourseTerm, CourseCode, CourseNumber,
     CourseSection, CourseYear, CourseTime, CourseDay
@@ -16,6 +17,33 @@ class CourseForm(forms.Form):
     day = forms.CharField(max_length=50, required=False, label="Day")            # e.g. "Monday_Tuesday"
     start_time = forms.CharField(max_length=20, required=False, label="Start")   # "HH:MM"
     end_time = forms.CharField(max_length=20, required=False, label="End")       # "HH:MM"
+
+    def clean(self):
+        cleaned = super().clean()
+        start = cleaned.get("start_time")
+        end   = cleaned.get("end_time")
+
+        # Only validate the order if both are provided
+        if start and end:
+            try:
+                s_dt = datetime.strptime(start.strip(), "%H:%M")
+            except ValueError:
+                # should not come here
+                self.add_error("start_time", "Use HH:MM (e.g., 08:00).")
+                return cleaned
+
+            try:
+                e_dt = datetime.strptime(end.strip(), "%H:%M")
+            except ValueError:
+                # should not come here
+                self.add_error("end_time", "Use HH:MM (e.g., 09:30).")
+                return cleaned
+
+            if not e_dt > s_dt:
+                self.add_error("end_time", "End time must be later than start time.")
+
+        return cleaned
+
 
     def save(self, instance: Course | None = None):
         """
