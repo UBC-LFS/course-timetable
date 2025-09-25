@@ -73,277 +73,48 @@
                 <button type="submit" class="btn btn-primary">Search</button>
               </form>
               
-
-        <div class="btn-toolbar">
-            <button type="button" class="btn btn-success btn-xs fs-10 me-2" data-bs-toggle="modal" data-bs-target="#edit-user-modal-{{ user.id }}">Create Course</button>
-
-            <div class="modal fade" id="edit-user-modal-{{ user.id }}" tabindex="-1" aria-labelledby="edit-user-modal-label-{{ user.id }}" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="edit-user-modal-label-{{ user.id }}">Create course</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <form action="{% url 'scheduler:create_course' %}" method="post" class="mx-auto" style="max-width: 800px;">
-                            {% csrf_token %}
-                            
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="id_code_{{ course.id }}" class="form-label">Code</label>
-                                        <input id="id_code_{{ course.id }}" name="code" type="text" maxlength="150" placeholder="ie. FNH, APBI" class="form-control" value="{% if course.code.name %}{{ course.code.name }}{% endif %}">
-                                        <p>Max Character Length: 4</p>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="id_number_{{ course.id }}" class="form-label">Number</label>
-                                        <input id="id_number_{{ course.id }}" name="number" type="text" maxlength="150"  placeholder="ie. 100, 101" class="form-control" value="{% if course.number.name %}{{ course.number.name }}{% endif %}">
-                                        <p>Max Character Length: 4</p>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="id_section_{{ user.id }}" class="form-label requiredField">Section</label>
-                                        <input id="id_section_{{ user.id }}" name="section" type="text" maxlength="150" placeholder="ie. 001, D01" class="form-control" value="{% if course.section.name %}{{ course.section.name }}{% endif %}">
-                                        <p>Max Character Length: 4</p>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label class="form-label">HELPELP</label>
-                                        <select class="form-select" name="day">
-                                            <option value="{{ course.day.name }}">{{ course.day.name }}</option>
-                                            {% for day in days %}
-                                                {% if day.name != course.day.name %}
-                                                    <option value="{{ day }}">{{ day }}</option>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Term</label>
-                                    <select class="form-select" name="term">
-                                        <option value="{{ course.term.name }}">{{ course.term.name }}</option>
-                                        {% for term in terms %}
-                                            {% if term.name != course.term.name %}
-                                                <option value="{{ term }}">{{ term }}</option>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Start Time</label>
-                                    <select class="form-select" name="start">
-                                        <option value="{{ course.start.name }}">{{ course.start.name }}</option>
-                                        {% for start in times %}
-                                            {% if start.name != course.start.name %}
-                                                <option value="{{ start }}">{{ start }}</option>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">End Time</label>
-                                    <select class="form-select" name="end">
-                                        <option value="{{ course.end.name }}">{{ course.end.name }}</option>
-                                        {% for end in times %}
-                                            {% if end.name != course.end.name %}
-                                                <option value="{{ end }}">{{ end }}</option>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Year</label>
-                                    <select class="form-select" name="year">
-                                        <option value="{{ course.year }}">{{ course.year }}</option>
-                                        {% for year in years %}
-                                            {% if year != course.year %}
-                                                <option value="{{ year }}">{{ year }}</option>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="d-flex justify-content-center mt-4">
-                                <button type="submit" class="btn btn-success px-5">Create course</button>
-                            </div>
-                            </div>
-                        </form>
-                    </div>
-                    </div>
-                </div>
-                </div>
-        </div>
     </div>
 
-    <div class="table-wrapper table-responsive w-10 ml-5 mr-5">
-        <table class="table table-bordered table-striped table-hover table-responsive-md text-center table-vertical-middle" id="courseTable" tag="courseTableElement">
-            <tr>
-                <!-- <th>Name</th> -->
-                <th>Code</th>
-                <th>Number</th>
-                <th>Section</th>
-                <th>Term</th>
-                <th>Start</th>
-                <th>End</th>
-                <th>Day</th>
-                <th>Year</th>
-                <th>Edit</th>
-            </tr>
-            <tbody>
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{% url 'scheduler:create_course' %}" class="btn btn-success">+ Add Course</a>
+    </div>
 
+    <!-- Courses Table -->
+    <div class="table-wrapper table-responsive w-10 ml-5 mr-5">
+        <table class="table table-bordered table-striped table-hover text-center">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Number</th>
+                    <th>Section</th>
+                    <th>Term</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Day</th>
+                    <th>Year</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
                 {% for course in courses %}
                 <tr>
-                <!-- <td>{{ course.name }}</td> -->
-                <td>{{ course.code }}</td>
-                <td>{{ course.number }}</td>
-                <td>{{ course.section }}</td>
-                <td>{{ course.term }}</td>
-                <td>{{ course.start }}</td>
-                <td>{{ course.end }}</td>
-                <td>{{ course.day }}</td>
-                <td>{{ course.year }}</td>
-                <td class="ignore-search">
-                    <div>
-                        <!-- Trigger Button -->
-                        <button type="button" 
-                                class="btn btn-warning btn-sm me-2" 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#edit-course-modal-{{ course.id }}">
-                            Edit
-                        </button>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="edit-course-modal-{{ course.id }}" tabindex="-1" aria-labelledby="edit-course-modal-label-{{ course.id }}" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-
-                                    <!-- Modal Header -->
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="edit-course-modal-label-{{ course.id }}">Edit Course</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-
-                                    <!-- Modal Body -->
-                                    <div class="modal-body">
-                                        <form action="{% url 'scheduler:edit_course' course.id %}" method="post" class="needs-validation" novalidate>
-                                            {% csrf_token %}
-                                            <div class="row">
-                                                <!-- Left Column -->
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Code</label>
-                                                        <input type="text" class="form-control" name="code" maxlength="4"
-                                                            value="{% if course.code.name %}{{ course.code.name }}{% endif %}">
-                                                        <div class="form-text">Max 4 characters.</div>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Number</label>
-                                                        <input type="text" class="form-control" name="number" maxlength="4"
-                                                            value="{% if course.number.name %}{{ course.number.name }}{% endif %}">
-                                                        <div class="form-text">Max 4 characters.</div>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Section</label>
-                                                        <input type="text" class="form-control" name="section" maxlength="3"
-                                                            value="{% if course.section.name %}{{ course.section.name }}{% endif %}">
-                                                        <div class="form-text">Max 3 characters.</div>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Term</label>
-                                                        <select class="form-select" name="term">
-                                                            <option value="{{ course.term.name }}">{{ course.term.name }}</option>
-                                                            {% for term in terms %}
-                                                                {% if term.name != course.term.name %}
-                                                                    <option value="{{ term.name }}">{{ term.name }}</option>
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Right Column -->
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Start Time</label>
-                                                        <select class="form-select" name="start">
-                                                            <option value="{{ course.start.name }}">{{ course.start.name }}</option>
-                                                            {% for start in times %}
-                                                                {% if start.name != course.start.name %}
-                                                                    <option value="{{ start }}">{{ start }}</option>
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label">End Time</label>
-                                                        <select class="form-select" name="end">
-                                                            <option value="{{ course.end.name }}">{{ course.end.name }}</option>
-                                                            {% for end in times %}
-                                                                {% if end.name != course.end.name %}
-                                                                    <option value="{{ end }}">{{ end }}</option>
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Days</label>
-                                                        <select class="form-select" name="day">
-                                                            <option value="{{ course.day.name }}">{{ course.day.name }}</option>
-                                                            {% for day in days %}
-                                                                {% if day.name != course.day.name %}
-                                                                    <option value="{{ day }}">{{ day }}</option>
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                    
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Year</label>
-                                                        <select class="form-select" name="year">
-                                                            <option value="{{ course.year }}">{{ course.year }}</option>
-                                                            {% for year in years %}
-                                                                {% if year != course.year %}
-                                                                    <option value="{{ year }}">{{ year }}</option>
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Hidden Fields -->
-                                            <input type="hidden" name="id" value="{{ user.id }}">
-                                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
-
-                                            <!-- Submit Button -->
-                                            <div class="text-center">
-                                                <button type="submit" class="btn btn-warning">Edit Course</button>
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </td>
-            </tr>
-            {% endfor %}
+                    <td>{{ course.code }}</td>
+                    <td>{{ course.number }}</td>
+                    <td>{{ course.section }}</td>
+                    <td>{{ course.term }}</td>
+                    <td>{{ course.start_time }}</td>
+                    <td>{{ course.end_time }}</td>
+                    <td>{{ course.day }}</td>
+                    <td>{{ course.academic_year }}</td>
+                    <td>
+                        <a href="{% url 'scheduler:edit_course' course.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9">No courses found.</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

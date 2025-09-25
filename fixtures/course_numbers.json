@@ -698,5 +698,12 @@
   "fields": {
     "name": "420"
   }
+},
+{
+  "model": "scheduler.coursenumber",
+  "pk": 101,
+  "fields": {
+    "name": "600"
+  }
 }
 ]

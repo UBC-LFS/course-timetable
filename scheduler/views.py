@@ -8,6 +8,8 @@ from django.utils.text import slugify
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
+from .forms import CourseForm
+from django.shortcuts import get_object_or_404
 
 
 '''
@@ -217,95 +219,100 @@ def view_courses(request):
 
 
 
-def edit_course(request, course_id):
-    if request.method == 'POST':
-        course = Course.objects.get(id=course_id)
-        
-        data = request.POST
+# helpers to make option lists
+def _hhmm_range(start_hour, end_hour_inclusive, step_minutes=30):
+    out = []
+    h, m = start_hour, 0
+    end_h, end_m = end_hour_inclusive, 0
+    while True:
+        out.append(f"{h:02d}:{m:02d}")
+        if (h, m) == (end_h, end_m):
+            break
+        m += step_minutes
+        if m >= 60:
+            h += 1
+            m = 0
+    return out
 
-        code = data.get('code', course.code)
-        number = data.get('number', course.number)
-        section = data.get('section', course.section)
-        term = data.get('term', course.term)
-        start = data.get('start', course.start)
-        end = data.get('end', course.end)
-        day = data.get('day', course.day)
-
-
-        if datetime.strptime(end, "%H:%M") < datetime.strptime(start, "%H:%M"):
-            messages.error(request, 'End time must be after start time.')
-            return redirect('scheduler:view_courses')
-
-        course_code_obj, created = CourseCode.objects.get_or_create(name=code)
-        course_number_obj, created = CourseNumber.objects.get_or_create(name=number)
-        course_section_obj, created = CourseSection.objects.get_or_create(name=section)
-        course_term_obj, created = CourseTerm.objects.get_or_create(name=term)
-        course_start_obj, created = CourseTime.objects.get_or_create(name=start)
-        course_end_obj, created = CourseTime.objects.get_or_create(name=end)
-        course_day_obj, created = CourseDay.objects.get_or_create(name=day)
-
-        course.code = course_code_obj
-        course.number = course_number_obj
-        course.section = course_section_obj
-        course.term = course_term_obj
-        course.start = course_start_obj
-        course.end = course_end_obj
-        course.day = course_day_obj
-
-        course_name = f"{code}-{number}-{section}-{term}"
-        slug = slugify(course_name)
-
-        if Course.objects.filter(slug=slug).exists():
-            messages.error(request, 'A course with this name already exists.')
-            return redirect('scheduler:view_courses')
-    
-        course.save()
-
-        return redirect('scheduler:view_courses')
-    
-
+TERM_CHOICES = ["T1", "T2", "T1_T2"]
+DAY_CHOICES = [("Monday", "Monday"), ("Tuesday", "Tuesday"), ("Wednesday", "Wednesday"),
+               ("Thursday", "Thursday"), ("Friday", "Friday")]
+START_TIME_CHOICES = _hhmm_range(8, 21)   # 08:00 → 21:00, every 30m
+END_TIME_CHOICES   = _hhmm_range(8, 21)   # 08:00 → 21:00, every 30m
+YEAR_CHOICES       = [str(y) for y in range(2025, 2036)]
 
 def create_course(request):
-    if request.method == 'POST':
-        data = request.POST
+    # Build common context
+    ctx = {
+        "title": "Create Course",
+        "term_options": TERM_CHOICES,
+        "day_options": DAY_CHOICES,
+        "start_time_options": START_TIME_CHOICES,
+        "end_time_options": END_TIME_CHOICES,
+        "year_options": YEAR_CHOICES,
+        "selected_days": [],  # none checked initially
+    }
 
-        code = data.get('code')
-        print(code)
-        number = data.get('number')
-        section = data.get('section')
-        term = data.get('term')
-        start = data.get('start')
-        end = data.get('end')
-        day = data.get('day')
-        print(day)
+    if request.method == "POST":
+        # convert multiple checkboxes -> single string "Mon_Tues_..."
+        data = request.POST.copy()
+        checked_days = data.getlist("day")  # many checkboxes named "day"
+        data["day"] = "_".join(checked_days) if checked_days else ""  # optional
 
-        course_code_obj, created = CourseCode.objects.get_or_create(name=code)
-        course_number_obj, created = CourseNumber.objects.get_or_create(name=number)
-        course_section_obj, created = CourseSection.objects.get_or_create(name=section)
-        course_term_obj, created = CourseTerm.objects.get_or_create(name=term)
-        course_start_obj, created = CourseTime.objects.get_or_create(name=start)
-        course_end_obj, created = CourseTime.objects.get_or_create(name=end)
-        course_day_obj, created = CourseDay.objects.get_or_create(name=day)
+        form = CourseForm(data)
+        if form.is_valid():
+            form.save()  # form.save() does get_or_create for FK tables
+            messages.success(request, "Course created successfully.")
+            return redirect("scheduler:view_courses")
+        messages.error(request, "Please correct the errors below.")
+    else:
+        form = CourseForm()
+
+    ctx["form"] = form
+    return render(request, "timetable/course_form.html", ctx)
 
 
-        course_name = f"{code}-{number}-{section}-{term}"
-        slug = slugify(course_name)
+def edit_course(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
 
-        if Course.objects.filter(slug=slug).exists():
-            messages.error(request, 'A course with this name already exists.')
-            return redirect('scheduler:view_courses')
+    # figure out which boxes are checked for edit view
+    checked = course.day.name.split("_") if course.day else []
 
-        course = Course(
-            name=course_name,
-            slug=slug,
-            code=course_code_obj,
-            number=course_number_obj,
-            section=course_section_obj,
-            term=course_term_obj,
-            start=course_start_obj,
-            end=course_end_obj,
-            day=course_day_obj
+    ctx = {
+        "title": "Edit Course",
+        "term_options": TERM_CHOICES,
+        "day_options": DAY_CHOICES,
+        "start_time_options": START_TIME_CHOICES,
+        "end_time_options": END_TIME_CHOICES,
+        "year_options": YEAR_CHOICES,
+        "selected_days": checked,
+    }
+
+    if request.method == "POST":
+        data = request.POST.copy()
+        checked_days = data.getlist("day")
+        data["day"] = "_".join(checked_days) if checked_days else ""
+        form = CourseForm(data, instance=course)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Course edited successfully.")
+            return redirect("scheduler:view_courses")
+        messages.error(request, "Please correct the errors below.")
+    else:
+        # prefill the text fields with related .name values
+        form = CourseForm(
+            initial={
+                "code": course.code.name,
+                "number": course.number.name,
+                "section": course.section.name,
+                "term": course.term.name,
+                "academic_year": course.academic_year.name,
+                "start_time": course.start_time.name if course.start_time else "",
+                "end_time": course.end_time.name if course.end_time else "",
+                "day": course.day.name if course.day else "",
+            },
+            instance=course,
         )
-        course.save()
 
-        return redirect('scheduler:view_courses')
+    ctx["form"] = form
+    return render(request, "timetable/course_form.html", ctx)
