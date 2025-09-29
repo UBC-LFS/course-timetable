@@ -79,14 +79,14 @@ class ProgramYearLevel(models.Model):
         return self.name    
 
 class Course(models.Model):
-    term = models.ForeignKey(CourseTerm, on_delete=models.DO_NOTHING)
-    code = models.ForeignKey(CourseCode, on_delete=models.DO_NOTHING)
-    number = models.ForeignKey(CourseNumber, on_delete=models.DO_NOTHING)
-    section = models.ForeignKey(CourseSection, on_delete=models.DO_NOTHING)
-    academic_year = models.ForeignKey(CourseYear, on_delete=models.DO_NOTHING)
-    start_time = models.ForeignKey(CourseTime, on_delete=models.CASCADE, null=True, blank=True, related_name="start_time")
-    end_time = models.ForeignKey(CourseTime, on_delete=models.CASCADE, null=True, blank=True, related_name="end_time")
-    day = models.ForeignKey(CourseDay, on_delete=models.CASCADE, null=True, blank=True)
+    term = models.ForeignKey(CourseTerm, on_delete=models.SET_NULL, null=True, blank=True)
+    code = models.ForeignKey(CourseCode, on_delete=models.SET_NULL, null=True, blank=True)
+    number = models.ForeignKey(CourseNumber, on_delete=models.SET_NULL, null=True, blank=True)
+    section = models.ForeignKey(CourseSection, on_delete=models.SET_NULL, null=True, blank=True)
+    academic_year = models.ForeignKey(CourseYear, on_delete=models.SET_NULL, null=True, blank=True)
+    start_time = models.ForeignKey(CourseTime, on_delete=models.SET_NULL, null=True, blank=True, related_name="start_time")
+    end_time = models.ForeignKey(CourseTime, on_delete=models.SET_NULL, null=True, blank=True, related_name="end_time")
+    day = models.ForeignKey(CourseDay, on_delete=models.SET_NULL, null=True, blank=True)
     slug = models.SlugField(max_length=256, unique=True)    # URL-friendly identifier
 
     def save(self, *args, **kwargs):
@@ -102,7 +102,7 @@ class Course(models.Model):
     
 class Program(models.Model):
     name = models.CharField(max_length=50) # only one AANB, no need foreign key
-    year_level = models.ForeignKey(ProgramYearLevel, on_delete=models.DO_NOTHING)
+    year_level = models.ForeignKey(ProgramYearLevel, on_delete=models.SET_NULL, null=True, blank=True)
     courses = models.ManyToManyField(Course, related_name="programs")  # many-to-many
     
     class Meta:

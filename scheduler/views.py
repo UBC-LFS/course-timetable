@@ -10,6 +10,8 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from .forms import CourseForm
 from django.shortcuts import get_object_or_404
+from django.views.decorators.http import require_POST
+from .forms import CourseTermForm
 
 
 '''
@@ -308,8 +310,38 @@ def edit_course(request, course_id):
     ctx["form"] = form
     return render(request, "timetable/course_form.html", ctx)
 
-def setting_course_term(request):
-    return HttpResponse("Course Term settings (stub)")
+def course_term_list(request):
+    terms = CourseTerm.objects.order_by("name")
+    form = CourseTermForm()  # empty for the Create modal
+    return render(request, "timetable/course_term_list.html", {"terms": terms, "form": form})
+
+@require_POST
+def course_term_create(request):
+    form = CourseTermForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Course Term created.")
+    else:
+        messages.error(request, "You can not create a course term that already exists. Please try again.")
+    return redirect("scheduler:course_term")
+
+@require_POST
+def course_term_update(request, pk):
+    term = get_object_or_404(CourseTerm, pk=pk)
+    form = CourseTermForm(request.POST, instance=term)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Course Term updated.")
+    else:
+        messages.error(request, "You can not update to a course term that already exists. Please try again.")
+    return redirect("scheduler:course_term")
+
+@require_POST
+def course_term_delete(request, pk):
+    term = get_object_or_404(CourseTerm, pk=pk)
+    term.delete()
+    messages.success(request, "Course Term deleted.")
+    return redirect("scheduler:course_term")
 
 def setting_course_code(request):
     return HttpResponse("Course Code settings (stub)")

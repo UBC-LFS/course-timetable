@@ -77,3 +77,22 @@ class CourseForm(forms.Form):
 
         course.save()
         return course
+
+
+class CourseTermForm(forms.ModelForm):
+    class Meta:
+        model = CourseTerm
+        fields = ["name"]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "e.g. T1"}),
+        }
+
+    def clean_name(self):
+        name = self.cleaned_data["name"].strip()
+        # enforce case-insensitive uniqueness
+        qs = CourseTerm.objects.filter(name__exact=name)
+        if self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise forms.ValidationError("A Course Term with this name already exists.")
+        return name

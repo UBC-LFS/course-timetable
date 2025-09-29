@@ -210,15 +210,15 @@
                                data-top="{{ course.offset_top }}"
                                data-width="{{ data.width|default:'100' }}"
                                data-left="{{ data.left|default:'0' }}"
-                               data-code="{{ course.code.name }}"
-                               data-number="{{ course.number.name }}"
-                               data-start="{{ course.start_time.name }}"
-                               data-end="{{ course.end_time.name }}"
-                               data-day="{{ course.day.name }}"
-                               data-section="{{ course.section.name }}"
-                               data-academic-year="{{ course.academic_year.name }}"
-                               data-term="{{ course.term.name }}">
-                            <strong>{{ course.code.name }} {{ course.number.name }} {{ course.section.name }} {{ course.academic_year.name }} {{ course.term.name }}</strong>
+                               data-code="{{ course.code.name|default:'None' }}"
+                               data-number="{{ course.number.name|default:'None' }}"
+                               data-start="{{ course.start_time.name|default:'None' }}"
+                               data-end="{{ course.end_time.name|default:'None' }}"
+                               data-day="{{ course.day.name|default:'None' }}"
+                               data-section="{{ course.section.name|default:'None' }}"
+                               data-academic-year="{{ course.academic_year.name|default:'None' }}"
+                               data-term="{{ course.term.name|default:'None' }}">
+                            <strong>{{ course.code.name|default:'None' }} {{ course.number.name|default:'None' }} {{ course.section.name|default:'None' }} {{ course.academic_year.name|default:'None' }} {{ course.term.name|default:'None' }}</strong>
                           </div>
                         {% endif %}
                       {% endif %}
