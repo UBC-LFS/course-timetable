@@ -868,6 +868,35 @@
   "pk": 35,
   "fields": {
     "name": "SAGE",
+    "year_level": 4,
+    "courses": [
+      41,
+      229,
+      247
+    ]
+  }
+},
+{
+  "model": "scheduler.program",
+  "pk": 36,
+  "fields": {
+    "name": "SAGE Honours",
+    "year_level": 4,
+    "courses": [
+      229,
+      247,
+      41,
+      273,
+      274,
+      275
+    ]
+  }
+},
+{
+  "model": "scheduler.program",
+  "pk": 37,
+  "fields": {
+    "name": "SAGE",
     "year_level": 3,
     "courses": [
       37,
@@ -891,7 +920,7 @@
 },
 {
   "model": "scheduler.program",
-  "pk": 36,
+  "pk": 38,
   "fields": {
     "name": "SAGE Honours",
     "year_level": 3,
@@ -913,35 +942,6 @@
       225,
       227,
       230
-    ]
-  }
-},
-{
-  "model": "scheduler.program",
-  "pk": 37,
-  "fields": {
-    "name": "SAGE",
-    "year_level": 4,
-    "courses": [
-      41,
-      229,
-      247
-    ]
-  }
-},
-{
-  "model": "scheduler.program",
-  "pk": 38,
-  "fields": {
-    "name": "SAGE Honours",
-    "year_level": 4,
-    "courses": [
-      41,
-      229,
-      247,
-      273,
-      274,
-      275
     ]
   }
 },

@@ -166,19 +166,5 @@
   "fields": {
     "name": "14:30"
   }
-},
-{
-  "model": "scheduler.coursetime",
-  "pk": 25,
-  "fields": {
-    "name": "21:00"
-  }
-},
-{
-  "model": "scheduler.coursetime",
-  "pk": 26,
-  "fields": {
-    "name": "20:00"
-  }
 }
 ]

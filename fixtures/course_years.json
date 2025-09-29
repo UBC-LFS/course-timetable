@@ -5,12 +5,5 @@
   "fields": {
     "name": "2025"
   }
-},
-{
-  "model": "scheduler.courseyear",
-  "pk": 2,
-  "fields": {
-    "name": "2026"
-  }
 }
 ]

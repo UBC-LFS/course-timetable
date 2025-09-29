@@ -16,7 +16,7 @@ python manage.py flush
 
 python manage.py ingestion_script
 
-
+.\venv\scripts\activate
 
 
 

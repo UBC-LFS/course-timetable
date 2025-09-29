@@ -124,12 +124,9 @@ class Command(BaseCommand):
 
                 # Parse number + section
                 try:
-                    parts = full_code.split(" ")  # e.g. "100-001" or "100 001"
-                    if subject.strip().upper() == "GRS":
-                        number, section = parts[1], parts[2]
-                    else:
-                        num_section = parts[1]
-                        number, section = num_section.split("-")
+                    parts = full_code.split(" ")  # e.g. "100-001"
+                    num_section = parts[1]
+                    number, section = num_section.split("-")
                 except Exception:
                     # should not come here
                     number, section = "Unknown", "Unknown"
@@ -145,7 +142,7 @@ class Command(BaseCommand):
                 if not pd.isna(days) and days:
                     # Day exists → create CourseDay
                     # although "Monday,Friday", I change it to "Monday_Friday"
-                    day_val = normalize_days(str(days).strip())
+                    day_val = str(days).strip().replace(",", "_")
                     day_obj, _ = CourseDay.objects.get_or_create(name=day_val)
 
                     # Only parse times if day is valid
