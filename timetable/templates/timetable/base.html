@@ -41,45 +41,49 @@
     {% if user.is_authenticated %}
     <!-- right side -->
     <div class="collapse navbar-collapse justify-content-end" id="mainNav">
-      <ul class="navbar-nav mb-2 mb-lg-0">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-4">
         <li class="nav-item">
-          <a class="nav-link active text-white" href="{% url 'scheduler:landing_page' %}">Home</a>
+          <a class="nav-link text-white" href="{% url 'scheduler:landing_page' %}">Home</a>
         </li>
-        
-        <li>
-        <div class="dropdown dropdown-select" style="padding-right: 3px; padding-left: 3px;">
-          <button style="background: none; color: white;	padding: 0;	margin-top: 8px; font: inherit;	cursor: pointer;	outline: inherit; border: none" data-bs-toggle="dropdown" aria-expanded="false">
+      
+        <!-- Admin dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="adminDropdown"
+             role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Admin
-          </button>
-            <ul class="dropdown-menu" style="height: fit-content; overflow-y: auto;">
-                <li>
-                  <a class="dropdown-item" href="{% url 'accounts:create_user' %}">Create User</a>
-                  <a class="dropdown-item" href="{% url 'accounts:view_users' %}">View Users</a>
-                </li>
-            </ul>
-        </div>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown">
+            <li><a class="dropdown-item" href="{% url 'accounts:create_user' %}">Create User</a></li>
+            <li><a class="dropdown-item" href="{% url 'accounts:view_users' %}">View Users</a></li>
+          </ul>
         </li>
-
-        <li class="nav-item">
-          <button class="nav-link active text-white btn btn-link p-0 ms-3"
-                  type="button"
-                  data-bs-toggle="modal"
-                  data-bs-target="#settingsModal">
+      
+        <!-- Settings dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="settingsDropdown"
+             role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Settings
-          </button>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="settingsDropdown">
+            <li><a class="dropdown-item" href="{% url 'scheduler:course_term' %}">Course Term</a></li>
+            <li><a class="dropdown-item" href="{% url 'scheduler:course_code' %}">Course Code</a></li>
+            <li><a class="dropdown-item" href="{% url 'scheduler:course_number' %}">Course Number</a></li>
+            <li><a class="dropdown-item" href="{% url 'scheduler:course_section' %}">Course Section</a></li>
+            <li><a class="dropdown-item" href="{% url 'scheduler:course_time' %}">Course Time</a></li>
+            <li><a class="dropdown-item" href="{% url 'scheduler:course_year' %}">Course Year</a></li>
+            <li><a class="dropdown-item" href="{% url 'scheduler:program_year_level' %}">Program Year Level</a></li>
+          </ul>
         </li>
-
-        <li>
-
-          <a class="nav-link active text-white" style="padding-right: 3px"href="{% url 'scheduler:view_courses' %}">Courses</a>
+      
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{% url 'scheduler:view_courses' %}">Courses</a>
         </li>
-
-        <li>
-
-          {% if user.is_authenticated %}
-          <a class="nav-link active text-white" href="{% url 'accounts:ldap_logout' %}">Logout</a>
-          {% endif %}
+      
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{% url 'accounts:ldap_logout' %}">Logout</a>
         </li>
+        {% endif %}
       </ul>
     </div>
     {% endif %}
@@ -120,31 +124,6 @@
   </div>
 </footer>
 
-<!-- Settings Modal -->
-<div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="list-group">
-          <a class="list-group-item list-group-item-action" href="{% url 'scheduler:course_term' %}">Course Term</a>
-          <a class="list-group-item list-group-item-action" href="{% url 'scheduler:course_code' %}">Course Code</a>
-          <a class="list-group-item list-group-item-action" href="{% url 'scheduler:course_number' %}">Course Number</a>
-          <a class="list-group-item list-group-item-action" href="{% url 'scheduler:course_section' %}">Course Section</a>
-          <a class="list-group-item list-group-item-action" href="{% url 'scheduler:course_time' %}">Course Time</a>
-          <a class="list-group-item list-group-item-action" href="{% url 'scheduler:course_year' %}">Course Year</a>
-          <a class="list-group-item list-group-item-action" href="{% url 'scheduler:program_year_level' %}">Program Year Level</a>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 <!-- Bootstrap JS bundle (contains Popper) -->
