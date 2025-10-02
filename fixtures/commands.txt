@@ -18,6 +18,10 @@ python manage.py ingestion_script
 
 .\venv\scripts\activate
 
+python manage.py runserver
+
+DB: course_timetable
+
 
 
 

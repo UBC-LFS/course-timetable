@@ -3,7 +3,7 @@
   "model": "scheduler.course",
   "pk": 1,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 1,
     "number": 1,
     "section": 1,
@@ -18,7 +18,7 @@
   "model": "scheduler.course",
   "pk": 2,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 1,
     "number": 1,
     "section": 2,
@@ -33,7 +33,7 @@
   "model": "scheduler.course",
   "pk": 3,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 1,
     "number": 1,
     "section": 3,
@@ -123,7 +123,7 @@
   "model": "scheduler.course",
   "pk": 9,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 1,
     "number": 4,
     "section": 1,
@@ -153,7 +153,7 @@
   "model": "scheduler.course",
   "pk": 11,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 1,
     "number": 4,
     "section": 3,
@@ -183,7 +183,7 @@
   "model": "scheduler.course",
   "pk": 13,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 1,
     "number": 4,
     "section": 10,
@@ -198,7 +198,7 @@
   "model": "scheduler.course",
   "pk": 14,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 1,
     "number": 4,
     "section": 11,
@@ -498,7 +498,7 @@
   "model": "scheduler.course",
   "pk": 34,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 1,
     "number": 7,
     "section": 22,
@@ -543,7 +543,7 @@
   "model": "scheduler.course",
   "pk": 37,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 1,
     "number": 8,
     "section": 1,
@@ -618,7 +618,7 @@
   "model": "scheduler.course",
   "pk": 42,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 1,
     "number": 11,
     "section": 22,
@@ -648,7 +648,7 @@
   "model": "scheduler.course",
   "pk": 44,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 1,
     "number": 11,
     "section": 24,
@@ -708,7 +708,7 @@
   "model": "scheduler.course",
   "pk": 48,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 2,
     "number": 12,
     "section": 27,
@@ -783,7 +783,7 @@
   "model": "scheduler.course",
   "pk": 53,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 2,
     "number": 14,
     "section": 27,
@@ -828,7 +828,7 @@
   "model": "scheduler.course",
   "pk": 56,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 2,
     "number": 15,
     "section": 22,
@@ -858,7 +858,7 @@
   "model": "scheduler.course",
   "pk": 58,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 2,
     "number": 15,
     "section": 26,
@@ -903,7 +903,7 @@
   "model": "scheduler.course",
   "pk": 61,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 2,
     "number": 16,
     "section": 27,
@@ -948,7 +948,7 @@
   "model": "scheduler.course",
   "pk": 64,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 2,
     "number": 17,
     "section": 24,
@@ -1008,7 +1008,7 @@
   "model": "scheduler.course",
   "pk": 68,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 18,
     "section": 6,
@@ -1053,7 +1053,7 @@
   "model": "scheduler.course",
   "pk": 71,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 20,
     "section": 6,
@@ -1068,7 +1068,7 @@
   "model": "scheduler.course",
   "pk": 72,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 20,
     "section": 27,
@@ -1113,7 +1113,7 @@
   "model": "scheduler.course",
   "pk": 75,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 20,
     "section": 32,
@@ -1128,7 +1128,7 @@
   "model": "scheduler.course",
   "pk": 76,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 5,
     "section": 1,
@@ -1158,7 +1158,7 @@
   "model": "scheduler.course",
   "pk": 78,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 13,
     "section": 1,
@@ -1173,7 +1173,7 @@
   "model": "scheduler.course",
   "pk": 79,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 13,
     "section": 5,
@@ -1188,7 +1188,7 @@
   "model": "scheduler.course",
   "pk": 80,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 21,
     "section": 1,
@@ -1203,7 +1203,7 @@
   "model": "scheduler.course",
   "pk": 81,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 21,
     "section": 5,
@@ -1218,7 +1218,7 @@
   "model": "scheduler.course",
   "pk": 82,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 7,
     "section": 6,
@@ -1233,7 +1233,7 @@
   "model": "scheduler.course",
   "pk": 83,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 7,
     "section": 5,
@@ -1293,7 +1293,7 @@
   "model": "scheduler.course",
   "pk": 87,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 24,
     "section": 1,
@@ -1308,7 +1308,7 @@
   "model": "scheduler.course",
   "pk": 88,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 25,
     "section": 1,
@@ -1323,7 +1323,7 @@
   "model": "scheduler.course",
   "pk": 89,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 25,
     "section": 2,
@@ -1368,7 +1368,7 @@
   "model": "scheduler.course",
   "pk": 92,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 27,
     "section": 1,
@@ -1398,7 +1398,7 @@
   "model": "scheduler.course",
   "pk": 94,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 27,
     "section": 33,
@@ -1413,7 +1413,7 @@
   "model": "scheduler.course",
   "pk": 95,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 27,
     "section": 34,
@@ -1428,7 +1428,7 @@
   "model": "scheduler.course",
   "pk": 96,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 27,
     "section": 35,
@@ -1443,7 +1443,7 @@
   "model": "scheduler.course",
   "pk": 97,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 27,
     "section": 36,
@@ -1458,7 +1458,7 @@
   "model": "scheduler.course",
   "pk": 98,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 27,
     "section": 37,
@@ -1473,7 +1473,7 @@
   "model": "scheduler.course",
   "pk": 99,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 27,
     "section": 38,
@@ -1488,7 +1488,7 @@
   "model": "scheduler.course",
   "pk": 100,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 27,
     "section": 39,
@@ -1503,7 +1503,7 @@
   "model": "scheduler.course",
   "pk": 101,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 27,
     "section": 40,
@@ -1713,7 +1713,7 @@
   "model": "scheduler.course",
   "pk": 115,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 30,
     "section": 1,
@@ -1743,7 +1743,7 @@
   "model": "scheduler.course",
   "pk": 117,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 8,
     "section": 1,
@@ -1773,7 +1773,7 @@
   "model": "scheduler.course",
   "pk": 119,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 33,
     "section": 1,
@@ -1803,7 +1803,7 @@
   "model": "scheduler.course",
   "pk": 121,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 34,
     "section": 1,
@@ -1818,7 +1818,7 @@
   "model": "scheduler.course",
   "pk": 122,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 35,
     "section": 2,
@@ -1848,7 +1848,7 @@
   "model": "scheduler.course",
   "pk": 124,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 37,
     "section": 1,
@@ -1863,7 +1863,7 @@
   "model": "scheduler.course",
   "pk": 125,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 38,
     "section": 1,
@@ -1878,7 +1878,7 @@
   "model": "scheduler.course",
   "pk": 126,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 38,
     "section": 5,
@@ -1923,7 +1923,7 @@
   "model": "scheduler.course",
   "pk": 129,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 41,
     "section": 1,
@@ -1953,7 +1953,7 @@
   "model": "scheduler.course",
   "pk": 131,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 41,
     "section": 5,
@@ -1968,7 +1968,7 @@
   "model": "scheduler.course",
   "pk": 132,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 41,
     "section": 13,
@@ -2043,7 +2043,7 @@
   "model": "scheduler.course",
   "pk": 137,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 44,
     "section": 1,
@@ -2058,7 +2058,7 @@
   "model": "scheduler.course",
   "pk": 138,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 45,
     "section": 6,
@@ -2073,7 +2073,7 @@
   "model": "scheduler.course",
   "pk": 139,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 46,
     "section": 1,
@@ -2103,7 +2103,7 @@
   "model": "scheduler.course",
   "pk": 141,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 48,
     "section": 1,
@@ -2118,7 +2118,7 @@
   "model": "scheduler.course",
   "pk": 142,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 48,
     "section": 50,
@@ -2163,7 +2163,7 @@
   "model": "scheduler.course",
   "pk": 145,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 51,
     "section": 1,
@@ -2178,7 +2178,7 @@
   "model": "scheduler.course",
   "pk": 146,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 52,
     "section": 1,
@@ -2268,7 +2268,7 @@
   "model": "scheduler.course",
   "pk": 152,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 58,
     "section": 4,
@@ -2313,7 +2313,7 @@
   "model": "scheduler.course",
   "pk": 155,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 17,
     "section": 51,
@@ -2343,7 +2343,7 @@
   "model": "scheduler.course",
   "pk": 157,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 17,
     "section": 53,
@@ -2403,7 +2403,7 @@
   "model": "scheduler.course",
   "pk": 161,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 17,
     "section": 31,
@@ -2448,7 +2448,7 @@
   "model": "scheduler.course",
   "pk": 164,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 3,
     "number": 60,
     "section": 6,
@@ -2823,7 +2823,7 @@
   "model": "scheduler.course",
   "pk": 189,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 63,
     "section": 1,
@@ -2838,7 +2838,7 @@
   "model": "scheduler.course",
   "pk": 190,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 63,
     "section": 7,
@@ -2853,7 +2853,7 @@
   "model": "scheduler.course",
   "pk": 191,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 63,
     "section": 49,
@@ -2868,7 +2868,7 @@
   "model": "scheduler.course",
   "pk": 192,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 63,
     "section": 58,
@@ -2883,7 +2883,7 @@
   "model": "scheduler.course",
   "pk": 193,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 63,
     "section": 59,
@@ -2898,7 +2898,7 @@
   "model": "scheduler.course",
   "pk": 194,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 63,
     "section": 60,
@@ -2913,7 +2913,7 @@
   "model": "scheduler.course",
   "pk": 195,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 63,
     "section": 61,
@@ -2928,7 +2928,7 @@
   "model": "scheduler.course",
   "pk": 196,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 64,
     "section": 1,
@@ -2943,7 +2943,7 @@
   "model": "scheduler.course",
   "pk": 197,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 64,
     "section": 5,
@@ -2958,7 +2958,7 @@
   "model": "scheduler.course",
   "pk": 198,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 64,
     "section": 7,
@@ -3003,7 +3003,7 @@
   "model": "scheduler.course",
   "pk": 201,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 67,
     "section": 1,
@@ -3018,7 +3018,7 @@
   "model": "scheduler.course",
   "pk": 202,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 24,
     "section": 1,
@@ -3093,7 +3093,7 @@
   "model": "scheduler.course",
   "pk": 207,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 72,
     "section": 1,
@@ -3108,7 +3108,7 @@
   "model": "scheduler.course",
   "pk": 208,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 73,
     "section": 1,
@@ -3123,7 +3123,7 @@
   "model": "scheduler.course",
   "pk": 209,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 74,
     "section": 1,
@@ -3138,7 +3138,7 @@
   "model": "scheduler.course",
   "pk": 210,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 74,
     "section": 7,
@@ -3153,7 +3153,7 @@
   "model": "scheduler.course",
   "pk": 211,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 74,
     "section": 49,
@@ -3168,7 +3168,7 @@
   "model": "scheduler.course",
   "pk": 212,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 75,
     "section": 1,
@@ -3183,7 +3183,7 @@
   "model": "scheduler.course",
   "pk": 213,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 75,
     "section": 7,
@@ -3198,7 +3198,7 @@
   "model": "scheduler.course",
   "pk": 214,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 75,
     "section": 49,
@@ -3213,7 +3213,7 @@
   "model": "scheduler.course",
   "pk": 215,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 75,
     "section": 58,
@@ -3228,7 +3228,7 @@
   "model": "scheduler.course",
   "pk": 216,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 75,
     "section": 59,
@@ -3243,7 +3243,7 @@
   "model": "scheduler.course",
   "pk": 217,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 76,
     "section": 1,
@@ -3288,7 +3288,7 @@
   "model": "scheduler.course",
   "pk": 220,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 32,
     "section": 6,
@@ -3303,7 +3303,7 @@
   "model": "scheduler.course",
   "pk": 221,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 32,
     "section": 7,
@@ -3318,7 +3318,7 @@
   "model": "scheduler.course",
   "pk": 222,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 32,
     "section": 49,
@@ -3333,7 +3333,7 @@
   "model": "scheduler.course",
   "pk": 223,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 32,
     "section": 58,
@@ -3348,7 +3348,7 @@
   "model": "scheduler.course",
   "pk": 224,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 32,
     "section": 59,
@@ -3393,7 +3393,7 @@
   "model": "scheduler.course",
   "pk": 227,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 38,
     "section": 1,
@@ -3408,7 +3408,7 @@
   "model": "scheduler.course",
   "pk": 228,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 39,
     "section": 1,
@@ -3453,7 +3453,7 @@
   "model": "scheduler.course",
   "pk": 231,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 79,
     "section": 1,
@@ -3468,7 +3468,7 @@
   "model": "scheduler.course",
   "pk": 232,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 80,
     "section": 2,
@@ -3483,7 +3483,7 @@
   "model": "scheduler.course",
   "pk": 233,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 44,
     "section": 1,
@@ -3498,7 +3498,7 @@
   "model": "scheduler.course",
   "pk": 234,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 45,
     "section": 1,
@@ -3528,7 +3528,7 @@
   "model": "scheduler.course",
   "pk": 236,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 81,
     "section": 1,
@@ -3558,7 +3558,7 @@
   "model": "scheduler.course",
   "pk": 238,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 83,
     "section": 1,
@@ -3588,7 +3588,7 @@
   "model": "scheduler.course",
   "pk": 240,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 85,
     "section": 1,
@@ -3603,7 +3603,7 @@
   "model": "scheduler.course",
   "pk": 241,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 85,
     "section": 8,
@@ -3633,7 +3633,7 @@
   "model": "scheduler.course",
   "pk": 243,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 48,
     "section": 1,
@@ -3648,7 +3648,7 @@
   "model": "scheduler.course",
   "pk": 244,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 87,
     "section": 1,
@@ -3663,7 +3663,7 @@
   "model": "scheduler.course",
   "pk": 245,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 88,
     "section": 1,
@@ -3678,7 +3678,7 @@
   "model": "scheduler.course",
   "pk": 246,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 88,
     "section": 5,
@@ -3693,7 +3693,7 @@
   "model": "scheduler.course",
   "pk": 247,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 89,
     "section": 1,
@@ -3708,7 +3708,7 @@
   "model": "scheduler.course",
   "pk": 248,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 90,
     "section": 1,
@@ -3723,7 +3723,7 @@
   "model": "scheduler.course",
   "pk": 249,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 55,
     "section": 1,
@@ -3768,7 +3768,7 @@
   "model": "scheduler.course",
   "pk": 252,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 16,
     "section": 73,
@@ -3783,7 +3783,7 @@
   "model": "scheduler.course",
   "pk": 253,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 16,
     "section": 74,
@@ -3798,7 +3798,7 @@
   "model": "scheduler.course",
   "pk": 254,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 11,
     "section": 22,
@@ -3843,7 +3843,7 @@
   "model": "scheduler.course",
   "pk": 257,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 11,
     "section": 24,
@@ -3888,7 +3888,7 @@
   "model": "scheduler.course",
   "pk": 260,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 17,
     "section": 22,
@@ -3918,7 +3918,7 @@
   "model": "scheduler.course",
   "pk": 262,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 17,
     "section": 24,
@@ -3948,7 +3948,7 @@
   "model": "scheduler.course",
   "pk": 264,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 17,
     "section": 55,
@@ -3978,7 +3978,7 @@
   "model": "scheduler.course",
   "pk": 266,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 17,
     "section": 77,
@@ -4008,7 +4008,7 @@
   "model": "scheduler.course",
   "pk": 268,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 17,
     "section": 31,
@@ -4038,7 +4038,7 @@
   "model": "scheduler.course",
   "pk": 270,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 91,
     "section": 1,
@@ -4098,7 +4098,7 @@
   "model": "scheduler.course",
   "pk": 274,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 4,
     "number": 60,
     "section": 6,
@@ -4173,7 +4173,7 @@
   "model": "scheduler.course",
   "pk": 279,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 5,
     "number": 92,
     "section": 1,
@@ -4188,7 +4188,7 @@
   "model": "scheduler.course",
   "pk": 280,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 5,
     "number": 26,
     "section": 1,
@@ -4203,7 +4203,7 @@
   "model": "scheduler.course",
   "pk": 281,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 5,
     "number": 29,
     "section": 1,
@@ -4218,7 +4218,7 @@
   "model": "scheduler.course",
   "pk": 282,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 5,
     "number": 93,
     "section": 1,
@@ -4248,7 +4248,7 @@
   "model": "scheduler.course",
   "pk": 284,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 5,
     "number": 95,
     "section": 6,
@@ -4263,7 +4263,7 @@
   "model": "scheduler.course",
   "pk": 285,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 5,
     "number": 95,
     "section": 28,
@@ -4338,7 +4338,7 @@
   "model": "scheduler.course",
   "pk": 290,
   "fields": {
-    "term": null,
+    "term": 1,
     "code": 5,
     "number": 16,
     "section": 1,

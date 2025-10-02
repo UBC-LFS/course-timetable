@@ -21,5 +21,5 @@ urlpatterns = [
     path('setting_course_section/', views.setting_course_section, name='course_section'),
     path('setting_course_time/',    views.setting_course_time,    name='course_time'),
     path('setting_course_year/',    views.setting_course_year,    name='course_year'),
-    path('setting_program_year_level/', views.setting_program_year_level, name='program_year_level'),
+    path('setting_program_name/', views.setting_program_name, name='program_name'),
 ] 

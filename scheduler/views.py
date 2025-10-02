@@ -358,5 +358,5 @@ def setting_course_time(request):
 def setting_course_year(request):
     return HttpResponse("Course Year settings (stub)")
 
-def setting_program_year_level(request):
-    return HttpResponse("Program Year Level settings (stub)")
+def setting_program_name(request):
+    return HttpResponse("Program Name settings (stub)")
