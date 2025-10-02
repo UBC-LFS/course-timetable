@@ -177,5 +177,23 @@ class CourseTimeForm(forms.ModelForm):
             raise forms.ValidationError("A Course Time with this value already exists.")
         return normalized
 
+YEAR_CHOICES = [(str(y), str(y)) for y in range(2024, 2043)]  # 2024..2042 inclusive
+class CourseYearForm(forms.ModelForm):
+    class Meta:
+        model = CourseYear
+        fields = ["name"]
+        widgets = {
+            "name": forms.Select(attrs={"class": "form-select"}, choices=YEAR_CHOICES),
+        }
+
+    def clean_name(self):
+        name = self.cleaned_data["name"].strip()
+        qs = CourseYear.objects.filter(name__exact=name)
+        if self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise forms.ValidationError("A Course Year with this value already exists.")
+        return name
+
 
 

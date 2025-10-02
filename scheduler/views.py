@@ -16,6 +16,7 @@ from .forms import CourseCodeForm
 from .forms import CourseNumberForm
 from .forms import CourseSectionForm
 from .forms import CourseTimeForm
+from .forms import CourseYearForm
 
 
 '''
@@ -495,8 +496,43 @@ def course_time_delete(request, pk):
     messages.success(request, "Course Time deleted.")
     return redirect("scheduler:course_time")
 
-def setting_course_year(request):
-    return HttpResponse("Course Year settings (stub)")
+def course_year_list(request):
+    years = CourseYear.objects.order_by("name")
+    form = CourseYearForm()
+    # pass choices to template for the Edit modal's select
+    year_choices = [str(y) for y in range(2024, 2043)]
+    return render(request, "timetable/course_year_list.html",
+                  {"years": years, "form": form, "year_choices": year_choices})
+
+@require_POST
+def course_year_create(request):
+    form = CourseYearForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Course Year created.")
+    else:
+        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Create failed: {err}")
+    return redirect("scheduler:course_year")
+
+@require_POST
+def course_year_update(request, pk):
+    y = get_object_or_404(CourseYear, pk=pk)
+    form = CourseYearForm(request.POST, instance=y)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Course Year updated.")
+    else:
+        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Update failed: {err}")
+    return redirect("scheduler:course_year")
+
+@require_POST
+def course_year_delete(request, pk):
+    y = get_object_or_404(CourseYear, pk=pk)
+    y.delete()
+    messages.success(request, "Course Year deleted.")
+    return redirect("scheduler:course_year")
 
 def setting_program_name(request):
     return HttpResponse("Program Name settings (stub)")
