@@ -579,3 +579,6 @@ def program_name_delete(request, name):
     Program.objects.filter(name__exact=name).delete()
     messages.success(request, "Program Name deleted.")
     return redirect("scheduler:program_name")
+
+def requirements(request):
+    return HttpResponse("Requirements page - coming soon.")
