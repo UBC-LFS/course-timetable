@@ -106,7 +106,7 @@ class Course(models.Model):
     
     
 class Program(models.Model):
-    name = models.CharField(max_length=50) # only one AANB, no need foreign key
+    name = models.CharField(max_length=50)
     year_level = models.ForeignKey(ProgramYearLevel, on_delete=models.SET_NULL, null=True, blank=True)
     courses = models.ManyToManyField(Course, related_name="programs")  # many-to-many
     

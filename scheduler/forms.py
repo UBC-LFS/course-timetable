@@ -4,6 +4,7 @@ from .models import (
     Course, CourseTerm, CourseCode, CourseNumber,
     CourseSection, CourseYear, CourseTime, CourseDay
 )
+from .models import Program, ProgramYearLevel
 
 class CourseForm(forms.Form):
     # User inputs (required fields have asterisk in label)
@@ -196,4 +197,24 @@ class CourseYearForm(forms.ModelForm):
         return name
 
 
+class ProgramNameForm(forms.Form):
+    name = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "e.g. Food Science"}),
+        label="Program Name",
+    )
+
+    def __init__(self, *args, **kwargs):
+        # optional: pass current_name when editing to allow “no-op” rename
+        self.current_name = kwargs.pop("current_name", None)
+        super().__init__(*args, **kwargs)
+
+    def clean_name(self):
+        new = self.cleaned_data["name"].strip()
+        qs = Program.objects.filter(name__exact=new)
+        if self.current_name:
+            qs = qs.exclude(name__exact=self.current_name)
+        if qs.exists():
+            raise forms.ValidationError("A Program Name with this value already exists.")
+        return new
 

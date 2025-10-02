@@ -17,6 +17,8 @@ from .forms import CourseNumberForm
 from .forms import CourseSectionForm
 from .forms import CourseTimeForm
 from .forms import CourseYearForm
+from .models import Program, ProgramYearLevel
+from .forms import ProgramNameForm
 
 
 '''
@@ -534,5 +536,46 @@ def course_year_delete(request, pk):
     messages.success(request, "Course Year deleted.")
     return redirect("scheduler:course_year")
 
-def setting_program_name(request):
-    return HttpResponse("Program Name settings (stub)")
+def program_name_list(request):
+    # Distinct names only
+    names = (Program.objects
+             .exclude(name__isnull=True)
+             .exclude(name__exact="")
+             .values_list("name", flat=True)
+             .distinct()
+             .order_by("name"))
+    form = ProgramNameForm()
+    return render(request, "timetable/program_name_list.html", {"names": names, "form": form})
+
+@require_POST
+def program_name_create(request):
+    form = ProgramNameForm(request.POST)
+    if form.is_valid():
+        new_name = form.cleaned_data["name"]
+        # create a seed Program row so the name exists
+        Program.objects.create(name=new_name, year_level=None)
+        messages.success(request, "Program Name created.")
+    else:
+        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Create failed: {err}")
+    return redirect("scheduler:program_name")
+
+@require_POST
+def program_name_update(request, old_name):
+    form = ProgramNameForm(request.POST, current_name=old_name)
+    if form.is_valid():
+        new_name = form.cleaned_data["name"]
+        # cascade rename across all year levels
+        Program.objects.filter(name__exact=old_name).update(name=new_name)
+        messages.success(request, "Program Name updated.")
+    else:
+        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Update failed: {err}")
+    return redirect("scheduler:program_name")
+
+@require_POST
+def program_name_delete(request, name):
+    # delete all rows in Prgram table with this name (all year levels)
+    Program.objects.filter(name__exact=name).delete()
+    messages.success(request, "Program Name deleted.")
+    return redirect("scheduler:program_name")
