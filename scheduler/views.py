@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST
 from .forms import CourseTermForm
 from .forms import CourseCodeForm
+from .forms import CourseNumberForm
 
 
 '''
@@ -323,7 +324,8 @@ def course_term_create(request):
         form.save()
         messages.success(request, "Course Term created.")
     else:
-        messages.error(request, "You can not create a course term that already exists. Please try again.")
+        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Create failed: {err}")
     return redirect("scheduler:course_term")
 
 @require_POST
@@ -334,7 +336,8 @@ def course_term_update(request, pk):
         form.save()
         messages.success(request, "Course Term updated.")
     else:
-        messages.error(request, "You can not update to a course term that already exists. Please try again.")
+        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Update failed: {err}")
     return redirect("scheduler:course_term")
 
 @require_POST
@@ -356,7 +359,8 @@ def course_code_create(request):
         form.save()
         messages.success(request, "Course Code created.")
     else:
-        messages.error(request, "You can not create a course code that already exists. Please try again.")
+        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Create failed: {err}")
     return redirect("scheduler:course_code")
 
 @require_POST
@@ -367,7 +371,8 @@ def course_code_update(request, pk):
         form.save()
         messages.success(request, "Course Code updated.")
     else:
-        messages.error(request, "You can not update to a course code that already exists. Please try again.")
+        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Update failed: {err}")
     return redirect("scheduler:course_code")
 
 @require_POST
@@ -377,8 +382,40 @@ def course_code_delete(request, pk):
     messages.success(request, "Course Code deleted.")
     return redirect("scheduler:course_code")
 
-def setting_course_number(request):
-    return HttpResponse("Course Number settings (stub)")
+def course_number_list(request):
+    numbers = CourseNumber.objects.order_by("name")
+    form = CourseNumberForm()
+    return render(request, "timetable/course_number_list.html", {"numbers": numbers, "form": form})
+
+@require_POST
+def course_number_create(request):
+    form = CourseNumberForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Course Number created.")
+    else:
+        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Create failed: {err}")
+    return redirect("scheduler:course_number")
+
+@require_POST
+def course_number_update(request, pk):
+    number = get_object_or_404(CourseNumber, pk=pk)
+    form = CourseNumberForm(request.POST, instance=number)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Course Number updated.")
+    else:
+        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Update failed: {err}")
+    return redirect("scheduler:course_number")
+
+@require_POST
+def course_number_delete(request, pk):
+    number = get_object_or_404(CourseNumber, pk=pk)
+    number.delete()
+    messages.success(request, "Course Number deleted.")
+    return redirect("scheduler:course_number")
 
 def setting_course_section(request):
     return HttpResponse("Course Section settings (stub)")

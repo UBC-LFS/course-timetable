@@ -114,4 +114,25 @@ class CourseCodeForm(forms.ModelForm):
         if qs.exists():
             raise forms.ValidationError("A Course Code with this name already exists.")
         return name
+    
+
+class CourseNumberForm(forms.ModelForm):
+    class Meta:
+        model = CourseNumber
+        fields = ["name"]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "e.g. 100"}),
+        }
+
+    def clean_name(self):
+        raw = self.cleaned_data["name"].strip()
+        if not raw.isdigit():
+            raise forms.ValidationError("Course Number must contain digits only (e.g. 100).")
+        qs = CourseNumber.objects.filter(name__exact=raw)
+        if self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise forms.ValidationError("A Course Number with this value already exists.")
+        return raw
+
 
