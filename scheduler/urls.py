@@ -14,9 +14,14 @@ urlpatterns = [
     path("settings/course-term/create/", views.course_term_create, name="course_term_create"),
     path("settings/course-term/<int:pk>/update/", views.course_term_update, name="course_term_update"),
     path("settings/course-term/<int:pk>/delete/", views.course_term_delete, name="course_term_delete"),
+
+    # settings – course code
+    path("setting_course_code/", views.course_code_list, name="course_code"),
+    path("settings/course-code/create/", views.course_code_create, name="course_code_create"),
+    path("settings/course-code/<int:pk>/update/", views.course_code_update, name="course_code_update"),
+    path("settings/course-code/<int:pk>/delete/", views.course_code_delete, name="course_code_delete"),
+
     
-    
-    path('setting_course_code/',    views.setting_course_code,    name='course_code'),
     path('setting_course_number/',  views.setting_course_number,  name='course_number'),
     path('setting_course_section/', views.setting_course_section, name='course_section'),
     path('setting_course_time/',    views.setting_course_time,    name='course_time'),

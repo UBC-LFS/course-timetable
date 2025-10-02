@@ -12,6 +12,7 @@ from .forms import CourseForm
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST
 from .forms import CourseTermForm
+from .forms import CourseCodeForm
 
 
 '''
@@ -127,7 +128,7 @@ def landing_page(request):
             c.offset_top = (start.minute) * PIXELS_PER_MINUTE
 
             # same palette as before
-            code = c.code.name
+            code = c.code.name if c.code else "None"
             c.color = (
                 "#7BDFF2" if code == "APBI" else
                 "#B2F7EF" if code == "FNH"  else
@@ -343,8 +344,38 @@ def course_term_delete(request, pk):
     messages.success(request, "Course Term deleted.")
     return redirect("scheduler:course_term")
 
-def setting_course_code(request):
-    return HttpResponse("Course Code settings (stub)")
+def course_code_list(request):
+    codes = CourseCode.objects.order_by("name")
+    form = CourseCodeForm()
+    return render(request, "timetable/course_code_list.html", {"codes": codes, "form": form})
+
+@require_POST
+def course_code_create(request):
+    form = CourseCodeForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Course Code created.")
+    else:
+        messages.error(request, "You can not create a course code that already exists. Please try again.")
+    return redirect("scheduler:course_code")
+
+@require_POST
+def course_code_update(request, pk):
+    code = get_object_or_404(CourseCode, pk=pk)
+    form = CourseCodeForm(request.POST, instance=code)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Course Code updated.")
+    else:
+        messages.error(request, "You can not update to a course code that already exists. Please try again.")
+    return redirect("scheduler:course_code")
+
+@require_POST
+def course_code_delete(request, pk):
+    code = get_object_or_404(CourseCode, pk=pk)
+    code.delete()
+    messages.success(request, "Course Code deleted.")
+    return redirect("scheduler:course_code")
 
 def setting_course_number(request):
     return HttpResponse("Course Number settings (stub)")
