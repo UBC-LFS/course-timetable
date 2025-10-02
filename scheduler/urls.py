@@ -27,7 +27,12 @@ urlpatterns = [
     path("settings/course-number/<int:pk>/update/", views.course_number_update, name="course_number_update"),
     path("settings/course-number/<int:pk>/delete/", views.course_number_delete, name="course_number_delete"),
 
-    path('setting_course_section/', views.setting_course_section, name='course_section'),
+    # settings – course section
+    path("setting_course_section/", views.course_section_list, name="course_section"),
+    path("settings/course-section/create/", views.course_section_create, name="course_section_create"),
+    path("settings/course-section/<int:pk>/update/", views.course_section_update, name="course_section_update"),
+    path("settings/course-section/<int:pk>/delete/", views.course_section_delete, name="course_section_delete"),
+
     path('setting_course_time/',    views.setting_course_time,    name='course_time'),
     path('setting_course_year/',    views.setting_course_year,    name='course_year'),
     path('setting_program_name/', views.setting_program_name, name='program_name'),

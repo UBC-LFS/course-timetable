@@ -136,3 +136,21 @@ class CourseNumberForm(forms.ModelForm):
         return raw
 
 
+class CourseSectionForm(forms.ModelForm):
+    class Meta:
+        model = CourseSection
+        fields = ["name"]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "e.g. 001"}),
+        }
+
+    def clean_name(self):
+        name = self.cleaned_data["name"].strip()
+        qs = CourseSection.objects.filter(name__exact=name)
+        if self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise forms.ValidationError("A Course Section with this value already exists.")
+        return name
+
+

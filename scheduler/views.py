@@ -14,6 +14,7 @@ from django.views.decorators.http import require_POST
 from .forms import CourseTermForm
 from .forms import CourseCodeForm
 from .forms import CourseNumberForm
+from .forms import CourseSectionForm
 
 
 '''
@@ -417,8 +418,40 @@ def course_number_delete(request, pk):
     messages.success(request, "Course Number deleted.")
     return redirect("scheduler:course_number")
 
-def setting_course_section(request):
-    return HttpResponse("Course Section settings (stub)")
+def course_section_list(request):
+    sections = CourseSection.objects.order_by("name")
+    form = CourseSectionForm()
+    return render(request, "timetable/course_section_list.html", {"sections": sections, "form": form})
+
+@require_POST
+def course_section_create(request):
+    form = CourseSectionForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Course Section created.")
+    else:
+        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Create failed: {err}")
+    return redirect("scheduler:course_section")
+
+@require_POST
+def course_section_update(request, pk):
+    section = get_object_or_404(CourseSection, pk=pk)
+    form = CourseSectionForm(request.POST, instance=section)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Course Section updated.")
+    else:
+        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Update failed: {err}")
+    return redirect("scheduler:course_section")
+
+@require_POST
+def course_section_delete(request, pk):
+    section = get_object_or_404(CourseSection, pk=pk)
+    section.delete()
+    messages.success(request, "Course Section deleted.")
+    return redirect("scheduler:course_section")
 
 def setting_course_time(request):
     return HttpResponse("Course Time settings (stub)")
