@@ -15,6 +15,7 @@ from .forms import CourseTermForm
 from .forms import CourseCodeForm
 from .forms import CourseNumberForm
 from .forms import CourseSectionForm
+from .forms import CourseTimeForm
 
 
 '''
@@ -453,8 +454,46 @@ def course_section_delete(request, pk):
     messages.success(request, "Course Section deleted.")
     return redirect("scheduler:course_section")
 
-def setting_course_time(request):
-    return HttpResponse("Course Time settings (stub)")
+def course_time_list(request):
+    times = CourseTime.objects.order_by("name")
+    form = CourseTimeForm()
+    hours   = [f"{i:02d}" for i in range(24)]
+    minutes = [f"{i:02d}" for i in range(60)]
+    return render(
+        request,
+        "timetable/course_time_list.html",
+        {"times": times, "form": form, "hours": hours, "minutes": minutes},
+    )
+
+@require_POST
+def course_time_create(request):
+    form = CourseTimeForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Course Time created.")
+    else:
+        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Create failed: {err}")
+    return redirect("scheduler:course_time")
+
+@require_POST
+def course_time_update(request, pk):
+    t = get_object_or_404(CourseTime, pk=pk)
+    form = CourseTimeForm(request.POST, instance=t)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Course Time updated.")
+    else:
+        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Update failed: {err}")
+    return redirect("scheduler:course_time")
+
+@require_POST
+def course_time_delete(request, pk):
+    t = get_object_or_404(CourseTime, pk=pk)
+    t.delete()
+    messages.success(request, "Course Time deleted.")
+    return redirect("scheduler:course_time")
 
 def setting_course_year(request):
     return HttpResponse("Course Year settings (stub)")

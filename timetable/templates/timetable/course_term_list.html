@@ -72,7 +72,7 @@
         <div class="modal-body">
           {{ form.non_field_errors }}
           <div class="mb-3">
-            <label class="form-label">Name</label>
+            <label class="form-label">Term</label>
             {{ form.name }}
             {% for e in form.name.errors %}
               <div class="text-danger small">{{ e }}</div>
@@ -100,7 +100,7 @@
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label class="form-label">Name</label>
+            <label class="form-label">Term</label>
             <input id="editName" name="name" type="text" class="form-control" placeholder="e.g. T1" required />
           </div>
         </div>
@@ -126,7 +126,7 @@
   
           <div class="modal-body">
             <p class="mb-2">Are you sure you want to delete this Course Term?</p>
-            <div class="fw-semibold">Name: <span id="deleteName"></span></div>
+            <div class="fw-semibold">Term: <span id="deleteName"></span></div>
           </div>
   
           <div class="modal-footer">

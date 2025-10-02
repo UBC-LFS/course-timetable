@@ -152,5 +152,30 @@ class CourseSectionForm(forms.ModelForm):
         if qs.exists():
             raise forms.ValidationError("A Course Section with this value already exists.")
         return name
+    
+
+class CourseTimeForm(forms.ModelForm):
+    class Meta:
+        model = CourseTime
+        fields = ["name"]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),  # hidden via template; still needed for server
+        }
+
+    def clean_name(self):
+        val = (self.cleaned_data.get("name") or "").strip()
+        try:
+            dt = datetime.strptime(val, "%H:%M")
+            normalized = dt.strftime("%H:%M")
+        except Exception:
+            raise forms.ValidationError("Enter a valid time in HH:MM (e.g., 08:00).")
+
+        qs = CourseTime.objects.filter(name__exact=normalized)
+        if self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise forms.ValidationError("A Course Time with this value already exists.")
+        return normalized
+
 
 
