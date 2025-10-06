@@ -19,6 +19,7 @@ from .forms import CourseTimeForm
 from .forms import CourseYearForm
 from .models import Program, ProgramYearLevel
 from .forms import ProgramNameForm
+from .forms import CourseDayForm
 
 
 '''
@@ -505,6 +506,45 @@ def course_year_list(request):
     year_choices = [str(y) for y in range(2024, 2043)]
     return render(request, "timetable/course_year_list.html",
                   {"years": years, "form": form, "year_choices": year_choices})
+
+def course_day_list(request):
+    days = CourseDay.objects.order_by("name")
+    form = CourseDayForm()
+    # For the edit modal we re-use the same five options
+    day_choices = CourseDayForm.DAY_ORDER
+    return render(request, "timetable/course_day_list.html",
+                  {"days": days, "form": form, "day_choices": day_choices})
+
+@require_POST
+def course_day_create(request):
+    form = CourseDayForm(request.POST)
+    if form.is_valid():
+        CourseDay.objects.create(name=form.cleaned_data["name"])
+        messages.success(request, "Course Day created.")
+    else:
+        err = "; ".join(form.errors.get("days", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Create failed: {err}")
+    return redirect("scheduler:course_day")
+
+@require_POST
+def course_day_update(request, pk):
+    obj = get_object_or_404(CourseDay, pk=pk)
+    form = CourseDayForm(request.POST, current_name=obj.name)
+    if form.is_valid():
+        obj.name = form.cleaned_data["name"]
+        obj.save()
+        messages.success(request, "Course Day updated.")
+    else:
+        err = "; ".join(form.errors.get("days", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Update failed: {err}")
+    return redirect("scheduler:course_day")
+
+@require_POST
+def course_day_delete(request, pk):
+    obj = get_object_or_404(CourseDay, pk=pk)
+    obj.delete()
+    messages.success(request, "Course Day deleted.")
+    return redirect("scheduler:course_day")
 
 @require_POST
 def course_year_create(request):
