@@ -5,79 +5,97 @@ from .models import (
     CourseSection, CourseYear, CourseTime, CourseDay
 )
 from .models import Program, ProgramYearLevel
+from django.core.exceptions import ValidationError
 
-class CourseForm(forms.Form):
-    # User inputs (required fields have asterisk in label)
-    code = forms.CharField(max_length=20, required=True, label="Code *")
-    number = forms.CharField(max_length=20, required=True, label="Number *")
-    section = forms.CharField(max_length=20, required=True, label="Section *")
-    term = forms.CharField(max_length=20, required=True, label="Term *")
-    academic_year = forms.CharField(max_length=20, required=True, label="Academic Year *")
+class CourseForm(forms.ModelForm):
+    # Required dropdowns (add * in labels)
+    code          = forms.ModelChoiceField(
+        queryset=CourseCode.objects.all().order_by("name"),
+        required=True, empty_label="Select Code",
+        label="Code *",
+        widget=forms.Select(attrs={"class": "form-select"})
+    )
+    number        = forms.ModelChoiceField(
+        queryset=CourseNumber.objects.all().order_by("name"),
+        required=True, empty_label="Select Number",
+        label="Number *",
+        widget=forms.Select(attrs={"class": "form-select"})
+    )
+    section       = forms.ModelChoiceField(
+        queryset=CourseSection.objects.all().order_by("name"),
+        required=True, empty_label="Select Section",
+        label="Section *",
+        widget=forms.Select(attrs={"class": "form-select"})
+    )
+    term          = forms.ModelChoiceField(
+        queryset=CourseTerm.objects.all().order_by("name"),
+        required=True, empty_label="Select Term",
+        label="Term *",
+        widget=forms.Select(attrs={"class": "form-select"})
+    )
+    academic_year = forms.ModelChoiceField(
+        queryset=CourseYear.objects.all().order_by("name"),
+        required=True, empty_label="Select Year",
+        label="Academic Year *",
+        widget=forms.Select(attrs={"class": "form-select"})
+    )
 
-    # Optional fields
-    day = forms.CharField(max_length=50, required=False, label="Day")            # e.g. "Monday_Tuesday"
-    start_time = forms.CharField(max_length=20, required=False, label="Start")   # "HH:MM"
-    end_time = forms.CharField(max_length=20, required=False, label="End")       # "HH:MM"
+    # Optional dropdowns
+    day        = forms.ModelChoiceField(
+        queryset=CourseDay.objects.all().order_by("name"),
+        required=False, empty_label="Select Day",
+        widget=forms.Select(attrs={"class": "form-select"})
+    )
+    start_time = forms.ModelChoiceField(
+        queryset=CourseTime.objects.all().order_by("name"),
+        required=False, empty_label="Select Start Time",
+        widget=forms.Select(attrs={"class": "form-select"})
+    )
+    end_time   = forms.ModelChoiceField(
+        queryset=CourseTime.objects.all().order_by("name"),
+        required=False, empty_label="Select End Time",
+        widget=forms.Select(attrs={"class": "form-select"})
+    )
 
+    class Meta:
+        model  = Course
+        fields = ["code","number","section","term","day","start_time","end_time","academic_year"]
+
+    # --- validations ----
     def clean(self):
         cleaned = super().clean()
+
+        # time order (only if both provided)
         start = cleaned.get("start_time")
         end   = cleaned.get("end_time")
-
-        # Only validate the order if both are provided
         if start and end:
             try:
-                s_dt = datetime.strptime(start.strip(), "%H:%M")
-            except ValueError:
-                # should not come here
-                self.add_error("start_time", "Use HH:MM (e.g., 08:00).")
-                return cleaned
-
-            try:
-                e_dt = datetime.strptime(end.strip(), "%H:%M")
-            except ValueError:
-                # should not come here
-                self.add_error("end_time", "Use HH:MM (e.g., 09:30).")
-                return cleaned
-
-            if not e_dt > s_dt:
+                s = datetime.strptime(start.name[:5], "%H:%M")
+                e = datetime.strptime(end.name[:5], "%H:%M")
+                if not e > s:
+                    self.add_error("end_time", "End time must be later than start time.")
+            except Exception:
+                # if times are not in HH:MM shape in DB, still give a friendly error
                 self.add_error("end_time", "End time must be later than start time.")
 
+        # duplicate protection: same Code, Number, Section, Year, Term
+        code   = cleaned.get("code")
+        num    = cleaned.get("number")
+        sec    = cleaned.get("section")
+        year   = cleaned.get("academic_year")
+        term   = cleaned.get("term")
+        if code and num and sec and year and term:
+            qs = Course.objects.filter(
+                code=code, number=num, section=sec, academic_year=year, term=term
+            )
+            if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+            if qs.exists():
+                raise ValidationError(
+                    "You can not have two courses with same Code, Number, Section, Academic Year and Term."
+                )
+
         return cleaned
-
-
-    def save(self, instance: Course | None = None):
-        """
-        Create or update a Course by mapping the user strings to FK instances.
-        """
-        data = self.cleaned_data
-        course = instance or Course()
-
-        # Required FKs
-        course.code, _ = CourseCode.objects.get_or_create(name=data["code"].strip())
-        course.number, _ = CourseNumber.objects.get_or_create(name=data["number"].strip())
-        course.section, _ = CourseSection.objects.get_or_create(name=data["section"].strip())
-        course.term, _ = CourseTerm.objects.get_or_create(name=data["term"].strip())
-        course.academic_year, _ = CourseYear.objects.get_or_create(name=data["academic_year"].strip())
-
-        # Optional FKs
-        if data.get("day"):
-            course.day, _ = CourseDay.objects.get_or_create(name=data["day"].strip())
-        else:
-            course.day = None
-
-        if data.get("start_time"):
-            course.start_time, _ = CourseTime.objects.get_or_create(name=data["start_time"].strip())
-        else:
-            course.start_time = None
-
-        if data.get("end_time"):
-            course.end_time, _ = CourseTime.objects.get_or_create(name=data["end_time"].strip())
-        else:
-            course.end_time = None
-
-        course.save()
-        return course
 
 
 class CourseTermForm(forms.ModelForm):

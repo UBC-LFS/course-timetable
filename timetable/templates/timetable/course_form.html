@@ -8,91 +8,63 @@
 
     <!-- Code -->
     <div class="mb-3">
-      <label class="form-label">Code *</label>
-      <input type="text" name="code" value="{{ form.code.value|default_if_none:'' }}"
-             class="form-control" required>
+      <label class="form-label">{{ form.code.label }}</label>
+      {{ form.code }}
       {% if form.errors.code %}<div class="text-danger">{{ form.errors.code }}</div>{% endif %}
     </div>
 
     <!-- Number -->
     <div class="mb-3">
-      <label class="form-label">Number *</label>
-      <input type="text" name="number" value="{{ form.number.value|default_if_none:'' }}"
-             class="form-control" required>
+      <label class="form-label">{{ form.number.label }}</label>
+      {{ form.number }}
       {% if form.errors.number %}<div class="text-danger">{{ form.errors.number }}</div>{% endif %}
     </div>
 
     <!-- Section -->
     <div class="mb-3">
-      <label class="form-label">Section *</label>
-      <input type="text" name="section" value="{{ form.section.value|default_if_none:'' }}"
-             class="form-control" required>
+      <label class="form-label">{{ form.section.label }}</label>
+      {{ form.section }}
       {% if form.errors.section %}<div class="text-danger">{{ form.errors.section }}</div>{% endif %}
     </div>
 
     <!-- Term -->
     <div class="mb-3">
-      <label class="form-label">Term *</label>
-      <select name="term" class="form-select" required>
-        <option value="">Select Term</option>
-        {% for t in term_options %}
-          <option value="{{ t }}" {% if form.term.value == t %}selected{% endif %}>{{ t }}</option>
-        {% endfor %}
-      </select>
+      <label class="form-label">{{ form.term.label }}</label>
+      {{ form.term }}
       {% if form.errors.term %}<div class="text-danger">{{ form.errors.term }}</div>{% endif %}
     </div>
 
-    <!-- Days (checkboxes, optional) -->
+    <!-- Day (optional) -->
     <div class="mb-3">
-      <label class="form-label">Days</label><br>
-      {% comment %}
-        selected_days is provided by the view; on invalid POST we override it with the
-        values the user just checked so this stays sticky
-      {% endcomment %}
-      {% for val,label in day_options %}
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" name="day" value="{{ val }}"
-                 {% if val in selected_days %}checked{% endif %}>
-          <label class="form-check-label">{{ label }}</label>
-        </div>
-      {% endfor %}
+      <label class="form-label">Day</label>
+      {{ form.day }}
+      {% if form.errors.day %}<div class="text-danger">{{ form.errors.day }}</div>{% endif %}
     </div>
 
     <!-- Start Time (optional) -->
     <div class="mb-3">
       <label class="form-label">Start Time</label>
-      <select name="start_time" class="form-select">
-        <option value="">Select Start Time</option>
-        {% for tt in start_time_options %}
-          <option value="{{ tt }}" {% if form.start_time.value == tt %}selected{% endif %}>{{ tt }}</option>
-        {% endfor %}
-      </select>
+      {{ form.start_time }}
       {% if form.errors.start_time %}<div class="text-danger">{{ form.errors.start_time }}</div>{% endif %}
     </div>
 
     <!-- End Time (optional) -->
     <div class="mb-3">
       <label class="form-label">End Time</label>
-      <select name="end_time" class="form-select">
-        <option value="">Select End Time</option>
-        {% for tt in end_time_options %}
-          <option value="{{ tt }}" {% if form.end_time.value == tt %}selected{% endif %}>{{ tt }}</option>
-        {% endfor %}
-      </select>
+      {{ form.end_time }}
       {% if form.errors.end_time %}<div class="text-danger">{{ form.errors.end_time }}</div>{% endif %}
     </div>
 
     <!-- Academic Year -->
     <div class="mb-3">
-      <label class="form-label">Academic Year *</label>
-      <select name="academic_year" class="form-select" required>
-        <option value="">Select Year</option>
-        {% for y in year_options %}
-          <option value="{{ y }}" {% if form.academic_year.value == y %}selected{% endif %}>{{ y }}</option>
-        {% endfor %}
-      </select>
+      <label class="form-label">{{ form.academic_year.label }}</label>
+      {{ form.academic_year }}
       {% if form.errors.academic_year %}<div class="text-danger">{{ form.errors.academic_year }}</div>{% endif %}
     </div>
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+    {% endif %}
 
     <button type="submit" class="btn btn-primary">Save</button>
     <a href="{% url 'scheduler:view_courses' %}" class="btn btn-secondary">Cancel</a>
