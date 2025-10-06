@@ -1,0 +1,84 @@
+{% extends "timetable/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container py-4">
+
+  <h2 class="mb-3">Program Requirements</h2>
+
+  <form method="get" class="row g-3 align-items-end">
+    <div class="col-md-4">
+      <label class="form-label">Program Name</label>
+      <select name="program" class="form-select">
+        <option value="">-- Select Program --</option>
+        {% for name in program_names %}
+          <option value="{{ name }}" {% if name == selected_program %}selected{% endif %}>{{ name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Program Year Level</label>
+      <select name="level" class="form-select">
+        <option value="">-- Select Year Level --</option>
+        {% for lvl in year_levels %}
+          <option value="{{ lvl.id }}" {% if lvl.id|stringformat:"s" == selected_level_id %}selected{% endif %}>
+            {{ lvl.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <button type="submit" name="search" value="1" class="btn btn-primary">Search</button>
+    </div>
+  </form>
+
+  {% if submitted %}
+    {% if not_found %}
+      <div class="alert alert-warning mt-4">No such program exists.</div>
+    {% else %}
+      {% if not selected_program or not selected_level_id %}
+        <!-- do nothing -->
+      {% else %}
+        <p class="text-muted mb-4">
+                Program: <strong>{{ selected_program }}</strong> — Level: <strong>{{ selected_level }}</strong>
+        </p>  
+
+        <div class="table-wrapper table-responsive mt-4">
+            <table class="table table-bordered table-striped table-hover text-center">
+            <thead>
+                <tr>
+                <th>Code</th><th>Number</th><th>Section</th><th>Year</th><th>Term</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for c in courses %}
+                <tr>
+                <td>{{ c.code.name }}</td>
+                <td>{{ c.number.name }}</td>
+                <td>{{ c.section.name }}</td>
+                <td>{{ c.academic_year.name }}</td>
+                <td>{{ c.term.name }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5">No courses found.</td></tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        </div>
+
+        {% if program_obj %}
+        <div class="text-end">
+            <a class="btn btn-secondary"
+            href="{% url 'scheduler:requirements_edit' %}?program={{ selected_program|urlencode }}&level={{ selected_level_id|urlencode }}">
+            Edit
+            </a>
+        </div>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+
+</div>
+{% endblock %}

@@ -57,6 +57,8 @@ urlpatterns = [
     path("settings/program-name/<str:old_name>/update/", views.program_name_update, name="program_name_update"),
     path("settings/program-name/<str:name>/delete/", views.program_name_delete, name="program_name_delete"),
 
-    path('requirements/', views.requirements, name='requirments'),
+    # Requirements
+    path('requirements/', views.requirements, name='requirements'),       
+    path('requirements/edit/', views.requirements_edit, name='requirements_edit'),  
 
 ] 
