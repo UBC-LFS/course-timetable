@@ -34,6 +34,9 @@
       <form method="get" action="{% url 'scheduler:landing_page' %}"class="card shadow-sm p-3 rounded-2 filters-container flex-row justify-content-between">
         <h4 class="fw-semibold mt-4" id="filter-title">Filters</h4>
 
+        <!-- this is for no filtering, change it later!!! -->
+        <input type="hidden" name="submitted" value="1">        
+
         <!-- Each section pulls from Views.py to populate the dropdowns -->
         <div class="mb-3 dropdown dropdown-select">
           <label class="form-label d-block">Code</label>

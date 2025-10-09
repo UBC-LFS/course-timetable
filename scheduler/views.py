@@ -47,7 +47,7 @@ def landing_page(request):
     if not request.user.is_authenticated:
         return redirect('accounts:ldap_login')
 
-    # dropdown data (same as before)
+    # dropdown data
     hour_list = ["08","09","10","11","12","13","14","15","16","17","18","19","20","21"]
     terms   = CourseTerm.objects.all()
     codes   = CourseCode.objects.all()
@@ -56,32 +56,27 @@ def landing_page(request):
     times   = CourseTime.objects.all()
     days    = CourseDay.objects.all()
 
-    # stub filters: if any filter submitted, we still show ALL courses
-    submitted = any([
-        request.GET.getlist('code[]'),
-        request.GET.getlist('number[]'),
-        request.GET.getlist('section[]'),
-        request.GET.getlist('term[]'),
-        request.GET.getlist('start[]'),
-        request.GET.getlist('end[]'),
-        request.GET.getlist('day[]'),
-    ])
+    # this is for no filtering, change it later!!!
+    submitted = (request.GET.get("submitted") == "1")
 
-    # always load everything for now
-    all_courses = Course.objects.select_related(
-        "code","number","section","term","academic_year","start_time","end_time","day"
-    ).all()
+    courses = []           # timetable courses
+    invalid_courses = []   # courses without scheduled times
 
-    # split into valid (has day + start + end) vs invalid (missing any of them)
-    valid_courses = []
-    invalid_courses = []
-    for c in all_courses:
-        if c.day is None or c.start_time is None or c.end_time is None:
-            invalid_courses.append(c)
-        else:
-            valid_courses.append(c)
+    if submitted:
+        # (for now) ignore actual filters and just load everything
+        all_courses = Course.objects.select_related(
+            "code","number","section","term","academic_year","start_time","end_time","day"
+        ).all()
 
-    courses = valid_courses  # what the timetable will render
+        # split valid/invalid
+        valid_courses = []
+        for c in all_courses:
+            if c.day is None or c.start_time is None or c.end_time is None:
+                invalid_courses.append(c)
+            else:
+                valid_courses.append(c)
+
+        courses = valid_courses
 
     if courses:
         # build time grid
