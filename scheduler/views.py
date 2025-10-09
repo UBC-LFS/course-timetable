@@ -95,9 +95,23 @@ def landing_page(request):
                 slots[(d, tstr)] = []
             cur += INTERVAL
 
+        DAY_SHORT = {
+                    "Monday": "Mon",
+                    "Tuesday": "Tues",
+                    "Wednesday": "Wed",
+                    "Thursday": "Thurs",
+                    "Friday": "Fri",
+        }
+        def expand_days_to_short(day_name: str):
+            """'Monday_Wednesday' -> ['Mon', 'Wed'] (trims whitespace too)"""
+            if not day_name:
+                return []
+            parts = [p.strip() for p in day_name.split("_")]
+            return [DAY_SHORT.get(p, p) for p in parts]
+        
         # place courses into slots
         for course in courses:
-            attached_days = course.day.name.split('_')  # same encoding as before
+            attached_days = expand_days_to_short(course.day.name) # same encoding as before
             start_str = course.start_time.name[:5]
             end_str   = course.end_time.name[:5]
             cur = datetime.strptime(start_str, "%H:%M")
@@ -112,15 +126,48 @@ def landing_page(request):
                     cur_time += INTERVAL
 
         # compute overlaps
-        for slot, group in slots.items():
-            if len(group) > 1:
-                for c in group:
-                    day_key, _ = slot
-                    if getattr(c, f"{day_key}_overlap_width", None) is None:
-                        w = round((100.0 / float(len(group))) if len(group) else 100.0, 2)
-                        setattr(c, f"{day_key}_overlap_width", w)
-                        setattr(c, f"{day_key}_offset_left", w * group.index(c))
-                        setattr(c, f"{day_key}_overlaps", True)
+        # helper to turn "HH:MM" into minutes since midnight
+        def _mins(hhmm: str) -> int:
+            hh, mm = map(int, hhmm.split(":"))
+            return hh * 60 + mm
+        
+        # Build day -> courses (sorted by start_time then id for stability)
+        day_to_courses = {"Mon": [], "Tues": [], "Wed": [], "Thurs": [], "Fri": []}
+        for c in courses:
+            for d in expand_days_to_short(c.day.name):
+                day_to_courses[d].append(c)
+
+        for d in day_to_courses:
+            # sort by start minutes first, then by id for a stable "older → newer" order
+            day_to_courses[d].sort(key=lambda c: (_mins(c.start_time.name[:5]), c.id))
+
+        # Chain widths: for each day list, walk in order and shrink width 10% each time
+        for day_key, day_list in day_to_courses.items():
+            # keep a list of active courses that cover the current start time
+            # but we only care about predecessors that cover *this* course's start
+            for idx, c in enumerate(day_list):
+                c_start = _mins(c.start_time.name[:5])
+                c_end   = _mins(c.end_time.name[:5])
+
+                # count predecessors whose interval covers c_start
+                predecessors = 0
+                for prev in day_list[:idx]:
+                    p_start = _mins(prev.start_time.name[:5])
+                    p_end   = _mins(prev.end_time.name[:5])
+                    if p_start <= c_start < p_end:
+                        predecessors += 1
+
+                k = predecessors
+                width_pct = round(100.0 * (0.9 ** k), 2)
+                left_pct  = 0.0
+                overlaps  = (k > 0)
+
+                # stash per-day values the same way your template already expects
+                setattr(c, f"{day_key}_overlap_width", width_pct)
+                setattr(c, f"{day_key}_offset_left", left_pct)
+                setattr(c, f"{day_key}_overlaps", overlaps)
+                # Optional: z-index so a later (smaller) card sits on top
+                setattr(c, f"{day_key}_zindex", 100 + k)
 
         # visual props (height, offset, color)
         for c in courses:
@@ -143,11 +190,11 @@ def landing_page(request):
         # per-day overlap data used by template
         for c in courses:
             c.day_data = {
-                "Mon":   {"overlap": getattr(c, 'Mon_overlaps',   None), "width": getattr(c, 'Mon_overlap_width',   None), "left": getattr(c, 'Mon_offset_left',   None)},
-                "Tues":  {"overlap": getattr(c, 'Tues_overlaps',  None), "width": getattr(c, 'Tues_overlap_width',  None), "left": getattr(c, 'Tues_offset_left',  None)},
-                "Wed":   {"overlap": getattr(c, 'Wed_overlaps',   None), "width": getattr(c, 'Wed_overlap_width',   None), "left": getattr(c, 'Wed_offset_left',   None)},
-                "Thurs": {"overlap": getattr(c, 'Thurs_overlaps', None), "width": getattr(c, 'Thurs_overlap_width', None), "left": getattr(c, 'Thurs_offset_left', None)},
-                "Fri":   {"overlap": getattr(c, 'Fri_overlaps',   None), "width": getattr(c, 'Fri_overlap_width',   None), "left": getattr(c, 'Fri_offset_left',   None)},
+                "Mon":   {"overlap": getattr(c, 'Mon_overlaps',   None), "width": getattr(c, 'Mon_overlap_width',   None), "left": getattr(c, 'Mon_offset_left',   None), "z": getattr(c, 'Mon_zindex',   None)},
+                "Tues":  {"overlap": getattr(c, 'Tues_overlaps',  None), "width": getattr(c, 'Tues_overlap_width',  None), "left": getattr(c, 'Tues_offset_left',  None), "z": getattr(c, 'Tues_zindex',  None)},
+                "Wed":   {"overlap": getattr(c, 'Wed_overlaps',   None), "width": getattr(c, 'Wed_overlap_width',   None), "left": getattr(c, 'Wed_offset_left',   None), "z": getattr(c, 'Wed_zindex',   None)},
+                "Thurs": {"overlap": getattr(c, 'Thurs_overlaps', None), "width": getattr(c, 'Thurs_overlap_width', None), "left": getattr(c, 'Thurs_offset_left', None), "z": getattr(c, 'Thurs_zindex', None)},
+                "Fri":   {"overlap": getattr(c, 'Fri_overlaps',   None), "width": getattr(c, 'Fri_overlap_width',   None), "left": getattr(c, 'Fri_offset_left',   None), "z": getattr(c, 'Fri_zindex',   None)},
             }
 
     # render

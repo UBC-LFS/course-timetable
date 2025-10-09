@@ -213,6 +213,7 @@
                                data-top="{{ course.offset_top }}"
                                data-width="{{ data.width|default:'100' }}"
                                data-left="{{ data.left|default:'0' }}"
+                               data-z="{{ data.z|default:'1' }}"
                                data-code="{{ course.code.name|default:'None' }}"
                                data-number="{{ course.number.name|default:'None' }}"
                                data-start="{{ course.start_time.name|default:'None' }}"
@@ -260,22 +261,24 @@
 
 <!-- setup for timetable grid outline -->
 <script>
-(function () {
+  (function () {
     const items = document.querySelectorAll('.course-item');
     items.forEach(el => {
-        const h = el.dataset.height,
+      const h = el.dataset.height,
             t = el.dataset.top,
             w = el.dataset.width,
             l = el.dataset.left,
-            bg = el.dataset.bg;
-
-        if (h) el.style.height = h + 'px';
-        if (t) el.style.marginTop = t + 'px';
-        if (w) el.style.width = w + '%';
-        if (l) el.style.left = l + '%';
-        if (bg) el.style.backgroundColor = bg;
+            bg = el.dataset.bg,
+            z = el.dataset.z;
+  
+      if (h) el.style.height = h + 'px';
+      if (t) el.style.marginTop = t + 'px';
+      if (w) el.style.width = w + '%';
+      if (l) el.style.left = l + '%';
+      if (bg) el.style.backgroundColor = bg;
+      if (z) el.style.zIndex = z;
     });
-    })();
-</script>
+  })();
+  </script>
 
 {% endblock %}
