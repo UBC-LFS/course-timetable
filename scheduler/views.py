@@ -180,11 +180,11 @@ def landing_page(request):
             # same palette as before
             code = c.code.name if c.code else "None"
             c.color = (
-                "#7BDFF2" if code == "APBI" else
-                "#B2F7EF" if code == "FNH"  else
-                "#F6C6EA" if code == "FRE"  else
-                "#EADB9A" if code == "GRS"  else
-                "#FFAAA5" if code == "LFS"  else "#D3D3D3"
+                "#2BB1D6" if code == "APBI" else
+                "#43D7C7" if code == "FNH"  else
+                "#E47CC0" if code == "FRE"  else
+                "#D2B64C" if code == "GRS"  else
+                "#F46C63" if code == "LFS"  else "#A8A8A8"
             )
 
         # per-day overlap data used by template
