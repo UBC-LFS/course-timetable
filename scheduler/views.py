@@ -82,8 +82,8 @@ def landing_page(request):
         # build time grid
         DAYS = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
         START_TIME = '08:00'
-        END_TIME   = '20:00'
-        INTERVAL   = timedelta(minutes=15)
+        END_TIME   = '21:00'
+        INTERVAL   = timedelta(minutes=1)
         start_dt   = datetime.strptime(START_TIME, "%H:%M")
         end_dt     = datetime.strptime(END_TIME, "%H:%M")
 
@@ -159,12 +159,12 @@ def landing_page(request):
 
                 k = predecessors
                 width_pct = round(100.0 * (0.9 ** k), 2)
-                left_pct  = 0.0
+                # left_pct  = 0.0
                 overlaps  = (k > 0)
 
                 # stash per-day values the same way your template already expects
                 setattr(c, f"{day_key}_overlap_width", width_pct)
-                setattr(c, f"{day_key}_offset_left", left_pct)
+                # setattr(c, f"{day_key}_offset_left", left_pct)
                 setattr(c, f"{day_key}_overlaps", overlaps)
                 # Optional: z-index so a later (smaller) card sits on top
                 setattr(c, f"{day_key}_zindex", 100 + k)
@@ -177,7 +177,6 @@ def landing_page(request):
             c.pixel_height = c.duration_minutes * PIXELS_PER_MINUTE
             c.offset_top = (start.minute) * PIXELS_PER_MINUTE
 
-            # same palette as before
             code = c.code.name if c.code else "None"
             c.color = (
                 "#2BB1D6" if code == "APBI" else
