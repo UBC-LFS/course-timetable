@@ -16,37 +16,45 @@
   <div class="card">
     <div class="card-body p-0">
       <div class="table-responsive">
-        <table class="table mb-0 align-middle">
-          <thead class="table-light">
+        <table class="table table-bordered table-striped table-hover text-center align-middle mb-0">
+          <thead>
             <tr>
-              <th style="width:60%">Course Number</th>
-              <th class="text-end" style="width:40%">Actions</th>
+              <th scope="col">ID</th>
+              <th scope="col">Course Number</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
             {% for n in numbers %}
             <tr>
-              <td class="ps-3">{{ n.name }}</td>
-              <td class="text-end pe-3">
-                <button class="btn btn-sm btn-outline-secondary me-2"
-                        data-bs-toggle="modal"
-                        data-bs-target="#editModal"
-                        data-number-id="{{ n.id }}"
-                        data-number-name="{{ n.name }}">
-                  Edit
-                </button>
-
-                <button class="btn btn-sm btn-outline-danger"
-                        data-bs-toggle="modal"
-                        data-bs-target="#deleteModal"
-                        data-number-id="{{ n.id }}"
-                        data-number-name="{{ n.name }}">
-                  Delete
-                </button>
+              <td>{{ n.id }}</td>
+              <td>{{ n.name }}</td>
+              <td>
+                <div class="d-inline-flex gap-2">
+                  <!-- Edit button -->
+                  <button class="btn btn-sm btn-outline-secondary"
+                          data-bs-toggle="modal"
+                          data-bs-target="#editModal"
+                          data-number-id="{{ n.id }}"
+                          data-number-name="{{ n.name }}">
+                    Edit
+                  </button>
+        
+                  <!-- Delete button -->
+                  <button class="btn btn-sm btn-outline-danger"
+                          data-bs-toggle="modal"
+                          data-bs-target="#deleteModal"
+                          data-number-id="{{ n.id }}"
+                          data-number-name="{{ n.name }}">
+                    Delete
+                  </button>
+                </div>
               </td>
             </tr>
             {% empty %}
-            <tr><td colspan="2" class="text-center text-muted py-4">No course numbers yet.</td></tr>
+            <tr>
+              <td colspan="2" class="text-muted py-4">No course numbers yet.</td>
+            </tr>
             {% endfor %}
           </tbody>
         </table>
@@ -71,7 +79,6 @@
           <div class="mb-3">
             <label class="form-label">Number</label>
             {{ form.name }}
-            <div class="form-text">Digits only.</div>
             {% for e in form.name.errors %}
               <div class="text-danger small">{{ e }}</div>
             {% endfor %}
@@ -100,7 +107,6 @@
           <div class="mb-3">
             <label class="form-label">Number</label>
             <input id="editName" name="name" type="text" class="form-control" placeholder="e.g. 100" required />
-            <div class="form-text">Digits only.</div>
           </div>
         </div>
         <div class="modal-footer">

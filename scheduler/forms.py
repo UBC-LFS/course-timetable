@@ -145,8 +145,6 @@ class CourseNumberForm(forms.ModelForm):
 
     def clean_name(self):
         raw = self.cleaned_data["name"].strip()
-        if not raw.isdigit():
-            raise forms.ValidationError("Course Number must contain digits only (e.g. 100).")
         qs = CourseNumber.objects.filter(name__exact=raw)
         if self.instance.pk:
             qs = qs.exclude(pk=self.instance.pk)
@@ -196,49 +194,6 @@ class CourseTimeForm(forms.ModelForm):
             raise forms.ValidationError("A Course Time with this value already exists.")
         return normalized
 
-
-class CourseDayForm(forms.Form):
-    DAY_ORDER = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-    DAY_CHOICES = [(d, d) for d in DAY_ORDER]
-
-    # Render as horizontal checkboxes; the class helps us style in the template
-    days = forms.MultipleChoiceField(
-        choices=DAY_CHOICES,
-        widget=forms.CheckboxSelectMultiple(attrs={"class": "day-checks"}),
-        required=True,
-        label="Days",
-        error_messages={  
-            "required": "Please select at least one day."
-        },
-    )
-
-    def __init__(self, *args, **kwargs):
-        # current_name allows “no-op” edit without tripping uniqueness
-        self.current_name = kwargs.pop("current_name", None)
-        super().__init__(*args, **kwargs)
-
-    def clean(self):
-        cleaned = super().clean()
-        selected = cleaned.get("days", [])
-
-        # If nothing selected, reinforce friendly message (covers edge cases)
-        if not selected:
-            return cleaned
-
-        # Canonicalize order to Mon→Fri regardless of user click order
-        order_index = {d: i for i, d in enumerate(self.DAY_ORDER)}
-        selected_sorted = sorted(selected, key=lambda d: order_index[d])
-        name = "_".join(selected_sorted)
-
-        # Uniqueness (case-sensitive to match other settings forms)
-        qs = CourseDay.objects.filter(name__exact=name)
-        if self.current_name:
-            qs = qs.exclude(name__exact=self.current_name)
-        if qs.exists():
-            self.add_error("days", "A Course Day with this value already exists.")
-
-        cleaned["name"] = name
-        return cleaned
 
 YEAR_CHOICES = [(str(y), str(y)) for y in range(2024, 2043)]  # 2024..2042 inclusive
 class CourseYearForm(forms.ModelForm):

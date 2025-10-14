@@ -19,7 +19,6 @@ from .forms import CourseTimeForm
 from .forms import CourseYearForm
 from .models import Program, ProgramYearLevel
 from .forms import ProgramNameForm
-from .forms import CourseDayForm
 from django.urls import reverse
 
 
@@ -327,7 +326,7 @@ def edit_course(request, course_id):
     })
 
 def course_term_list(request):
-    terms = CourseTerm.objects.order_by("name")
+    terms = CourseTerm.objects.order_by("id")
     form = CourseTermForm()  # empty for the Create modal
     return render(request, "timetable/course_term_list.html", {"terms": terms, "form": form})
 
@@ -362,7 +361,7 @@ def course_term_delete(request, pk):
     return redirect("scheduler:course_term")
 
 def course_code_list(request):
-    codes = CourseCode.objects.order_by("name")
+    codes = CourseCode.objects.order_by("id")
     form = CourseCodeForm()
     return render(request, "timetable/course_code_list.html", {"codes": codes, "form": form})
 
@@ -397,7 +396,7 @@ def course_code_delete(request, pk):
     return redirect("scheduler:course_code")
 
 def course_number_list(request):
-    numbers = CourseNumber.objects.order_by("name")
+    numbers = CourseNumber.objects.order_by("id")
     form = CourseNumberForm()
     return render(request, "timetable/course_number_list.html", {"numbers": numbers, "form": form})
 
@@ -432,7 +431,7 @@ def course_number_delete(request, pk):
     return redirect("scheduler:course_number")
 
 def course_section_list(request):
-    sections = CourseSection.objects.order_by("name")
+    sections = CourseSection.objects.order_by("id")
     form = CourseSectionForm()
     return render(request, "timetable/course_section_list.html", {"sections": sections, "form": form})
 
@@ -467,7 +466,7 @@ def course_section_delete(request, pk):
     return redirect("scheduler:course_section")
 
 def course_time_list(request):
-    times = CourseTime.objects.order_by("name")
+    times = CourseTime.objects.order_by("id")
     form = CourseTimeForm()
     hours   = [f"{i:02d}" for i in range(24)]
     minutes = [f"{i:02d}" for i in range(60)]
@@ -514,45 +513,6 @@ def course_year_list(request):
     year_choices = [str(y) for y in range(2024, 2043)]
     return render(request, "timetable/course_year_list.html",
                   {"years": years, "form": form, "year_choices": year_choices})
-
-def course_day_list(request):
-    days = CourseDay.objects.order_by("name")
-    form = CourseDayForm()
-    # For the edit modal we re-use the same five options
-    day_choices = CourseDayForm.DAY_ORDER
-    return render(request, "timetable/course_day_list.html",
-                  {"days": days, "form": form, "day_choices": day_choices})
-
-@require_POST
-def course_day_create(request):
-    form = CourseDayForm(request.POST)
-    if form.is_valid():
-        CourseDay.objects.create(name=form.cleaned_data["name"])
-        messages.success(request, "Course Day created.")
-    else:
-        err = "; ".join(form.errors.get("days", [])) or "Please fix the errors and try again."
-        messages.error(request, f"Create failed: {err}")
-    return redirect("scheduler:course_day")
-
-@require_POST
-def course_day_update(request, pk):
-    obj = get_object_or_404(CourseDay, pk=pk)
-    form = CourseDayForm(request.POST, current_name=obj.name)
-    if form.is_valid():
-        obj.name = form.cleaned_data["name"]
-        obj.save()
-        messages.success(request, "Course Day updated.")
-    else:
-        err = "; ".join(form.errors.get("days", [])) or "Please fix the errors and try again."
-        messages.error(request, f"Update failed: {err}")
-    return redirect("scheduler:course_day")
-
-@require_POST
-def course_day_delete(request, pk):
-    obj = get_object_or_404(CourseDay, pk=pk)
-    obj.delete()
-    messages.success(request, "Course Day deleted.")
-    return redirect("scheduler:course_day")
 
 @require_POST
 def course_year_create(request):
