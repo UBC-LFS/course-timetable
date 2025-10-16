@@ -14,34 +14,45 @@
   <div class="card">
     <div class="card-body p-0">
       <div class="table-responsive">
-        <table class="table mb-0 align-middle">
-          <thead class="table-light">
+        <table class="table table-bordered table-striped table-hover text-center align-middle mb-0">
+          <thead>
             <tr>
-              <th style="width:60%">Program Name</th>
-              <th class="text-end" style="width:40%">Actions</th>
+              <th scope="col">ID</th>
+              <th scope="col">Program Name</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
             {% for n in names %}
             <tr>
-              <td class="ps-3">{{ n }}</td>
-              <td class="text-end pe-3">
-                <button class="btn btn-sm btn-outline-secondary me-2"
-                        data-bs-toggle="modal"
-                        data-bs-target="#editModal"
-                        data-prog-old="{{ n }}">
-                  Edit
-                </button>
-                <button class="btn btn-sm btn-outline-danger"
-                        data-bs-toggle="modal"
-                        data-bs-target="#deleteModal"
-                        data-prog-name="{{ n }}">
-                  Delete
-                </button>
+              <td>{{ n.id }}</td>
+              <td>{{ n.name }}</td>
+              <td>
+                <div class="d-inline-flex gap-2">
+                  <!-- Edit button -->
+                  <button class="btn btn-sm btn-outline-secondary"
+                          data-bs-toggle="modal"
+                          data-bs-target="#editModal"
+                          data-program-name-id="{{ n.id }}"
+                          data-program-name-name="{{ n.name }}">
+                    Edit
+                  </button>
+        
+                  <!-- Delete button -->
+                  <button class="btn btn-sm btn-outline-danger"
+                          data-bs-toggle="modal"
+                          data-bs-target="#deleteModal"
+                          data-program-name-id="{{ n.id }}"
+                          data-program-name-name="{{ n.name }}">
+                    Delete
+                  </button>
+                </div>
               </td>
             </tr>
             {% empty %}
-            <tr><td colspan="2" class="text-center text-muted py-4">No programs yet.</td></tr>
+            <tr>
+              <td colspan="3" class="text-muted py-4">No program names yet.</td>
+            </tr>
             {% endfor %}
           </tbody>
         </table>
@@ -131,25 +142,32 @@
 
 {% block js %}
 <script>
-  // EDIT: fill input and form action
+  // Populate the Edit modal and form action dynamically
   const editModal = document.getElementById('editModal');
   editModal.addEventListener('show.bs.modal', function (event) {
-    const btn = event.relatedTarget;
-    const oldName = btn.getAttribute('data-prog-old');
-    document.getElementById('editName').value = oldName;
-    // Use old name in the URL (encoded)
+    const button = event.relatedTarget;
+    const programNameId = button.getAttribute('data-program-name-id');
+    const programNameName = button.getAttribute('data-program-name-name');
+    document.getElementById('editName').value = programNameName;
     document.getElementById('editForm').action =
-      "{% url 'scheduler:program_name_update' 'OLD' %}".replace('OLD', encodeURIComponent(oldName));
+      "{% url 'scheduler:program_name_update' 0 %}".replace("0", programNameId);
   });
+</script>
 
-  // DELETE: fill label and form action
+<script>
+  // Wire up Delete modal action + label
   const deleteModal = document.getElementById('deleteModal');
   deleteModal.addEventListener('show.bs.modal', function (event) {
-    const btn = event.relatedTarget;
-    const name = btn.getAttribute('data-prog-name');
-    document.getElementById('deleteName').textContent = name;
+    const button = event.relatedTarget;
+    const programNameId = button.getAttribute('data-program-name-id');
+    const programNameName = button.getAttribute('data-program-name-name');
+
+    // Fill the name for confirmation
+    document.getElementById('deleteName').textContent = programNameName;
+
+    // Point the form to the correct delete URL
     document.getElementById('deleteForm').action =
-      "{% url 'scheduler:program_name_delete' 'NAME' %}".replace('NAME', encodeURIComponent(name));
+      "{% url 'scheduler:program_name_delete' 0 %}".replace("0", programNameId);
   });
 </script>
 {% endblock %}

@@ -2,74 +2,74 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 from scheduler.models import (
     Course, CourseCode, CourseNumber, CourseSection, CourseTerm,
-    CourseDay, CourseTime, CourseYear, ProgramYearLevel, Program
+    CourseDay, CourseTime, CourseYear, ProgramYearLevel, ProgramName, Program
 )
 from datetime import datetime, timedelta
 
-def normalize_days(raw):
-        if raw == "Mon":
-            return "Monday"
-        elif raw == "Wed":
-            return "Wednesday"
-        elif raw == "Fri":
-            return "Friday"
-        elif raw == "Mon, Wed, Fri":
-            return "Monday_Wednesday_Friday"
-        elif raw == "Tue, Thurs":
-            return "Tuesday_Thursday"
-        elif raw == "Thurs":
-            return "Thursday"
-        elif raw == "Tues, Thurs":
-            return "Tuesday_Thursday"
-        elif raw == "M, W, F":
-            return "Monday_Wednesday_Friday"
-        elif raw == "T, TH":
-            return "Tuesday_Thursday"
-        elif raw == "MWF":
-            return "Monday_Wednesday_Friday"
-        elif raw == "Tue Thur":
-            return "Tuesday_Thursday"
-        elif raw == "Mon, Fri":
-            return "Monday_Friday"
-        elif raw == "Wed, Fri":
-            return "Wednesday_Friday"
-        elif raw == "Tue, Thur":
-            return "Tuesday_Thursday"
-        elif raw == "Wednesday":
-            return "Wednesday"
-        elif raw == "Thursday":
-            return "Thursday"
-        elif raw == "Mon, Wed":
-            return "Monday_Wednesday"
-        elif raw == "Friday":
-            return "Friday"
-        elif raw == "Mon.":
-            return "Monday"
-        elif raw == "Monday":
-            return "Monday"
-        elif raw == "Tue Thurs":
-            return "Tuesday_Thursday"
-        elif raw == "Tue, Thus":
-            return "Tuesday_Thursday"
-        elif raw == "Mon, Tues, Wed, Thurs, Fri":
-            return "Monday_Tuesday_Wednesday_Thursday_Friday"
-        elif raw == "Tu Th":
-            return "Tuesday_Thursday"
-        elif raw == "Mon Wed":
-            return "Monday_Wednesday"
-        elif raw == "M W":
-            return "Monday_Wednesday"
-        elif raw == "Tue Thu":
-            return "Tuesday_Thursday"
-        elif raw == "Tu Thu":
-            return "Tuesday_Thursday"
-        elif raw == "W":
-            return "Wednesday"
-        elif raw == "Tue":
-            return "Tuesday"
-        else:
-            # add nee checking if needed
-            return raw
+# def normalize_days(raw):
+#         if raw == "Mon":
+#             return "Monday"
+#         elif raw == "Wed":
+#             return "Wednesday"
+#         elif raw == "Fri":
+#             return "Friday"
+#         elif raw == "Mon, Wed, Fri":
+#             return "Monday_Wednesday_Friday"
+#         elif raw == "Tue, Thurs":
+#             return "Tuesday_Thursday"
+#         elif raw == "Thurs":
+#             return "Thursday"
+#         elif raw == "Tues, Thurs":
+#             return "Tuesday_Thursday"
+#         elif raw == "M, W, F":
+#             return "Monday_Wednesday_Friday"
+#         elif raw == "T, TH":
+#             return "Tuesday_Thursday"
+#         elif raw == "MWF":
+#             return "Monday_Wednesday_Friday"
+#         elif raw == "Tue Thur":
+#             return "Tuesday_Thursday"
+#         elif raw == "Mon, Fri":
+#             return "Monday_Friday"
+#         elif raw == "Wed, Fri":
+#             return "Wednesday_Friday"
+#         elif raw == "Tue, Thur":
+#             return "Tuesday_Thursday"
+#         elif raw == "Wednesday":
+#             return "Wednesday"
+#         elif raw == "Thursday":
+#             return "Thursday"
+#         elif raw == "Mon, Wed":
+#             return "Monday_Wednesday"
+#         elif raw == "Friday":
+#             return "Friday"
+#         elif raw == "Mon.":
+#             return "Monday"
+#         elif raw == "Monday":
+#             return "Monday"
+#         elif raw == "Tue Thurs":
+#             return "Tuesday_Thursday"
+#         elif raw == "Tue, Thus":
+#             return "Tuesday_Thursday"
+#         elif raw == "Mon, Tues, Wed, Thurs, Fri":
+#             return "Monday_Tuesday_Wednesday_Thursday_Friday"
+#         elif raw == "Tu Th":
+#             return "Tuesday_Thursday"
+#         elif raw == "Mon Wed":
+#             return "Monday_Wednesday"
+#         elif raw == "M W":
+#             return "Monday_Wednesday"
+#         elif raw == "Tue Thu":
+#             return "Tuesday_Thursday"
+#         elif raw == "Tu Thu":
+#             return "Tuesday_Thursday"
+#         elif raw == "W":
+#             return "Wednesday"
+#         elif raw == "Tue":
+#             return "Tuesday"
+#         else:
+#             # add nee checking if needed
+#             return raw
         
 class Command(BaseCommand):
     help = "Ingest courses and program relationships from Excel file"
@@ -91,8 +91,10 @@ class Command(BaseCommand):
             for lvl in range(1, 6):
                 ProgramYearLevel.objects.get_or_create(name= f"Year {lvl}")
 
-            # --- 2. Ensure ProgramName from header row (after 'Duration') ---
+            # --- 2. Ensure ProgramName from header row (after 'Duration'), create ProgramName ---
             program_names = list(df.columns)[df.columns.get_loc("Duration") + 1 :]
+            for pname in program_names:
+                ProgramName.objects.get_or_create(name= pname)    
 
             # --- 3. Ensure CourseYear 2025 exists ---
             course_year_obj, _ = CourseYear.objects.get_or_create(name="2025")
@@ -175,14 +177,15 @@ class Command(BaseCommand):
                     }
                 )
 
-                # --- 5. Link course to programs ---
+                # --- 5. create program, then link course to program ---
                 for pname in program_names:
                     cell_val = row.get(pname, None)
                     if pd.isna(cell_val) or str(cell_val).strip() == "Not Required":
                         continue
 
                     level_obj = ProgramYearLevel.objects.get(name=cell_val.strip())  # "Year 1", "Year 2", etc.
-                    program, _ = Program.objects.get_or_create(name=pname.strip(), year_level=level_obj)
+                    program_name_obj = ProgramName.objects.get(name=pname) # AANB
+                    program, _ = Program.objects.get_or_create(name=program_name_obj, year_level=level_obj)
                     program.courses.add(course)
 
         self.stdout.write(self.style.SUCCESS("Ingestion complete"))

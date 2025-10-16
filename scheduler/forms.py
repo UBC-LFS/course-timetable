@@ -4,7 +4,7 @@ from .models import (
     Course, CourseTerm, CourseCode, CourseNumber,
     CourseSection, CourseYear, CourseTime, CourseDay
 )
-from .models import Program, ProgramYearLevel
+from .models import Program, ProgramYearLevel, ProgramName
 from django.core.exceptions import ValidationError
 
 class CourseForm(forms.ModelForm):
@@ -214,24 +214,19 @@ class CourseYearForm(forms.ModelForm):
         return name
 
 
-class ProgramNameForm(forms.Form):
-    name = forms.CharField(
-        max_length=50,
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "e.g. Food Science"}),
-        label="Program Name",
-    )
-
-    def __init__(self, *args, **kwargs):
-        # optional: pass current_name when editing to allow “no-op” rename
-        self.current_name = kwargs.pop("current_name", None)
-        super().__init__(*args, **kwargs)
+class ProgramNameForm(forms.ModelForm):
+    class Meta:
+        model = ProgramName
+        fields = ["name"]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "e.g. Food Science"}),
+        }
 
     def clean_name(self):
-        new = self.cleaned_data["name"].strip()
-        qs = Program.objects.filter(name__exact=new)
-        if self.current_name:
-            qs = qs.exclude(name__exact=self.current_name)
+        name = self.cleaned_data["name"].strip()
+        qs = ProgramName.objects.filter(name__exact=name)
+        if self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
         if qs.exists():
             raise forms.ValidationError("A Program Name with this value already exists.")
-        return new
-
+        return name

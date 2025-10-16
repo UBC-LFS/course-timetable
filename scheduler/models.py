@@ -78,6 +78,15 @@ class ProgramYearLevel(models.Model):
         ordering = ['name']
 
     def __str__(self):
+        return self.name
+
+class ProgramName(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
         return self.name    
 
 class Course(models.Model):
@@ -106,8 +115,8 @@ class Course(models.Model):
     
     
 class Program(models.Model):
-    name = models.CharField(max_length=50)
-    year_level = models.ForeignKey(ProgramYearLevel, on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.ForeignKey(ProgramName, on_delete=models.CASCADE)
+    year_level = models.ForeignKey(ProgramYearLevel, on_delete=models.CASCADE)
     courses = models.ManyToManyField(Course, related_name="programs")  # many-to-many
     
     class Meta:

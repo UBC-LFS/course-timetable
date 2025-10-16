@@ -1,0 +1,93 @@
+[
+{
+  "model": "scheduler.programname",
+  "pk": 1,
+  "fields": {
+    "name": "FNH"
+  }
+},
+{
+  "model": "scheduler.programname",
+  "pk": 2,
+  "fields": {
+    "name": "Food Science"
+  }
+},
+{
+  "model": "scheduler.programname",
+  "pk": 3,
+  "fields": {
+    "name": "Nutritional Sciences"
+  }
+},
+{
+  "model": "scheduler.programname",
+  "pk": 4,
+  "fields": {
+    "name": "Food and Nutritional Sciences"
+  }
+},
+{
+  "model": "scheduler.programname",
+  "pk": 5,
+  "fields": {
+    "name": "Dual Degree"
+  }
+},
+{
+  "model": "scheduler.programname",
+  "pk": 6,
+  "fields": {
+    "name": "Dietetics"
+  }
+},
+{
+  "model": "scheduler.programname",
+  "pk": 7,
+  "fields": {
+    "name": "AANB"
+  }
+},
+{
+  "model": "scheduler.programname",
+  "pk": 8,
+  "fields": {
+    "name": "AANB Honours"
+  }
+},
+{
+  "model": "scheduler.programname",
+  "pk": 9,
+  "fields": {
+    "name": "SAGE"
+  }
+},
+{
+  "model": "scheduler.programname",
+  "pk": 10,
+  "fields": {
+    "name": "SAGE Honours"
+  }
+},
+{
+  "model": "scheduler.programname",
+  "pk": 11,
+  "fields": {
+    "name": "GRS"
+  }
+},
+{
+  "model": "scheduler.programname",
+  "pk": 12,
+  "fields": {
+    "name": "Data Analytics"
+  }
+},
+{
+  "model": "scheduler.programname",
+  "pk": 13,
+  "fields": {
+    "name": "Business and Markets"
+  }
+}
+]

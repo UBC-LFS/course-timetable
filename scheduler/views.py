@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import CourseTerm, CourseCode, CourseNumber, CourseSection, CourseTime, CourseDay, Course, CourseYear
+from .models import CourseTerm, CourseCode, CourseNumber, CourseSection, CourseTime, CourseDay, Course, CourseYear, ProgramName
 from collections import defaultdict
 from datetime import datetime, timedelta
 from django.shortcuts import redirect
@@ -545,23 +545,15 @@ def course_year_delete(request, pk):
     return redirect("scheduler:course_year")
 
 def program_name_list(request):
-    # Distinct names only
-    names = (Program.objects
-             .exclude(name__isnull=True)
-             .exclude(name__exact="")
-             .values_list("name", flat=True)
-             .distinct()
-             .order_by("name"))
-    form = ProgramNameForm()
+    names = ProgramName.objects.order_by("id")
+    form = ProgramNameForm()  # empty for the Create modal
     return render(request, "timetable/program_name_list.html", {"names": names, "form": form})
 
 @require_POST
 def program_name_create(request):
     form = ProgramNameForm(request.POST)
     if form.is_valid():
-        new_name = form.cleaned_data["name"]
-        # create a seed Program row so the name exists
-        Program.objects.create(name=new_name, year_level=None)
+        form.save()
         messages.success(request, "Program Name created.")
     else:
         err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
@@ -569,12 +561,11 @@ def program_name_create(request):
     return redirect("scheduler:program_name")
 
 @require_POST
-def program_name_update(request, old_name):
-    form = ProgramNameForm(request.POST, current_name=old_name)
+def program_name_update(request, pk):
+    name = get_object_or_404(ProgramName, pk=pk)
+    form = ProgramNameForm(request.POST, instance=name)
     if form.is_valid():
-        new_name = form.cleaned_data["name"]
-        # cascade rename across all year levels
-        Program.objects.filter(name__exact=old_name).update(name=new_name)
+        form.save()
         messages.success(request, "Program Name updated.")
     else:
         err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
@@ -582,9 +573,9 @@ def program_name_update(request, old_name):
     return redirect("scheduler:program_name")
 
 @require_POST
-def program_name_delete(request, name):
-    # delete all rows in Prgram table with this name (all year levels)
-    Program.objects.filter(name__exact=name).delete()
+def program_name_delete(request, pk):
+    name = get_object_or_404(ProgramName, pk=pk)
+    name.delete()
     messages.success(request, "Program Name deleted.")
     return redirect("scheduler:program_name")
 

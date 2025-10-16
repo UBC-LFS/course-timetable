@@ -9,6 +9,7 @@ python manage.py dumpdata scheduler.CourseTime --indent 2 > fixtures/course_time
 python manage.py dumpdata scheduler.CourseDay --indent 2 > fixtures/course_days.json
 python manage.py dumpdata scheduler.CourseYear --indent 2 > fixtures/course_years.json
 python manage.py dumpdata scheduler.ProgramYearLevel --indent 2 > fixtures/program_year_levels.json
+python manage.py dumpdata scheduler.ProgramName --indent 2 > fixtures/program_names.json
 python manage.py dumpdata scheduler.Course --indent 2 > fixtures/courses.json
 python manage.py dumpdata scheduler.Program --indent 2 > fixtures/programs.json
 

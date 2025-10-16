@@ -48,8 +48,8 @@ urlpatterns = [
     # settings – program name
     path("setting_program_name/", views.program_name_list, name="program_name"),
     path("settings/program-name/create/", views.program_name_create, name="program_name_create"),
-    path("settings/program-name/<str:old_name>/update/", views.program_name_update, name="program_name_update"),
-    path("settings/program-name/<str:name>/delete/", views.program_name_delete, name="program_name_delete"),
+    path("settings/program-name/<int:pk>/update/", views.program_name_update, name="program_name_update"),
+    path("settings/program-name/<int:pk>/delete/", views.program_name_delete, name="program_name_delete"),
 
     # Requirements
     path('requirements/', views.requirements, name='requirements'),       
