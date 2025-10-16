@@ -3,77 +3,35 @@
   "model": "scheduler.courseday",
   "pk": 1,
   "fields": {
-    "name": "Monday"
+    "name": "Mon"
   }
 },
 {
   "model": "scheduler.courseday",
   "pk": 2,
   "fields": {
-    "name": "Wednesday"
+    "name": "Tues"
   }
 },
 {
   "model": "scheduler.courseday",
   "pk": 3,
   "fields": {
-    "name": "Friday"
+    "name": "Wed"
   }
 },
 {
   "model": "scheduler.courseday",
   "pk": 4,
   "fields": {
-    "name": "Monday_Wednesday_Friday"
+    "name": "Thurs"
   }
 },
 {
   "model": "scheduler.courseday",
   "pk": 5,
   "fields": {
-    "name": "Tuesday_Thursday"
-  }
-},
-{
-  "model": "scheduler.courseday",
-  "pk": 6,
-  "fields": {
-    "name": "Tuesday"
-  }
-},
-{
-  "model": "scheduler.courseday",
-  "pk": 7,
-  "fields": {
-    "name": "Thursday"
-  }
-},
-{
-  "model": "scheduler.courseday",
-  "pk": 8,
-  "fields": {
-    "name": "Monday_Friday"
-  }
-},
-{
-  "model": "scheduler.courseday",
-  "pk": 9,
-  "fields": {
-    "name": "Wednesday_Friday"
-  }
-},
-{
-  "model": "scheduler.courseday",
-  "pk": 10,
-  "fields": {
-    "name": "Monday_Wednesday"
-  }
-},
-{
-  "model": "scheduler.courseday",
-  "pk": 11,
-  "fields": {
-    "name": "Monday_Tuesday_Wednesday_Thursday_Friday"
+    "name": "Fri"
   }
 }
 ]

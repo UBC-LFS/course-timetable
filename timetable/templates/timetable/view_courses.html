@@ -106,7 +106,7 @@
                     <td>{{ course.term }}</td>
                     <td>{{ course.start_time }}</td>
                     <td>{{ course.end_time }}</td>
-                    <td>{{ course.day }}</td>
+                    <td>{{ course.day_names|join:',' }}</td>
                     <td>{{ course.academic_year }}</td>
                     <td>
                         <a href="{% url 'scheduler:edit_course' course.id %}" class="btn btn-warning btn-sm">Edit</a>

@@ -207,7 +207,7 @@
                 <td class="course-cell">
                   {% for course in courses %}
                     {% with course|get_day:day as data %}
-                      {% if course.day and day in course.day.name %}
+                      {% if day in course.day_names %}
                         {% if course.start_time and course.start_time.name|slice:":2" == hour %}
                           <div class="course-item {% if data.overlap %}overlap{% endif %}"
                                data-height="{{ course.pixel_height }}"
@@ -220,7 +220,7 @@
                                data-number="{{ course.number.name|default:'None' }}"
                                data-start="{{ course.start_time.name|default:'None' }}"
                                data-end="{{ course.end_time.name|default:'None' }}"
-                               data-day="{{ course.day.name|default:'None' }}"
+                               data-day="{{ course.day_names|join:',' }}"
                                data-section="{{ course.section.name|default:'None' }}"
                                data-academic-year="{{ course.academic_year.name|default:'None' }}"
                                data-term="{{ course.term.name|default:'None' }}">

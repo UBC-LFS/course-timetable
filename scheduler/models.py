@@ -54,7 +54,7 @@ class CourseTime(models.Model):
         return self.name
 
 class CourseDay(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=20, unique=True)
     
     class Meta:
         ordering = ['name']
@@ -97,7 +97,7 @@ class Course(models.Model):
     academic_year = models.ForeignKey(CourseYear, on_delete=models.SET_NULL, null=True, blank=True)
     start_time = models.ForeignKey(CourseTime, on_delete=models.SET_NULL, null=True, blank=True, related_name="start_time")
     end_time = models.ForeignKey(CourseTime, on_delete=models.SET_NULL, null=True, blank=True, related_name="end_time")
-    day = models.ForeignKey(CourseDay, on_delete=models.SET_NULL, null=True, blank=True)
+    day = models.ManyToManyField(CourseDay, blank=True, related_name="courses")
     slug = models.SlugField(max_length=256, unique=True)    # URL-friendly identifier
 
     def save(self, *args, **kwargs):
@@ -117,10 +117,7 @@ class Course(models.Model):
 class Program(models.Model):
     name = models.ForeignKey(ProgramName, on_delete=models.CASCADE)
     year_level = models.ForeignKey(ProgramYearLevel, on_delete=models.CASCADE)
-    courses = models.ManyToManyField(Course, related_name="programs")  # many-to-many
-    
-    class Meta:
-        unique_together = ("name", "year_level")  # composite uniqueness
+    courses = models.ManyToManyField(Course, blank=True, related_name="programs")  # many-to-many
         
     def __str__(self):
         return f"{self.name} {self.year_level.name}"

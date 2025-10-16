@@ -10,8 +10,10 @@
     "academic_year": 1,
     "start_time": 1,
     "end_time": 2,
-    "day": 1,
-    "slug": "lfs-100-001-2025-t1"
+    "slug": "lfs-100-001-2025-t1",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -25,8 +27,10 @@
     "academic_year": 1,
     "start_time": 1,
     "end_time": 2,
-    "day": 2,
-    "slug": "lfs-100-002-2025-t1"
+    "slug": "lfs-100-002-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -40,8 +44,10 @@
     "academic_year": 1,
     "start_time": 1,
     "end_time": 2,
-    "day": 3,
-    "slug": "lfs-100-003-2025-t1"
+    "slug": "lfs-100-003-2025-t1",
+    "day": [
+      5
+    ]
   }
 },
 {
@@ -55,8 +61,12 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 3,
-    "day": 4,
-    "slug": "lfs-101-201-2025-t2"
+    "slug": "lfs-101-201-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -70,8 +80,10 @@
     "academic_year": 1,
     "start_time": 4,
     "end_time": 5,
-    "day": 1,
-    "slug": "lfs-101-d01-2025-t2"
+    "slug": "lfs-101-d01-2025-t2",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -85,8 +97,10 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 7,
-    "day": 1,
-    "slug": "lfs-110-101-2025-t1_t2"
+    "slug": "lfs-110-101-2025-t1_t2",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -100,8 +114,10 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 7,
-    "day": 2,
-    "slug": "lfs-110-l01-2025-t1_t2"
+    "slug": "lfs-110-l01-2025-t1_t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -115,8 +131,10 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 7,
-    "day": 3,
-    "slug": "lfs-110-t01-2025-t1_t2"
+    "slug": "lfs-110-t01-2025-t1_t2",
+    "day": [
+      5
+    ]
   }
 },
 {
@@ -130,8 +148,11 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 5,
-    "slug": "lfs-150-001-2025-t1"
+    "slug": "lfs-150-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -145,8 +166,12 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 3,
-    "day": 4,
-    "slug": "lfs-150-002-2025-t2"
+    "slug": "lfs-150-002-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -160,8 +185,12 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 3,
-    "day": 4,
-    "slug": "lfs-150-003-2025-t1"
+    "slug": "lfs-150-003-2025-t1",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -175,8 +204,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 5,
-    "slug": "lfs-150-004-2025-t2"
+    "slug": "lfs-150-004-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -190,8 +222,11 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 5,
-    "slug": "lfs-150-005-2025-t1"
+    "slug": "lfs-150-005-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -205,8 +240,11 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 5,
-    "slug": "lfs-150-006-2025-t1"
+    "slug": "lfs-150-006-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -220,8 +258,12 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 4,
-    "day": 4,
-    "slug": "lfs-150-007-2025-t2"
+    "slug": "lfs-150-007-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -235,8 +277,12 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 7,
-    "day": 4,
-    "slug": "lfs-150-201-2025-t2"
+    "slug": "lfs-150-201-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -250,8 +296,10 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 6,
-    "slug": "lfs-250-001-2025-t1_t2"
+    "slug": "lfs-250-001-2025-t1_t2",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -265,8 +313,10 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 6,
-    "slug": "lfs-250-002-2025-t1_t2"
+    "slug": "lfs-250-002-2025-t1_t2",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -280,8 +330,10 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 6,
-    "slug": "lfs-250-003-2025-t1_t2"
+    "slug": "lfs-250-003-2025-t1_t2",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -295,8 +347,10 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 7,
-    "slug": "lfs-250-d01-2025-t1_t2"
+    "slug": "lfs-250-d01-2025-t1_t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -310,8 +364,10 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 7,
-    "slug": "lfs-250-d02-2025-t1_t2"
+    "slug": "lfs-250-d02-2025-t1_t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -325,8 +381,11 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 10,
-    "day": 5,
-    "slug": "lfs-252-002-2025-t2"
+    "slug": "lfs-252-002-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -340,8 +399,11 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 10,
-    "day": 5,
-    "slug": "lfs-252-003-2025-t2"
+    "slug": "lfs-252-003-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -355,8 +417,10 @@
     "academic_year": 1,
     "start_time": 4,
     "end_time": 5,
-    "day": 1,
-    "slug": "lfs-252-d01-2025-t2"
+    "slug": "lfs-252-d01-2025-t2",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -370,8 +434,10 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 11,
-    "day": 1,
-    "slug": "lfs-252-d02-2025-t2"
+    "slug": "lfs-252-d02-2025-t2",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -385,8 +451,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 1,
-    "slug": "lfs-252-d03-2025-t2"
+    "slug": "lfs-252-d03-2025-t2",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -400,8 +468,10 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 11,
-    "day": 2,
-    "slug": "lfs-252-d04-2025-t2"
+    "slug": "lfs-252-d04-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -415,8 +485,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 2,
-    "slug": "lfs-252-d05-2025-t2"
+    "slug": "lfs-252-d05-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -430,8 +502,10 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 11,
-    "day": 7,
-    "slug": "lfs-252-d06-2025-t2"
+    "slug": "lfs-252-d06-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -445,8 +519,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 7,
-    "slug": "lfs-252-d07-2025-t2"
+    "slug": "lfs-252-d07-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -460,8 +536,10 @@
     "academic_year": 1,
     "start_time": 4,
     "end_time": 5,
-    "day": 3,
-    "slug": "lfs-252-d08-2025-t2"
+    "slug": "lfs-252-d08-2025-t2",
+    "day": [
+      5
+    ]
   }
 },
 {
@@ -475,8 +553,10 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 11,
-    "day": 3,
-    "slug": "lfs-252-d09-2025-t2"
+    "slug": "lfs-252-d09-2025-t2",
+    "day": [
+      5
+    ]
   }
 },
 {
@@ -490,8 +570,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 3,
-    "slug": "lfs-252-d10-2025-t2"
+    "slug": "lfs-252-d10-2025-t2",
+    "day": [
+      5
+    ]
   }
 },
 {
@@ -505,8 +587,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "lfs-302a-001-2025-t1"
+    "slug": "lfs-302a-001-2025-t1",
+    "day": []
   }
 },
 {
@@ -520,8 +602,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "lfs-302a-002-2025-t2"
+    "slug": "lfs-302a-002-2025-t2",
+    "day": []
   }
 },
 {
@@ -535,8 +617,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "lfs-302b-001-2025-t1_t2"
+    "slug": "lfs-302b-001-2025-t1_t2",
+    "day": []
   }
 },
 {
@@ -550,8 +632,10 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 10,
-    "day": 7,
-    "slug": "lfs-350-001-2025-t1"
+    "slug": "lfs-350-001-2025-t1",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -565,8 +649,10 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 10,
-    "day": 7,
-    "slug": "lfs-350-002-2025-t2"
+    "slug": "lfs-350-002-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -580,8 +666,10 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 1,
-    "day": 2,
-    "slug": "lfs-400-001-2025-t2"
+    "slug": "lfs-400-001-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -595,8 +683,10 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 3,
-    "slug": "lfs-400-l01-2025-t2"
+    "slug": "lfs-400-l01-2025-t2",
+    "day": [
+      5
+    ]
   }
 },
 {
@@ -610,8 +700,10 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 11,
-    "day": 2,
-    "slug": "lfs-450-001-2025-t2"
+    "slug": "lfs-450-001-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -625,8 +717,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "lfs-496a-001-2025-t1"
+    "slug": "lfs-496a-001-2025-t1",
+    "day": []
   }
 },
 {
@@ -640,8 +732,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "lfs-496a-002-2025-t2"
+    "slug": "lfs-496a-002-2025-t2",
+    "day": []
   }
 },
 {
@@ -655,8 +747,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "lfs-496b-001-2025-t1"
+    "slug": "lfs-496b-001-2025-t1",
+    "day": []
   }
 },
 {
@@ -670,8 +762,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "lfs-496b-002-2025-t2"
+    "slug": "lfs-496b-002-2025-t2",
+    "day": []
   }
 },
 {
@@ -685,8 +777,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "lfs-496b-003-2025-t1_t2"
+    "slug": "lfs-496b-003-2025-t1_t2",
+    "day": []
   }
 },
 {
@@ -700,8 +792,10 @@
     "academic_year": 1,
     "start_time": 13,
     "end_time": 14,
-    "day": 2,
-    "slug": "grs-290-001-2025-t1_t2"
+    "slug": "grs-290-001-2025-t1_t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -715,8 +809,10 @@
     "academic_year": 1,
     "start_time": 13,
     "end_time": 14,
-    "day": 2,
-    "slug": "grs-290-102-2025-t1"
+    "slug": "grs-290-102-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -730,8 +826,10 @@
     "academic_year": 1,
     "start_time": 13,
     "end_time": 14,
-    "day": 2,
-    "slug": "grs-290-103-2025-t2"
+    "slug": "grs-290-103-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -745,8 +843,10 @@
     "academic_year": 1,
     "start_time": 13,
     "end_time": 14,
-    "day": 2,
-    "slug": "grs-290-104-2025-t1_t2"
+    "slug": "grs-290-104-2025-t1_t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -760,8 +860,11 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 5,
-    "slug": "grs-300-001-2025-t2"
+    "slug": "grs-300-001-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -775,8 +878,10 @@
     "academic_year": 1,
     "start_time": 13,
     "end_time": 14,
-    "day": 2,
-    "slug": "grs-390-001-2025-t1_t2"
+    "slug": "grs-390-001-2025-t1_t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -790,8 +895,10 @@
     "academic_year": 1,
     "start_time": 13,
     "end_time": 14,
-    "day": 2,
-    "slug": "grs-390-102-2025-t1"
+    "slug": "grs-390-102-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -805,8 +912,10 @@
     "academic_year": 1,
     "start_time": 13,
     "end_time": 14,
-    "day": 2,
-    "slug": "grs-390-103-2025-t2"
+    "slug": "grs-390-103-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -820,8 +929,10 @@
     "academic_year": 1,
     "start_time": 13,
     "end_time": 14,
-    "day": 2,
-    "slug": "grs-390-104-2025-t1_t2"
+    "slug": "grs-390-104-2025-t1_t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -835,8 +946,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "grs-397a-001-2025-t1"
+    "slug": "grs-397a-001-2025-t1",
+    "day": []
   }
 },
 {
@@ -850,8 +961,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "grs-397a-002-2025-t2"
+    "slug": "grs-397a-002-2025-t2",
+    "day": []
   }
 },
 {
@@ -865,8 +976,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "grs-397b-003-2025-t1"
+    "slug": "grs-397b-003-2025-t1",
+    "day": []
   }
 },
 {
@@ -880,8 +991,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "grs-397b-004-2025-t2"
+    "slug": "grs-397b-004-2025-t2",
+    "day": []
   }
 },
 {
@@ -895,8 +1006,10 @@
     "academic_year": 1,
     "start_time": 13,
     "end_time": 14,
-    "day": 2,
-    "slug": "grs-490-001-2025-t1_t2"
+    "slug": "grs-490-001-2025-t1_t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -910,8 +1023,10 @@
     "academic_year": 1,
     "start_time": 13,
     "end_time": 14,
-    "day": 2,
-    "slug": "grs-490-102-2025-t1"
+    "slug": "grs-490-102-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -925,8 +1040,10 @@
     "academic_year": 1,
     "start_time": 13,
     "end_time": 14,
-    "day": 2,
-    "slug": "grs-490-103-2025-t2"
+    "slug": "grs-490-103-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -940,8 +1057,10 @@
     "academic_year": 1,
     "start_time": 13,
     "end_time": 14,
-    "day": 2,
-    "slug": "grs-490-104-2025-t1_t2"
+    "slug": "grs-490-104-2025-t1_t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -955,8 +1074,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "grs-497b-001-2025-t1"
+    "slug": "grs-497b-001-2025-t1",
+    "day": []
   }
 },
 {
@@ -970,8 +1089,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "grs-497b-002-2025-t2"
+    "slug": "grs-497b-002-2025-t2",
+    "day": []
   }
 },
 {
@@ -985,8 +1104,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "grs-497b-003-2025-t1_t2"
+    "slug": "grs-497b-003-2025-t1_t2",
+    "day": []
   }
 },
 {
@@ -1000,8 +1119,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "grs-497e-101-2025-t1_t2"
+    "slug": "grs-497e-101-2025-t1_t2",
+    "day": []
   }
 },
 {
@@ -1015,8 +1134,11 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 5,
-    "slug": "fnh-160-101-2025-t1"
+    "slug": "fnh-160-101-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1030,8 +1152,11 @@
     "academic_year": 1,
     "start_time": 10,
     "end_time": 11,
-    "day": 5,
-    "slug": "fnh-160-201-2025-t2"
+    "slug": "fnh-160-201-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1045,8 +1170,11 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 5,
-    "slug": "fnh-161-201-2025-t2"
+    "slug": "fnh-161-201-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1060,8 +1188,12 @@
     "academic_year": 1,
     "start_time": 1,
     "end_time": 2,
-    "day": 4,
-    "slug": "fnh-200-101-2025-t1"
+    "slug": "fnh-200-101-2025-t1",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -1075,8 +1207,11 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 5,
-    "slug": "fnh-200-102-2025-t1"
+    "slug": "fnh-200-102-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1090,8 +1225,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 5,
-    "slug": "fnh-200-103-2025-t2"
+    "slug": "fnh-200-103-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1105,8 +1243,12 @@
     "academic_year": 1,
     "start_time": 1,
     "end_time": 2,
-    "day": 4,
-    "slug": "fnh-200-104-2025-t2"
+    "slug": "fnh-200-104-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -1120,8 +1262,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "fnh-200-105-2025-t1"
+    "slug": "fnh-200-105-2025-t1",
+    "day": []
   }
 },
 {
@@ -1135,8 +1277,11 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 5,
-    "slug": "fnh-250-001-2025-t1"
+    "slug": "fnh-250-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1150,8 +1295,12 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 4,
-    "slug": "fnh-250-002-2025-t2"
+    "slug": "fnh-250-002-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -1165,8 +1314,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 5,
-    "slug": "fnh-300-001-2025-t1"
+    "slug": "fnh-300-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1180,8 +1332,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 3,
-    "day": 3,
-    "slug": "fnh-300-d01-2025-t1"
+    "slug": "fnh-300-d01-2025-t1",
+    "day": [
+      5
+    ]
   }
 },
 {
@@ -1195,8 +1349,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 8,
-    "slug": "fnh-301-001-2025-t1"
+    "slug": "fnh-301-001-2025-t1",
+    "day": [
+      5,
+      1
+    ]
   }
 },
 {
@@ -1210,8 +1367,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 3,
-    "day": 1,
-    "slug": "fnh-301-d01-2025-t1"
+    "slug": "fnh-301-d01-2025-t1",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -1225,8 +1384,11 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 5,
-    "slug": "fnh-302-101-2025-t1"
+    "slug": "fnh-302-101-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1240,8 +1402,10 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 2,
-    "slug": "fnh-302-d01-2025-t1"
+    "slug": "fnh-302-d01-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -1255,8 +1419,11 @@
     "academic_year": 1,
     "start_time": 15,
     "end_time": 1,
-    "day": 9,
-    "slug": "fnh-303-001-2025-t2"
+    "slug": "fnh-303-001-2025-t2",
+    "day": [
+      5,
+      3
+    ]
   }
 },
 {
@@ -1270,8 +1437,11 @@
     "academic_year": 1,
     "start_time": 16,
     "end_time": 15,
-    "day": 9,
-    "slug": "fnh-309-001-2025-t2"
+    "slug": "fnh-309-001-2025-t2",
+    "day": [
+      5,
+      3
+    ]
   }
 },
 {
@@ -1285,8 +1455,10 @@
     "academic_year": 1,
     "start_time": 16,
     "end_time": 6,
-    "day": 7,
-    "slug": "fnh-309-d01-2025-t2"
+    "slug": "fnh-309-d01-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -1300,8 +1472,12 @@
     "academic_year": 1,
     "start_time": 1,
     "end_time": 2,
-    "day": 4,
-    "slug": "fnh-313-001-2025-t1"
+    "slug": "fnh-313-001-2025-t1",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -1315,8 +1491,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 6,
-    "slug": "fnh-325-001-2025-t1"
+    "slug": "fnh-325-001-2025-t1",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -1330,8 +1508,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 6,
-    "slug": "fnh-325-002-2025-t1"
+    "slug": "fnh-325-002-2025-t1",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -1345,8 +1525,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 6,
-    "slug": "fnh-326-001-2025-t2"
+    "slug": "fnh-326-001-2025-t2",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -1360,8 +1542,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 6,
-    "slug": "fnh-326-002-2025-t2"
+    "slug": "fnh-326-002-2025-t2",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -1375,8 +1559,11 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 11,
-    "day": 5,
-    "slug": "fnh-330-001-2025-t1"
+    "slug": "fnh-330-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1390,8 +1577,11 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 11,
-    "day": 5,
-    "slug": "fnh-330-002-2025-t2"
+    "slug": "fnh-330-002-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1405,8 +1595,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 6,
-    "slug": "fnh-330-l1a-2025-t1"
+    "slug": "fnh-330-l1a-2025-t1",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -1420,8 +1612,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 6,
-    "slug": "fnh-330-l1b-2025-t1"
+    "slug": "fnh-330-l1b-2025-t1",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -1435,8 +1629,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 6,
-    "slug": "fnh-330-l1c-2025-t1"
+    "slug": "fnh-330-l1c-2025-t1",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -1450,8 +1646,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 6,
-    "slug": "fnh-330-l1d-2025-t1"
+    "slug": "fnh-330-l1d-2025-t1",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -1465,8 +1663,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 7,
-    "slug": "fnh-330-l1e-2025-t1"
+    "slug": "fnh-330-l1e-2025-t1",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -1480,8 +1680,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 7,
-    "slug": "fnh-330-l1f-2025-t1"
+    "slug": "fnh-330-l1f-2025-t1",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -1495,8 +1697,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 7,
-    "slug": "fnh-330-l1g-2025-t1"
+    "slug": "fnh-330-l1g-2025-t1",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -1510,8 +1714,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 7,
-    "slug": "fnh-330-l1h-2025-t1"
+    "slug": "fnh-330-l1h-2025-t1",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -1525,8 +1731,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 6,
-    "slug": "fnh-330-l2a-2025-t2"
+    "slug": "fnh-330-l2a-2025-t2",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -1540,8 +1748,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 6,
-    "slug": "fnh-330-l2b-2025-t2"
+    "slug": "fnh-330-l2b-2025-t2",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -1555,8 +1765,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 6,
-    "slug": "fnh-330-l2c-2025-t2"
+    "slug": "fnh-330-l2c-2025-t2",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -1570,8 +1782,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 6,
-    "slug": "fnh-330-l2d-2025-t2"
+    "slug": "fnh-330-l2d-2025-t2",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -1585,8 +1799,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 7,
-    "slug": "fnh-330-l2e-2025-t2"
+    "slug": "fnh-330-l2e-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -1600,8 +1816,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 7,
-    "slug": "fnh-330-l2f-2025-t2"
+    "slug": "fnh-330-l2f-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -1615,8 +1833,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 7,
-    "slug": "fnh-330-l2g-2025-t2"
+    "slug": "fnh-330-l2g-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -1630,8 +1850,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 7,
-    "slug": "fnh-330-l2h-2025-t2"
+    "slug": "fnh-330-l2h-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -1645,8 +1867,12 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 11,
-    "day": 4,
-    "slug": "fnh-335-001-2025-t2"
+    "slug": "fnh-335-001-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -1660,8 +1886,10 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 12,
-    "day": 2,
-    "slug": "fnh-335-l01-2025-t2"
+    "slug": "fnh-335-l01-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -1675,8 +1903,10 @@
     "academic_year": 1,
     "start_time": 15,
     "end_time": 1,
-    "day": 2,
-    "slug": "fnh-340-002-2025-t2"
+    "slug": "fnh-340-002-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -1690,8 +1920,10 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 10,
-    "day": 7,
-    "slug": "fnh-340-l01-2025-t2"
+    "slug": "fnh-340-l01-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -1705,8 +1937,10 @@
     "academic_year": 1,
     "start_time": 17,
     "end_time": 18,
-    "day": 7,
-    "slug": "fnh-340-l02-2025-t2"
+    "slug": "fnh-340-l02-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -1720,8 +1954,11 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 8,
-    "slug": "fnh-342-001-2025-t1"
+    "slug": "fnh-342-001-2025-t1",
+    "day": [
+      5,
+      1
+    ]
   }
 },
 {
@@ -1735,8 +1972,11 @@
     "academic_year": 1,
     "start_time": 19,
     "end_time": 4,
-    "day": 9,
-    "slug": "fnh-345-201-2025-t2"
+    "slug": "fnh-345-201-2025-t2",
+    "day": [
+      5,
+      3
+    ]
   }
 },
 {
@@ -1750,8 +1990,11 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 5,
-    "slug": "fnh-350-001-2025-t1"
+    "slug": "fnh-350-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1765,8 +2008,11 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 5,
-    "slug": "fnh-351-002-2025-t2"
+    "slug": "fnh-351-002-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1780,8 +2026,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 5,
-    "slug": "fnh-355-001-2025-t1"
+    "slug": "fnh-355-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1795,8 +2044,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 5,
-    "slug": "fnh-355-002-2025-t2"
+    "slug": "fnh-355-002-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1810,8 +2062,11 @@
     "academic_year": 1,
     "start_time": 10,
     "end_time": 11,
-    "day": 5,
-    "slug": "fnh-370-001-2025-t1"
+    "slug": "fnh-370-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1825,8 +2080,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 5,
-    "slug": "fnh-371-002-2025-t1"
+    "slug": "fnh-371-002-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1840,8 +2098,11 @@
     "academic_year": 1,
     "start_time": 16,
     "end_time": 15,
-    "day": 10,
-    "slug": "fnh-375-201-2025-t2"
+    "slug": "fnh-375-201-2025-t2",
+    "day": [
+      1,
+      3
+    ]
   }
 },
 {
@@ -1855,8 +2116,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 3,
-    "slug": "fnh-380-001-2025-t1"
+    "slug": "fnh-380-001-2025-t1",
+    "day": [
+      5
+    ]
   }
 },
 {
@@ -1870,8 +2133,11 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 13,
-    "day": 9,
-    "slug": "fnh-398-001-2025-t1"
+    "slug": "fnh-398-001-2025-t1",
+    "day": [
+      5,
+      3
+    ]
   }
 },
 {
@@ -1885,8 +2151,10 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 11,
-    "day": 1,
-    "slug": "fnh-398-d01-2025-t1"
+    "slug": "fnh-398-d01-2025-t1",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -1900,8 +2168,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 5,
-    "slug": "fnh-401-001-2025-t2"
+    "slug": "fnh-401-001-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -1915,8 +2186,12 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 7,
-    "day": 4,
-    "slug": "fnh-402-001-2025-t2"
+    "slug": "fnh-402-001-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -1930,8 +2205,12 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 4,
-    "slug": "fnh-403-001-2025-t1"
+    "slug": "fnh-403-001-2025-t1",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -1945,8 +2224,12 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 4,
-    "slug": "fnh-403-002-2025-t2"
+    "slug": "fnh-403-002-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -1960,8 +2243,10 @@
     "academic_year": 1,
     "start_time": 16,
     "end_time": 6,
-    "day": 2,
-    "slug": "fnh-403-d01-2025-t1"
+    "slug": "fnh-403-d01-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -1975,8 +2260,10 @@
     "academic_year": 1,
     "start_time": 1,
     "end_time": 2,
-    "day": 2,
-    "slug": "fnh-403-d02-2025-t1"
+    "slug": "fnh-403-d02-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -1990,8 +2277,10 @@
     "academic_year": 1,
     "start_time": 16,
     "end_time": 6,
-    "day": 2,
-    "slug": "fnh-403-d03-2025-t2"
+    "slug": "fnh-403-d03-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -2005,8 +2294,10 @@
     "academic_year": 1,
     "start_time": 1,
     "end_time": 2,
-    "day": 2,
-    "slug": "fnh-403-d04-2025-t2"
+    "slug": "fnh-403-d04-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -2020,8 +2311,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 2,
-    "slug": "fnh-404-201-2025-t2"
+    "slug": "fnh-404-201-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -2035,8 +2328,12 @@
     "academic_year": 1,
     "start_time": 1,
     "end_time": 2,
-    "day": 4,
-    "slug": "fnh-405-101-2025-t2"
+    "slug": "fnh-405-101-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -2050,8 +2347,11 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 10,
-    "day": 5,
-    "slug": "fnh-413-001-2025-t1"
+    "slug": "fnh-413-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -2065,8 +2365,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 1,
-    "slug": "fnh-414-101-2025-t1"
+    "slug": "fnh-414-101-2025-t1",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -2080,8 +2382,11 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 20,
-    "day": 5,
-    "slug": "fnh-415-001-2025-t1"
+    "slug": "fnh-415-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -2095,8 +2400,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 3,
-    "slug": "fnh-425-001-2025-t1_t2"
+    "slug": "fnh-425-001-2025-t1_t2",
+    "day": [
+      5
+    ]
   }
 },
 {
@@ -2110,8 +2417,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 4,
-    "day": 2,
-    "slug": "fnh-440-001-2025-t1"
+    "slug": "fnh-440-001-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -2125,8 +2434,10 @@
     "academic_year": 1,
     "start_time": 4,
     "end_time": 5,
-    "day": 2,
-    "slug": "fnh-440-e01-2025-t1"
+    "slug": "fnh-440-e01-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -2140,8 +2451,11 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 5,
-    "slug": "fnh-451-002-2025-t2"
+    "slug": "fnh-451-002-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -2155,8 +2469,11 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 5,
-    "slug": "fnh-455-001-2025-t2"
+    "slug": "fnh-455-001-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -2170,8 +2487,11 @@
     "academic_year": 1,
     "start_time": 16,
     "end_time": 15,
-    "day": 10,
-    "slug": "fnh-470-001-2025-t1"
+    "slug": "fnh-470-001-2025-t1",
+    "day": [
+      1,
+      3
+    ]
   }
 },
 {
@@ -2185,8 +2505,11 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 5,
-    "slug": "fnh-472-001-2025-t1"
+    "slug": "fnh-472-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -2200,8 +2523,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "fnh-473-001-2025-t2"
+    "slug": "fnh-473-001-2025-t2",
+    "day": []
   }
 },
 {
@@ -2215,8 +2538,11 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 10,
-    "day": 5,
-    "slug": "fnh-474-002-2025-t2"
+    "slug": "fnh-474-002-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -2230,8 +2556,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 10,
-    "slug": "fnh-475-002-2025-t2"
+    "slug": "fnh-475-002-2025-t2",
+    "day": [
+      1,
+      3
+    ]
   }
 },
 {
@@ -2245,8 +2574,12 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 7,
-    "day": 4,
-    "slug": "fnh-477-001-2025-t2"
+    "slug": "fnh-477-001-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -2260,8 +2593,10 @@
     "academic_year": 1,
     "start_time": 19,
     "end_time": 17,
-    "day": 2,
-    "slug": "fnh-480-002-2025-t2"
+    "slug": "fnh-480-002-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -2275,8 +2610,14 @@
     "academic_year": 1,
     "start_time": 21,
     "end_time": null,
-    "day": 11,
-    "slug": "fnh-482-201-2025-t1"
+    "slug": "fnh-482-201-2025-t1",
+    "day": [
+      5,
+      1,
+      4,
+      2,
+      3
+    ]
   }
 },
 {
@@ -2290,8 +2631,14 @@
     "academic_year": 1,
     "start_time": 21,
     "end_time": null,
-    "day": 11,
-    "slug": "fnh-483-101-2025-t2"
+    "slug": "fnh-483-101-2025-t2",
+    "day": [
+      5,
+      1,
+      4,
+      2,
+      3
+    ]
   }
 },
 {
@@ -2305,8 +2652,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 8,
-    "slug": "fnh-490-001-2025-t2"
+    "slug": "fnh-490-001-2025-t2",
+    "day": [
+      5,
+      1
+    ]
   }
 },
 {
@@ -2320,8 +2670,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "fnh-497a-101-2025-t1"
+    "slug": "fnh-497a-101-2025-t1",
+    "day": []
   }
 },
 {
@@ -2335,8 +2685,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "fnh-497a-102-2025-t2"
+    "slug": "fnh-497a-102-2025-t2",
+    "day": []
   }
 },
 {
@@ -2350,8 +2700,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "fnh-497b-101-2025-t1"
+    "slug": "fnh-497b-101-2025-t1",
+    "day": []
   }
 },
 {
@@ -2365,8 +2715,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "fnh-497b-102-2025-t2"
+    "slug": "fnh-497b-102-2025-t2",
+    "day": []
   }
 },
 {
@@ -2380,8 +2730,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "fnh-497c-001-2025-t1_t2"
+    "slug": "fnh-497c-001-2025-t1_t2",
+    "day": []
   }
 },
 {
@@ -2395,8 +2745,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "fnh-497e-001-2025-t1_t2"
+    "slug": "fnh-497e-001-2025-t1_t2",
+    "day": []
   }
 },
 {
@@ -2410,8 +2760,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "fnh-497e-101-2025-t1"
+    "slug": "fnh-497e-101-2025-t1",
+    "day": []
   }
 },
 {
@@ -2425,8 +2775,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "fnh-497e-102-2025-t2"
+    "slug": "fnh-497e-102-2025-t2",
+    "day": []
   }
 },
 {
@@ -2440,8 +2790,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "fnh-499-001-2025-t1_t2"
+    "slug": "fnh-499-001-2025-t1_t2",
+    "day": []
   }
 },
 {
@@ -2455,8 +2805,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "fnh-499-101-2025-t1"
+    "slug": "fnh-499-101-2025-t1",
+    "day": []
   }
 },
 {
@@ -2470,8 +2820,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "fnh-499-102-2025-t2"
+    "slug": "fnh-499-102-2025-t2",
+    "day": []
   }
 },
 {
@@ -2485,8 +2835,12 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 7,
-    "day": 4,
-    "slug": "apbi-200-001-2025-t2"
+    "slug": "apbi-200-001-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -2500,8 +2854,12 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 4,
-    "slug": "apbi-200-002-2025-t2"
+    "slug": "apbi-200-002-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -2515,8 +2873,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 4,
-    "day": 1,
-    "slug": "apbi-200-l01-2025-t2"
+    "slug": "apbi-200-l01-2025-t2",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -2530,8 +2890,10 @@
     "academic_year": 1,
     "start_time": 4,
     "end_time": 11,
-    "day": 1,
-    "slug": "apbi-200-l02-2025-t2"
+    "slug": "apbi-200-l02-2025-t2",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -2545,8 +2907,10 @@
     "academic_year": 1,
     "start_time": 21,
     "end_time": 6,
-    "day": 6,
-    "slug": "apbi-200-l03-2025-t2"
+    "slug": "apbi-200-l03-2025-t2",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -2560,8 +2924,10 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 1,
-    "day": 6,
-    "slug": "apbi-200-l04-2025-t2"
+    "slug": "apbi-200-l04-2025-t2",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -2575,8 +2941,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 4,
-    "day": 6,
-    "slug": "apbi-200-l05-2025-t2"
+    "slug": "apbi-200-l05-2025-t2",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -2590,8 +2958,10 @@
     "academic_year": 1,
     "start_time": 4,
     "end_time": 11,
-    "day": 6,
-    "slug": "apbi-200-l06-2025-t2"
+    "slug": "apbi-200-l06-2025-t2",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -2605,8 +2975,10 @@
     "academic_year": 1,
     "start_time": 21,
     "end_time": 6,
-    "day": 2,
-    "slug": "apbi-200-l07-2025-t2"
+    "slug": "apbi-200-l07-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -2620,8 +2992,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 4,
-    "day": 2,
-    "slug": "apbi-200-l08-2025-t2"
+    "slug": "apbi-200-l08-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -2635,8 +3009,10 @@
     "academic_year": 1,
     "start_time": 4,
     "end_time": 11,
-    "day": 2,
-    "slug": "apbi-200-l09-2025-t2"
+    "slug": "apbi-200-l09-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -2650,8 +3026,10 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 1,
-    "day": 7,
-    "slug": "apbi-200-l10-2025-t2"
+    "slug": "apbi-200-l10-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -2665,8 +3043,10 @@
     "academic_year": 1,
     "start_time": 1,
     "end_time": 4,
-    "day": 7,
-    "slug": "apbi-200-pr1-2025-t2"
+    "slug": "apbi-200-pr1-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -2680,8 +3060,10 @@
     "academic_year": 1,
     "start_time": 21,
     "end_time": 7,
-    "day": 3,
-    "slug": "apbi-200-pr2-2025-t2"
+    "slug": "apbi-200-pr2-2025-t2",
+    "day": [
+      5
+    ]
   }
 },
 {
@@ -2695,8 +3077,10 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 11,
-    "day": 3,
-    "slug": "apbi-200-pr3-2025-t2"
+    "slug": "apbi-200-pr3-2025-t2",
+    "day": [
+      5
+    ]
   }
 },
 {
@@ -2710,8 +3094,10 @@
     "academic_year": 1,
     "start_time": 21,
     "end_time": 7,
-    "day": 1,
-    "slug": "apbi-200-pr4-2025-t2"
+    "slug": "apbi-200-pr4-2025-t2",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -2725,8 +3111,12 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 4,
-    "slug": "apbi-210-001-2025-t2"
+    "slug": "apbi-210-001-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -2740,8 +3130,10 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 8,
-    "day": 7,
-    "slug": "apbi-210-l01-2025-t2"
+    "slug": "apbi-210-l01-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -2755,8 +3147,10 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 11,
-    "day": 7,
-    "slug": "apbi-210-l03-2025-t2"
+    "slug": "apbi-210-l03-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -2770,8 +3164,10 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 11,
-    "day": 3,
-    "slug": "apbi-210-l05-2025-t2"
+    "slug": "apbi-210-l05-2025-t2",
+    "day": [
+      5
+    ]
   }
 },
 {
@@ -2785,8 +3181,10 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 11,
-    "day": 3,
-    "slug": "apbi-210-l06-2025-t2"
+    "slug": "apbi-210-l06-2025-t2",
+    "day": [
+      5
+    ]
   }
 },
 {
@@ -2800,8 +3198,10 @@
     "academic_year": 1,
     "start_time": 21,
     "end_time": 7,
-    "day": 7,
-    "slug": "apbi-210-l08-2025-t2"
+    "slug": "apbi-210-l08-2025-t2",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -2815,8 +3215,12 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 7,
-    "day": 4,
-    "slug": "apbi-214-002-2025-t2"
+    "slug": "apbi-214-002-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -2830,8 +3234,11 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 10,
-    "slug": "apbi-244-001-2025-t1"
+    "slug": "apbi-244-001-2025-t1",
+    "day": [
+      1,
+      3
+    ]
   }
 },
 {
@@ -2845,8 +3252,10 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 2,
-    "day": 6,
-    "slug": "apbi-244-l01-2025-t1"
+    "slug": "apbi-244-l01-2025-t1",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -2860,8 +3269,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 4,
-    "day": 6,
-    "slug": "apbi-244-l02-2025-t1"
+    "slug": "apbi-244-l02-2025-t1",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -2875,8 +3286,10 @@
     "academic_year": 1,
     "start_time": 16,
     "end_time": 7,
-    "day": 6,
-    "slug": "apbi-244-l03-2025-t1"
+    "slug": "apbi-244-l03-2025-t1",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -2890,8 +3303,10 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 2,
-    "day": 2,
-    "slug": "apbi-244-l04-2025-t1"
+    "slug": "apbi-244-l04-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -2905,8 +3320,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 4,
-    "day": 2,
-    "slug": "apbi-244-l05-2025-t1"
+    "slug": "apbi-244-l05-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -2920,8 +3337,10 @@
     "academic_year": 1,
     "start_time": 4,
     "end_time": 11,
-    "day": 6,
-    "slug": "apbi-244-l06-2025-t1"
+    "slug": "apbi-244-l06-2025-t1",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -2935,8 +3354,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 10,
-    "slug": "apbi-260-001-2025-t1"
+    "slug": "apbi-260-001-2025-t1",
+    "day": [
+      1,
+      3
+    ]
   }
 },
 {
@@ -2950,8 +3372,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 1,
-    "slug": "apbi-260-d01-2025-t1"
+    "slug": "apbi-260-d01-2025-t1",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -2965,8 +3389,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 2,
-    "slug": "apbi-260-l01-2025-t1"
+    "slug": "apbi-260-l01-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -2980,8 +3406,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 2,
-    "slug": "apbi-265-001-2025-t2"
+    "slug": "apbi-265-001-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -2995,8 +3423,12 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 4,
-    "slug": "apbi-311-001-2025-t2"
+    "slug": "apbi-311-001-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -3010,8 +3442,11 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 5,
-    "slug": "apbi-312-001-2025-t1"
+    "slug": "apbi-312-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3025,8 +3460,11 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 5,
-    "slug": "apbi-313-001-2025-t1"
+    "slug": "apbi-313-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3040,8 +3478,11 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 5,
-    "slug": "apbi-314-003-2025-t2"
+    "slug": "apbi-314-003-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3055,8 +3496,11 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 10,
-    "day": 5,
-    "slug": "apbi-315-001-2025-t2"
+    "slug": "apbi-315-001-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3070,8 +3514,11 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 13,
-    "day": 5,
-    "slug": "apbi-316-001-2025-t2"
+    "slug": "apbi-316-001-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3085,8 +3532,11 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 5,
-    "slug": "apbi-317-002-2025-t2"
+    "slug": "apbi-317-002-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3100,8 +3550,11 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 5,
-    "slug": "apbi-318-001-2025-t1"
+    "slug": "apbi-318-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3115,8 +3568,11 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 10,
-    "day": 5,
-    "slug": "apbi-319-001-2025-t1"
+    "slug": "apbi-319-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3130,8 +3586,11 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 7,
-    "day": 5,
-    "slug": "apbi-324-001-2025-t1"
+    "slug": "apbi-324-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3145,8 +3604,10 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 11,
-    "day": 2,
-    "slug": "apbi-324-l01-2025-t1"
+    "slug": "apbi-324-l01-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -3160,8 +3621,10 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 11,
-    "day": 7,
-    "slug": "apbi-324-l02-2025-t1"
+    "slug": "apbi-324-l02-2025-t1",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -3175,8 +3638,11 @@
     "academic_year": 1,
     "start_time": 21,
     "end_time": 16,
-    "day": 5,
-    "slug": "apbi-327-001-2025-t1"
+    "slug": "apbi-327-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3190,8 +3656,10 @@
     "academic_year": 1,
     "start_time": 16,
     "end_time": 7,
-    "day": 7,
-    "slug": "apbi-327-l01-2025-t1"
+    "slug": "apbi-327-l01-2025-t1",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -3205,8 +3673,10 @@
     "academic_year": 1,
     "start_time": 16,
     "end_time": 7,
-    "day": 7,
-    "slug": "apbi-327-l02-2025-t1"
+    "slug": "apbi-327-l02-2025-t1",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -3220,8 +3690,10 @@
     "academic_year": 1,
     "start_time": 19,
     "end_time": 10,
-    "day": 7,
-    "slug": "apbi-327-l03-2025-t1"
+    "slug": "apbi-327-l03-2025-t1",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -3235,8 +3707,10 @@
     "academic_year": 1,
     "start_time": 19,
     "end_time": 10,
-    "day": 7,
-    "slug": "apbi-327-l04-2025-t1"
+    "slug": "apbi-327-l04-2025-t1",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -3250,8 +3724,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 5,
-    "slug": "apbi-328-001-2025-t1"
+    "slug": "apbi-328-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3265,8 +3742,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 5,
-    "slug": "apbi-342-001-2025-t2"
+    "slug": "apbi-342-001-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3280,8 +3760,10 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 11,
-    "day": 6,
-    "slug": "apbi-342-l01-2025-t2"
+    "slug": "apbi-342-l01-2025-t2",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -3295,8 +3777,12 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 7,
-    "day": 4,
-    "slug": "apbi-351-101-2025-t1"
+    "slug": "apbi-351-101-2025-t1",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -3310,8 +3796,10 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 11,
-    "day": 1,
-    "slug": "apbi-351-l01-2025-t1"
+    "slug": "apbi-351-l01-2025-t1",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -3325,8 +3813,10 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 11,
-    "day": 6,
-    "slug": "apbi-351-l02-2025-t1"
+    "slug": "apbi-351-l02-2025-t1",
+    "day": [
+      2
+    ]
   }
 },
 {
@@ -3340,8 +3830,10 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 11,
-    "day": 2,
-    "slug": "apbi-351-l03-2025-t1"
+    "slug": "apbi-351-l03-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -3355,8 +3847,10 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 11,
-    "day": 7,
-    "slug": "apbi-351-l04-2025-t1"
+    "slug": "apbi-351-l04-2025-t1",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -3370,8 +3864,11 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 5,
-    "slug": "apbi-360-001-2025-t2"
+    "slug": "apbi-360-001-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3385,8 +3882,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-361-199-2025-t2"
+    "slug": "apbi-361-199-2025-t2",
+    "day": []
   }
 },
 {
@@ -3400,8 +3897,10 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 11,
-    "day": 1,
-    "slug": "apbi-398-001-2025-t1"
+    "slug": "apbi-398-001-2025-t1",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -3415,8 +3914,12 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 4,
-    "slug": "apbi-401-001-2025-t1"
+    "slug": "apbi-401-001-2025-t1",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -3430,8 +3933,11 @@
     "academic_year": 1,
     "start_time": 4,
     "end_time": 11,
-    "day": 1,
-    "slug": "apbi-402-002-2025-t2"
+    "slug": "apbi-402-002-2025-t2",
+    "day": [
+      5,
+      1
+    ]
   }
 },
 {
@@ -3445,8 +3951,11 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 10,
-    "slug": "apbi-405-002-2025-t2"
+    "slug": "apbi-405-002-2025-t2",
+    "day": [
+      1,
+      3
+    ]
   }
 },
 {
@@ -3460,8 +3969,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-406-001-2025-t1"
+    "slug": "apbi-406-001-2025-t1",
+    "day": []
   }
 },
 {
@@ -3475,8 +3984,11 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 22,
-    "day": 5,
-    "slug": "apbi-410-002-2025-t1"
+    "slug": "apbi-410-002-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3490,8 +4002,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 5,
-    "slug": "apbi-413-001-2025-t1"
+    "slug": "apbi-413-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3505,8 +4020,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 1,
-    "slug": "apbi-414-001-2025-t1"
+    "slug": "apbi-414-001-2025-t1",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -3520,8 +4037,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 5,
-    "slug": "apbi-415-001-2025-t2"
+    "slug": "apbi-415-001-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3535,8 +4055,10 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 2,
-    "day": 2,
-    "slug": "apbi-416-001-2025-t1"
+    "slug": "apbi-416-001-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -3550,8 +4072,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-419-201-2025-t2"
+    "slug": "apbi-419-201-2025-t2",
+    "day": []
   }
 },
 {
@@ -3565,8 +4087,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 2,
-    "slug": "apbi-422-001-2025-t1"
+    "slug": "apbi-422-001-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -3580,8 +4104,11 @@
     "academic_year": 1,
     "start_time": 11,
     "end_time": 20,
-    "day": 5,
-    "slug": "apbi-423-001-2025-t2"
+    "slug": "apbi-423-001-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3595,8 +4122,12 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 4,
-    "slug": "apbi-426-001-2025-t1"
+    "slug": "apbi-426-001-2025-t1",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -3610,8 +4141,10 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 5,
-    "day": 2,
-    "slug": "apbi-426-t01-2025-t1"
+    "slug": "apbi-426-t01-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -3625,8 +4158,12 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 1,
-    "day": 4,
-    "slug": "apbi-427-101-2025-t2"
+    "slug": "apbi-427-101-2025-t2",
+    "day": [
+      5,
+      1,
+      3
+    ]
   }
 },
 {
@@ -3640,8 +4177,11 @@
     "academic_year": 1,
     "start_time": 10,
     "end_time": 11,
-    "day": 5,
-    "slug": "apbi-440-001-2025-t1"
+    "slug": "apbi-440-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3655,8 +4195,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 5,
-    "slug": "apbi-442-001-2025-t1"
+    "slug": "apbi-442-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3670,8 +4213,10 @@
     "academic_year": 1,
     "start_time": 1,
     "end_time": 2,
-    "day": 2,
-    "slug": "apbi-444-001-2025-t1"
+    "slug": "apbi-444-001-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -3685,8 +4230,10 @@
     "academic_year": 1,
     "start_time": 19,
     "end_time": 10,
-    "day": 7,
-    "slug": "apbi-444-d01-2025-t1"
+    "slug": "apbi-444-d01-2025-t1",
+    "day": [
+      4
+    ]
   }
 },
 {
@@ -3700,8 +4247,11 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 5,
-    "slug": "apbi-460-001-2025-t1"
+    "slug": "apbi-460-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3715,8 +4265,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-465-001-2025-t1"
+    "slug": "apbi-465-001-2025-t1",
+    "day": []
   }
 },
 {
@@ -3730,8 +4280,10 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 3,
-    "day": 2,
-    "slug": "apbi-475-001-2025-t1"
+    "slug": "apbi-475-001-2025-t1",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -3745,8 +4297,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-490d-201-2025-t2"
+    "slug": "apbi-490d-201-2025-t2",
+    "day": []
   }
 },
 {
@@ -3760,8 +4312,10 @@
     "academic_year": 1,
     "start_time": 2,
     "end_time": 5,
-    "day": 1,
-    "slug": "apbi-490e-202-2025-t2"
+    "slug": "apbi-490e-202-2025-t2",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -3775,8 +4329,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 5,
-    "slug": "apbi-490f-104-2025-t1"
+    "slug": "apbi-490f-104-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3790,8 +4347,11 @@
     "academic_year": 1,
     "start_time": 6,
     "end_time": 22,
-    "day": 5,
-    "slug": "apbi-490h-106-2025-t1"
+    "slug": "apbi-490h-106-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -3805,8 +4365,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-496a-001-2025-t1"
+    "slug": "apbi-496a-001-2025-t1",
+    "day": []
   }
 },
 {
@@ -3820,8 +4380,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-496a-002-2025-t2"
+    "slug": "apbi-496a-002-2025-t2",
+    "day": []
   }
 },
 {
@@ -3835,8 +4395,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-496a-003-2025-t1_t2"
+    "slug": "apbi-496a-003-2025-t1_t2",
+    "day": []
   }
 },
 {
@@ -3850,8 +4410,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-496b-001-2025-t1"
+    "slug": "apbi-496b-001-2025-t1",
+    "day": []
   }
 },
 {
@@ -3865,8 +4425,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-496b-002-2025-t2"
+    "slug": "apbi-496b-002-2025-t2",
+    "day": []
   }
 },
 {
@@ -3880,8 +4440,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-496b-003-2025-t1_t2"
+    "slug": "apbi-496b-003-2025-t1_t2",
+    "day": []
   }
 },
 {
@@ -3895,8 +4455,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-497a-001-2025-t1"
+    "slug": "apbi-497a-001-2025-t1",
+    "day": []
   }
 },
 {
@@ -3910,8 +4470,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-497a-002-2025-t2"
+    "slug": "apbi-497a-002-2025-t2",
+    "day": []
   }
 },
 {
@@ -3925,8 +4485,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-497b-001-2025-t1"
+    "slug": "apbi-497b-001-2025-t1",
+    "day": []
   }
 },
 {
@@ -3940,8 +4500,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-497b-002-2025-t2"
+    "slug": "apbi-497b-002-2025-t2",
+    "day": []
   }
 },
 {
@@ -3955,8 +4515,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-497c-001-2025-t1"
+    "slug": "apbi-497c-001-2025-t1",
+    "day": []
   }
 },
 {
@@ -3970,8 +4530,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-497c-002-2025-t2"
+    "slug": "apbi-497c-002-2025-t2",
+    "day": []
   }
 },
 {
@@ -3985,8 +4545,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-497d-001-2025-t1"
+    "slug": "apbi-497d-001-2025-t1",
+    "day": []
   }
 },
 {
@@ -4000,8 +4560,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-497d-002-2025-t2"
+    "slug": "apbi-497d-002-2025-t2",
+    "day": []
   }
 },
 {
@@ -4015,8 +4575,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-497e-101-2025-t1"
+    "slug": "apbi-497e-101-2025-t1",
+    "day": []
   }
 },
 {
@@ -4030,8 +4590,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-497e-102-2025-t2"
+    "slug": "apbi-497e-102-2025-t2",
+    "day": []
   }
 },
 {
@@ -4045,8 +4605,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-498-001-2025-t1"
+    "slug": "apbi-498-001-2025-t1",
+    "day": []
   }
 },
 {
@@ -4060,8 +4620,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-498-101-2025-t1_t2"
+    "slug": "apbi-498-101-2025-t1_t2",
+    "day": []
   }
 },
 {
@@ -4075,8 +4635,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-498-102-2025-t2"
+    "slug": "apbi-498-102-2025-t2",
+    "day": []
   }
 },
 {
@@ -4090,8 +4650,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-499-001-2025-t1_t2"
+    "slug": "apbi-499-001-2025-t1_t2",
+    "day": []
   }
 },
 {
@@ -4105,8 +4665,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-499-101-2025-t1"
+    "slug": "apbi-499-101-2025-t1",
+    "day": []
   }
 },
 {
@@ -4120,8 +4680,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "apbi-499-102-2025-t2"
+    "slug": "apbi-499-102-2025-t2",
+    "day": []
   }
 },
 {
@@ -4135,8 +4695,11 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 5,
-    "slug": "fre-290-002-2025-t2"
+    "slug": "fre-290-002-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -4150,8 +4713,11 @@
     "academic_year": 1,
     "start_time": 23,
     "end_time": 6,
-    "day": 10,
-    "slug": "fre-302-001-2025-t2"
+    "slug": "fre-302-001-2025-t2",
+    "day": [
+      1,
+      3
+    ]
   }
 },
 {
@@ -4165,8 +4731,10 @@
     "academic_year": 1,
     "start_time": 16,
     "end_time": 6,
-    "day": 1,
-    "slug": "fre-302-201-2025-t2"
+    "slug": "fre-302-201-2025-t2",
+    "day": [
+      1
+    ]
   }
 },
 {
@@ -4180,8 +4748,11 @@
     "academic_year": 1,
     "start_time": 10,
     "end_time": 11,
-    "day": 5,
-    "slug": "fre-306-001-2025-t1"
+    "slug": "fre-306-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -4195,8 +4766,11 @@
     "academic_year": 1,
     "start_time": 3,
     "end_time": 10,
-    "day": 5,
-    "slug": "fre-326-001-2025-t1"
+    "slug": "fre-326-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -4210,8 +4784,11 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 10,
-    "slug": "fre-340-001-2025-t1"
+    "slug": "fre-340-001-2025-t1",
+    "day": [
+      1,
+      3
+    ]
   }
 },
 {
@@ -4225,8 +4802,11 @@
     "academic_year": 1,
     "start_time": 8,
     "end_time": 3,
-    "day": 5,
-    "slug": "fre-374-001-2025-t1"
+    "slug": "fre-374-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -4240,8 +4820,11 @@
     "academic_year": 1,
     "start_time": 5,
     "end_time": 13,
-    "day": 5,
-    "slug": "fre-385-002-2025-t2"
+    "slug": "fre-385-002-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -4255,8 +4838,11 @@
     "academic_year": 1,
     "start_time": 21,
     "end_time": 9,
-    "day": 10,
-    "slug": "fre-394-101-2025-t1"
+    "slug": "fre-394-101-2025-t1",
+    "day": [
+      1,
+      3
+    ]
   }
 },
 {
@@ -4270,8 +4856,11 @@
     "academic_year": 1,
     "start_time": 24,
     "end_time": 5,
-    "day": 10,
-    "slug": "fre-394-103-2025-t1"
+    "slug": "fre-394-103-2025-t1",
+    "day": [
+      1,
+      3
+    ]
   }
 },
 {
@@ -4285,8 +4874,11 @@
     "academic_year": 1,
     "start_time": 22,
     "end_time": 2,
-    "day": 10,
-    "slug": "fre-420-002-2025-t2"
+    "slug": "fre-420-002-2025-t2",
+    "day": [
+      1,
+      3
+    ]
   }
 },
 {
@@ -4300,8 +4892,8 @@
     "academic_year": 1,
     "start_time": null,
     "end_time": null,
-    "day": null,
-    "slug": "fre-460-001-2025-t2"
+    "slug": "fre-460-001-2025-t2",
+    "day": []
   }
 },
 {
@@ -4315,8 +4907,11 @@
     "academic_year": 1,
     "start_time": 15,
     "end_time": 1,
-    "day": 5,
-    "slug": "fre-474-001-2025-t2"
+    "slug": "fre-474-001-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -4330,8 +4925,10 @@
     "academic_year": 1,
     "start_time": 10,
     "end_time": null,
-    "day": 2,
-    "slug": "fre-474-l01-2025-t2"
+    "slug": "fre-474-l01-2025-t2",
+    "day": [
+      3
+    ]
   }
 },
 {
@@ -4345,8 +4942,11 @@
     "academic_year": 1,
     "start_time": 7,
     "end_time": 8,
-    "day": 5,
-    "slug": "fre-490-001-2025-t1"
+    "slug": "fre-490-001-2025-t1",
+    "day": [
+      4,
+      2
+    ]
   }
 },
 {
@@ -4360,8 +4960,11 @@
     "academic_year": 1,
     "start_time": 9,
     "end_time": 7,
-    "day": 5,
-    "slug": "fre-490-002-2025-t2"
+    "slug": "fre-490-002-2025-t2",
+    "day": [
+      4,
+      2
+    ]
   }
 }
 ]

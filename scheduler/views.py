@@ -20,6 +20,7 @@ from .forms import CourseYearForm
 from .models import Program, ProgramYearLevel
 from .forms import ProgramNameForm
 from django.urls import reverse
+from types import SimpleNamespace
 
 
 '''
@@ -41,12 +42,17 @@ VIEWS WORK FLOW:
 ''' This constant defines how many pixels each minute of course duration will take up in the timetable view.'''
 PIXELS_PER_MINUTE = 1
 
+def expand_days(course):
+    parts = [d.name for d in course.day.all()]
+    order = ["Mon", "Tues", "Wed", "Thurs", "Fri"]
+    return sorted(parts, key=lambda d: order.index(d))
+
 '''This function handles the landing page of the timetable application.'''
 def landing_page(request):
     if not request.user.is_authenticated:
         return redirect('accounts:ldap_login')
 
-    # dropdown data
+    # ── Dropdown data
     hour_list = ["08","09","10","11","12","13","14","15","16","17","18","19","20","21"]
     terms   = CourseTerm.objects.all()
     codes   = CourseCode.objects.all()
@@ -58,25 +64,30 @@ def landing_page(request):
     # this is for no filtering, change it later!!!
     submitted = (request.GET.get("submitted") == "1")
 
-    courses = []           # timetable courses
-    invalid_courses = []   # courses without scheduled times
+    # Output collections
+    courses = []          # timetable "occurrences"
+    invalid_courses = []  # Course rows missing day/time
 
     if submitted:
         # (for now) ignore actual filters and just load everything
-        all_courses = Course.objects.select_related(
-            "code","number","section","term","academic_year","start_time","end_time","day"
-        ).all()
+        # NOTE: with M2M you must prefetch 'day' (no select_related for M2M)
+        all_courses = (
+            Course.objects
+            .select_related("code", "number", "section", "term", "academic_year", "start_time", "end_time")
+            .prefetch_related("day")
+            .all()
+        )
 
-        # split valid/invalid
-        valid_courses = []
+        # A course is valid only if it has at least one day AND both times
+        courses = []
         for c in all_courses:
-            if c.day is None or c.start_time is None or c.end_time is None:
-                invalid_courses.append(c)
+            has_times = (c.start_time is not None and c.end_time is not None)
+            has_days  = c.day.exists()
+            if has_times and has_days:
+                courses.append(c)
             else:
-                valid_courses.append(c)
-
-        courses = valid_courses
-
+                invalid_courses.append(c)
+    
     if courses:
         # build time grid
         DAYS = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
@@ -93,24 +104,10 @@ def landing_page(request):
             for d in DAYS:
                 slots[(d, tstr)] = []
             cur += INTERVAL
-
-        DAY_SHORT = {
-                    "Monday": "Mon",
-                    "Tuesday": "Tues",
-                    "Wednesday": "Wed",
-                    "Thursday": "Thurs",
-                    "Friday": "Fri",
-        }
-        def expand_days_to_short(day_name: str):
-            """'Monday_Wednesday' -> ['Mon', 'Wed'] (trims whitespace too)"""
-            if not day_name:
-                return []
-            parts = [p.strip() for p in day_name.split("_")]
-            return [DAY_SHORT.get(p, p) for p in parts]
         
         # place courses into slots
         for course in courses:
-            attached_days = expand_days_to_short(course.day.name) # same encoding as before
+            attached_days = expand_days(course)
             start_str = course.start_time.name[:5]
             end_str   = course.end_time.name[:5]
             cur = datetime.strptime(start_str, "%H:%M")
@@ -123,7 +120,7 @@ def landing_page(request):
                     if (d, t) in slots:
                         slots[(d, t)].append(course)
                     cur_time += INTERVAL
-
+        
         # compute overlaps
         # helper to turn "HH:MM" into minutes since midnight
         def _mins(hhmm: str) -> int:
@@ -133,9 +130,9 @@ def landing_page(request):
         # Build day -> courses (sorted by start_time then id for stability)
         day_to_courses = {"Mon": [], "Tues": [], "Wed": [], "Thurs": [], "Fri": []}
         for c in courses:
-            for d in expand_days_to_short(c.day.name):
+            for d in expand_days(c):
                 day_to_courses[d].append(c)
-
+        
         for d in day_to_courses:
             # sort by start minutes first, then by id for a stable "older → newer" order
             day_to_courses[d].sort(key=lambda c: (_mins(c.start_time.name[:5]), c.id))
@@ -185,6 +182,8 @@ def landing_page(request):
                 "#F46C63" if code == "LFS"  else "#A8A8A8"
             )
 
+            c.day_names = expand_days(c)   # e.g. ["Mon", "Wed", "Fri"]
+
         # per-day overlap data used by template
         for c in courses:
             c.day_data = {
@@ -226,6 +225,9 @@ def view_courses(request):
     year_query = request.GET.get("year", "").strip()
 
     courses = Course.objects.all()
+    
+    for c in courses:
+        c.day_names = expand_days(c)
 
     # Filters
     if code_query:
@@ -267,29 +269,6 @@ def view_courses(request):
     })
 
 
-
-# helpers to make option lists
-def _hhmm_range(start_hour, end_hour_inclusive, step_minutes=30):
-    out = []
-    h, m = start_hour, 0
-    end_h, end_m = end_hour_inclusive, 0
-    while True:
-        out.append(f"{h:02d}:{m:02d}")
-        if (h, m) == (end_h, end_m):
-            break
-        m += step_minutes
-        if m >= 60:
-            h += 1
-            m = 0
-    return out
-
-TERM_CHOICES = ["T1", "T2", "T1_T2"]
-DAY_CHOICES = [("Monday", "Monday"), ("Tuesday", "Tuesday"), ("Wednesday", "Wednesday"),
-               ("Thursday", "Thursday"), ("Friday", "Friday")]
-START_TIME_CHOICES = _hhmm_range(8, 21)   # 08:00 → 21:00, every 30m
-END_TIME_CHOICES   = _hhmm_range(8, 21)   # 08:00 → 21:00, every 30m
-YEAR_CHOICES       = [str(y) for y in range(2025, 2036)]
-
 def create_course(request):
     if request.method == "POST":
         form = CourseForm(request.POST)
@@ -324,6 +303,7 @@ def edit_course(request, course_id):
         "title": "Edit Course",
         "form": form,
     })
+
 
 def course_term_list(request):
     terms = CourseTerm.objects.order_by("id")

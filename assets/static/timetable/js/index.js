@@ -19,8 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const day = course.getAttribute("data-day");
             const academic_year = course.getAttribute("data-academic-year")
             const term = course.getAttribute("data-term")
-            const days = day.split("_").join(", ");
-            tooltip.innerHTML = `${code} ${number} ${section} ${academic_year} ${term} <br> Start: ${start} <br> End: ${end} <br> Day: ${days}`;
+            tooltip.innerHTML = `${code} ${number} ${section} ${academic_year} ${term} <br> Start: ${start} <br> End: ${end} <br> Day: ${day}`;
             tooltip.style.display = "block";
             
         });

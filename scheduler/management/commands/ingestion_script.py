@@ -99,7 +99,14 @@ class Command(BaseCommand):
             # --- 3. Ensure CourseYear 2025 exists ---
             course_year_obj, _ = CourseYear.objects.get_or_create(name="2025")
 
-            # --- 4. Iterate through rows ---
+            # --- 4. Ensure CourseDay (Monday - Friday) exist ---
+            CourseDay.objects.get_or_create(name= "Mon")
+            CourseDay.objects.get_or_create(name= "Tues")
+            CourseDay.objects.get_or_create(name= "Wed")
+            CourseDay.objects.get_or_create(name= "Thurs")
+            CourseDay.objects.get_or_create(name= "Fri")
+
+            # --- 5. Iterate through rows ---
             for _, row in df.iterrows():
                 subject = row.get("Subject", "")
                 full_code = row.get("Course Code", "")
@@ -138,16 +145,26 @@ class Command(BaseCommand):
                 number_obj, _ = CourseNumber.objects.get_or_create(name=number.strip())
                 section_obj, _ = CourseSection.objects.get_or_create(name=section.strip())
 
-                # Parse day + enforce time null if day is null
-                day_obj, start_obj, end_obj = None, None, None
+                # Enforce time null if day is null
+                start_obj, end_obj = None, None
+                days_val=[]
 
                 if not pd.isna(days) and days:
-                    # Day exists → create CourseDay
-                    # although "Monday,Friday", I change it to "Monday_Friday"
-                    day_val = str(days).strip().replace(",", "_")
-                    day_obj, _ = CourseDay.objects.get_or_create(name=day_val)
+                    # Day exists
+                    days_val = str(days).split(",")
+                    DAY_SHORT = {
+                                "Monday": "Mon",
+                                "Tuesday": "Tues",
+                                "Wednesday": "Wed",
+                                "Thursday": "Thurs",
+                                "Friday": "Fri",
+                    }
+                    def convert_days_to_short(days_val: str):
+                        parts = [p.strip() for p in days_val]
+                        return [DAY_SHORT.get(p, p) for p in parts]
+                    days_val = convert_days_to_short(days_val)
 
-                    # Only parse times if day is valid
+                    # Only parse times if day exists
                     if start_str and not pd.isna(start_str):
                         start_val = str(start_str).strip()
                         try:
@@ -171,20 +188,22 @@ class Command(BaseCommand):
                     academic_year=course_year_obj,
                     term=term_obj,
                     defaults={
-                        "day": day_obj,
                         "start_time": start_obj,
                         "end_time": end_obj,
                     }
                 )
+                for day in days_val:
+                    day_obj = CourseDay.objects.get(name=day.strip()) # Mon, etc
+                    course.day.add(day_obj)
 
-                # --- 5. create program, then link course to program ---
+                # --- 6. create program, then link course to program ---
                 for pname in program_names:
                     cell_val = row.get(pname, None)
                     if pd.isna(cell_val) or str(cell_val).strip() == "Not Required":
                         continue
 
                     level_obj = ProgramYearLevel.objects.get(name=cell_val.strip())  # "Year 1", "Year 2", etc.
-                    program_name_obj = ProgramName.objects.get(name=pname) # AANB
+                    program_name_obj = ProgramName.objects.get(name=pname) # AANB, etc
                     program, _ = Program.objects.get_or_create(name=program_name_obj, year_level=level_obj)
                     program.courses.add(course)
 

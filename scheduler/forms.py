@@ -41,10 +41,11 @@ class CourseForm(forms.ModelForm):
     )
 
     # Optional dropdowns
-    day        = forms.ModelChoiceField(
-        queryset=CourseDay.objects.all().order_by("name"),
-        required=False, empty_label="Select Day",
-        widget=forms.Select(attrs={"class": "form-select"})
+    day = forms.ModelMultipleChoiceField(
+        queryset=CourseDay.objects.filter(name__in=["Mon", "Tues", "Wed", "Thurs", "Fri"]).order_by("id"),
+        required=False,
+        widget=forms.CheckboxSelectMultiple,   # renders 5 checkboxes
+        label="Days"
     )
     start_time = forms.ModelChoiceField(
         queryset=CourseTime.objects.all().order_by("name"),
