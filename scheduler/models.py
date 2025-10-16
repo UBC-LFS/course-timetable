@@ -100,6 +100,9 @@ class Course(models.Model):
     day = models.ManyToManyField(CourseDay, blank=True, related_name="courses")
     slug = models.SlugField(max_length=256, unique=True)    # URL-friendly identifier
 
+    class Meta:
+        unique_together = ['code', 'number', 'section', 'academic_year', 'term']
+
     def save(self, *args, **kwargs):
         def part(obj):
             # safely get .name even if obj is None

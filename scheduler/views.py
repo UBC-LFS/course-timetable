@@ -75,6 +75,7 @@ def landing_page(request):
             Course.objects
             .select_related("code", "number", "section", "term", "academic_year", "start_time", "end_time")
             .prefetch_related("day")
+            .order_by("id")
             .all()
         )
 
