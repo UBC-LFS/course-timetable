@@ -10,61 +10,68 @@
     <div class="mb-3">
       <label class="form-label">{{ form.code.label }}</label>
       {{ form.code }}
-      {% if form.errors.code %}<div class="text-danger">{{ form.errors.code }}</div>{% endif %}
     </div>
 
     <!-- Number -->
     <div class="mb-3">
       <label class="form-label">{{ form.number.label }}</label>
       {{ form.number }}
-      {% if form.errors.number %}<div class="text-danger">{{ form.errors.number }}</div>{% endif %}
     </div>
 
     <!-- Section -->
     <div class="mb-3">
       <label class="form-label">{{ form.section.label }}</label>
       {{ form.section }}
-      {% if form.errors.section %}<div class="text-danger">{{ form.errors.section }}</div>{% endif %}
     </div>
 
     <!-- Term -->
     <div class="mb-3">
       <label class="form-label">{{ form.term.label }}</label>
       {{ form.term }}
-      {% if form.errors.term %}<div class="text-danger">{{ form.errors.term }}</div>{% endif %}
     </div>
 
     <!-- Day (optional) -->
     <div class="mb-3">
       <label class="form-label">Day</label>
       {{ form.day }}
-      {% if form.errors.day %}<div class="text-danger">{{ form.errors.day }}</div>{% endif %}
     </div>
 
     <!-- Start Time (optional) -->
     <div class="mb-3">
       <label class="form-label">Start Time</label>
       {{ form.start_time }}
-      {% if form.errors.start_time %}<div class="text-danger">{{ form.errors.start_time }}</div>{% endif %}
     </div>
 
     <!-- End Time (optional) -->
     <div class="mb-3">
       <label class="form-label">End Time</label>
       {{ form.end_time }}
-      {% if form.errors.end_time %}<div class="text-danger">{{ form.errors.end_time }}</div>{% endif %}
     </div>
 
     <!-- Academic Year -->
     <div class="mb-3">
       <label class="form-label">{{ form.academic_year.label }}</label>
       {{ form.academic_year }}
-      {% if form.errors.academic_year %}<div class="text-danger">{{ form.errors.academic_year }}</div>{% endif %}
     </div>
 
-    {% if form.non_field_errors %}
-      <div class="alert alert-danger">{{ form.non_field_errors }}</div>
-    {% endif %}
+    {% if form.errors %}
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        {# field-specific errors #}
+        {% for field, errors in form.errors.items %}
+          {% if field != '__all__' %}
+            {% for err in errors %}
+              <li>{{ err }}</li>
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+        {# non-field errors (unique_together, custom clean(), etc.) #}
+        {% for err in form.non_field_errors %}
+          <li>{{ err }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
 
     <button type="submit" class="btn btn-primary">Save</button>
     <a href="{% url 'scheduler:view_courses' %}" class="btn btn-secondary">Cancel</a>

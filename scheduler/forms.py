@@ -13,31 +13,36 @@ class CourseForm(forms.ModelForm):
         queryset=CourseCode.objects.all().order_by("name"),
         required=True, empty_label="Select Code",
         label="Code *",
-        widget=forms.Select(attrs={"class": "form-select"})
+        widget=forms.Select(attrs={"class": "form-select"}),
+        error_messages={"required": "Code field is required."},
     )
     number        = forms.ModelChoiceField(
         queryset=CourseNumber.objects.all().order_by("name"),
         required=True, empty_label="Select Number",
         label="Number *",
-        widget=forms.Select(attrs={"class": "form-select"})
+        widget=forms.Select(attrs={"class": "form-select"}),
+        error_messages={"required": "Number field is required."},
     )
     section       = forms.ModelChoiceField(
         queryset=CourseSection.objects.all().order_by("name"),
         required=True, empty_label="Select Section",
         label="Section *",
-        widget=forms.Select(attrs={"class": "form-select"})
+        widget=forms.Select(attrs={"class": "form-select"}),
+        error_messages={"required": "Section field is required."},
     )
     term          = forms.ModelChoiceField(
         queryset=CourseTerm.objects.all().order_by("name"),
         required=True, empty_label="Select Term",
         label="Term *",
-        widget=forms.Select(attrs={"class": "form-select"})
+        widget=forms.Select(attrs={"class": "form-select"}),
+        error_messages={"required": "Term field is required."},
     )
     academic_year = forms.ModelChoiceField(
         queryset=CourseYear.objects.all().order_by("name"),
         required=True, empty_label="Select Year",
         label="Academic Year *",
-        widget=forms.Select(attrs={"class": "form-select"})
+        widget=forms.Select(attrs={"class": "form-select"}),
+        error_messages={"required": "Academic Year field is required."},
     )
 
     # Optional dropdowns
@@ -70,31 +75,12 @@ class CourseForm(forms.ModelForm):
         start = cleaned.get("start_time")
         end   = cleaned.get("end_time")
         if start and end:
-            try:
                 s = datetime.strptime(start.name[:5], "%H:%M")
                 e = datetime.strptime(end.name[:5], "%H:%M")
                 if not e > s:
-                    self.add_error("end_time", "End time must be later than start time.")
-            except Exception:
-                # if times are not in HH:MM shape in DB, still give a friendly error
-                self.add_error("end_time", "End time must be later than start time.")
-
-        # duplicate protection: same Code, Number, Section, Year, Term
-        code   = cleaned.get("code")
-        num    = cleaned.get("number")
-        sec    = cleaned.get("section")
-        year   = cleaned.get("academic_year")
-        term   = cleaned.get("term")
-        if code and num and sec and year and term:
-            qs = Course.objects.filter(
-                code=code, number=num, section=sec, academic_year=year, term=term
-            )
-            if self.instance.pk:
-                qs = qs.exclude(pk=self.instance.pk)
-            if qs.exists():
-                raise ValidationError(
-                    "You can not have two courses with same Code, Number, Section, Academic Year and Term."
-                )
+                    raise ValidationError(
+                        "End time must be later than start time."
+                    )
 
         return cleaned
 
