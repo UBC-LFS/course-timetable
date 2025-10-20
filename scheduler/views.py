@@ -66,7 +66,7 @@ def landing_page(request):
 
     # Output collections
     courses = []          # timetable "occurrences"
-    invalid_courses = []  # Course rows missing day/time
+    invalid_courses = []  # Course rows missing day/time/5 things on slug
 
     if submitted:
         # (for now) ignore actual filters and just load everything
@@ -84,7 +84,8 @@ def landing_page(request):
         for c in all_courses:
             has_times = (c.start_time is not None and c.end_time is not None)
             has_days  = c.day.exists()
-            if has_times and has_days:
+            has_5_things_on_slug = (c.code is not None and c.number is not None and c.section is not None and c.academic_year is not None and c.term is not None)
+            if has_times and has_days and has_5_things_on_slug:
                 courses.append(c)
             else:
                 invalid_courses.append(c)
@@ -173,16 +174,6 @@ def landing_page(request):
             c.duration_minutes = (end - start).seconds // 60
             c.pixel_height = c.duration_minutes * PIXELS_PER_MINUTE
             c.offset_top = (start.minute) * PIXELS_PER_MINUTE
-
-            code = c.code.name if c.code else "None"
-            c.color = (
-                "#2BB1D6" if code == "APBI" else
-                "#43D7C7" if code == "FNH"  else
-                "#E47CC0" if code == "FRE"  else
-                "#D2B64C" if code == "GRS"  else
-                "#F46C63" if code == "LFS"  else "#A8A8A8"
-            )
-
             c.day_names = expand_days(c)   # e.g. ["Mon", "Wed", "Fri"]
 
         # per-day overlap data used by template
@@ -318,7 +309,7 @@ def course_term_create(request):
         form.save()
         messages.success(request, "Course Term created.")
     else:
-        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Create failed: {err}")
     return redirect("scheduler:course_term")
 
@@ -330,7 +321,7 @@ def course_term_update(request, pk):
         form.save()
         messages.success(request, "Course Term updated.")
     else:
-        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Update failed: {err}")
     return redirect("scheduler:course_term")
 
@@ -353,7 +344,11 @@ def course_code_create(request):
         form.save()
         messages.success(request, "Course Code created.")
     else:
-        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        name_err = " ".join(form.errors.get("name", []))
+        color_err = " ".join(form.errors.get("color", []))
+        # Combine only non-empty error
+        err_list = [msg.strip() for msg in [name_err, color_err] if msg]
+        err = " ".join(err_list)
         messages.error(request, f"Create failed: {err}")
     return redirect("scheduler:course_code")
 
@@ -365,7 +360,11 @@ def course_code_update(request, pk):
         form.save()
         messages.success(request, "Course Code updated.")
     else:
-        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        name_err = " ".join(form.errors.get("name", []))
+        color_err = " ".join(form.errors.get("color", []))
+        # Combine only non-empty error
+        err_list = [msg.strip() for msg in [name_err, color_err] if msg]
+        err = " ".join(err_list)
         messages.error(request, f"Update failed: {err}")
     return redirect("scheduler:course_code")
 
@@ -388,7 +387,7 @@ def course_number_create(request):
         form.save()
         messages.success(request, "Course Number created.")
     else:
-        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Create failed: {err}")
     return redirect("scheduler:course_number")
 
@@ -400,7 +399,7 @@ def course_number_update(request, pk):
         form.save()
         messages.success(request, "Course Number updated.")
     else:
-        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Update failed: {err}")
     return redirect("scheduler:course_number")
 
@@ -423,7 +422,7 @@ def course_section_create(request):
         form.save()
         messages.success(request, "Course Section created.")
     else:
-        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Create failed: {err}")
     return redirect("scheduler:course_section")
 
@@ -435,7 +434,7 @@ def course_section_update(request, pk):
         form.save()
         messages.success(request, "Course Section updated.")
     else:
-        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Update failed: {err}")
     return redirect("scheduler:course_section")
 
@@ -464,7 +463,7 @@ def course_time_create(request):
         form.save()
         messages.success(request, "Course Time created.")
     else:
-        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Create failed: {err}")
     return redirect("scheduler:course_time")
 
@@ -476,7 +475,7 @@ def course_time_update(request, pk):
         form.save()
         messages.success(request, "Course Time updated.")
     else:
-        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Update failed: {err}")
     return redirect("scheduler:course_time")
 
@@ -502,7 +501,7 @@ def course_year_create(request):
         form.save()
         messages.success(request, "Course Year created.")
     else:
-        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Create failed: {err}")
     return redirect("scheduler:course_year")
 
@@ -514,7 +513,7 @@ def course_year_update(request, pk):
         form.save()
         messages.success(request, "Course Year updated.")
     else:
-        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Update failed: {err}")
     return redirect("scheduler:course_year")
 
@@ -537,7 +536,7 @@ def program_name_create(request):
         form.save()
         messages.success(request, "Program Name created.")
     else:
-        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Create failed: {err}")
     return redirect("scheduler:program_name")
 
@@ -549,7 +548,7 @@ def program_name_update(request, pk):
         form.save()
         messages.success(request, "Program Name updated.")
     else:
-        err = "; ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Update failed: {err}")
     return redirect("scheduler:program_name")
 

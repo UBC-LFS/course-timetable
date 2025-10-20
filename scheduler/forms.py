@@ -6,6 +6,7 @@ from .models import (
 )
 from .models import Program, ProgramYearLevel, ProgramName
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
 class CourseForm(forms.ModelForm):
     # Required dropdowns (add * in labels)
@@ -104,22 +105,58 @@ class CourseTermForm(forms.ModelForm):
         return name
     
 
+# class CourseCodeForm(forms.ModelForm):
+#     class Meta:
+#         model = CourseCode
+#         fields = ["name"]
+#         widgets = {
+#             "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "e.g. LFS"}),
+#         }
+
+#     def clean_name(self):
+#         name = self.cleaned_data["name"].strip()
+#         qs = CourseCode.objects.filter(name__exact=name)
+#         if self.instance.pk:
+#             qs = qs.exclude(pk=self.instance.pk)
+#         if qs.exists():
+#             raise forms.ValidationError("A Course Code with this name already exists.")
+#         return name
+
 class CourseCodeForm(forms.ModelForm):
+    color = forms.CharField(
+        max_length=20,
+        required=True,
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "e.g. #2BB1D6"
+        }),
+        label="Color"
+    )
+
     class Meta:
         model = CourseCode
-        fields = ["name"]
+        fields = ["name", "color"]
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "e.g. LFS"}),
+            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "e.g. APBI"}),
         }
 
     def clean_name(self):
-        name = self.cleaned_data["name"].strip()
+        name = self.cleaned_data["name"] .strip()
         qs = CourseCode.objects.filter(name__exact=name)
         if self.instance.pk:
             qs = qs.exclude(pk=self.instance.pk)
         if qs.exists():
             raise forms.ValidationError("A Course Code with this name already exists.")
         return name
+
+    def clean_color(self):
+        color = self.cleaned_data["color"].strip()
+        qs = CourseCode.objects.filter(color__exact=color)
+        if self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise forms.ValidationError("A Course Code with this color already exists.")
+        return color
     
 
 class CourseNumberForm(forms.ModelForm):

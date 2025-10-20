@@ -211,7 +211,7 @@
                         {% if course.start_time and course.start_time.name|slice:":2" == hour %}
                           <div class="course-item {% if data.overlap %}overlap{% endif %}"
                                data-height="{{ course.pixel_height }}"
-                               data-bg="{{ course.color }}"
+                               data-bg="{{ course.code.color }}"
                                data-top="{{ course.offset_top }}"
                                data-width="{{ data.width|default:'100' }}"
                                data-left="{{ data.left|default:'0' }}"

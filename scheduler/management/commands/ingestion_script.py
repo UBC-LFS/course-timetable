@@ -5,71 +5,6 @@ from scheduler.models import (
     CourseDay, CourseTime, CourseYear, ProgramYearLevel, ProgramName, Program
 )
 from datetime import datetime, timedelta
-
-# def normalize_days(raw):
-#         if raw == "Mon":
-#             return "Monday"
-#         elif raw == "Wed":
-#             return "Wednesday"
-#         elif raw == "Fri":
-#             return "Friday"
-#         elif raw == "Mon, Wed, Fri":
-#             return "Monday_Wednesday_Friday"
-#         elif raw == "Tue, Thurs":
-#             return "Tuesday_Thursday"
-#         elif raw == "Thurs":
-#             return "Thursday"
-#         elif raw == "Tues, Thurs":
-#             return "Tuesday_Thursday"
-#         elif raw == "M, W, F":
-#             return "Monday_Wednesday_Friday"
-#         elif raw == "T, TH":
-#             return "Tuesday_Thursday"
-#         elif raw == "MWF":
-#             return "Monday_Wednesday_Friday"
-#         elif raw == "Tue Thur":
-#             return "Tuesday_Thursday"
-#         elif raw == "Mon, Fri":
-#             return "Monday_Friday"
-#         elif raw == "Wed, Fri":
-#             return "Wednesday_Friday"
-#         elif raw == "Tue, Thur":
-#             return "Tuesday_Thursday"
-#         elif raw == "Wednesday":
-#             return "Wednesday"
-#         elif raw == "Thursday":
-#             return "Thursday"
-#         elif raw == "Mon, Wed":
-#             return "Monday_Wednesday"
-#         elif raw == "Friday":
-#             return "Friday"
-#         elif raw == "Mon.":
-#             return "Monday"
-#         elif raw == "Monday":
-#             return "Monday"
-#         elif raw == "Tue Thurs":
-#             return "Tuesday_Thursday"
-#         elif raw == "Tue, Thus":
-#             return "Tuesday_Thursday"
-#         elif raw == "Mon, Tues, Wed, Thurs, Fri":
-#             return "Monday_Tuesday_Wednesday_Thursday_Friday"
-#         elif raw == "Tu Th":
-#             return "Tuesday_Thursday"
-#         elif raw == "Mon Wed":
-#             return "Monday_Wednesday"
-#         elif raw == "M W":
-#             return "Monday_Wednesday"
-#         elif raw == "Tue Thu":
-#             return "Tuesday_Thursday"
-#         elif raw == "Tu Thu":
-#             return "Tuesday_Thursday"
-#         elif raw == "W":
-#             return "Wednesday"
-#         elif raw == "Tue":
-#             return "Tuesday"
-#         else:
-#             # add nee checking if needed
-#             return raw
         
 class Command(BaseCommand):
     help = "Ingest courses and program relationships from Excel file"
@@ -106,7 +41,14 @@ class Command(BaseCommand):
             CourseDay.objects.get_or_create(name= "Thurs")
             CourseDay.objects.get_or_create(name= "Fri")
 
-            # --- 5. Iterate through rows ---
+            # --- 5. Ensure CourseCode (LFS, GRS, FNH, APBI, FRE) exist ---
+            CourseCode.objects.get_or_create(name= "APBI", color= "#2BB1D6")
+            CourseCode.objects.get_or_create(name= "FNH", color= "#43D7C7")
+            CourseCode.objects.get_or_create(name= "FRE", color= "#E47CC0")
+            CourseCode.objects.get_or_create(name= "GRS", color= "#D2B64C")
+            CourseCode.objects.get_or_create(name= "LFS", color= "#F46C63")
+
+            # --- 6. Iterate through rows ---
             for _, row in df.iterrows():
                 subject = row.get("Subject", "")
                 full_code = row.get("Course Code", "")
@@ -196,7 +138,7 @@ class Command(BaseCommand):
                     day_obj = CourseDay.objects.get(name=day.strip()) # Mon, etc
                     course.day.add(day_obj)
 
-                # --- 6. create program, then link course to program ---
+                # --- 7. create program, then link course to program ---
                 for pname in program_names:
                     cell_val = row.get(pname, None)
                     if pd.isna(cell_val) or str(cell_val).strip() == "Not Required":

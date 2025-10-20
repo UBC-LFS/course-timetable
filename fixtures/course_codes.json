@@ -3,35 +3,40 @@
   "model": "scheduler.coursecode",
   "pk": 1,
   "fields": {
-    "name": "LFS"
+    "name": "APBI",
+    "color": "#2BB1D6"
   }
 },
 {
   "model": "scheduler.coursecode",
   "pk": 2,
   "fields": {
-    "name": "GRS"
+    "name": "FNH",
+    "color": "#43D7C7"
   }
 },
 {
   "model": "scheduler.coursecode",
   "pk": 3,
   "fields": {
-    "name": "FNH"
+    "name": "FRE",
+    "color": "#E47CC0"
   }
 },
 {
   "model": "scheduler.coursecode",
   "pk": 4,
   "fields": {
-    "name": "APBI"
+    "name": "GRS",
+    "color": "#D2B64C"
   }
 },
 {
   "model": "scheduler.coursecode",
   "pk": 5,
   "fields": {
-    "name": "FRE"
+    "name": "LFS",
+    "color": "#F46C63"
   }
 }
 ]

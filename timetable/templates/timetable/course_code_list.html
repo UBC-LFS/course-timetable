@@ -4,6 +4,14 @@
 {% block title %}Course Code Settings{% endblock %}
 
 {% block content %}
+<style>
+  .cc-swatch {
+    width: 28px;
+    height: 24px;
+    border: 1px solid #ddd;
+    display: inline-block;
+  }
+</style>
 <div class="container py-4">
 
   <div class="d-flex justify-content-between align-items-center mb-3">
@@ -23,6 +31,7 @@
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Course Code</th>
+              <th scope="col">Course Color</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -32,13 +41,18 @@
               <td>{{ c.id }}</td>
               <td>{{ c.name }}</td>
               <td>
+                <span class="d-inline-block rounded cc-swatch"
+                      data-color="{{ c.color }}"></span>
+              </td>
+              <td>
                 <div class="d-inline-flex gap-2">
                   <!-- Edit button -->
                   <button class="btn btn-sm btn-outline-secondary"
                           data-bs-toggle="modal"
                           data-bs-target="#editModal"
                           data-code-id="{{ c.id }}"
-                          data-code-name="{{ c.name }}">
+                          data-code-name="{{ c.name }}"
+                          data-code-color="{{ c.color }}">
                     Edit
                   </button>
         
@@ -55,7 +69,7 @@
             </tr>
             {% empty %}
             <tr>
-              <td colspan="3" class="text-muted py-4">No course codes yet.</td>
+              <td colspan="4" class="text-muted py-4">No course codes yet.</td>
             </tr>
             {% endfor %}
           </tbody>
@@ -81,9 +95,15 @@
           <div class="mb-3">
             <label class="form-label">Code</label>
             {{ form.name }}
-            {% for e in form.name.errors %}
-              <div class="text-danger small">{{ e }}</div>
-            {% endfor %}
+            {% for e in form.name.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Pick Color</label><br>
+            <input type="color"
+                   id="createColorPicker"
+                   value="#A8A8A8"
+                   style="width:64px;height:36px;padding:0;border:none;">
+            <input id="createColorHidden" name="color" type="hidden" value="#A8A8A8">
           </div>
         </div>
         <div class="modal-footer">
@@ -108,8 +128,15 @@
         <div class="modal-body">
           <div class="mb-3">
             <label class="form-label">Code</label>
-            <input id="editName" name="name" type="text" class="form-control" placeholder="e.g. LFS" required />
-            {# no auto-reopen error block; errors appear via messages after redirect #}
+            <input id="editName" name="name" type="text" class="form-control" placeholder="e.g. APBI" required />
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Pick Color</label><br>
+            <input type="color"
+                   id="editColorPicker"
+                   value="#A8A8A8"
+                   style="width:64px;height:36px;padding:0;border:none;">
+            <input id="editColorHidden" name="color" type="hidden" value="#A8A8A8">
           </div>
         </div>
         <div class="modal-footer">
@@ -147,18 +174,47 @@
 
 {% block js %}
 <script>
-  // Edit modal: fill form + action
+  // CREATE
+  const createModal = document.getElementById('createModal');
+  createModal.addEventListener('show.bs.modal', function () {
+    const DEFAULT = '#A8A8A8';
+    const picker  = document.getElementById('createColorPicker');
+    const hidden  = document.getElementById('createColorHidden');
+
+    function apply(val) {
+      const norm = val.toUpperCase();
+      picker.value = norm;
+      hidden.value = norm;
+    }
+    apply(DEFAULT);
+    picker.oninput = () => apply(picker.value);
+  });
+
+  // EDIT
   const editModal = document.getElementById('editModal');
   editModal.addEventListener('show.bs.modal', function (event) {
     const btn   = event.relatedTarget;
     const id    = btn.getAttribute('data-code-id');
     const name  = btn.getAttribute('data-code-name');
+    const color = btn.getAttribute('data-code-color').toUpperCase();
+
     document.getElementById('editName').value = name;
-    document.getElementById('editForm').action =
-      "{% url 'scheduler:course_code_update' 0 %}".replace("0", id);
+    const form = document.getElementById('editForm');
+    form.action = "{% url 'scheduler:course_code_update' 0 %}".replace("0", id);
+
+    const picker = document.getElementById('editColorPicker');
+    const hidden = document.getElementById('editColorHidden');
+
+    function apply(val) {
+      const norm = val.toUpperCase();
+      picker.value = norm;
+      hidden.value = norm;
+    }
+    apply(color);
+    picker.oninput = () => apply(picker.value);
   });
 
-  // Delete modal: fill name + action
+  // DELETE
   const deleteModal = document.getElementById('deleteModal');
   deleteModal.addEventListener('show.bs.modal', function (event) {
     const btn   = event.relatedTarget;
@@ -167,6 +223,12 @@
     document.getElementById('deleteName').textContent = name;
     document.getElementById('deleteForm').action =
       "{% url 'scheduler:course_code_delete' 0 %}".replace("0", id);
+  });
+</script>
+<script>
+  document.querySelectorAll('.cc-swatch').forEach(el => {
+    const val = (el.dataset.color).toUpperCase();
+    el.style.backgroundColor = val;
   });
 </script>
 {% endblock %}

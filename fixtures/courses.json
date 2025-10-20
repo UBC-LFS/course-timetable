@@ -4,7 +4,7 @@
   "pk": 1,
   "fields": {
     "term": 1,
-    "code": 1,
+    "code": 5,
     "number": 1,
     "section": 1,
     "academic_year": 1,
@@ -21,7 +21,7 @@
   "pk": 2,
   "fields": {
     "term": 1,
-    "code": 1,
+    "code": 5,
     "number": 1,
     "section": 2,
     "academic_year": 1,
@@ -38,7 +38,7 @@
   "pk": 3,
   "fields": {
     "term": 1,
-    "code": 1,
+    "code": 5,
     "number": 1,
     "section": 3,
     "academic_year": 1,
@@ -55,7 +55,7 @@
   "pk": 4,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 2,
     "section": 4,
     "academic_year": 1,
@@ -74,7 +74,7 @@
   "pk": 5,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 2,
     "section": 5,
     "academic_year": 1,
@@ -91,7 +91,7 @@
   "pk": 6,
   "fields": {
     "term": 3,
-    "code": 1,
+    "code": 5,
     "number": 3,
     "section": 6,
     "academic_year": 1,
@@ -108,7 +108,7 @@
   "pk": 7,
   "fields": {
     "term": 3,
-    "code": 1,
+    "code": 5,
     "number": 3,
     "section": 7,
     "academic_year": 1,
@@ -125,7 +125,7 @@
   "pk": 8,
   "fields": {
     "term": 3,
-    "code": 1,
+    "code": 5,
     "number": 3,
     "section": 8,
     "academic_year": 1,
@@ -142,7 +142,7 @@
   "pk": 9,
   "fields": {
     "term": 1,
-    "code": 1,
+    "code": 5,
     "number": 4,
     "section": 1,
     "academic_year": 1,
@@ -160,7 +160,7 @@
   "pk": 10,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 4,
     "section": 2,
     "academic_year": 1,
@@ -179,7 +179,7 @@
   "pk": 11,
   "fields": {
     "term": 1,
-    "code": 1,
+    "code": 5,
     "number": 4,
     "section": 3,
     "academic_year": 1,
@@ -198,7 +198,7 @@
   "pk": 12,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 4,
     "section": 9,
     "academic_year": 1,
@@ -216,7 +216,7 @@
   "pk": 13,
   "fields": {
     "term": 1,
-    "code": 1,
+    "code": 5,
     "number": 4,
     "section": 10,
     "academic_year": 1,
@@ -234,7 +234,7 @@
   "pk": 14,
   "fields": {
     "term": 1,
-    "code": 1,
+    "code": 5,
     "number": 4,
     "section": 11,
     "academic_year": 1,
@@ -252,7 +252,7 @@
   "pk": 15,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 4,
     "section": 12,
     "academic_year": 1,
@@ -271,7 +271,7 @@
   "pk": 16,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 4,
     "section": 4,
     "academic_year": 1,
@@ -290,7 +290,7 @@
   "pk": 17,
   "fields": {
     "term": 3,
-    "code": 1,
+    "code": 5,
     "number": 5,
     "section": 1,
     "academic_year": 1,
@@ -307,7 +307,7 @@
   "pk": 18,
   "fields": {
     "term": 3,
-    "code": 1,
+    "code": 5,
     "number": 5,
     "section": 2,
     "academic_year": 1,
@@ -324,7 +324,7 @@
   "pk": 19,
   "fields": {
     "term": 3,
-    "code": 1,
+    "code": 5,
     "number": 5,
     "section": 3,
     "academic_year": 1,
@@ -341,7 +341,7 @@
   "pk": 20,
   "fields": {
     "term": 3,
-    "code": 1,
+    "code": 5,
     "number": 5,
     "section": 5,
     "academic_year": 1,
@@ -358,7 +358,7 @@
   "pk": 21,
   "fields": {
     "term": 3,
-    "code": 1,
+    "code": 5,
     "number": 5,
     "section": 13,
     "academic_year": 1,
@@ -375,7 +375,7 @@
   "pk": 22,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 6,
     "section": 2,
     "academic_year": 1,
@@ -393,7 +393,7 @@
   "pk": 23,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 6,
     "section": 3,
     "academic_year": 1,
@@ -411,7 +411,7 @@
   "pk": 24,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 6,
     "section": 5,
     "academic_year": 1,
@@ -428,7 +428,7 @@
   "pk": 25,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 6,
     "section": 13,
     "academic_year": 1,
@@ -445,7 +445,7 @@
   "pk": 26,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 6,
     "section": 14,
     "academic_year": 1,
@@ -462,7 +462,7 @@
   "pk": 27,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 6,
     "section": 15,
     "academic_year": 1,
@@ -479,7 +479,7 @@
   "pk": 28,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 6,
     "section": 16,
     "academic_year": 1,
@@ -496,7 +496,7 @@
   "pk": 29,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 6,
     "section": 17,
     "academic_year": 1,
@@ -513,7 +513,7 @@
   "pk": 30,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 6,
     "section": 18,
     "academic_year": 1,
@@ -530,7 +530,7 @@
   "pk": 31,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 6,
     "section": 19,
     "academic_year": 1,
@@ -547,7 +547,7 @@
   "pk": 32,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 6,
     "section": 20,
     "academic_year": 1,
@@ -564,7 +564,7 @@
   "pk": 33,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 6,
     "section": 21,
     "academic_year": 1,
@@ -581,7 +581,7 @@
   "pk": 34,
   "fields": {
     "term": 1,
-    "code": 1,
+    "code": 5,
     "number": 7,
     "section": 1,
     "academic_year": 1,
@@ -596,7 +596,7 @@
   "pk": 35,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 7,
     "section": 2,
     "academic_year": 1,
@@ -611,7 +611,7 @@
   "pk": 36,
   "fields": {
     "term": 3,
-    "code": 1,
+    "code": 5,
     "number": 8,
     "section": 1,
     "academic_year": 1,
@@ -626,7 +626,7 @@
   "pk": 37,
   "fields": {
     "term": 1,
-    "code": 1,
+    "code": 5,
     "number": 9,
     "section": 1,
     "academic_year": 1,
@@ -643,7 +643,7 @@
   "pk": 38,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 9,
     "section": 2,
     "academic_year": 1,
@@ -660,7 +660,7 @@
   "pk": 39,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 10,
     "section": 1,
     "academic_year": 1,
@@ -677,7 +677,7 @@
   "pk": 40,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 10,
     "section": 7,
     "academic_year": 1,
@@ -694,7 +694,7 @@
   "pk": 41,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 11,
     "section": 1,
     "academic_year": 1,
@@ -711,7 +711,7 @@
   "pk": 42,
   "fields": {
     "term": 1,
-    "code": 1,
+    "code": 5,
     "number": 12,
     "section": 1,
     "academic_year": 1,
@@ -726,7 +726,7 @@
   "pk": 43,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 12,
     "section": 2,
     "academic_year": 1,
@@ -741,7 +741,7 @@
   "pk": 44,
   "fields": {
     "term": 1,
-    "code": 1,
+    "code": 5,
     "number": 13,
     "section": 1,
     "academic_year": 1,
@@ -756,7 +756,7 @@
   "pk": 45,
   "fields": {
     "term": 2,
-    "code": 1,
+    "code": 5,
     "number": 13,
     "section": 2,
     "academic_year": 1,
@@ -771,7 +771,7 @@
   "pk": 46,
   "fields": {
     "term": 3,
-    "code": 1,
+    "code": 5,
     "number": 13,
     "section": 3,
     "academic_year": 1,
@@ -786,7 +786,7 @@
   "pk": 47,
   "fields": {
     "term": 3,
-    "code": 2,
+    "code": 4,
     "number": 14,
     "section": 1,
     "academic_year": 1,
@@ -803,7 +803,7 @@
   "pk": 48,
   "fields": {
     "term": 1,
-    "code": 2,
+    "code": 4,
     "number": 14,
     "section": 22,
     "academic_year": 1,
@@ -820,7 +820,7 @@
   "pk": 49,
   "fields": {
     "term": 2,
-    "code": 2,
+    "code": 4,
     "number": 14,
     "section": 23,
     "academic_year": 1,
@@ -837,7 +837,7 @@
   "pk": 50,
   "fields": {
     "term": 3,
-    "code": 2,
+    "code": 4,
     "number": 14,
     "section": 24,
     "academic_year": 1,
@@ -854,7 +854,7 @@
   "pk": 51,
   "fields": {
     "term": 2,
-    "code": 2,
+    "code": 4,
     "number": 15,
     "section": 1,
     "academic_year": 1,
@@ -872,7 +872,7 @@
   "pk": 52,
   "fields": {
     "term": 3,
-    "code": 2,
+    "code": 4,
     "number": 16,
     "section": 1,
     "academic_year": 1,
@@ -889,7 +889,7 @@
   "pk": 53,
   "fields": {
     "term": 1,
-    "code": 2,
+    "code": 4,
     "number": 16,
     "section": 22,
     "academic_year": 1,
@@ -906,7 +906,7 @@
   "pk": 54,
   "fields": {
     "term": 2,
-    "code": 2,
+    "code": 4,
     "number": 16,
     "section": 23,
     "academic_year": 1,
@@ -923,7 +923,7 @@
   "pk": 55,
   "fields": {
     "term": 3,
-    "code": 2,
+    "code": 4,
     "number": 16,
     "section": 24,
     "academic_year": 1,
@@ -940,7 +940,7 @@
   "pk": 56,
   "fields": {
     "term": 1,
-    "code": 2,
+    "code": 4,
     "number": 17,
     "section": 1,
     "academic_year": 1,
@@ -955,7 +955,7 @@
   "pk": 57,
   "fields": {
     "term": 2,
-    "code": 2,
+    "code": 4,
     "number": 17,
     "section": 2,
     "academic_year": 1,
@@ -970,7 +970,7 @@
   "pk": 58,
   "fields": {
     "term": 1,
-    "code": 2,
+    "code": 4,
     "number": 18,
     "section": 3,
     "academic_year": 1,
@@ -985,7 +985,7 @@
   "pk": 59,
   "fields": {
     "term": 2,
-    "code": 2,
+    "code": 4,
     "number": 18,
     "section": 9,
     "academic_year": 1,
@@ -1000,7 +1000,7 @@
   "pk": 60,
   "fields": {
     "term": 3,
-    "code": 2,
+    "code": 4,
     "number": 19,
     "section": 1,
     "academic_year": 1,
@@ -1017,7 +1017,7 @@
   "pk": 61,
   "fields": {
     "term": 1,
-    "code": 2,
+    "code": 4,
     "number": 19,
     "section": 22,
     "academic_year": 1,
@@ -1034,7 +1034,7 @@
   "pk": 62,
   "fields": {
     "term": 2,
-    "code": 2,
+    "code": 4,
     "number": 19,
     "section": 23,
     "academic_year": 1,
@@ -1051,7 +1051,7 @@
   "pk": 63,
   "fields": {
     "term": 3,
-    "code": 2,
+    "code": 4,
     "number": 19,
     "section": 24,
     "academic_year": 1,
@@ -1068,7 +1068,7 @@
   "pk": 64,
   "fields": {
     "term": 1,
-    "code": 2,
+    "code": 4,
     "number": 20,
     "section": 1,
     "academic_year": 1,
@@ -1083,7 +1083,7 @@
   "pk": 65,
   "fields": {
     "term": 2,
-    "code": 2,
+    "code": 4,
     "number": 20,
     "section": 2,
     "academic_year": 1,
@@ -1098,7 +1098,7 @@
   "pk": 66,
   "fields": {
     "term": 3,
-    "code": 2,
+    "code": 4,
     "number": 20,
     "section": 3,
     "academic_year": 1,
@@ -1113,7 +1113,7 @@
   "pk": 67,
   "fields": {
     "term": 3,
-    "code": 2,
+    "code": 4,
     "number": 21,
     "section": 6,
     "academic_year": 1,
@@ -1128,7 +1128,7 @@
   "pk": 68,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 22,
     "section": 6,
     "academic_year": 1,
@@ -1146,7 +1146,7 @@
   "pk": 69,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 22,
     "section": 4,
     "academic_year": 1,
@@ -1164,7 +1164,7 @@
   "pk": 70,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 23,
     "section": 4,
     "academic_year": 1,
@@ -1182,7 +1182,7 @@
   "pk": 71,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 24,
     "section": 6,
     "academic_year": 1,
@@ -1201,7 +1201,7 @@
   "pk": 72,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 24,
     "section": 22,
     "academic_year": 1,
@@ -1219,7 +1219,7 @@
   "pk": 73,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 24,
     "section": 23,
     "academic_year": 1,
@@ -1237,7 +1237,7 @@
   "pk": 74,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 24,
     "section": 24,
     "academic_year": 1,
@@ -1256,7 +1256,7 @@
   "pk": 75,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 24,
     "section": 25,
     "academic_year": 1,
@@ -1271,7 +1271,7 @@
   "pk": 76,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 5,
     "section": 1,
     "academic_year": 1,
@@ -1289,7 +1289,7 @@
   "pk": 77,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 5,
     "section": 2,
     "academic_year": 1,
@@ -1308,7 +1308,7 @@
   "pk": 78,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 15,
     "section": 1,
     "academic_year": 1,
@@ -1326,7 +1326,7 @@
   "pk": 79,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 15,
     "section": 5,
     "academic_year": 1,
@@ -1343,7 +1343,7 @@
   "pk": 80,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 25,
     "section": 1,
     "academic_year": 1,
@@ -1361,7 +1361,7 @@
   "pk": 81,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 25,
     "section": 5,
     "academic_year": 1,
@@ -1378,7 +1378,7 @@
   "pk": 82,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 26,
     "section": 6,
     "academic_year": 1,
@@ -1396,7 +1396,7 @@
   "pk": 83,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 26,
     "section": 5,
     "academic_year": 1,
@@ -1413,7 +1413,7 @@
   "pk": 84,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 27,
     "section": 1,
     "academic_year": 1,
@@ -1431,7 +1431,7 @@
   "pk": 85,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 28,
     "section": 1,
     "academic_year": 1,
@@ -1449,7 +1449,7 @@
   "pk": 86,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 28,
     "section": 5,
     "academic_year": 1,
@@ -1466,7 +1466,7 @@
   "pk": 87,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 29,
     "section": 1,
     "academic_year": 1,
@@ -1485,7 +1485,7 @@
   "pk": 88,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 30,
     "section": 1,
     "academic_year": 1,
@@ -1502,7 +1502,7 @@
   "pk": 89,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 30,
     "section": 2,
     "academic_year": 1,
@@ -1519,7 +1519,7 @@
   "pk": 90,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 31,
     "section": 1,
     "academic_year": 1,
@@ -1536,7 +1536,7 @@
   "pk": 91,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 31,
     "section": 2,
     "academic_year": 1,
@@ -1553,7 +1553,7 @@
   "pk": 92,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 1,
     "academic_year": 1,
@@ -1571,7 +1571,7 @@
   "pk": 93,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 2,
     "academic_year": 1,
@@ -1589,7 +1589,7 @@
   "pk": 94,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 26,
     "academic_year": 1,
@@ -1606,7 +1606,7 @@
   "pk": 95,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 27,
     "academic_year": 1,
@@ -1623,7 +1623,7 @@
   "pk": 96,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 28,
     "academic_year": 1,
@@ -1640,7 +1640,7 @@
   "pk": 97,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 29,
     "academic_year": 1,
@@ -1657,7 +1657,7 @@
   "pk": 98,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 30,
     "academic_year": 1,
@@ -1674,7 +1674,7 @@
   "pk": 99,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 31,
     "academic_year": 1,
@@ -1691,7 +1691,7 @@
   "pk": 100,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 32,
     "academic_year": 1,
@@ -1708,7 +1708,7 @@
   "pk": 101,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 33,
     "academic_year": 1,
@@ -1725,7 +1725,7 @@
   "pk": 102,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 34,
     "academic_year": 1,
@@ -1742,7 +1742,7 @@
   "pk": 103,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 35,
     "academic_year": 1,
@@ -1759,7 +1759,7 @@
   "pk": 104,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 36,
     "academic_year": 1,
@@ -1776,7 +1776,7 @@
   "pk": 105,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 37,
     "academic_year": 1,
@@ -1793,7 +1793,7 @@
   "pk": 106,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 38,
     "academic_year": 1,
@@ -1810,7 +1810,7 @@
   "pk": 107,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 39,
     "academic_year": 1,
@@ -1827,7 +1827,7 @@
   "pk": 108,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 40,
     "academic_year": 1,
@@ -1844,7 +1844,7 @@
   "pk": 109,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 32,
     "section": 41,
     "academic_year": 1,
@@ -1861,7 +1861,7 @@
   "pk": 110,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 33,
     "section": 1,
     "academic_year": 1,
@@ -1880,7 +1880,7 @@
   "pk": 111,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 33,
     "section": 7,
     "academic_year": 1,
@@ -1897,7 +1897,7 @@
   "pk": 112,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 34,
     "section": 2,
     "academic_year": 1,
@@ -1914,7 +1914,7 @@
   "pk": 113,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 34,
     "section": 7,
     "academic_year": 1,
@@ -1931,7 +1931,7 @@
   "pk": 114,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 34,
     "section": 42,
     "academic_year": 1,
@@ -1948,7 +1948,7 @@
   "pk": 115,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 35,
     "section": 1,
     "academic_year": 1,
@@ -1966,7 +1966,7 @@
   "pk": 116,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 36,
     "section": 4,
     "academic_year": 1,
@@ -1984,7 +1984,7 @@
   "pk": 117,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 9,
     "section": 1,
     "academic_year": 1,
@@ -2002,7 +2002,7 @@
   "pk": 118,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 37,
     "section": 2,
     "academic_year": 1,
@@ -2020,7 +2020,7 @@
   "pk": 119,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 38,
     "section": 1,
     "academic_year": 1,
@@ -2038,7 +2038,7 @@
   "pk": 120,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 38,
     "section": 2,
     "academic_year": 1,
@@ -2056,7 +2056,7 @@
   "pk": 121,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 39,
     "section": 1,
     "academic_year": 1,
@@ -2074,7 +2074,7 @@
   "pk": 122,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 40,
     "section": 2,
     "academic_year": 1,
@@ -2092,7 +2092,7 @@
   "pk": 123,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 41,
     "section": 4,
     "academic_year": 1,
@@ -2110,7 +2110,7 @@
   "pk": 124,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 42,
     "section": 1,
     "academic_year": 1,
@@ -2127,7 +2127,7 @@
   "pk": 125,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 43,
     "section": 1,
     "academic_year": 1,
@@ -2145,7 +2145,7 @@
   "pk": 126,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 43,
     "section": 5,
     "academic_year": 1,
@@ -2162,7 +2162,7 @@
   "pk": 127,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 44,
     "section": 1,
     "academic_year": 1,
@@ -2180,7 +2180,7 @@
   "pk": 128,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 45,
     "section": 1,
     "academic_year": 1,
@@ -2199,7 +2199,7 @@
   "pk": 129,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 46,
     "section": 1,
     "academic_year": 1,
@@ -2218,7 +2218,7 @@
   "pk": 130,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 46,
     "section": 2,
     "academic_year": 1,
@@ -2237,7 +2237,7 @@
   "pk": 131,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 46,
     "section": 5,
     "academic_year": 1,
@@ -2254,7 +2254,7 @@
   "pk": 132,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 46,
     "section": 13,
     "academic_year": 1,
@@ -2271,7 +2271,7 @@
   "pk": 133,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 46,
     "section": 14,
     "academic_year": 1,
@@ -2288,7 +2288,7 @@
   "pk": 134,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 46,
     "section": 15,
     "academic_year": 1,
@@ -2305,7 +2305,7 @@
   "pk": 135,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 47,
     "section": 4,
     "academic_year": 1,
@@ -2322,7 +2322,7 @@
   "pk": 136,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 48,
     "section": 6,
     "academic_year": 1,
@@ -2341,7 +2341,7 @@
   "pk": 137,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 49,
     "section": 1,
     "academic_year": 1,
@@ -2359,7 +2359,7 @@
   "pk": 138,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 50,
     "section": 6,
     "academic_year": 1,
@@ -2376,7 +2376,7 @@
   "pk": 139,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 51,
     "section": 1,
     "academic_year": 1,
@@ -2394,7 +2394,7 @@
   "pk": 140,
   "fields": {
     "term": 3,
-    "code": 3,
+    "code": 2,
     "number": 52,
     "section": 1,
     "academic_year": 1,
@@ -2411,7 +2411,7 @@
   "pk": 141,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 53,
     "section": 1,
     "academic_year": 1,
@@ -2428,7 +2428,7 @@
   "pk": 142,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 53,
     "section": 43,
     "academic_year": 1,
@@ -2445,7 +2445,7 @@
   "pk": 143,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 54,
     "section": 2,
     "academic_year": 1,
@@ -2463,7 +2463,7 @@
   "pk": 144,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 55,
     "section": 1,
     "academic_year": 1,
@@ -2481,7 +2481,7 @@
   "pk": 145,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 56,
     "section": 1,
     "academic_year": 1,
@@ -2499,7 +2499,7 @@
   "pk": 146,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 57,
     "section": 1,
     "academic_year": 1,
@@ -2517,7 +2517,7 @@
   "pk": 147,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 58,
     "section": 1,
     "academic_year": 1,
@@ -2532,7 +2532,7 @@
   "pk": 148,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 59,
     "section": 2,
     "academic_year": 1,
@@ -2550,7 +2550,7 @@
   "pk": 149,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 60,
     "section": 2,
     "academic_year": 1,
@@ -2568,7 +2568,7 @@
   "pk": 150,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 61,
     "section": 1,
     "academic_year": 1,
@@ -2587,7 +2587,7 @@
   "pk": 151,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 62,
     "section": 2,
     "academic_year": 1,
@@ -2604,7 +2604,7 @@
   "pk": 152,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 63,
     "section": 4,
     "academic_year": 1,
@@ -2625,7 +2625,7 @@
   "pk": 153,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 64,
     "section": 6,
     "academic_year": 1,
@@ -2646,7 +2646,7 @@
   "pk": 154,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 19,
     "section": 1,
     "academic_year": 1,
@@ -2664,7 +2664,7 @@
   "pk": 155,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 65,
     "section": 6,
     "academic_year": 1,
@@ -2679,7 +2679,7 @@
   "pk": 156,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 65,
     "section": 22,
     "academic_year": 1,
@@ -2694,7 +2694,7 @@
   "pk": 157,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 20,
     "section": 6,
     "academic_year": 1,
@@ -2709,7 +2709,7 @@
   "pk": 158,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 20,
     "section": 22,
     "academic_year": 1,
@@ -2724,7 +2724,7 @@
   "pk": 159,
   "fields": {
     "term": 3,
-    "code": 3,
+    "code": 2,
     "number": 66,
     "section": 1,
     "academic_year": 1,
@@ -2739,7 +2739,7 @@
   "pk": 160,
   "fields": {
     "term": 3,
-    "code": 3,
+    "code": 2,
     "number": 21,
     "section": 1,
     "academic_year": 1,
@@ -2754,7 +2754,7 @@
   "pk": 161,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 21,
     "section": 6,
     "academic_year": 1,
@@ -2769,7 +2769,7 @@
   "pk": 162,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 21,
     "section": 22,
     "academic_year": 1,
@@ -2784,7 +2784,7 @@
   "pk": 163,
   "fields": {
     "term": 3,
-    "code": 3,
+    "code": 2,
     "number": 67,
     "section": 1,
     "academic_year": 1,
@@ -2799,7 +2799,7 @@
   "pk": 164,
   "fields": {
     "term": 1,
-    "code": 3,
+    "code": 2,
     "number": 67,
     "section": 6,
     "academic_year": 1,
@@ -2814,7 +2814,7 @@
   "pk": 165,
   "fields": {
     "term": 2,
-    "code": 3,
+    "code": 2,
     "number": 67,
     "section": 22,
     "academic_year": 1,
@@ -2829,7 +2829,7 @@
   "pk": 166,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 1,
     "academic_year": 1,
@@ -2848,7 +2848,7 @@
   "pk": 167,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 2,
     "academic_year": 1,
@@ -2867,7 +2867,7 @@
   "pk": 168,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 7,
     "academic_year": 1,
@@ -2884,7 +2884,7 @@
   "pk": 169,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 42,
     "academic_year": 1,
@@ -2901,7 +2901,7 @@
   "pk": 170,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 44,
     "academic_year": 1,
@@ -2918,7 +2918,7 @@
   "pk": 171,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 45,
     "academic_year": 1,
@@ -2935,7 +2935,7 @@
   "pk": 172,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 46,
     "academic_year": 1,
@@ -2952,7 +2952,7 @@
   "pk": 173,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 47,
     "academic_year": 1,
@@ -2969,7 +2969,7 @@
   "pk": 174,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 48,
     "academic_year": 1,
@@ -2986,7 +2986,7 @@
   "pk": 175,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 49,
     "academic_year": 1,
@@ -3003,7 +3003,7 @@
   "pk": 176,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 50,
     "academic_year": 1,
@@ -3020,7 +3020,7 @@
   "pk": 177,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 51,
     "academic_year": 1,
@@ -3037,7 +3037,7 @@
   "pk": 178,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 52,
     "academic_year": 1,
@@ -3054,7 +3054,7 @@
   "pk": 179,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 53,
     "academic_year": 1,
@@ -3071,7 +3071,7 @@
   "pk": 180,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 54,
     "academic_year": 1,
@@ -3088,7 +3088,7 @@
   "pk": 181,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 24,
     "section": 55,
     "academic_year": 1,
@@ -3105,7 +3105,7 @@
   "pk": 182,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 68,
     "section": 1,
     "academic_year": 1,
@@ -3124,7 +3124,7 @@
   "pk": 183,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 68,
     "section": 7,
     "academic_year": 1,
@@ -3141,7 +3141,7 @@
   "pk": 184,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 68,
     "section": 44,
     "academic_year": 1,
@@ -3158,7 +3158,7 @@
   "pk": 185,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 68,
     "section": 46,
     "academic_year": 1,
@@ -3175,7 +3175,7 @@
   "pk": 186,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 68,
     "section": 47,
     "academic_year": 1,
@@ -3192,7 +3192,7 @@
   "pk": 187,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 68,
     "section": 49,
     "academic_year": 1,
@@ -3209,7 +3209,7 @@
   "pk": 188,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 69,
     "section": 2,
     "academic_year": 1,
@@ -3228,7 +3228,7 @@
   "pk": 189,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 70,
     "section": 1,
     "academic_year": 1,
@@ -3246,7 +3246,7 @@
   "pk": 190,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 70,
     "section": 7,
     "academic_year": 1,
@@ -3263,7 +3263,7 @@
   "pk": 191,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 70,
     "section": 42,
     "academic_year": 1,
@@ -3280,7 +3280,7 @@
   "pk": 192,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 70,
     "section": 44,
     "academic_year": 1,
@@ -3297,7 +3297,7 @@
   "pk": 193,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 70,
     "section": 45,
     "academic_year": 1,
@@ -3314,7 +3314,7 @@
   "pk": 194,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 70,
     "section": 46,
     "academic_year": 1,
@@ -3331,7 +3331,7 @@
   "pk": 195,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 70,
     "section": 47,
     "academic_year": 1,
@@ -3348,7 +3348,7 @@
   "pk": 196,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 71,
     "section": 1,
     "academic_year": 1,
@@ -3366,7 +3366,7 @@
   "pk": 197,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 71,
     "section": 5,
     "academic_year": 1,
@@ -3383,7 +3383,7 @@
   "pk": 198,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 71,
     "section": 7,
     "academic_year": 1,
@@ -3400,7 +3400,7 @@
   "pk": 199,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 72,
     "section": 1,
     "academic_year": 1,
@@ -3417,7 +3417,7 @@
   "pk": 200,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 73,
     "section": 1,
     "academic_year": 1,
@@ -3436,7 +3436,7 @@
   "pk": 201,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 74,
     "section": 1,
     "academic_year": 1,
@@ -3454,7 +3454,7 @@
   "pk": 202,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 29,
     "section": 1,
     "academic_year": 1,
@@ -3472,7 +3472,7 @@
   "pk": 203,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 75,
     "section": 3,
     "academic_year": 1,
@@ -3490,7 +3490,7 @@
   "pk": 204,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 76,
     "section": 1,
     "academic_year": 1,
@@ -3508,7 +3508,7 @@
   "pk": 205,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 77,
     "section": 1,
     "academic_year": 1,
@@ -3526,7 +3526,7 @@
   "pk": 206,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 78,
     "section": 2,
     "academic_year": 1,
@@ -3544,7 +3544,7 @@
   "pk": 207,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 79,
     "section": 1,
     "academic_year": 1,
@@ -3562,7 +3562,7 @@
   "pk": 208,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 80,
     "section": 1,
     "academic_year": 1,
@@ -3580,7 +3580,7 @@
   "pk": 209,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 81,
     "section": 1,
     "academic_year": 1,
@@ -3598,7 +3598,7 @@
   "pk": 210,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 81,
     "section": 7,
     "academic_year": 1,
@@ -3615,7 +3615,7 @@
   "pk": 211,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 81,
     "section": 42,
     "academic_year": 1,
@@ -3632,7 +3632,7 @@
   "pk": 212,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 82,
     "section": 1,
     "academic_year": 1,
@@ -3650,7 +3650,7 @@
   "pk": 213,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 82,
     "section": 7,
     "academic_year": 1,
@@ -3667,7 +3667,7 @@
   "pk": 214,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 82,
     "section": 42,
     "academic_year": 1,
@@ -3684,7 +3684,7 @@
   "pk": 215,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 82,
     "section": 44,
     "academic_year": 1,
@@ -3701,7 +3701,7 @@
   "pk": 216,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 82,
     "section": 45,
     "academic_year": 1,
@@ -3718,7 +3718,7 @@
   "pk": 217,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 83,
     "section": 1,
     "academic_year": 1,
@@ -3736,7 +3736,7 @@
   "pk": 218,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 35,
     "section": 1,
     "academic_year": 1,
@@ -3754,7 +3754,7 @@
   "pk": 219,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 35,
     "section": 7,
     "academic_year": 1,
@@ -3771,7 +3771,7 @@
   "pk": 220,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 37,
     "section": 6,
     "academic_year": 1,
@@ -3790,7 +3790,7 @@
   "pk": 221,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 37,
     "section": 7,
     "academic_year": 1,
@@ -3807,7 +3807,7 @@
   "pk": 222,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 37,
     "section": 42,
     "academic_year": 1,
@@ -3824,7 +3824,7 @@
   "pk": 223,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 37,
     "section": 44,
     "academic_year": 1,
@@ -3841,7 +3841,7 @@
   "pk": 224,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 37,
     "section": 45,
     "academic_year": 1,
@@ -3858,7 +3858,7 @@
   "pk": 225,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 84,
     "section": 1,
     "academic_year": 1,
@@ -3876,7 +3876,7 @@
   "pk": 226,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 85,
     "section": 56,
     "academic_year": 1,
@@ -3891,7 +3891,7 @@
   "pk": 227,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 43,
     "section": 1,
     "academic_year": 1,
@@ -3908,7 +3908,7 @@
   "pk": 228,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 44,
     "section": 1,
     "academic_year": 1,
@@ -3927,7 +3927,7 @@
   "pk": 229,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 45,
     "section": 2,
     "academic_year": 1,
@@ -3945,7 +3945,7 @@
   "pk": 230,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 48,
     "section": 2,
     "academic_year": 1,
@@ -3963,7 +3963,7 @@
   "pk": 231,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 86,
     "section": 1,
     "academic_year": 1,
@@ -3978,7 +3978,7 @@
   "pk": 232,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 87,
     "section": 2,
     "academic_year": 1,
@@ -3996,7 +3996,7 @@
   "pk": 233,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 49,
     "section": 1,
     "academic_year": 1,
@@ -4014,7 +4014,7 @@
   "pk": 234,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 50,
     "section": 1,
     "academic_year": 1,
@@ -4031,7 +4031,7 @@
   "pk": 235,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 51,
     "section": 1,
     "academic_year": 1,
@@ -4049,7 +4049,7 @@
   "pk": 236,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 88,
     "section": 1,
     "academic_year": 1,
@@ -4066,7 +4066,7 @@
   "pk": 237,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 89,
     "section": 4,
     "academic_year": 1,
@@ -4081,7 +4081,7 @@
   "pk": 238,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 90,
     "section": 1,
     "academic_year": 1,
@@ -4098,7 +4098,7 @@
   "pk": 239,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 91,
     "section": 1,
     "academic_year": 1,
@@ -4116,7 +4116,7 @@
   "pk": 240,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 92,
     "section": 1,
     "academic_year": 1,
@@ -4135,7 +4135,7 @@
   "pk": 241,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 92,
     "section": 8,
     "academic_year": 1,
@@ -4152,7 +4152,7 @@
   "pk": 242,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 93,
     "section": 6,
     "academic_year": 1,
@@ -4171,7 +4171,7 @@
   "pk": 243,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 53,
     "section": 1,
     "academic_year": 1,
@@ -4189,7 +4189,7 @@
   "pk": 244,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 94,
     "section": 1,
     "academic_year": 1,
@@ -4207,7 +4207,7 @@
   "pk": 245,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 95,
     "section": 1,
     "academic_year": 1,
@@ -4224,7 +4224,7 @@
   "pk": 246,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 95,
     "section": 5,
     "academic_year": 1,
@@ -4241,7 +4241,7 @@
   "pk": 247,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 96,
     "section": 1,
     "academic_year": 1,
@@ -4259,7 +4259,7 @@
   "pk": 248,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 97,
     "section": 1,
     "academic_year": 1,
@@ -4274,7 +4274,7 @@
   "pk": 249,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 60,
     "section": 1,
     "academic_year": 1,
@@ -4291,7 +4291,7 @@
   "pk": 250,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 98,
     "section": 4,
     "academic_year": 1,
@@ -4306,7 +4306,7 @@
   "pk": 251,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 99,
     "section": 57,
     "academic_year": 1,
@@ -4323,7 +4323,7 @@
   "pk": 252,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 100,
     "section": 24,
     "academic_year": 1,
@@ -4341,7 +4341,7 @@
   "pk": 253,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 101,
     "section": 58,
     "academic_year": 1,
@@ -4359,7 +4359,7 @@
   "pk": 254,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 12,
     "section": 1,
     "academic_year": 1,
@@ -4374,7 +4374,7 @@
   "pk": 255,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 12,
     "section": 2,
     "academic_year": 1,
@@ -4389,7 +4389,7 @@
   "pk": 256,
   "fields": {
     "term": 3,
-    "code": 4,
+    "code": 1,
     "number": 12,
     "section": 3,
     "academic_year": 1,
@@ -4404,7 +4404,7 @@
   "pk": 257,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 13,
     "section": 1,
     "academic_year": 1,
@@ -4419,7 +4419,7 @@
   "pk": 258,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 13,
     "section": 2,
     "academic_year": 1,
@@ -4434,7 +4434,7 @@
   "pk": 259,
   "fields": {
     "term": 3,
-    "code": 4,
+    "code": 1,
     "number": 13,
     "section": 3,
     "academic_year": 1,
@@ -4449,7 +4449,7 @@
   "pk": 260,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 65,
     "section": 1,
     "academic_year": 1,
@@ -4464,7 +4464,7 @@
   "pk": 261,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 65,
     "section": 2,
     "academic_year": 1,
@@ -4479,7 +4479,7 @@
   "pk": 262,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 20,
     "section": 1,
     "academic_year": 1,
@@ -4494,7 +4494,7 @@
   "pk": 263,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 20,
     "section": 2,
     "academic_year": 1,
@@ -4509,7 +4509,7 @@
   "pk": 264,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 66,
     "section": 1,
     "academic_year": 1,
@@ -4524,7 +4524,7 @@
   "pk": 265,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 66,
     "section": 2,
     "academic_year": 1,
@@ -4539,7 +4539,7 @@
   "pk": 266,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 102,
     "section": 1,
     "academic_year": 1,
@@ -4554,7 +4554,7 @@
   "pk": 267,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 102,
     "section": 2,
     "academic_year": 1,
@@ -4569,7 +4569,7 @@
   "pk": 268,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 21,
     "section": 6,
     "academic_year": 1,
@@ -4584,7 +4584,7 @@
   "pk": 269,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 21,
     "section": 22,
     "academic_year": 1,
@@ -4599,7 +4599,7 @@
   "pk": 270,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 103,
     "section": 1,
     "academic_year": 1,
@@ -4614,7 +4614,7 @@
   "pk": 271,
   "fields": {
     "term": 3,
-    "code": 4,
+    "code": 1,
     "number": 103,
     "section": 6,
     "academic_year": 1,
@@ -4629,7 +4629,7 @@
   "pk": 272,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 103,
     "section": 22,
     "academic_year": 1,
@@ -4644,7 +4644,7 @@
   "pk": 273,
   "fields": {
     "term": 3,
-    "code": 4,
+    "code": 1,
     "number": 67,
     "section": 1,
     "academic_year": 1,
@@ -4659,7 +4659,7 @@
   "pk": 274,
   "fields": {
     "term": 1,
-    "code": 4,
+    "code": 1,
     "number": 67,
     "section": 6,
     "academic_year": 1,
@@ -4674,7 +4674,7 @@
   "pk": 275,
   "fields": {
     "term": 2,
-    "code": 4,
+    "code": 1,
     "number": 67,
     "section": 22,
     "academic_year": 1,
@@ -4689,7 +4689,7 @@
   "pk": 276,
   "fields": {
     "term": 2,
-    "code": 5,
+    "code": 3,
     "number": 14,
     "section": 2,
     "academic_year": 1,
@@ -4707,7 +4707,7 @@
   "pk": 277,
   "fields": {
     "term": 2,
-    "code": 5,
+    "code": 3,
     "number": 26,
     "section": 1,
     "academic_year": 1,
@@ -4725,7 +4725,7 @@
   "pk": 278,
   "fields": {
     "term": 2,
-    "code": 5,
+    "code": 3,
     "number": 26,
     "section": 4,
     "academic_year": 1,
@@ -4742,7 +4742,7 @@
   "pk": 279,
   "fields": {
     "term": 1,
-    "code": 5,
+    "code": 3,
     "number": 104,
     "section": 1,
     "academic_year": 1,
@@ -4760,7 +4760,7 @@
   "pk": 280,
   "fields": {
     "term": 1,
-    "code": 5,
+    "code": 3,
     "number": 31,
     "section": 1,
     "academic_year": 1,
@@ -4778,7 +4778,7 @@
   "pk": 281,
   "fields": {
     "term": 1,
-    "code": 5,
+    "code": 3,
     "number": 34,
     "section": 1,
     "academic_year": 1,
@@ -4796,7 +4796,7 @@
   "pk": 282,
   "fields": {
     "term": 1,
-    "code": 5,
+    "code": 3,
     "number": 105,
     "section": 1,
     "academic_year": 1,
@@ -4814,7 +4814,7 @@
   "pk": 283,
   "fields": {
     "term": 2,
-    "code": 5,
+    "code": 3,
     "number": 106,
     "section": 2,
     "academic_year": 1,
@@ -4832,7 +4832,7 @@
   "pk": 284,
   "fields": {
     "term": 1,
-    "code": 5,
+    "code": 3,
     "number": 107,
     "section": 6,
     "academic_year": 1,
@@ -4850,7 +4850,7 @@
   "pk": 285,
   "fields": {
     "term": 1,
-    "code": 5,
+    "code": 3,
     "number": 107,
     "section": 23,
     "academic_year": 1,
@@ -4868,7 +4868,7 @@
   "pk": 286,
   "fields": {
     "term": 2,
-    "code": 5,
+    "code": 3,
     "number": 108,
     "section": 2,
     "academic_year": 1,
@@ -4886,7 +4886,7 @@
   "pk": 287,
   "fields": {
     "term": 2,
-    "code": 5,
+    "code": 3,
     "number": 96,
     "section": 1,
     "academic_year": 1,
@@ -4901,7 +4901,7 @@
   "pk": 288,
   "fields": {
     "term": 2,
-    "code": 5,
+    "code": 3,
     "number": 59,
     "section": 1,
     "academic_year": 1,
@@ -4919,7 +4919,7 @@
   "pk": 289,
   "fields": {
     "term": 2,
-    "code": 5,
+    "code": 3,
     "number": 59,
     "section": 7,
     "academic_year": 1,
@@ -4936,7 +4936,7 @@
   "pk": 290,
   "fields": {
     "term": 1,
-    "code": 5,
+    "code": 3,
     "number": 19,
     "section": 1,
     "academic_year": 1,
@@ -4954,7 +4954,7 @@
   "pk": 291,
   "fields": {
     "term": 2,
-    "code": 5,
+    "code": 3,
     "number": 19,
     "section": 2,
     "academic_year": 1,

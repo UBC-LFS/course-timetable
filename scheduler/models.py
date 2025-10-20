@@ -19,6 +19,7 @@ class CourseTerm(models.Model):
 
 class CourseCode(models.Model):
     name = models.CharField(max_length=20, unique=True)
+    color = models.CharField(max_length=20, unique=True)
     
     class Meta:
         ordering = ['name']
