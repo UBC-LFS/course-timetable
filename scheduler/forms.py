@@ -105,23 +105,6 @@ class CourseTermForm(forms.ModelForm):
         return name
     
 
-# class CourseCodeForm(forms.ModelForm):
-#     class Meta:
-#         model = CourseCode
-#         fields = ["name"]
-#         widgets = {
-#             "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "e.g. LFS"}),
-#         }
-
-#     def clean_name(self):
-#         name = self.cleaned_data["name"].strip()
-#         qs = CourseCode.objects.filter(name__exact=name)
-#         if self.instance.pk:
-#             qs = qs.exclude(pk=self.instance.pk)
-#         if qs.exists():
-#             raise forms.ValidationError("A Course Code with this name already exists.")
-#         return name
-
 class CourseCodeForm(forms.ModelForm):
     color = forms.CharField(
         max_length=20,

@@ -77,7 +77,7 @@
         <div class="modal-body">
           {{ form.non_field_errors }}
           <div class="mb-3">
-            <label class="form-label">Year</label>
+            <label class="form-label">Year *</label>
             {{ form.name }}  {# this is a <select> with choices 2024..2042 from the form #}
             {% for e in form.name.errors %}
               <div class="text-danger small">{{ e }}</div>
@@ -105,7 +105,7 @@
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label class="form-label">Year</label>
+            <label class="form-label">Year *</label>
             <select id="editYear" name="name" class="form-select">
               {% for y in year_choices %}
                 <option value="{{ y }}">{{ y }}</option>

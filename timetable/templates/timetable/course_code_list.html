@@ -93,12 +93,12 @@
         <div class="modal-body">
           {{ form.non_field_errors }}
           <div class="mb-3">
-            <label class="form-label">Code</label>
+            <label class="form-label">Code *</label>
             {{ form.name }}
             {% for e in form.name.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
           </div>
           <div class="mb-2">
-            <label class="form-label">Pick Color</label><br>
+            <label class="form-label">Color *</label><br>
             <input type="color"
                    id="createColorPicker"
                    value="#A8A8A8"
@@ -127,11 +127,11 @@
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label class="form-label">Code</label>
+            <label class="form-label">Code *</label>
             <input id="editName" name="name" type="text" class="form-control" placeholder="e.g. APBI" required />
           </div>
           <div class="mb-2">
-            <label class="form-label">Pick Color</label><br>
+            <label class="form-label">Color *</label><br>
             <input type="color"
                    id="editColorPicker"
                    value="#A8A8A8"

@@ -21,6 +21,7 @@ from .models import Program, ProgramYearLevel
 from .forms import ProgramNameForm
 from django.urls import reverse
 from types import SimpleNamespace
+from django.http import Http404
 
 
 '''
@@ -562,26 +563,19 @@ def program_name_delete(request, pk):
 def requirements(request):
     """
     Renders the Requirements page with two required filters:
-    - Program Name (distinct Program.name values)
-    - Program Year Level (all ProgramYearLevel rows)
+    - Program Name
+    - Program Year Level
 
     After both are chosen and Search is clicked, we show the table of courses
-    linked to that (Program.name, ProgramYearLevel) combination, or “No such program exists.”
+    linked to that Program combination, or “No such program exists.”
     """
     # dynamic dropdown data
-    program_names = (Program.objects
-                     .exclude(name__isnull=True)
-                     .exclude(name__exact="")
-                     .values_list("name", flat=True)
-                     .distinct()
-                     .order_by("name"))
-
+    program_names = ProgramName.objects.order_by("name")
     year_levels = ProgramYearLevel.objects.order_by("name")
 
     # read selection (GET)
-    selected_program = request.GET.get("program", "").strip()
-    selected_level_id = request.GET.get("level", "").strip()
-    level = None
+    selected_program_name = request.GET.get("program", "").strip()
+    selected_level_name = request.GET.get("level", "").strip()
     submitted = "search" in request.GET  # Search button pressed
 
     courses = None
@@ -589,13 +583,12 @@ def requirements(request):
     not_found = False
 
     if submitted:
-        if not selected_program or not selected_level_id:
+        if not selected_program_name or not selected_level_name:
             messages.error(request, "You have to select both Program Name and Program Year Level.")
         else:
-            # level by id from dropdown
-            level = get_object_or_404(ProgramYearLevel, id=selected_level_id)
-            # exact (name, level) program
-            program_obj = Program.objects.filter(name=selected_program, year_level=level).first()
+            level_obj = get_object_or_404(ProgramYearLevel, name=selected_level_name)
+            program_name_obj = get_object_or_404(ProgramName, name=selected_program_name)
+            program_obj = Program.objects.filter(name=program_name_obj, year_level=level_obj).first()
             if program_obj:
                 courses = (program_obj.courses
                            .select_related("code", "number", "section", "academic_year", "term")
@@ -603,20 +596,20 @@ def requirements(request):
                                      "academic_year__name", "term__name"))
             else:
                 not_found = True
-                courses = []
+                courses = [] 
 
     return render(request, "timetable/requirements.html", {
         "program_names": program_names,
         "year_levels": year_levels,
-        "selected_program": selected_program,
-        "selected_level_id": selected_level_id,
-        "selected_level": level,
+        "selected_program_name": selected_program_name,
+        "selected_level_name": selected_level_name,
         "submitted": submitted,
         "program_obj": program_obj,
         "courses": courses,
         "not_found": not_found,
     })
 
+# need change completely
 def requirements_edit(request):
     """
     Edit mapping of courses for a given (Program.name, ProgramYearLevel).

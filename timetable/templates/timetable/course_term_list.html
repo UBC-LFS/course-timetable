@@ -78,7 +78,7 @@
         <div class="modal-body">
           {{ form.non_field_errors }}
           <div class="mb-3">
-            <label class="form-label">Term</label>
+            <label class="form-label">Term *</label>
             {{ form.name }}
             {% for e in form.name.errors %}
               <div class="text-danger small">{{ e }}</div>
@@ -106,7 +106,7 @@
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label class="form-label">Term</label>
+            <label class="form-label">Term *</label>
             <input id="editName" name="name" type="text" class="form-control" placeholder="e.g. T1" required />
           </div>
         </div>
