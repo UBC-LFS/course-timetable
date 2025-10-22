@@ -86,7 +86,6 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </form>
@@ -111,7 +110,6 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </form>
@@ -136,7 +134,6 @@
           </div>
   
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
             <button type="submit" class="btn btn-danger">Delete</button>
           </div>
         </form>
@@ -144,11 +141,29 @@
     </div>
 </div>
 
+<!-- AFFECTED COURSES PREVIEW MODAL -->
+<div class="modal fade" id="affectedModal" tabindex="-1" aria-labelledby="affectedLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="affectedLabel">Affected Courses</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted mb-2" id="affectedIntro"></p>
+        <ul class="mb-0" id="affectedList"></ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="affectedConfirmBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block js %}
 <script>
-  // Populate the Edit modal and form action dynamically
   const editModal = document.getElementById('editModal');
   editModal.addEventListener('show.bs.modal', function (event) {
     const button = event.relatedTarget;
@@ -157,24 +172,98 @@
     document.getElementById('editName').value = termName;
     document.getElementById('editForm').action =
       "{% url 'scheduler:course_term_update' 0 %}".replace("0", termId);
+    // stash the term id for preview use
+    document.getElementById('editForm').dataset.termId = termId;
+  });
+
+  // Intercept Edit form submit to show preview first
+  const editForm = document.getElementById('editForm');
+  editForm.addEventListener('submit', async function (e) {
+    if (editForm.dataset.confirmed === '1') return; // already confirmed → let it submit
+    e.preventDefault();
+
+    const termId = editForm.dataset.termId;
+    await showAffectedPreview(termId, "Editing this term will update the following courses.");
+    // When user clicks Confirm in the preview, we'll submit for real.
+    pendingSubmitForm = editForm;
   });
 </script>
 
 <script>
-    // Wire up Delete modal action + label
-    const deleteModal = document.getElementById('deleteModal');
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-      const button = event.relatedTarget;
-      const termId = button.getAttribute('data-term-id');
-      const termName = button.getAttribute('data-term-name');
-  
-      // Fill the name for confirmation
-      document.getElementById('deleteName').textContent = termName;
-  
-      // Point the form to the correct delete URL
-      document.getElementById('deleteForm').action =
-        "{% url 'scheduler:course_term_delete' 0 %}".replace("0", termId);
+  const deleteModal = document.getElementById('deleteModal');
+  deleteModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const termId = button.getAttribute('data-term-id');
+    const termName = button.getAttribute('data-term-name');
+    document.getElementById('deleteName').textContent = termName;
+    const form = document.getElementById('deleteForm');
+    form.action = "{% url 'scheduler:course_term_delete' 0 %}".replace("0", termId);
+    form.dataset.termId = termId;
+  });
+
+  const deleteForm = document.getElementById('deleteForm');
+  deleteForm.addEventListener('submit', async function (e) {
+    if (deleteForm.dataset.confirmed === '1') return; // already confirmed
+    e.preventDefault();
+
+    const termId = deleteForm.dataset.termId;
+    await showAffectedPreview(termId, "Deleting this term will detach it from the following courses.");
+    pendingSubmitForm = deleteForm;
+  });
+</script>
+
+<script>
+  // Utility: hide any open Bootstrap modals
+  function hideOpenModals() {
+    document.querySelectorAll('.modal.show').forEach(el => {
+      (bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el)).hide();
     });
-  </script>
-  
+  }
+
+  let pendingSubmitForm = null;
+
+  async function showAffectedPreview(termId, introText) {
+    hideOpenModals(); // ensure edit/delete is fully closed
+
+    // fetch affected courses
+    const url = "{% url 'scheduler:course_term_affected' 0 %}".replace("0", termId);
+    const res = await fetch(url, { method: "GET", headers: { "Accept": "application/json" } });
+    const data = await res.json();
+
+    // fill modal
+    const intro = document.getElementById('affectedIntro');
+    const list  = document.getElementById('affectedList');
+    intro.textContent = introText;
+    list.innerHTML = "";
+
+    if (!data.items || data.items.length === 0) {
+      const li = document.createElement('li');
+      li.className = "text-muted";
+      li.textContent = "No courses will be affected.";
+      list.appendChild(li);
+    } else {
+      for (const c of data.items) {
+        const li = document.createElement('li');
+        // e.g., "LFS 100 001 2025 T1"
+        li.textContent = `${c.code} ${c.number} ${c.section} ${c.year} ${c.term}`.trim();
+        list.appendChild(li);
+      }
+    }
+
+    const previewEl = document.getElementById('affectedModal');
+    const preview   = bootstrap.Modal.getOrCreateInstance(previewEl);
+    preview.show();
+
+    // Confirm button submits whatever form triggered the preview (your existing logic)
+    const confirmBtn = document.getElementById('affectedConfirmBtn');
+    confirmBtn.onclick = () => {
+      if (pendingSubmitForm) {
+        pendingSubmitForm.dataset.confirmed = '1';
+        pendingSubmitForm.submit();
+        pendingSubmitForm = null;
+      }
+      preview.hide();
+    };
+  }
+</script>
 {% endblock %}
