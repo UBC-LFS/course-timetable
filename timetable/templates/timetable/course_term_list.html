@@ -254,7 +254,7 @@
     const preview   = bootstrap.Modal.getOrCreateInstance(previewEl);
     preview.show();
 
-    // Confirm button submits whatever form triggered the preview (your existing logic)
+    // Confirm button submits whatever form triggered the preview
     const confirmBtn = document.getElementById('affectedConfirmBtn');
     confirmBtn.onclick = () => {
       if (pendingSubmitForm) {

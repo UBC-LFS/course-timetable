@@ -375,6 +375,31 @@ def course_term_delete(request, pk):
     messages.success(request, "Course Term deleted.")
     return redirect("scheduler:course_term")
 
+def course_code_affected(request, pk):
+    """
+    Return all courses currently pointing at this CourseCode.
+    Used by the preview modal for both edit and delete of CourseCode.
+    """
+    code = get_object_or_404(CourseCode, pk=pk)
+    qs = (Course.objects
+          .filter(code=code)
+          .select_related("code", "number", "section", "academic_year", "term")
+          .order_by("code__name", "number__name", "section__name",
+                    "academic_year__name", "term__name"))
+
+    def safe_name(obj):
+        return getattr(obj, "name", "") or ""
+
+    items = [{
+        "code":   safe_name(c.code),
+        "number": safe_name(c.number),
+        "section":safe_name(c.section),
+        "year":   safe_name(c.academic_year),
+        "term":   safe_name(c.term),
+    } for c in qs]
+
+    return JsonResponse({"count": len(items), "items": items})
+
 def course_code_list(request):
     codes = CourseCode.objects.order_by("id")
     form = CourseCodeForm()

@@ -106,14 +106,25 @@ class Course(models.Model):
 
     def save(self, *args, **kwargs):
         def part(obj):
-            # safely get .name even if obj is None
-            return (getattr(obj, "name", None) or "None")
-        self.slug = slugify(
-            f"{part(self.code)}-{part(self.number)}-{part(self.section)}-"
-            f"{part(self.academic_year)}-{part(self.term)}"
-        )
-        super().save(*args, **kwargs)
-    
+            return getattr(obj, "name", None) or "None"
+        
+        creating = self.pk is None  # check if this is a new object
+        
+        if creating:
+            super().save(*args, **kwargs)  # save first so pk is assigned
+            self.slug = slugify(
+                f"{part(self.code)}-{part(self.number)}-{part(self.section)}-"
+                f"{part(self.academic_year)}-{part(self.term)}-{self.pk}"
+            )
+            # update only the slug field
+            super().save(update_fields=["slug"])
+        else:
+            self.slug = slugify(
+                f"{part(self.code)}-{part(self.number)}-{part(self.section)}-"
+                f"{part(self.academic_year)}-{part(self.term)}-{self.pk}"
+            )
+            super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.code.name} {self.number.name} {self.section.name} ({self.academic_year.name}, {self.term.name})"
     

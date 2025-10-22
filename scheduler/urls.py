@@ -14,7 +14,6 @@ urlpatterns = [
     path("settings/course-term/create/", views.course_term_create, name="course_term_create"),
     path("settings/course-term/<int:pk>/update/", views.course_term_update, name="course_term_update"),
     path("settings/course-term/<int:pk>/delete/", views.course_term_delete, name="course_term_delete"),
-    # NEW: returns affected courses as JSON (used by both edit/delete previews)
     path("settings/course-term/<int:pk>/affected/", views.course_term_affected, name="course_term_affected"),
 
     # settings – course code
@@ -22,6 +21,7 @@ urlpatterns = [
     path("settings/course-code/create/", views.course_code_create, name="course_code_create"),
     path("settings/course-code/<int:pk>/update/", views.course_code_update, name="course_code_update"),
     path("settings/course-code/<int:pk>/delete/", views.course_code_delete, name="course_code_delete"),
+    path("settings/course-code/<int:pk>/affected/", views.course_code_affected, name="course_code_affected"),
 
     # settings – course number
     path("setting_course_number/", views.course_number_list, name="course_number"),
