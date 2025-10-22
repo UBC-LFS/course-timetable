@@ -177,31 +177,46 @@ def _year_pre_delete(sender, instance, **kwargs):
 def _term_pre_delete(sender, instance, **kwargs):
     instance._affected_course_ids = list(instance.course_set.values_list("id", flat=True))
 
-# after delete, those courses have FK=NULL; re-save them to refresh slug
-def _reslug_after_delete(instance):
+# # after delete, those courses have FK=NULL; re-save them to refresh slug
+# def _reslug_after_delete(instance):
+#     ids = getattr(instance, "_affected_course_ids", [])
+#     if ids:
+#         _reslug_courses(Course.objects.filter(id__in=ids))
+
+def _cleanup_or_reslug_after_delete(instance):
     ids = getattr(instance, "_affected_course_ids", [])
-    if ids:
-        _reslug_courses(Course.objects.filter(id__in=ids))
+    if not ids:
+        return
+    # delete any courses now have BOTH code & number null
+    Course.objects.filter(id__in=ids, code__isnull=True, number__isnull=True).delete()
+    # re-slug the still-existing courses
+    remaining = Course.objects.filter(id__in=ids)
+    _reslug_courses(remaining)
 
 @receiver(post_delete, sender=CourseCode)
 def _code_post_delete(sender, instance, **kwargs):
-    _reslug_after_delete(instance)
+    # _reslug_after_delete(instance)
+    _cleanup_or_reslug_after_delete(instance)
 
 @receiver(post_delete, sender=CourseNumber)
 def _number_post_delete(sender, instance, **kwargs):
-    _reslug_after_delete(instance)
+    # _reslug_after_delete(instance)
+    _cleanup_or_reslug_after_delete(instance)
 
 @receiver(post_delete, sender=CourseSection)
 def _section_post_delete(sender, instance, **kwargs):
-    _reslug_after_delete(instance)
+    # _reslug_after_delete(instance)
+    _cleanup_or_reslug_after_delete(instance)
 
 @receiver(post_delete, sender=CourseYear)
 def _year_post_delete(sender, instance, **kwargs):
-    _reslug_after_delete(instance)
+    # _reslug_after_delete(instance)
+    _cleanup_or_reslug_after_delete(instance)
 
 @receiver(post_delete, sender=CourseTerm)
 def _term_post_delete(sender, instance, **kwargs):
-    _reslug_after_delete(instance)
+    # _reslug_after_delete(instance)
+    _cleanup_or_reslug_after_delete(instance)
     
 
 
