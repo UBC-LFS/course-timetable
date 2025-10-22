@@ -262,6 +262,20 @@ def view_courses(request):
     })
 
 
+def _summarize_form_errors(form):
+    parts = []
+    # field-specific
+    for field, errors in form.errors.items():
+        if field == "__all__":
+            continue
+        for e in errors:
+            parts.append(e)
+    # non-field
+    for e in form.non_field_errors():
+        parts.append(e)
+    return " ".join(parts)
+
+
 def create_course(request):
     if request.method == "POST":
         form = CourseForm(request.POST)
@@ -269,7 +283,8 @@ def create_course(request):
             form.save()
             messages.success(request, "Course created successfully.")
             return redirect("scheduler:view_courses")
-        messages.error(request, "Please correct the errors below.")
+        summary = _summarize_form_errors(form) or "Please fix the errors and try again."
+        messages.error(request, f"Create failed: {summary}")
     else:
         form = CourseForm()
 
@@ -288,7 +303,8 @@ def edit_course(request, course_id):
             form.save()
             messages.success(request, "Course updated successfully.")
             return redirect("scheduler:view_courses")
-        messages.error(request, "Please correct the errors below.")
+        summary = _summarize_form_errors(form) or "Please fix the errors and try again."
+        messages.error(request, f"Update failed: {summary}")
     else:
         form = CourseForm(instance=course)
 
@@ -349,7 +365,7 @@ def course_code_create(request):
         color_err = " ".join(form.errors.get("color", []))
         # Combine only non-empty error
         err_list = [msg.strip() for msg in [name_err, color_err] if msg]
-        err = " ".join(err_list)
+        err = " ".join(err_list) or "Please fix the errors and try again."
         messages.error(request, f"Create failed: {err}")
     return redirect("scheduler:course_code")
 
@@ -365,7 +381,7 @@ def course_code_update(request, pk):
         color_err = " ".join(form.errors.get("color", []))
         # Combine only non-empty error
         err_list = [msg.strip() for msg in [name_err, color_err] if msg]
-        err = " ".join(err_list)
+        err = " ".join(err_list) or "Please fix the errors and try again."
         messages.error(request, f"Update failed: {err}")
     return redirect("scheduler:course_code")
 
