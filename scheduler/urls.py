@@ -34,6 +34,7 @@ urlpatterns = [
     path("settings/course-section/create/", views.course_section_create, name="course_section_create"),
     path("settings/course-section/<int:pk>/update/", views.course_section_update, name="course_section_update"),
     path("settings/course-section/<int:pk>/delete/", views.course_section_delete, name="course_section_delete"),
+    path("settings/course-section/<int:pk>/affected/", views.course_section_affected, name="course_section_affected"),
 
     # settings – course time
     path("setting_course_time/", views.course_time_list, name="course_time"),
