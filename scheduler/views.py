@@ -692,6 +692,27 @@ def course_year_delete(request, pk):
     messages.success(request, "Course Year deleted.")
     return redirect("scheduler:course_year")
 
+def program_name_affected(request, pk):
+    """
+    Return all programs currently pointing to this ProgramName.
+    Used by the preview modal for both edit and delete.
+    """
+    program_name = get_object_or_404(ProgramName, pk=pk)
+    qs = (Program.objects
+          .filter(name=program_name)
+          .select_related("name", "year_level")
+          .order_by("name__name", "year_level__name"))
+
+    def safe_name(obj):
+        return getattr(obj, "name", "") or ""
+
+    items = [{
+        "program_name": safe_name(p.name),            
+        "year_level":   safe_name(p.year_level),     
+    } for p in qs]
+
+    return JsonResponse({"count": len(items), "items": items})
+
 def program_name_list(request):
     names = ProgramName.objects.order_by("id")
     form = ProgramNameForm()  # empty for the Create modal

@@ -56,6 +56,7 @@ urlpatterns = [
     path("settings/program-name/create/", views.program_name_create, name="program_name_create"),
     path("settings/program-name/<int:pk>/update/", views.program_name_update, name="program_name_update"),
     path("settings/program-name/<int:pk>/delete/", views.program_name_delete, name="program_name_delete"),
+    path("settings/program-name/<int:pk>/affected/", views.program_name_affected, name="program_name_affected"),
 
     # Requirements
     path('requirements/', views.requirements, name='requirements'),       
