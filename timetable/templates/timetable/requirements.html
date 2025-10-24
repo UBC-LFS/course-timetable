@@ -45,24 +45,63 @@
             <table class="table table-bordered table-striped table-hover text-center">
             <thead>
                 <tr>
-                <th>Code</th><th>Number</th>
+                <th>Code</th>
+                <th>Number</th>
+                <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-            {% for c in courses %}
+              {% for c in courses %}
                 <tr>
-                <td>{{ c.code.name }}</td>
-                <td>{{ c.number.name }}</td>
+                  <td>{{ c.code.name }}</td>
+                  <td>{{ c.number.name }}</td>
+                  <td>
+                    <button
+                      type="button"                       
+                      class="btn btn-outline-danger btn-sm js-open-delete"
+                      data-code="{{ c.code.name }}"
+                      data-number="{{ c.number.name }}">
+                      Delete
+                    </button>
+                  </td>
                 </tr>
-            {% empty %}
-                <tr><td colspan="2">No courses found.</td></tr>
-            {% endfor %}
+              {% empty %}
+                <tr><td colspan="3">No courses found.</td></tr>
+              {% endfor %}
             </tbody>
             </table>
         </div>
       {% endif %}
     {% endif %}
   {% endif %}
+
+  <div class="modal fade" id="confirmDetach" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Remove Course from Program</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <form method="post" action="{% url 'scheduler:requirements_detach_course' %}">
+          {% csrf_token %}
+          <div class="modal-body">
+            <p>Are you sure you want to remove this course from the program?</p>
+            <p class="mb-0"><strong>Course:</strong> <strong><span id="confirmCourseText"></span></strong></p>
+          </div>
+          <div class="modal-footer">
+            <!-- hidden fields filled by JS -->
+            <input type="hidden" name="program_name" id="hidProgram" value="{{ display_program_name }}">
+            <input type="hidden" name="level_name"   id="hidLevel"   value="{{ display_level_name }}">
+            <input type="hidden" name="code_name"    id="hidCode">
+            <input type="hidden" name="number_name"  id="hidNumber">
+  
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 </div>
 {% endblock %}
@@ -91,7 +130,7 @@
           opt.value = opt.textContent = lvl;
           levelSel.appendChild(opt);
         }
-        levelSel.disabled = data.levels.length === 0; // stays disabled if none
+        levelSel.disabled = data.levels.length === 0; // stays disabled if none, actually no need, becasue each program must have a year level
       } catch (e) {
         // fallback: keep it disabled on error
         levelSel.disabled = true;
@@ -101,5 +140,27 @@
     // On change, (re)populate year levels for the chosen program
     programSel.addEventListener('change', (e) => loadLevelsFor(e.target.value));
   })();
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const modalEl   = document.getElementById('confirmDetach');
+    const modal     = new bootstrap.Modal(modalEl);
+    const txt       = document.getElementById('confirmCourseText');
+    const hidCode   = document.getElementById('hidCode');
+    const hidNumber = document.getElementById('hidNumber');
+
+    document.querySelectorAll('.js-open-delete').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const code = btn.dataset.code;
+        const num  = btn.dataset.number;
+
+        txt.textContent     = `${code} ${num}`;
+        hidCode.value       = code;
+        hidNumber.value     = num;
+
+        modal.show();
+      });
+    });
+  });
 </script>
 {% endblock %}

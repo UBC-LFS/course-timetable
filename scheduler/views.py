@@ -837,42 +837,30 @@ def requirements(request):
         "not_found": not_found,
     })
 
-# # need change completely
-# def requirements_edit(request):
-#     """
-#     Edit mapping of courses for a given (Program.name, ProgramYearLevel).
-#     GET  -> show all courses with checkboxes (checked if already mapped)
-#     POST -> save the selected set (program.courses = selected)
-#     """
-#     # read identity (passed via query string or hidden inputs)
-#     program_name = request.GET.get("program") or request.POST.get("program")
-#     level_id = request.GET.get("level") or request.POST.get("level")
+@require_POST
+def requirements_detach_course(request):
+    """
+    Detach ALL courses that share (code, number) from a given (ProgramName, ProgramYearLevel).
+    Redirects back to the Requirements page showing the updated table.
+    """
+    program_name = request.POST.get("program_name", "").strip()
+    level_name   = request.POST.get("level_name", "").strip()
+    code_name    = request.POST.get("code_name", "").strip()
+    number_name  = request.POST.get("number_name", "").strip()
 
-#     if not program_name or not level_id:
-#         messages.error(request, "Missing program identity.")
-#         return redirect("scheduler:requirements")
+    # Resolve program
+    name_obj  = get_object_or_404(ProgramName, name=program_name)
+    level_obj = get_object_or_404(ProgramYearLevel, name=level_name)
+    program   = Program.objects.filter(name=name_obj, year_level=level_obj).first()
 
-#     level = get_object_or_404(ProgramYearLevel, id=level_id)
-#     program, _ = Program.objects.get_or_create(name=program_name, year_level=level)
+    # Find all matching courses already attached to this program
+    qs = program.courses.filter(code__name=code_name, number__name=number_name)
 
-#     if request.method == "POST":
-#         # IDs of courses checked
-#         selected_ids = request.POST.getlist("course_ids")
-#         program.courses.set(Course.objects.filter(id__in=selected_ids))
-#         messages.success(request, "Program requirements saved.")
-#         # back to search page with same filters
-#         url = f"{reverse('scheduler:requirements')}?program={program_name}&level={level.id}&search=1"
-#         return redirect(url)
+    # Detach them all from the M2M
+    program.courses.remove(*qs)
+    messages.success(request, f"Removed {code_name} {number_name} from {program_name} {level_name}.")
 
-#     all_courses = (Course.objects
-#                    .select_related("code", "number", "section", "academic_year", "term")
-#                    .order_by("code__name", "number__name", "section__name",
-#                              "academic_year__name", "term__name"))
-#     current_ids = set(program.courses.values_list("id", flat=True))
-
-#     return render(request, "timetable/requirements_edit.html", {
-#         "program": program,
-#         "level": level,
-#         "all_courses": all_courses,
-#         "current_ids": current_ids,
-#     })
+    # Send the user back to the same results view
+    url = (f"{reverse('scheduler:requirements')}"
+           f"?program={program_name}&level={level_name}&search=1")
+    return redirect(url)
