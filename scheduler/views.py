@@ -23,6 +23,7 @@ from django.urls import reverse
 from types import SimpleNamespace
 from django.http import Http404
 from django.http import JsonResponse
+from django.db.models import Min
 
 
 '''
@@ -755,7 +756,7 @@ def requirements(request):
     - Program Year Level
 
     After both are chosen and Search is clicked, we show the table of courses
-    linked to that Program combination, or “No such program exists.”
+    linked to that program, or “No such program exists.”
     """
     # dynamic dropdown data
     program_names = ProgramName.objects.order_by("name")
@@ -778,10 +779,20 @@ def requirements(request):
             program_name_obj = get_object_or_404(ProgramName, name=selected_program_name)
             program_obj = Program.objects.filter(name=program_name_obj, year_level=level_obj).first()
             if program_obj:
-                courses = (program_obj.courses
-                           .select_related("code", "number", "section", "academic_year", "term")
-                           .order_by("code__name", "number__name", "section__name",
-                                     "academic_year__name", "term__name"))
+                # one id per (code, number) pair inside this program
+                subq = (
+                    program_obj.courses
+                    .values("code", "number")
+                    .annotate(min_id=Min("id"))
+                    .values("min_id")
+                )
+
+                courses = (
+                    Course.objects
+                    .filter(id__in=subq)
+                    .select_related("code", "number")
+                    .order_by("code__name", "number__name")
+                )
             else:
                 not_found = True
                 courses = [] 

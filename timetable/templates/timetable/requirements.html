@@ -59,20 +59,11 @@
                 <td>{{ c.number.name }}</td>
                 </tr>
             {% empty %}
-                <tr><td colspan="5">No courses found.</td></tr>
+                <tr><td colspan="2">No courses found.</td></tr>
             {% endfor %}
             </tbody>
             </table>
         </div>
-
-        {% if program_obj %}
-        <div class="text-end">
-            <a class="btn btn-secondary"
-            href="{% url 'scheduler:requirements_edit' %}?program={{ selected_program_name|urlencode }}&level={{ selected_level_name|urlencode }}">
-            Edit
-            </a>
-        </div>
-        {% endif %}
       {% endif %}
     {% endif %}
   {% endif %}
