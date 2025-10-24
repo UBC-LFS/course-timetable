@@ -42,6 +42,7 @@ urlpatterns = [
     path("settings/course-time/create/", views.course_time_create, name="course_time_create"),
     path("settings/course-time/<int:pk>/update/", views.course_time_update, name="course_time_update"),
     path("settings/course-time/<int:pk>/delete/", views.course_time_delete, name="course_time_delete"),
+    path("settings/course-time/<int:pk>/affected/", views.course_time_affected, name="course_time_affected"),
 
     # settings – course year
     path("setting_course_year/", views.course_year_list, name="course_year"),

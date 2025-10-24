@@ -563,6 +563,31 @@ def course_section_delete(request, pk):
     messages.success(request, "Course Section deleted.")
     return redirect("scheduler:course_section")
 
+def course_time_affected(request, pk):
+    """
+    Return all courses referencing this CourseTime as start_time or end_time.
+    Used by the preview modal for both edit and delete of CourseTime.
+    """
+    t = get_object_or_404(CourseTime, pk=pk)
+    qs = (Course.objects
+          .filter(Q(start_time=t) | Q(end_time=t))
+          .select_related("code", "number", "section", "academic_year", "term")
+          .order_by("code__name", "number__name", "section__name",
+                    "academic_year__name", "term__name"))
+
+    def safe_name(obj):
+        return getattr(obj, "name", "") or ""
+
+    items = [{
+        "code":   safe_name(c.code),
+        "number": safe_name(c.number),
+        "section":safe_name(c.section),
+        "year":   safe_name(c.academic_year),
+        "term":   safe_name(c.term),
+    } for c in qs]
+
+    return JsonResponse({"count": len(items), "items": items})
+
 def course_time_list(request):
     times = CourseTime.objects.order_by("id")
     form = CourseTimeForm()

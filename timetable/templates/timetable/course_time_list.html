@@ -95,7 +95,6 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </form>
@@ -130,7 +129,6 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </form>
@@ -153,18 +151,37 @@
           <div class="fw-semibold">Time: <span id="deleteName"></span></div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-danger">Delete</button>
         </div>
       </form>
     </div>
   </div>
 </div>
+
+<!-- AFFECTED COURSES PREVIEW MODAL -->
+<div class="modal fade" id="affectedModal" tabindex="-1" aria-labelledby="affectedLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="affectedLabel">Affected Courses</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted mb-2" id="affectedIntro"></p>
+        <ul class="mb-0" id="affectedList"></ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="affectedConfirmBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block js %}
 <script>
-  // CREATE: build HH:MM before submit
+  // CREATE
   (function () {
     const form = document.querySelector('#createModal form');
     const hour = document.getElementById('createHour');
@@ -177,19 +194,7 @@
     }
   })();
 
-  // EDIT: prefill selects + set action; then build HH:MM before submit
-  const editModal = document.getElementById('editModal');
-  editModal.addEventListener('show.bs.modal', function (event) {
-    const btn = event.relatedTarget;
-    const id  = btn.getAttribute('data-time-id');
-    const val = (btn.getAttribute('data-time-name') || '').slice(0,5); // HH:MM
-    const [hh, mm] = val.split(':');
-    document.getElementById('editHour').value   = hh || '00';
-    document.getElementById('editMinute').value = mm || '00';
-    document.getElementById('editForm').action =
-      "{% url 'scheduler:course_time_update' 0 %}".replace("0", id);
-  });
-
+  // EDIT
   (function () {
     const form = document.getElementById('editForm');
     const hour = document.getElementById('editHour');
@@ -202,7 +207,30 @@
     }
   })();
 
-  // DELETE: show name + set action
+  const editModal = document.getElementById('editModal');
+  editModal.addEventListener('show.bs.modal', function (event) {
+    const btn = event.relatedTarget;
+    const id  = btn.getAttribute('data-time-id');
+    const val = (btn.getAttribute('data-time-name') || '').slice(0,5); // HH:MM
+    const [hh, mm] = val.split(':');
+    document.getElementById('editHour').value   = hh || '00';
+    document.getElementById('editMinute').value = mm || '00';
+    document.getElementById('editForm').action =
+      "{% url 'scheduler:course_time_update' 0 %}".replace("0", id);
+    document.getElementById('editForm').dataset.timeId = id;
+  });
+
+  // Intercept EDIT submit → preview → confirm → real submit
+  const editForm = document.getElementById('editForm');
+  editForm.addEventListener('submit', async (e) => {
+    if (editForm.dataset.confirmed === '1') return;  // already confirmed
+    e.preventDefault();
+    const timeId = editForm.dataset.timeId
+    await showAffectedPreviewForTime(timeId, "Editing this time will update the following courses.");
+    pendingSubmitForm = editForm;
+  });
+
+  // DELETE
   const deleteModal = document.getElementById('deleteModal');
   deleteModal.addEventListener('show.bs.modal', function (event) {
     const btn = event.relatedTarget;
@@ -211,6 +239,67 @@
     document.getElementById('deleteName').textContent = val;
     document.getElementById('deleteForm').action =
       "{% url 'scheduler:course_time_delete' 0 %}".replace("0", id);
+    document.getElementById('deleteForm').dataset.timeId = id;
   });
+
+  // Intercept DELETE submit → preview → confirm → real submit
+  const deleteForm = document.getElementById('deleteForm');
+  deleteForm.addEventListener('submit', async (e) => {
+    if (deleteForm.dataset.confirmed === '1') return; // already confirmed
+    e.preventDefault();
+    const timeId = deleteForm.dataset.timeId
+    await showAffectedPreviewForTime(timeId, "Deleting this time will detach it from the following courses.");
+    pendingSubmitForm = deleteForm;
+  });
+</script>
+<script>
+  function hideOpenModals() {
+    document.querySelectorAll('.modal.show').forEach(el => {
+      (bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el)).hide();
+    });
+  }
+
+  let pendingSubmitForm = null;
+
+  async function showAffectedPreviewForTime(timeId, introText) {
+    hideOpenModals();
+
+    const url = "{% url 'scheduler:course_time_affected' 0 %}".replace("0", timeId);
+    const res = await fetch(url, { method: "GET", headers: { "Accept": "application/json" } });
+    const data = await res.json();
+
+    const intro = document.getElementById('affectedIntro');
+    const list  = document.getElementById('affectedList');
+    intro.textContent = introText;
+    list.innerHTML = "";
+
+    if (!data.items || data.items.length === 0) {
+      const li = document.createElement('li');
+      li.className = "text-muted";
+      li.textContent = "No courses will be affected.";
+      list.appendChild(li);
+    } else {
+      for (const c of data.items) {
+        const li = document.createElement('li');
+        li.textContent = `${c.code} ${c.number} ${c.section} ${c.year} ${c.term}`.trim();
+        list.appendChild(li);
+      }
+    }
+
+    const previewEl = document.getElementById('affectedModal');
+    const preview   = bootstrap.Modal.getOrCreateInstance(previewEl);
+    preview.show();
+
+    // Confirm button submits whatever form triggered the preview
+    const confirmBtn = document.getElementById('affectedConfirmBtn');
+    confirmBtn.onclick = () => {
+      if (pendingSubmitForm) {
+        pendingSubmitForm.dataset.confirmed = '1';
+        pendingSubmitForm.submit();
+        pendingSubmitForm = null;
+      }
+      preview.hide();
+    };
+  }
 </script>
 {% endblock %}
