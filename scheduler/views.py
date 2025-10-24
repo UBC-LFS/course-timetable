@@ -24,6 +24,7 @@ from types import SimpleNamespace
 from django.http import Http404
 from django.http import JsonResponse
 from django.db.models import Min
+from django.views.decorators.http import require_GET
 
 
 '''
@@ -749,6 +750,24 @@ def program_name_delete(request, pk):
     messages.success(request, "Program Name deleted.")
     return redirect("scheduler:program_name")
 
+# --- AJAX: year levels available for a given program name ---
+@require_GET
+def ajax_levels_for_program(request):
+    program_name = request.GET.get("program", "").strip()
+    if not program_name:
+        return JsonResponse({"levels": []})
+
+    name_obj = get_object_or_404(ProgramName, name=program_name)
+    levels = (
+        Program.objects
+        .filter(name=name_obj)
+        .select_related("year_level")
+        .order_by("year_level__name")
+        .values_list("year_level__name", flat=True)
+        .distinct()
+    )
+    return JsonResponse({"levels": list(levels)})
+
 def requirements(request):
     """
     Renders the Requirements page with two required filters:
@@ -766,6 +785,10 @@ def requirements(request):
     selected_program_name = request.GET.get("program", "").strip()
     selected_level_name = request.GET.get("level", "").strip()
     submitted = "search" in request.GET  # Search button pressed
+
+    # keep for the results header
+    display_program_name = selected_program_name
+    display_level_name   = selected_level_name
 
     courses = None
     program_obj = None
@@ -795,55 +818,61 @@ def requirements(request):
                 )
             else:
                 not_found = True
-                courses = [] 
+                courses = []
+    
+    if submitted:
+        selected_program_name = ""
+        selected_level_name   = ""
 
     return render(request, "timetable/requirements.html", {
         "program_names": program_names,
         "year_levels": year_levels,
-        "selected_program_name": selected_program_name,
-        "selected_level_name": selected_level_name,
+        "selected_program_name": selected_program_name,  # now blank after search
+        "selected_level_name": selected_level_name,      # now blank after search
+        "display_program_name": display_program_name,    # used in results header
+        "display_level_name": display_level_name,        # used in results header
         "submitted": submitted,
         "program_obj": program_obj,
         "courses": courses,
         "not_found": not_found,
     })
 
-# need change completely
-def requirements_edit(request):
-    """
-    Edit mapping of courses for a given (Program.name, ProgramYearLevel).
-    GET  -> show all courses with checkboxes (checked if already mapped)
-    POST -> save the selected set (program.courses = selected)
-    """
-    # read identity (passed via query string or hidden inputs)
-    program_name = request.GET.get("program") or request.POST.get("program")
-    level_id = request.GET.get("level") or request.POST.get("level")
+# # need change completely
+# def requirements_edit(request):
+#     """
+#     Edit mapping of courses for a given (Program.name, ProgramYearLevel).
+#     GET  -> show all courses with checkboxes (checked if already mapped)
+#     POST -> save the selected set (program.courses = selected)
+#     """
+#     # read identity (passed via query string or hidden inputs)
+#     program_name = request.GET.get("program") or request.POST.get("program")
+#     level_id = request.GET.get("level") or request.POST.get("level")
 
-    if not program_name or not level_id:
-        messages.error(request, "Missing program identity.")
-        return redirect("scheduler:requirements")
+#     if not program_name or not level_id:
+#         messages.error(request, "Missing program identity.")
+#         return redirect("scheduler:requirements")
 
-    level = get_object_or_404(ProgramYearLevel, id=level_id)
-    program, _ = Program.objects.get_or_create(name=program_name, year_level=level)
+#     level = get_object_or_404(ProgramYearLevel, id=level_id)
+#     program, _ = Program.objects.get_or_create(name=program_name, year_level=level)
 
-    if request.method == "POST":
-        # IDs of courses checked
-        selected_ids = request.POST.getlist("course_ids")
-        program.courses.set(Course.objects.filter(id__in=selected_ids))
-        messages.success(request, "Program requirements saved.")
-        # back to search page with same filters
-        url = f"{reverse('scheduler:requirements')}?program={program_name}&level={level.id}&search=1"
-        return redirect(url)
+#     if request.method == "POST":
+#         # IDs of courses checked
+#         selected_ids = request.POST.getlist("course_ids")
+#         program.courses.set(Course.objects.filter(id__in=selected_ids))
+#         messages.success(request, "Program requirements saved.")
+#         # back to search page with same filters
+#         url = f"{reverse('scheduler:requirements')}?program={program_name}&level={level.id}&search=1"
+#         return redirect(url)
 
-    all_courses = (Course.objects
-                   .select_related("code", "number", "section", "academic_year", "term")
-                   .order_by("code__name", "number__name", "section__name",
-                             "academic_year__name", "term__name"))
-    current_ids = set(program.courses.values_list("id", flat=True))
+#     all_courses = (Course.objects
+#                    .select_related("code", "number", "section", "academic_year", "term")
+#                    .order_by("code__name", "number__name", "section__name",
+#                              "academic_year__name", "term__name"))
+#     current_ids = set(program.courses.values_list("id", flat=True))
 
-    return render(request, "timetable/requirements_edit.html", {
-        "program": program,
-        "level": level,
-        "all_courses": all_courses,
-        "current_ids": current_ids,
-    })
+#     return render(request, "timetable/requirements_edit.html", {
+#         "program": program,
+#         "level": level,
+#         "all_courses": all_courses,
+#         "current_ids": current_ids,
+#     })

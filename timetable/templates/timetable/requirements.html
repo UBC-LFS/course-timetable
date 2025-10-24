@@ -9,7 +9,7 @@
   <form method="get" class="row g-3 align-items-end">
     <div class="col-md-4">
       <label class="form-label">Program Name *</label>
-      <select name="program" class="form-select">
+      <select id="program-select" name="program" class="form-select">
         <option value="">-- Select Program --</option>
         {% for name in program_names %}
           <option value="{{ name.name }}" {% if name.name == selected_program_name %}selected{% endif %}>{{ name.name }}</option>
@@ -19,13 +19,8 @@
 
     <div class="col-md-4">
       <label class="form-label">Program Year Level *</label>
-      <select name="level" class="form-select">
+      <select id="level-select" name="level" class="form-select" disabled>
         <option value="">-- Select Year Level --</option>
-        {% for lvl in year_levels %}
-          <option value="{{ lvl.name }}" {% if lvl.name|stringformat:"s" == selected_level_name %}selected{% endif %}>
-            {{ lvl.name }}
-          </option>
-        {% endfor %}
       </select>
     </div>
 
@@ -36,13 +31,14 @@
 
   {% if submitted %}
     {% if not_found %}
+      <!-- actually no need anymore, because a program must have a year level -->
       <div class="alert alert-warning mt-4">No such program exists.</div>
     {% else %}
-      {% if not selected_program_name or not selected_level_name %}
+      {% if not display_program_name or not display_level_name %}
         <!-- do nothing -->
       {% else %}
         <p class="text-muted mb-4">
-                Program: <strong>{{ selected_program_name }}</strong> — Level: <strong>{{ selected_level_name }}</strong>
+                Program: <strong>{{ display_program_name }}</strong> Level: <strong>{{ display_level_name }}</strong>
         </p>  
 
         <div class="table-wrapper table-responsive mt-4">
@@ -69,4 +65,41 @@
   {% endif %}
 
 </div>
+{% endblock %}
+
+{% block js %}
+<script>
+  (function() {
+    const programSel = document.getElementById('program-select');
+    const levelSel   = document.getElementById('level-select');
+  
+    function resetLevels() {
+      levelSel.innerHTML = '<option value="">-- Select Year Level --</option>';
+    }
+  
+    async function loadLevelsFor(programName) {
+      resetLevels();
+      if (!programName) {
+        levelSel.disabled = true;
+        return;
+      }
+      try {
+        const resp = await fetch("{% url 'scheduler:ajax_levels_for_program' %}?program=" + encodeURIComponent(programName));
+        const data = await resp.json();
+        for (const lvl of data.levels) {
+          const opt = document.createElement('option');
+          opt.value = opt.textContent = lvl;
+          levelSel.appendChild(opt);
+        }
+        levelSel.disabled = data.levels.length === 0; // stays disabled if none
+      } catch (e) {
+        // fallback: keep it disabled on error
+        levelSel.disabled = true;
+      }
+    }
+  
+    // On change, (re)populate year levels for the chosen program
+    programSel.addEventListener('change', (e) => loadLevelsFor(e.target.value));
+  })();
+</script>
 {% endblock %}
