@@ -28,6 +28,7 @@ urlpatterns = [
     path("settings/course-number/create/", views.course_number_create, name="course_number_create"),
     path("settings/course-number/<int:pk>/update/", views.course_number_update, name="course_number_update"),
     path("settings/course-number/<int:pk>/delete/", views.course_number_delete, name="course_number_delete"),
+    path("settings/course-number/<int:pk>/affected/", views.course_number_affected, name="course_number_affected"),
 
     # settings – course section
     path("setting_course_section/", views.course_section_list, name="course_section"),

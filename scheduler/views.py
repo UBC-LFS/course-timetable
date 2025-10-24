@@ -443,6 +443,31 @@ def course_code_delete(request, pk):
     messages.success(request, "Course Code deleted.")
     return redirect("scheduler:course_code")
 
+def course_number_affected(request, pk):
+    """
+    Return all courses currently pointing at this CourseNumber.
+    Used by the preview modal for both edit and delete of CourseNumber.
+    """
+    number = get_object_or_404(CourseNumber, pk=pk)
+    qs = (Course.objects
+          .filter(number=number)
+          .select_related("code", "number", "section", "academic_year", "term")
+          .order_by("code__name", "number__name", "section__name",
+                    "academic_year__name", "term__name"))
+
+    def safe_name(obj):
+        return getattr(obj, "name", "") or ""
+
+    items = [{
+        "code":   safe_name(c.code),
+        "number": safe_name(c.number),
+        "section":safe_name(c.section),
+        "year":   safe_name(c.academic_year),
+        "term":   safe_name(c.term),
+    } for c in qs]
+
+    return JsonResponse({"count": len(items), "items": items})
+
 def course_number_list(request):
     numbers = CourseNumber.objects.order_by("id")
     form = CourseNumberForm()
