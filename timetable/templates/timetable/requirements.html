@@ -38,7 +38,15 @@
         <!-- do nothing -->
       {% else %}
         <p class="text-muted mb-4">
-                Program: <strong>{{ display_program_name }}</strong> Level: <strong>{{ display_level_name }}</strong>
+                Program: <strong>{{ display_program_name }}</strong> 
+                Level: <strong>{{ display_level_name }}</strong>
+                <button type="button"
+                  class="btn btn-sm btn-primary ms-2"
+                  id="btn-open-add"
+                  data-bs-toggle="modal"
+                  data-bs-target="#addCourseModal">
+                  Add
+                </button>
         </p>  
 
         <div class="table-wrapper table-responsive mt-4">
@@ -53,8 +61,8 @@
             <tbody>
               {% for c in courses %}
                 <tr>
-                  <td>{{ c.code.name }}</td>
-                  <td>{{ c.number.name }}</td>
+                  <td>{{ c.code.name | default:"None" }}</td>
+                  <td>{{ c.number.name | default:"None" }}</td>
                   <td>
                     <button
                       type="button"                       
@@ -97,6 +105,46 @@
             <input type="hidden" name="number_name"  id="hidNumber">
   
             <button type="submit" class="btn btn-danger">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addCourseModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Course to Program</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <form method="post" action="{% url 'scheduler:requirements_attach_course' %}">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Course Code *</label>
+              <select id="add-code" name="code_name" class="form-select" required>
+                <option value="">-- Select Code --</option>
+                {% for code in course_codes %}
+                  <option value="{{ code.name }}">{{ code.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+  
+            <div class="mb-3">
+              <label class="form-label">Course Number *</label>
+              <select id="add-number" name="number_name" class="form-select" required disabled>
+                <option value="">-- Select Number --</option>
+              </select>
+            </div>
+  
+            <input type="hidden" name="program_name" value="{{ display_program_name }}">
+            <input type="hidden" name="level_name"   value="{{ display_level_name }}">
+          </div>
+  
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="add-save">Save</button>
           </div>
         </form>
       </div>
@@ -162,5 +210,46 @@
       });
     });
   });
+</script>
+<script>
+  (function() {
+    const codeSel   = document.getElementById('add-code');
+    const numSel    = document.getElementById('add-number');
+
+    function resetNums() {
+      numSel.innerHTML = '<option value="">-- Select Number --</option>';
+      numSel.disabled = true;
+    }
+
+    function resetAddForm() {
+      // clear BOTH dropdowns every time the modal opens
+      if (codeSel) codeSel.selectedIndex = 0;   // <-- clear Course Code
+      resetNums();                               // <-- clears & disables Number
+    }
+
+    async function loadNumbersFor(codeName) {
+      resetNums();
+      if (!codeName) return;
+      try {
+        const resp = await fetch("{% url 'scheduler:ajax_numbers_for_code' %}?code=" + encodeURIComponent(codeName));
+        const data = await resp.json();
+        for (const n of data.numbers) {
+          const opt = document.createElement('option');
+          opt.value = opt.textContent = n;
+          numSel.appendChild(opt);
+        }
+        numSel.disabled = data.numbers.length === 0;
+      } catch (e) {
+        numSel.disabled = true;
+      }
+    }
+
+    codeSel?.addEventListener('change', (e) => {
+      loadNumbersFor(e.target.value);
+    });
+
+    // In case the modal is reopened, always reset
+    document.getElementById('addCourseModal')?.addEventListener('show.bs.modal', resetAddForm);
+  })();
 </script>
 {% endblock %}

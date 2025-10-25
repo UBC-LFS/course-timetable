@@ -61,6 +61,8 @@ urlpatterns = [
     # Requirements
     path('requirements/', views.requirements, name='requirements'),       
     path("requirements/levels/", views.ajax_levels_for_program, name="ajax_levels_for_program"),
-    path("requirements/detach/", views.requirements_detach_course, name="requirements_detach_course"),  
+    path("requirements/detach/", views.requirements_detach_course, name="requirements_detach_course"),
+    path("requirements/numbers/", views.ajax_numbers_for_code,   name="ajax_numbers_for_code"),
+    path("requirements/attach/",  views.requirements_attach_course, name="requirements_attach_course"),  
 
 ] 

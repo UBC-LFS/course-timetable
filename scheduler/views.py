@@ -220,7 +220,7 @@ def view_courses(request):
     term_query = request.GET.getlist("term")   # now supports multiple checkbox values
     year_query = request.GET.get("year", "").strip()
 
-    courses = Course.objects.all()
+    courses = Course.objects.all().order_by("id")
     
     for c in courses:
         c.day_names = expand_days(c)
@@ -824,6 +824,8 @@ def requirements(request):
         selected_program_name = ""
         selected_level_name   = ""
 
+    course_codes = CourseCode.objects.order_by("name")
+
     return render(request, "timetable/requirements.html", {
         "program_names": program_names,
         "year_levels": year_levels,
@@ -835,6 +837,7 @@ def requirements(request):
         "program_obj": program_obj,
         "courses": courses,
         "not_found": not_found,
+        "course_codes": course_codes,
     })
 
 @require_POST
@@ -858,9 +861,51 @@ def requirements_detach_course(request):
 
     # Detach them all from the M2M
     program.courses.remove(*qs)
-    messages.success(request, f"Removed {code_name} {number_name} from {program_name} {level_name}.")
+    messages.success(request, "Course removed.")
 
     # Send the user back to the same results view
+    url = (f"{reverse('scheduler:requirements')}"
+           f"?program={program_name}&level={level_name}&search=1")
+    return redirect(url)
+
+# --- AJAX: numbers available for a given code ---
+@require_GET
+def ajax_numbers_for_code(request):
+    code_name = request.GET.get("code", "").strip()
+    if not code_name:
+        return JsonResponse({"numbers": []})
+
+    nums = (Course.objects
+            .filter(code__name=code_name)
+            .exclude(number__name__isnull=True)
+            .order_by("number__name")
+            .values_list("number__name", flat=True)
+            .distinct())
+    return JsonResponse({"numbers": list(nums)})
+
+@require_POST
+def requirements_attach_course(request):
+    program_name = request.POST.get("program_name", "").strip()
+    level_name   = request.POST.get("level_name", "").strip()
+    code_name    = request.POST.get("code_name", "").strip()
+    number_name  = request.POST.get("number_name", "").strip()
+
+    # Resolve the program
+    name_obj  = get_object_or_404(ProgramName, name=program_name)
+    level_obj = get_object_or_404(ProgramYearLevel, name=level_name)
+    program   = Program.objects.filter(name=name_obj, year_level=level_obj).first()
+
+    # If already present, block with a friendly message
+    already = program.courses.filter(code__name=code_name, number__name=number_name).exists()
+    if already:
+        messages.error(request, "Add failed: A Course with this code and this number already exists.")
+    else:
+        # Attach ALL matching Course rows to this program
+        to_add = Course.objects.filter(code__name=code_name, number__name=number_name)
+        program.courses.add(*to_add)
+        messages.success(request, "Course added.")
+
+    # Return to the same results view (table will show the new row)
     url = (f"{reverse('scheduler:requirements')}"
            f"?program={program_name}&level={level_name}&search=1")
     return redirect(url)
