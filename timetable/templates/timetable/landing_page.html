@@ -39,7 +39,7 @@
       <div class="col-md-3">
         <label class="form-label">Academic Year *</label>
         <select id="year-select" name="year" class="form-select">
-          <option value="">-- Select Year --</option>
+          <option value="">-- Select Academic Year --</option>
           {% for y in dropdown_years %}
             <option value="{{ y }}" {% if y == selected_year %}selected{% endif %}>{{ y }}</option>
           {% endfor %}
@@ -60,151 +60,58 @@
           {% endif %}
         </select>
       </div>
-    
+      
       <div class="col-md-2">
         <button type="submit" class="btn btn-primary" name="search" value="1">Search</button>
       </div>
+
+      <!--──────── Filters block ────────-->
+      <div class="col-12">
+        <!-- Filters Form -->
+        <div class="card shadow-sm p-3 rounded-2 filters-container flex-row justify-content-between">
+          <h4 class="fw-semibold mt-4" id="filter-title">Filters: </h4>
+
+          <!-- By Course -->
+          <div class="mb-3">
+            <div class="fw-semibold mb-1">By Course: </div>
+          </div>
+          
+          <!-- By Program -->
+          <div class="mb-3">
+            <div class="fw-semibold mb-1">By Program: </div>
+            <div class="row g-2">
+              <!-- Program Name (enabled only if at least one term is selected) -->
+              <div class="col-md-6">
+                <label class="form-label">Name</label>
+                <select id="prog-name" name="pname" class="form-select"
+                        {% if not selected_terms %}disabled{% endif %}>
+                  <option value="">-- Select Name --</option>
+                  {% for n in program_names %}
+                    <option value="{{ n.name }}" {% if n.name == selected_pname %}selected{% endif %}>{{ n.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <!-- Program Year Level (enabled after Name) -->
+              <div class="col-md-6">
+                <label class="form-label">Year Level</label>
+                <select id="prog-level" name="plevel" class="form-select"
+                        {% if not selected_pname %}disabled{% endif %}>
+                  <option value="">-- Select Year Level --</option>
+                  {% if selected_pname %}
+                    {% for lvl in available_levels_for_name %}
+                      <option value="{{ lvl }}" {% if lvl == selected_plevel %}selected{% endif %}>{{ lvl }}</option>
+                    {% endfor %}
+                  {% endif %}
+                </select>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </form>
-    
-    <!--──────── FILTERS ────────-->
-    <div class="col-12">
-      <!-- Filters Form -->
-      <form method="get" action="{% url 'scheduler:landing_page' %}"class="card shadow-sm p-3 rounded-2 filters-container flex-row justify-content-between">
-        <h4 class="fw-semibold mt-4" id="filter-title">Filters</h4>
-
-        <!-- this is for no filtering, change it later!!! -->
-        <input type="hidden" name="submitted" value="1">        
-
-        <!-- Each section pulls from Views.py to populate the dropdowns -->
-        <div class="mb-3 dropdown dropdown-select">
-          <label class="form-label d-block">Code</label>
-          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownButton" data-default="Code">
-            Code
-          </button>
-          <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
-            {% for course in codes %}
-              <li>
-                <label class="form-check-label d-block">
-                  <input class="form-check-input me-1" type="checkbox" name="code[]" value="{{ course }}">
-                  {{ course }}
-                </label>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <!-- Each section pulls from Views.py to populate the dropdowns -->
-        <div class="mb-3 dropdown dropdown-select">
-          <label class="form-label d-block">Number</label>
-          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownButton" data-default="Number">
-            Number
-          </button>
-          <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
-            {% for number in numbers %}
-              <li>
-                <label class="form-check-label d-block">
-                  <input class="form-check-input me-1" type="checkbox" name="number[]" value="{{ number }}">
-                  {{ number }}
-                </label>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <!-- Each section pulls from Views.py to populate the dropdowns -->
-        <div class="mb-3 dropdown dropdown-select">
-          <label class="form-label d-block">Section</label>
-          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-default="Section">
-            Section
-          </button>
-          <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
-            {% for section in sections %}
-              <li>
-                <label class="form-check-label d-block">
-                  <input class="form-check-input me-1" type="checkbox" name="section[]" value="{{ section }}">
-                  {{ section }}
-                </label>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <!-- Each section pulls from Views.py to populate the dropdowns -->
-        <div class="mb-3 dropdown dropdown-select">
-          <label class="form-label d-block">Term</label>
-          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-default="Term">
-            Term
-          </button>
-          <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
-            {% for term in terms %}
-              <li>
-                <label class="form-check-label d-block">
-                  <input class="form-check-input me-1" type="checkbox" name="term[]" value="{{ term }}">
-                  {{ term }}
-                </label>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <!-- Each section pulls from Views.py to populate the dropdowns -->
-        <div class="mb-3 dropdown dropdown-select">
-          <label class="form-label d-block">Start time</label>
-          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-default="Start">
-            Start
-          </button>
-          <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
-            {% for start in times %}
-              <li>
-                <label class="form-check-label d-block">
-                  <input class="form-check-input me-1" type="checkbox" name="start[]" value="{{ start }}">
-                  {{ start }}
-                </label>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <!-- Each section pulls from Views.py to populate the dropdowns -->
-        <div class="mb-3 dropdown dropdown-select">
-          <label class="form-label d-block">End time</label>
-          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-default="End">
-            End
-          </button>
-          <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
-            {% for end in times %}
-              <li>
-                <label class="form-check-label d-block">
-                  <input class="form-check-input me-1" type="checkbox" name="end[]" value="{{ end }}">
-                  {{ end }}
-                </label>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <!-- Each section pulls from Views.py to populate the dropdowns -->
-        <div class="mb-3 dropdown dropdown-select">
-          <label class="form-label d-block">Days of the week</label>
-          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-default="Select Days">
-            Select Days
-          </button>
-          <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
-            {% for day in days %}
-              <li>
-                <label class="form-check-label d-block">
-                  <input class="form-check-input me-1" type="checkbox" name="day[]" value="{{ day }}">
-                  {{ day }}
-                </label>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <!-- Submit filters button-->
-        <button type="submit" class="btn btn-primary w-10 mt-5" style="transform: translateY(-16px);">Apply filters</button>
-      </form>
-    </div>
 
     <!--──────── TIMETABLE ────────-->
     <div class="col-12">
@@ -366,7 +273,7 @@
         $(termSel).select2('destroy');
       }
       $(termSel).select2({
-        placeholder: "Select terms",
+        placeholder: "Select Terms",
         width: '100%',
         allowClear: true
       });
@@ -415,6 +322,38 @@
     }
 
     yearSel?.addEventListener('change', (e) => loadTermsFor(e.target.value));
+  })();
+</script>
+<script>
+  (function(){
+    const nameSel  = document.getElementById('prog-name');
+    const levelSel = document.getElementById('prog-level');
+
+    function resetLevels() {
+      levelSel.innerHTML = '<option value="">-- Select Year Level --</option>';
+      levelSel.disabled = true;
+    }
+
+    async function loadLevelsFor(programName) {
+      resetLevels();
+      if (!programName) return;
+
+      try {
+        const resp = await fetch("{% url 'scheduler:ajax_levels_for_program' %}?program=" + encodeURIComponent(programName));
+        const data = await resp.json();
+        data.levels.forEach(l => {
+          const opt = document.createElement('option');
+          opt.value = opt.textContent = l;
+          levelSel.appendChild(opt);
+        });
+        levelSel.disabled = data.levels.length === 0;
+      } catch (e) {
+        resetLevels();
+      }
+    }
+
+    // If user clears the Name, lock the levels again
+    nameSel?.addEventListener('change', e => loadLevelsFor(e.target.value));
   })();
 </script>
 {% endblock %}

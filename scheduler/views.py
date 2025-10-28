@@ -86,9 +86,15 @@ def landing_page(request):
 
     selected_year  = request.GET.get("year", "").strip()
     selected_terms = request.GET.getlist("term") # multi-select
+    selected_pname = request.GET.get("pname", "").strip()
+    selected_plevel = request.GET.get("plevel", "").strip()
+
+    # For the Name dropdown (once terms are chosen)
+    program_names = ProgramName.objects.order_by("name")
+
     submitted      = ("search" in request.GET)
 
-    # preload term options for the selected year (so we can re-render after click Search)
+    # preload term options for the selected year
     available_terms_for_year = []
     if selected_year:
         available_terms_for_year = list(
@@ -98,6 +104,17 @@ def landing_page(request):
             .values_list("term__name", flat=True)
             .distinct()
             .order_by("term__name")
+        )
+
+    # preload year levels options for the selected name 
+    available_levels_for_name = []
+    if selected_pname:
+        available_levels_for_name = list(
+            Program.objects
+            .filter(name__name=selected_pname)
+            .values_list("year_level__name", flat=True)
+            .distinct()
+            .order_by("year_level__name")
         )
 
     # Output collections
@@ -110,15 +127,23 @@ def landing_page(request):
             return redirect('scheduler:landing_page')
         else:
             # NOTE: with M2M you must prefetch 'day' (no select_related for M2M)
-            all_courses = (
+            # base queryset
+            base_qs = (
                 Course.objects
                 .select_related("code", "number", "section", "term", "academic_year", "start_time", "end_time")
                 .prefetch_related("day")
-                .order_by("id")
                 .filter(academic_year__name=selected_year,
                         term__name__in=selected_terms)
-                .all()
+                .order_by("id")
             )
+
+            # intersect with program courses if By Program is used
+            if selected_pname and not selected_plevel:
+                base_qs = base_qs.filter(programs__name__name=selected_pname)
+            elif selected_pname and selected_plevel:
+                base_qs = base_qs.filter(programs__name__name=selected_pname,
+                                          programs__year_level__name=selected_plevel)
+            all_courses = base_qs
 
         # A course is valid only if it has at least one day AND both times AND 5 things
         courses = []
@@ -244,6 +269,10 @@ def landing_page(request):
         'selected_year': selected_year,
         'selected_terms': selected_terms,
         'available_terms_for_year': available_terms_for_year,
+        'program_names': program_names,
+        'selected_pname': selected_pname,
+        'selected_plevel': selected_plevel,
+        'available_levels_for_name': available_levels_for_name,
     })
 
 
