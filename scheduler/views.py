@@ -51,6 +51,21 @@ def expand_days(course):
     order = ["Mon", "Tues", "Wed", "Thurs", "Fri"]
     return sorted(parts, key=lambda d: order.index(d))
 
+# --- AJAX: terms available for a given academic year ---
+@require_GET
+def ajax_terms_for_year(request):
+    year = request.GET.get("year", "").strip()  # e.g., "2025"
+
+    terms = (
+        Course.objects
+        .filter(academic_year__name=year)
+        .exclude(term__name__isnull=True)
+        .values_list("term__name", flat=True)
+        .distinct()
+        .order_by("term__name")
+    )
+    return JsonResponse({"terms": list(terms)})
+
 '''This function handles the landing page of the timetable application.'''
 def landing_page(request):
     if not request.user.is_authenticated:
@@ -65,25 +80,47 @@ def landing_page(request):
     times   = CourseTime.objects.all()
     days    = CourseDay.objects.all()
 
-    # this is for no filtering, change it later!!!
-    submitted = (request.GET.get("submitted") == "1")
+    # Academic Year + Terms filter
+    all_years = CourseYear.objects.values_list("name", flat=True)
+    dropdown_years = sorted({y for y in all_years})
+
+    selected_year  = request.GET.get("year", "").strip()
+    selected_terms = request.GET.getlist("term") # multi-select
+    submitted      = ("search" in request.GET)
+
+    # preload term options for the selected year (so we can re-render after click Search)
+    available_terms_for_year = []
+    if selected_year:
+        available_terms_for_year = list(
+            Course.objects
+            .filter(academic_year__name=selected_year)
+            .exclude(term__name__isnull=True)
+            .values_list("term__name", flat=True)
+            .distinct()
+            .order_by("term__name")
+        )
 
     # Output collections
     courses = []          # timetable "occurrences"
     invalid_courses = []  # Course rows missing day/time/5 things on slug
 
     if submitted:
-        # (for now) ignore actual filters and just load everything
-        # NOTE: with M2M you must prefetch 'day' (no select_related for M2M)
-        all_courses = (
-            Course.objects
-            .select_related("code", "number", "section", "term", "academic_year", "start_time", "end_time")
-            .prefetch_related("day")
-            .order_by("id")
-            .all()
-        )
+        if not selected_year or not selected_terms:
+            messages.error(request, "You have to select both Academic Year and Term.")
+            return redirect('scheduler:landing_page')
+        else:
+            # NOTE: with M2M you must prefetch 'day' (no select_related for M2M)
+            all_courses = (
+                Course.objects
+                .select_related("code", "number", "section", "term", "academic_year", "start_time", "end_time")
+                .prefetch_related("day")
+                .order_by("id")
+                .filter(academic_year__name=selected_year,
+                        term__name__in=selected_terms)
+                .all()
+            )
 
-        # A course is valid only if it has at least one day AND both times
+        # A course is valid only if it has at least one day AND both times AND 5 things
         courses = []
         for c in all_courses:
             has_times = (c.start_time is not None and c.end_time is not None)
@@ -203,6 +240,10 @@ def landing_page(request):
         'invalid_courses': invalid_courses,
         'day_list': ['Mon','Tues','Wed','Thurs','Fri'],
         'submitted': submitted,
+        'dropdown_years': dropdown_years,
+        'selected_year': selected_year,
+        'selected_terms': selected_terms,
+        'available_terms_for_year': available_terms_for_year,
     })
 
 

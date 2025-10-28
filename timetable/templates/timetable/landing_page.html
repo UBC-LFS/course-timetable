@@ -27,8 +27,44 @@
 }
 </style>
 
+<!-- libray for the filters -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <div class="container-fluid py-4 px-4">
   <div class="row gy-4 flex-column">
+    <!-- ───────── Mini Year/Term Filters ───────── -->
+    <form method="get" action="{% url 'scheduler:landing_page' %}" class="row g-3 align-items-end mb-3">
+      <div class="col-md-3">
+        <label class="form-label">Academic Year *</label>
+        <select id="year-select" name="year" class="form-select">
+          <option value="">-- Select Year --</option>
+          {% for y in dropdown_years %}
+            <option value="{{ y }}" {% if y == selected_year %}selected{% endif %}>{{ y }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    
+      <div class="col-md-5">
+        <label class="form-label">Term *</label>
+        <select id="term-select"
+                name="term"
+                class="form-select"
+                multiple
+                {% if not selected_year %}disabled{% endif %}>
+          {% if selected_year %}
+            {% for t in available_terms_for_year %}
+              <option value="{{ t }}" {% if t in selected_terms %}selected{% endif %}>{{ t }}</option>
+            {% endfor %}
+          {% endif %}
+        </select>
+      </div>
+    
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary" name="search" value="1">Search</button>
+      </div>
+    </form>
     
     <!--──────── FILTERS ────────-->
     <div class="col-12">
@@ -278,7 +314,6 @@
       </div>
     </div>
     {% endif %}
-
   </div>
 </div>
 
@@ -317,6 +352,69 @@
       if (z) el.style.zIndex = z;
     });
   })();
-  </script>
+</script>
+<script>
+  (function() {
+    const termsUrl = "{% url 'scheduler:ajax_terms_for_year' %}";
+    const yearSel  = document.getElementById('year-select');
+    const termSel  = document.getElementById('term-select');
 
+    // Helper: initialize Select2 on #term-select
+    function initSelect2() {
+      // destroy if already initialized
+      if ($(termSel).hasClass('select2-hidden-accessible')) {
+        $(termSel).select2('destroy');
+      }
+      $(termSel).select2({
+        placeholder: "Select terms",
+        width: '100%',
+        allowClear: true
+      });
+    }
+
+    // Initial boot (page load): if a year is preselected, init Select2 with those options
+    initSelect2();
+
+    // If the select is disabled at load, Select2 mirrors that; nothing else to do
+
+    // When Academic Year changes: fetch terms, repopulate, enable + re-init Select2
+    async function loadTermsFor(year) {
+      // clear options
+      termSel.innerHTML = "";
+      // disable while loading
+      termSel.disabled = true;
+      if ($(termSel).hasClass('select2-hidden-accessible')) {
+        $(termSel).val(null).trigger('change');
+      }
+
+      if (!year) { initSelect2(); return; }
+
+      try {
+        const resp = await fetch(termsUrl + "?year=" + encodeURIComponent(year));
+        const data = await resp.json();
+
+        // build options
+        data.terms.forEach(t => {
+          const opt = document.createElement('option');
+          opt.value = t; opt.textContent = t;
+          termSel.appendChild(opt);
+        });
+
+        // enable + re-init
+        termSel.disabled = (data.terms.length === 0);
+        initSelect2();
+
+        // nothing preselected after changing year
+        $(termSel).val(null).trigger('change');
+
+      } catch (e) {
+        // on error keep disabled and empty
+        termSel.disabled = true;
+        initSelect2();
+      }
+    }
+
+    yearSel?.addEventListener('change', (e) => loadTermsFor(e.target.value));
+  })();
+</script>
 {% endblock %}
