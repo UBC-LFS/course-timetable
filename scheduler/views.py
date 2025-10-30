@@ -80,7 +80,7 @@ def landing_page(request):
     times   = CourseTime.objects.all()
     days    = CourseDay.objects.all()
 
-    # Academic Year + Terms filter
+    # Academic Year
     all_years = CourseYear.objects.values_list("name", flat=True)
     dropdown_years = sorted({y for y in all_years})
 
@@ -93,18 +93,6 @@ def landing_page(request):
     program_names = ProgramName.objects.order_by("name")
 
     submitted      = ("search" in request.GET)
-
-    # preload term options for the selected year
-    available_terms_for_year = []
-    if selected_year:
-        available_terms_for_year = list(
-            Course.objects
-            .filter(academic_year__name=selected_year)
-            .exclude(term__name__isnull=True)
-            .values_list("term__name", flat=True)
-            .distinct()
-            .order_by("term__name")
-        )
 
     # preload year levels options for the selected name 
     available_levels_for_name = []
@@ -268,7 +256,6 @@ def landing_page(request):
         'dropdown_years': dropdown_years,
         'selected_year': selected_year,
         'selected_terms': selected_terms,
-        'available_terms_for_year': available_terms_for_year,
         'program_names': program_names,
         'selected_pname': selected_pname,
         'selected_plevel': selected_plevel,
