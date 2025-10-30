@@ -52,8 +52,12 @@
                 name="term"
                 class="form-select"
                 multiple
-                data-selected-terms="{{ selected_terms|join:',' }}"
                 {% if not selected_year %}disabled{% endif %}>
+          {% if selected_year %}
+            {% for t in available_terms_for_year %}
+              <option value="{{ t }}" {% if t in selected_terms %}selected{% endif %}>{{ t }}</option>
+            {% endfor %}
+          {% endif %}
         </select>
       </div>
       
@@ -261,11 +265,6 @@
     const termsUrl = "{% url 'scheduler:ajax_terms_for_year' %}";
     const yearSel  = document.getElementById('year-select');
     const termSel  = document.getElementById('term-select');
-    const selectedYear  = "{{ selected_year }}";
-    const selectedTerms = (termSel.dataset.selectedTerms || "")
-      .split(",")
-      .map(s => s.trim())
-      .filter(Boolean);
 
     // Helper: initialize Select2 on #term-select
     function initSelect2() {
@@ -280,8 +279,13 @@
       });
     }
 
+    // Initial boot (page load): if a year is preselected, init Select2 with those options
+    initSelect2();
+
+    // If the select is disabled at load, Select2 mirrors that; nothing else to do
+
     // When Academic Year changes: fetch terms, repopulate, enable + re-init Select2
-    async function loadTermsFor(year, terms) {
+    async function loadTermsFor(year) {
       // clear options
       termSel.innerHTML = "";
       // disable while loading
@@ -290,10 +294,7 @@
         $(termSel).val(null).trigger('change');
       }
 
-      if (!year) { 
-        initSelect2(); 
-        return; 
-      }
+      if (!year) { initSelect2(); return; }
 
       try {
         const resp = await fetch(termsUrl + "?year=" + encodeURIComponent(year));
@@ -302,21 +303,16 @@
         // build options
         data.terms.forEach(t => {
           const opt = document.createElement('option');
-          opt.value = t; 
-          opt.textContent = t;
+          opt.value = t; opt.textContent = t;
           termSel.appendChild(opt);
         });
 
         // enable + re-init
         termSel.disabled = (data.terms.length === 0);
         initSelect2();
-        
-        if (terms && terms.length) {
-          $(termSel).val(terms).trigger('change');
-        } else {
-          // user changed year → start empty
-          $(termSel).val(null).trigger('change');
-        }
+
+        // nothing preselected after changing year
+        $(termSel).val(null).trigger('change');
 
       } catch (e) {
         // on error keep disabled and empty
@@ -326,12 +322,6 @@
     }
 
     yearSel?.addEventListener('change', (e) => loadTermsFor(e.target.value));
-
-    if (selectedYear) {
-      loadTermsFor(selectedYear, selectedTerms);
-    } else {
-      initSelect2();
-    }
   })();
 </script>
 <script>

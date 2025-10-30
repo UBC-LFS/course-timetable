@@ -94,7 +94,19 @@ def landing_page(request):
 
     submitted      = ("search" in request.GET)
 
-    # preload year levels options for the selected name 
+    # preload term options for the selected year, this make UI more beautiful than client fetch available_terms_for_year
+    available_terms_for_year = []
+    if selected_year:
+        available_terms_for_year = list(
+            Course.objects
+            .filter(academic_year__name=selected_year)
+            .exclude(term__name__isnull=True)
+            .values_list("term__name", flat=True)
+            .distinct()
+            .order_by("term__name")
+        )
+
+    # preload year levels options for the selected name, this make UI more beautiful than client fetch available_levels_for_name
     available_levels_for_name = []
     if selected_pname:
         available_levels_for_name = list(
@@ -260,6 +272,7 @@ def landing_page(request):
         'selected_pname': selected_pname,
         'selected_plevel': selected_plevel,
         'available_levels_for_name': available_levels_for_name,
+        'available_terms_for_year': available_terms_for_year,
     })
 
 
