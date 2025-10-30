@@ -336,8 +336,45 @@
 </script>
 <script>
   (function(){
+    const termSel   = $('#term-select'); 
     const nameSel  = document.getElementById('prog-name');
     const levelSel = document.getElementById('prog-level');
+
+    function disableProgramFilters() {
+      // reset name
+      if (nameSel) {
+        nameSel.value = "";
+        nameSel.disabled = true;
+      }
+      // reset level
+      if (levelSel) {
+        levelSel.innerHTML = '<option value="">-- Select Year Level --</option>';
+        levelSel.disabled = true;
+      }
+    }
+
+    function enableProgramName() {
+      if (nameSel) {
+        nameSel.disabled = false;
+      }
+      // level still depends on name selection — we keep it as-is here
+      if (nameSel && !nameSel.value) {
+        levelSel.innerHTML = '<option value="">-- Select Year Level --</option>';
+        levelSel.disabled = true;
+      }
+    }
+
+     function updateFromTerms() {
+      const vals = termSel.val();          // array or null
+      const hasTerms = Array.isArray(vals) && vals.length > 0;
+      if (hasTerms) {
+        enableProgramName();
+      } else {
+        disableProgramFilters();
+      }
+    }
+
+    termSel.on('change', updateFromTerms);
 
     function resetLevels() {
       levelSel.innerHTML = '<option value="">-- Select Year Level --</option>';
@@ -362,7 +399,6 @@
       }
     }
 
-    // If user clears the Name, lock the levels again
     nameSel?.addEventListener('change', e => loadLevelsFor(e.target.value));
   })();
 </script>
