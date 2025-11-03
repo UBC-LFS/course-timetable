@@ -25,6 +25,7 @@ from django.http import Http404
 from django.http import JsonResponse
 from django.db.models import Min
 from django.views.decorators.http import require_GET
+import json
 
 
 '''
@@ -86,10 +87,21 @@ def landing_page(request):
 
     selected_year  = request.GET.get("year", "").strip()
     selected_terms = request.GET.getlist("term") # multi-select
-    selected_ccode   = request.GET.get("ccode", "").strip()
-    selected_cnums   = request.GET.getlist("cnumber") # multi-select
     selected_pname = request.GET.get("pname", "").strip()
     selected_plevel = request.GET.get("plevel", "").strip()
+    course_filters_json = request.GET.get("course_filters_json", "").strip()
+    course_filters = []
+    if course_filters_json:
+        try:
+            data = json.loads(course_filters_json)
+            # keep only sane items: {"code": str, "numbers": [str, ...]}
+            for item in (data if isinstance(data, list) else []):
+                code = (item.get("code") or "").strip()
+                nums = [str(x).strip() for x in (item.get("numbers") or []) if str(x).strip()]
+                if code or nums:
+                    course_filters.append({"code": code, "numbers": nums})
+        except Exception:
+            course_filters = []
 
     # For the Name dropdown (once terms are chosen)
     program_names = ProgramName.objects.order_by("name")
@@ -106,18 +118,6 @@ def landing_page(request):
             .values_list("term__name", flat=True)
             .distinct()
             .order_by("term__name")
-        )
-    
-    # preload number options for the selected code, this make UI more beautiful than client fetch available_numbers_for_code
-    available_numbers_for_code = []
-    if selected_ccode:
-        available_numbers_for_code = list(
-            Course.objects
-            .filter(code__name=selected_ccode)
-            .exclude(number__name__isnull=True)
-            .values_list("number__name", flat=True)
-            .distinct()
-            .order_by("number__name")
         )
 
     # preload year levels options for the selected name, this make UI more beautiful than client fetch available_levels_for_name
@@ -152,11 +152,19 @@ def landing_page(request):
             )
 
             # BY Course
-            if selected_ccode and not selected_cnums:
-                base_qs = base_qs.filter(code__name=selected_ccode)
-            elif selected_ccode and selected_cnums:
-                base_qs = base_qs.filter(code__name=selected_ccode,
-                                        number__name__in=selected_cnums)
+            if course_filters:
+                or_q = Q()
+                for f in course_filters:
+                    code = f.get("code", "")
+                    nums = f.get("numbers", [])
+                    if not code and not nums:
+                        continue
+                    if code and nums:
+                        or_q |= Q(code__name=code, number__name__in=nums)
+                    elif code:
+                        or_q |= Q(code__name=code)
+                if or_q:
+                    base_qs = base_qs.filter(or_q)
 
             # By Program
             if selected_pname and not selected_plevel:
@@ -292,11 +300,9 @@ def landing_page(request):
         'program_names': program_names,
         'selected_pname': selected_pname,
         'selected_plevel': selected_plevel,
-        'selected_ccode': selected_ccode,
-        'selected_cnums': selected_cnums,
         'available_levels_for_name': available_levels_for_name,
         'available_terms_for_year': available_terms_for_year,
-        'available_numbers_for_code': available_numbers_for_code,
+        'course_filters_json': course_filters_json,
     })
 
 

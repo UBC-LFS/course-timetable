@@ -74,34 +74,37 @@
           <!-- By Course -->
           <div class="mb-3">
             <div class="fw-semibold mb-1">By Course: </div>
-            <div class="row g-2">
-
-              <!-- Code (enabled only if at least one term is selected) -->
-              <div class="col-md-6">
-                <label class="form-label">Code</label>
-                <select id="course-code" name="ccode" class="form-select"
-                        {% if not selected_terms %}disabled{% endif %}>
-                  <option value="">-- Select Code --</option>
-                  {% for c in codes %}
-                    <option value="{{ c.name }}" {% if c.name == selected_ccode %}selected{% endif %}>{{ c.name }}</option>
-                  {% endfor %}
-                </select>
-              </div>
           
-              <!-- Number (multple selection, enabled after Code) -->
-              <div class="col-md-6">
-                <label class="form-label">Number</label>
-                <select id="course-number" name="cnumber" class="form-select" multiple
-                        {% if not selected_ccode %}disabled{% endif %}>
-                  {% if selected_ccode %}
-                    {% for n in available_numbers_for_code %}
-                      <option value="{{ n }}" {% if n in selected_cnums %}selected{% endif %}>{{ n }}</option>
+            <!-- Hidden field that carries all course lines as JSON -->
+            <input type="hidden" id="courseFiltersJson" name="course_filters_json" value="{{ course_filters_json|default:'' }}"/>
+          
+            <div id="by-course-lines" class="d-flex flex-column gap-2"></div>
+          
+            <!-- Template for a line (cloned by JS). -->
+            <template id="by-course-template">
+              <div class="row g-2 align-items-end by-course-row">
+                <div class="col-md-6">
+                  <label class="form-label mb-1">Code</label>
+                  <select class="form-select js-course-code" data-line="">
+                    <option value="">-- Select Code --</option>
+                    {% for c in codes %}
+                      <option value="{{ c.name }}">{{ c.name }}</option>
                     {% endfor %}
-                  {% endif %}
-                </select>
-              </div>
+                  </select>
+                </div>
 
-            </div>
+                <div class="col-md-5">
+                  <label class="form-label mb-1">Number</label>
+                  <select class="form-select js-course-number" data-line="" multiple disabled></select>
+                </div>
+
+                <div class="col-md-1 d-flex gap-2">
+                  <button type="button" class="btn btn-outline-primary btn-sm js-add-line"  title="Add">+</button>
+                  <button type="button" class="btn btn-outline-danger  btn-sm js-remove-line" title="Remove">−</button>
+                </div>
+
+              </div>
+            </template>
           </div>
           
           <!-- By Program -->
@@ -354,94 +357,162 @@
 </script>
 <script>
   (function(){
-    // Elements
     const termSel   = $('#term-select');
-    const codeSel   = document.getElementById('course-code');
-    const numSel    = document.getElementById('course-number');
-
-    // Select2 init/destroy for Number multi-select
-    function initNumSelect2() {
-      if ($(numSel).hasClass('select2-hidden-accessible')) {
-        $(numSel).select2('destroy');
-      }
-      $(numSel).select2({
-        placeholder: "Select Numbers",
-        width: '100%',
-        allowClear: true
-      });
+    const linesHost = document.getElementById('by-course-lines');
+    const tpl       = document.getElementById('by-course-template');
+    const hidden    = document.getElementById('courseFiltersJson');
+    const urlNums   = "{% url 'scheduler:ajax_numbers_for_code' %}";
+  
+    let nextLineId = 0;
+  
+    function hasTerms() {
+      const v = termSel.val();
+      return Array.isArray(v) && v.length > 0;
     }
-    // initialize once on page load
-    initNumSelect2();
-
-    function disableCourseFilters() {
-      // reset code
-      if (codeSel) {
-        codeSel.value = "";
-        codeSel.disabled = true;
-      }
-      // reset number
-      if (numSel) {
-        numSel.innerHTML = "";
-        numSel.disabled = true;
-        $(numSel).val(null).trigger('change');  // clear Select2
-        initNumSelect2();
-      }
+  
+    function initNumSelect2(selectEl) {
+      const $el = $(selectEl);
+      if ($el.hasClass('select2-hidden-accessible')) $el.select2('destroy');
+      $el.select2({ placeholder: "Select Numbers", width: '100%', allowClear: true });
     }
-
-    function enableCourseCode() {
-      if (codeSel) {
-        codeSel.disabled = false;
-      }
-      // number still depends on code selection — we keep it as-is here
-      if (codeSel && !codeSel.value) {
-        numSel.innerHTML = "";
-        numSel.disabled = true;
-        $(numSel).val(null).trigger('change');
-        initNumSelect2();
-      }
-    }
-
-    // Enable/disable Code based on Terms
-    function updateCourseFromTerms() {
-      const vals = termSel.val();          // array or null
-      const hasTerms = Array.isArray(vals) && vals.length > 0;
-      if (hasTerms) {
-        enableCourseCode();
-      } else {
-        disableCourseFilters();
-      }
-    }
-
-    termSel.on('change', updateCourseFromTerms);
-
-    function resetNumbers() {
-      numSel.innerHTML = "";
-      numSel.disabled = true;
-      $(numSel).val(null).trigger('change');
-      initNumSelect2();
-    }
-
-    async function loadNumbersFor(codeName) {
-      resetNumbers();
-      if (!codeName) return;
-
+  
+    async function loadNumbersInto(selectEl, code) {
+      // clear + disable while loading
+      selectEl.innerHTML = "";
+      selectEl.disabled  = true;
+      initNumSelect2(selectEl);
+      if (!code) return;
+  
       try {
-        const resp = await fetch("{% url 'scheduler:ajax_numbers_for_code' %}?code=" + encodeURIComponent(codeName));
+        const resp = await fetch(urlNums + "?code=" + encodeURIComponent(code));
         const data = await resp.json();
         data.numbers.forEach(n => {
           const opt = document.createElement('option');
           opt.value = n; 
           opt.textContent = n;
-          numSel.appendChild(opt);
+          selectEl.appendChild(opt);
         });
-        numSel.disabled = (data.numbers.length === 0);
-        initNumSelect2();
-      } catch (e) {
-        resetNumbers();
+        selectEl.disabled = (data.numbers.length === 0);
+        initNumSelect2(selectEl);
+      } catch(e) {
+        selectEl.disabled = true;
+        initNumSelect2(selectEl);
+      }
+    }
+  
+    function setRowEnabled(row, enabled) {
+      const code   = row.querySelector('.js-course-code');
+      const number = row.querySelector('.js-course-number');
+      const addBtn = row.querySelector('.js-add-line');
+      const rmBtn  = row.querySelector('.js-remove-line');
+  
+      code.disabled   = !enabled;
+      addBtn.disabled = !enabled;
+  
+      // number depends on code; if disabling the row, also clear/disable number
+      if (!enabled) {
+        number.innerHTML = "";
+        number.disabled  = true;
+        $(number).val(null).trigger('change');
+        initNumSelect2(number);
+      }
+      if (row === linesHost.firstElementChild) {
+        rmBtn.classList.add('d-none');
+      } else {
+        rmBtn.classList.remove('d-none');
       }
     }
 
-    codeSel?.addEventListener('change', (e) => loadNumbersFor(e.target.value));
+    function applyTermEnablement() {
+      const enabled = hasTerms();
+      if (!enabled) {
+        // hard reset to canonical state: one disabled row, no data
+        linesHost.innerHTML = "";
+        const row = makeRow(null);
+        linesHost.appendChild(row);
+        setRowEnabled(row, false);
+        hidden.value = "";
+        return;
+      }
+      [...linesHost.children].forEach(row => setRowEnabled(row, enabled));
+    }
+    
+    function makeRow(prefill) {
+      const node = tpl.content.firstElementChild.cloneNode(true);
+      const lineId = nextLineId++;
+      const code   = node.querySelector('.js-course-code');
+      const number = node.querySelector('.js-course-number');
+      code.dataset.line = number.dataset.line = String(lineId);
+  
+      // prefill
+      if (prefill && prefill.code) {
+        code.value = prefill.code;
+      }
+      initNumSelect2(number);
+  
+      // listeners
+      code.addEventListener('change', () => loadNumbersInto(number, code.value));
+  
+      node.querySelector('.js-add-line').addEventListener('click', () => {
+        linesHost.appendChild(makeRow(null));
+        applyTermEnablement();    // apply enable/disable based on current terms
+      });
+      node.querySelector('.js-remove-line').addEventListener('click', () => {
+        node.remove();
+        // if no lines left, ensure at least one initial line exists
+        if (!linesHost.children.length) linesHost.appendChild(makeRow(null));
+        applyTermEnablement();
+      });
+  
+      // if prefill includes numbers, load and select after load
+      if (prefill && prefill.code) {
+        loadNumbersInto(number, prefill.code).then(() => {
+          if (prefill.numbers && prefill.numbers.length) {
+            $(number).val(prefill.numbers).trigger('change');
+          }
+        });
+      }
+  
+      return node;
+    }
+  
+    // Serialize lines → hidden input before submit
+    function serializeLines() {
+      if (!hasTerms()) { hidden.value = ""; return; }
+      const result = [];
+      [...linesHost.children].forEach(row => {
+        const code   = row.querySelector('.js-course-code').value.trim();
+        const number = row.querySelector('.js-course-number');
+        const nums   = $(number).val() || [];
+        if (code || (nums && nums.length)) {
+          result.push({ code, numbers: nums });
+        }
+      });
+      hidden.value = JSON.stringify(result);
+    }
+    
+    // 1) Build initial row
+    linesHost.appendChild(makeRow(null));
+  
+    // 2) If server returned prior selections, rebuild them — but ONLY when Term has values
+    try {
+      const pre = hidden.value ? JSON.parse(hidden.value) : [];
+      if (hasTerms() &&Array.isArray(pre) && pre.length) {
+        // replace the single empty row with prefilled rows
+        linesHost.innerHTML = "";
+        pre.forEach((item, idx) => linesHost.appendChild(makeRow({ code: item.code, numbers: item.numbers || [] })));
+      }
+    } catch(e) { 
+      // ignore 
+    }
+  
+    // 3) Tie enable/disable to Term changes
+    termSel.on('change', applyTermEnablement);
+    applyTermEnablement();
+  
+    // 4) On form submit: serialize
+    const form = document.querySelector('form[action$="{% url "scheduler:landing_page" %}"]');
+    form.addEventListener('submit', serializeLines);
   })();
 </script>
 <script>
