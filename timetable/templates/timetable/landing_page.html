@@ -362,6 +362,7 @@
     const tpl       = document.getElementById('by-course-template');
     const hidden    = document.getElementById('courseFiltersJson');
     const urlNums   = "{% url 'scheduler:ajax_numbers_for_code' %}";
+    const preloadMap = JSON.parse('{{ numbers_by_code_json|default:"{}"|escapejs }}');
   
     let nextLineId = 0;
   
@@ -452,28 +453,63 @@
       initNumSelect2(number);
   
       // listeners
-      code.addEventListener('change', () => loadNumbersInto(number, code.value));
-  
+      code.addEventListener('change', () => {
+        const pre = preloadMap[code.value];
+        if (pre && pre.length) {
+          number.innerHTML = "";
+          pre.forEach(n => {
+            const opt = document.createElement('option');
+            opt.value = n; 
+            opt.textContent = n;
+            number.appendChild(opt);
+          });
+          number.disabled = false;
+          initNumSelect2(number);
+        } else {
+          // fallback
+          loadNumbersInto(number, code.value); 
+        }
+      });
+
       node.querySelector('.js-add-line').addEventListener('click', () => {
         linesHost.appendChild(makeRow(null));
         applyTermEnablement();    // apply enable/disable based on current terms
       });
+
       node.querySelector('.js-remove-line').addEventListener('click', () => {
         node.remove();
         // if no lines left, ensure at least one initial line exists
         if (!linesHost.children.length) linesHost.appendChild(makeRow(null));
         applyTermEnablement();
       });
-  
+
       // if prefill includes numbers, load and select after load
       if (prefill && prefill.code) {
-        loadNumbersInto(number, prefill.code).then(() => {
+        const pre = preloadMap[prefill.code];
+        if (pre && pre.length) {
+          number.innerHTML = "";
+          pre.forEach(n => {
+            const opt = document.createElement('option');
+            opt.value = n; 
+            opt.textContent = n;
+            number.appendChild(opt);
+          });
+          number.disabled = false;
+          initNumSelect2(number);
           if (prefill.numbers && prefill.numbers.length) {
             $(number).val(prefill.numbers).trigger('change');
           }
-        });
+        }
+        else {
+          // fallback
+          loadNumbersInto(number, prefill.code).then(() => {
+            if (prefill.numbers && prefill.numbers.length) {
+              $(number).val(prefill.numbers).trigger('change');
+            }
+          });
+        }
       }
-  
+
       return node;
     }
   

@@ -120,6 +120,21 @@ def landing_page(request):
             .order_by("term__name")
         )
 
+    # Build a preload dict for numbers of any codes that were selected, this make UI more beautiful
+    selected_codes = sorted({f["code"] for f in course_filters if f.get("code")})
+    numbers_by_code = {}
+    if selected_codes:
+        rows = (Course.objects
+                .filter(code__name__in=selected_codes)
+                .exclude(number__name__isnull=True)
+                .values_list('code__name', 'number__name')
+                .distinct())
+        for code, num in rows:
+            numbers_by_code.setdefault(code, []).append(num)
+        for code in numbers_by_code:
+            numbers_by_code[code].sort()
+    numbers_by_code_json = json.dumps(numbers_by_code)
+
     # preload year levels options for the selected name, this make UI more beautiful than client fetch available_levels_for_name
     available_levels_for_name = []
     if selected_pname:
@@ -303,6 +318,7 @@ def landing_page(request):
         'available_levels_for_name': available_levels_for_name,
         'available_terms_for_year': available_terms_for_year,
         'course_filters_json': course_filters_json,
+        'numbers_by_code_json': numbers_by_code_json,
     })
 
 
