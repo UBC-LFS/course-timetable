@@ -292,6 +292,8 @@ def landing_page(request):
         'program_names': program_names,
         'selected_pname': selected_pname,
         'selected_plevel': selected_plevel,
+        'selected_ccode': selected_ccode,
+        'selected_cnums': selected_cnums,
         'available_levels_for_name': available_levels_for_name,
         'available_terms_for_year': available_terms_for_year,
         'available_numbers_for_code': available_numbers_for_code,
