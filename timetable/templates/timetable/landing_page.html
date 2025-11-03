@@ -420,6 +420,7 @@
         rmBtn.classList.add('d-none');
       } else {
         rmBtn.classList.remove('d-none');
+        addBtn.classList.add('d-none')
       }
     }
 
@@ -490,7 +491,7 @@
       });
       hidden.value = JSON.stringify(result);
     }
-    
+
     // 1) Build initial row
     linesHost.appendChild(makeRow(null));
   
