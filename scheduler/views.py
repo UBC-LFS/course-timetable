@@ -86,6 +86,8 @@ def landing_page(request):
 
     selected_year  = request.GET.get("year", "").strip()
     selected_terms = request.GET.getlist("term") # multi-select
+    selected_ccode   = request.GET.get("ccode", "").strip()
+    selected_cnums   = request.GET.getlist("cnumber") # multi-select
     selected_pname = request.GET.get("pname", "").strip()
     selected_plevel = request.GET.get("plevel", "").strip()
 
@@ -104,6 +106,18 @@ def landing_page(request):
             .values_list("term__name", flat=True)
             .distinct()
             .order_by("term__name")
+        )
+    
+    # preload number options for the selected code, this make UI more beautiful than client fetch available_numbers_for_code
+    available_numbers_for_code = []
+    if selected_ccode:
+        available_numbers_for_code = list(
+            Course.objects
+            .filter(code__name=selected_ccode)
+            .exclude(number__name__isnull=True)
+            .values_list("number__name", flat=True)
+            .distinct()
+            .order_by("number__name")
         )
 
     # preload year levels options for the selected name, this make UI more beautiful than client fetch available_levels_for_name
@@ -137,7 +151,14 @@ def landing_page(request):
                 .order_by("id")
             )
 
-            # intersect with program courses if By Program is used
+            # BY Course
+            if selected_ccode and not selected_cnums:
+                base_qs = base_qs.filter(code__name=selected_ccode)
+            elif selected_ccode and selected_cnums:
+                base_qs = base_qs.filter(code__name=selected_ccode,
+                                        number__name__in=selected_cnums)
+
+            # By Program
             if selected_pname and not selected_plevel:
                 base_qs = base_qs.filter(programs__name__name=selected_pname)
             elif selected_pname and selected_plevel:
@@ -273,6 +294,7 @@ def landing_page(request):
         'selected_plevel': selected_plevel,
         'available_levels_for_name': available_levels_for_name,
         'available_terms_for_year': available_terms_for_year,
+        'available_numbers_for_code': available_numbers_for_code,
     })
 
 

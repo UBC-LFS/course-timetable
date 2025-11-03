@@ -74,6 +74,34 @@
           <!-- By Course -->
           <div class="mb-3">
             <div class="fw-semibold mb-1">By Course: </div>
+            <div class="row g-2">
+
+              <!-- Code (enabled only if at least one term is selected) -->
+              <div class="col-md-6">
+                <label class="form-label">Code</label>
+                <select id="course-code" name="ccode" class="form-select"
+                        {% if not selected_terms %}disabled{% endif %}>
+                  <option value="">-- Select Code --</option>
+                  {% for c in codes %}
+                    <option value="{{ c.name }}" {% if c.name == selected_ccode %}selected{% endif %}>{{ c.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+          
+              <!-- Number (multple selection, enabled after Code) -->
+              <div class="col-md-6">
+                <label class="form-label">Number</label>
+                <select id="course-number" name="cnumber" class="form-select" multiple
+                        {% if not selected_ccode %}disabled{% endif %}>
+                  {% if selected_ccode %}
+                    {% for n in available_numbers_for_code %}
+                      <option value="{{ n }}" {% if n in selected_cnums %}selected{% endif %}>{{ n }}</option>
+                    {% endfor %}
+                  {% endif %}
+                </select>
+              </div>
+
+            </div>
           </div>
           
           <!-- By Program -->
@@ -322,6 +350,101 @@
     }
 
     yearSel?.addEventListener('change', (e) => loadTermsFor(e.target.value));
+  })();
+</script>
+<script>
+  (function(){
+    // Elements
+    const termSel   = $('#term-select');
+    const codeSel   = document.getElementById('course-code');
+    const numSel    = document.getElementById('course-number');
+
+    // Select2 init/destroy for Number multi-select
+    function initNumSelect2() {
+      if ($(numSel).hasClass('select2-hidden-accessible')) {
+        $(numSel).select2('destroy');
+      }
+      $(numSel).select2({
+        placeholder: "Select Numbers",
+        width: '100%',
+        allowClear: true
+      });
+    }
+    // initialize once on page load
+    initNumSelect2();
+
+    function disableCourseFilters() {
+      // reset code
+      if (codeSel) {
+        codeSel.value = "";
+        codeSel.disabled = true;
+      }
+      // reset number
+      if (numSel) {
+        numSel.innerHTML = "";
+        numSel.disabled = true;
+        $(numSel).val(null).trigger('change');  // clear Select2
+        initNumSelect2();
+      }
+    }
+
+    function enableCourseCode() {
+      if (codeSel) {
+        codeSel.disabled = false;
+      }
+      // number still depends on code selection — we keep it as-is here
+      if (codeSel && !codeSel.value) {
+        numSel.innerHTML = "";
+        numSel.disabled = true;
+        $(numSel).val(null).trigger('change');
+        initNumSelect2();
+      }
+    }
+
+    // Enable/disable Code based on Terms
+    function updateCourseFromTerms() {
+      const vals = termSel.val();          // array or null
+      const hasTerms = Array.isArray(vals) && vals.length > 0;
+      if (hasTerms) {
+        enableCourseCode();
+      } else {
+        disableCourseFilters();
+      }
+    }
+
+    termSel.on('change', updateCourseFromTerms);
+    
+    // run once on load (server may have preselected terms)
+    // updateCourseFromTerms();
+
+    function resetNumbers() {
+      numSel.innerHTML = "";
+      numSel.disabled = true;
+      $(numSel).val(null).trigger('change');
+      initNumSelect2();
+    }
+
+    async function loadNumbersFor(codeName) {
+      resetNumbers();
+      if (!codeName) return;
+
+      try {
+        const resp = await fetch("{% url 'scheduler:ajax_numbers_for_code' %}?code=" + encodeURIComponent(codeName));
+        const data = await resp.json();
+        data.numbers.forEach(n => {
+          const opt = document.createElement('option');
+          opt.value = n; 
+          opt.textContent = n;
+          numSel.appendChild(opt);
+        });
+        numSel.disabled = (data.numbers.length === 0);
+        initNumSelect2();
+      } catch (e) {
+        resetNumbers();
+      }
+    }
+
+    codeSel?.addEventListener('change', (e) => loadNumbersFor(e.target.value));
   })();
 </script>
 <script>
