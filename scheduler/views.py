@@ -446,7 +446,7 @@ def course_term_affected(request, pk):
                     "academic_year__name", "term__name"))
 
     def safe_name(obj):  # handle NULL FKs
-        return getattr(obj, "name", "") or ""
+        return getattr(obj, "name", "") or "None"
 
     items = [{
         "code":   safe_name(c.code),
@@ -506,7 +506,7 @@ def course_code_affected(request, pk):
                     "academic_year__name", "term__name"))
 
     def safe_name(obj):
-        return getattr(obj, "name", "") or ""
+        return getattr(obj, "name", "") or "None"
 
     items = [{
         "code":   safe_name(c.code),
@@ -574,7 +574,7 @@ def course_number_affected(request, pk):
                     "academic_year__name", "term__name"))
 
     def safe_name(obj):
-        return getattr(obj, "name", "") or ""
+        return getattr(obj, "name", "") or "None"
 
     items = [{
         "code":   safe_name(c.code),
@@ -634,7 +634,7 @@ def course_section_affected(request, pk):
                     "academic_year__name", "term__name"))
 
     def safe_name(obj):
-        return getattr(obj, "name", "") or ""
+        return getattr(obj, "name", "") or "None"
 
     items = [{
         "code":   safe_name(c.code),
@@ -694,7 +694,7 @@ def course_time_affected(request, pk):
                     "academic_year__name", "term__name"))
 
     def safe_name(obj):
-        return getattr(obj, "name", "") or ""
+        return getattr(obj, "name", "") or "None"
 
     items = [{
         "code":   safe_name(c.code),
@@ -760,7 +760,7 @@ def course_year_affected(request, pk):
                     "academic_year__name", "term__name"))
 
     def safe_name(obj):
-        return getattr(obj, "name", "") or ""
+        return getattr(obj, "name", "") or "None"
 
     items = [{
         "code":   safe_name(c.code),
@@ -822,7 +822,7 @@ def program_name_affected(request, pk):
           .order_by("name__name", "year_level__name"))
 
     def safe_name(obj):
-        return getattr(obj, "name", "") or ""
+        return getattr(obj, "name", "") or "None"
 
     items = [{
         "program_name": safe_name(p.name),            
