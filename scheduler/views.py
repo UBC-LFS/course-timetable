@@ -902,9 +902,18 @@ def requirements(request):
     selected_level_name = request.GET.get("level", "").strip()
     submitted = "search" in request.GET  # Search button pressed
 
-    # keep for the results header
-    display_program_name = selected_program_name
-    display_level_name   = selected_level_name
+    # preload year levels options for the selected name, this make UI more beautiful than client fetch available_levels_for_name
+    available_levels_for_name = []
+    if selected_program_name:
+        name_obj = ProgramName.objects.filter(name=selected_program_name).first()
+        if name_obj:
+            available_levels_for_name = list(
+                Program.objects
+                .filter(name=name_obj)
+                .values_list("year_level__name", flat=True)
+                .distinct()
+                .order_by("year_level__name")
+            )
 
     courses = None
     program_obj = None
@@ -935,25 +944,20 @@ def requirements(request):
             else:
                 not_found = True
                 courses = []
-    
-    if submitted:
-        selected_program_name = ""
-        selected_level_name   = ""
 
     course_codes = CourseCode.objects.order_by("name")
 
     return render(request, "timetable/requirements.html", {
         "program_names": program_names,
         "year_levels": year_levels,
-        "selected_program_name": selected_program_name,  # now blank after search
-        "selected_level_name": selected_level_name,      # now blank after search
-        "display_program_name": display_program_name,    # used in results header
-        "display_level_name": display_level_name,        # used in results header
+        "selected_program_name": selected_program_name,  
+        "selected_level_name": selected_level_name,      
         "submitted": submitted,
         "program_obj": program_obj,
         "courses": courses,
         "not_found": not_found,
         "course_codes": course_codes,
+        "available_levels_for_name": available_levels_for_name,
     })
 
 @require_POST

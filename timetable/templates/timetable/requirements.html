@@ -19,8 +19,13 @@
 
     <div class="col-md-4">
       <label class="form-label">Program Year Level *</label>
-      <select id="level-select" name="level" class="form-select" disabled>
+      <select id="level-select" name="level" class="form-select" {% if not selected_program_name %}disabled{% endif %}>
         <option value="">-- Select Year Level --</option>
+        {% if selected_program_name %}
+          {% for lvl in available_levels_for_name %}
+            <option value="{{ lvl }}" {% if lvl == selected_level_name %}selected{% endif %}>{{ lvl }}</option>
+          {% endfor %}
+        {% endif %}
       </select>
     </div>
 
@@ -34,14 +39,9 @@
       <!-- actually no need anymore, because a program must have a year level -->
       <div class="alert alert-warning mt-4">No such program exists.</div>
     {% else %}
-      {% if not display_program_name or not display_level_name %}
+      {% if not selected_program_name or not selected_level_name %}
         <!-- do nothing -->
       {% else %}
-        <p class="text-muted mb-4">
-                Program: <strong>{{ display_program_name }}</strong> 
-                Level: <strong>{{ display_level_name }}</strong>
-        </p>
-
         <div class="mt-2">
           <button type="button"
                   class="btn btn-sm btn-primary"
@@ -102,8 +102,8 @@
           </div>
           <div class="modal-footer">
             <!-- hidden fields filled by JS -->
-            <input type="hidden" name="program_name" id="hidProgram" value="{{ display_program_name }}">
-            <input type="hidden" name="level_name"   id="hidLevel"   value="{{ display_level_name }}">
+            <input type="hidden" name="program_name" id="hidProgram" value="{{ selected_program_name }}">
+            <input type="hidden" name="level_name"   id="hidLevel"   value="{{ selected_level_name }}">
             <input type="hidden" name="code_name"    id="hidCode">
             <input type="hidden" name="number_name"  id="hidNumber">
   
@@ -142,8 +142,8 @@
               </select>
             </div>
   
-            <input type="hidden" name="program_name" value="{{ display_program_name }}">
-            <input type="hidden" name="level_name"   value="{{ display_level_name }}">
+            <input type="hidden" name="program_name" value="{{ selected_program_name }}">
+            <input type="hidden" name="level_name"   value="{{ selected_level_name }}">
           </div>
   
           <div class="modal-footer">
