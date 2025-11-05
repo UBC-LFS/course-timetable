@@ -37,6 +37,11 @@
 
                 <div class="d-flex flex-column">
                     <label class="form-label">Academic Year</label>
+                    <select id="courses-year" name="year" class="form-select" multiple>
+                        {% for y in years %}
+                            <option value="{{ y }}" {% if y in year_query %}selected{% endif %}>{{ y }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
 
                 <div class="d-flex flex-column">
@@ -137,24 +142,29 @@
     
         </ul>
         </nav>
-    </div>
-  
-  
-      
-
-      
+    </div>   
 </div>
 <script>
     (function(){
-      const $term = $('#courses-term');
-      if ($term.hasClass('select2-hidden-accessible')) {
-        $term.select2('destroy');
-      }
-      $term.select2({
-        placeholder: "Select Terms",
-        width: '100%',
-        allowClear: true
-      });
+        const $term = $('#courses-term');
+        if ($term.hasClass('select2-hidden-accessible')) {
+            $term.select2('destroy');
+        }
+        $term.select2({
+            placeholder: "Select Terms",
+            width: '100%',
+            allowClear: true
+        });
+
+        const $year = $('#courses-year');
+        if ($year.hasClass('select2-hidden-accessible')) {
+            $year.select2('destroy');
+        }
+        $year.select2({ 
+            placeholder: "Select Years",
+            width: '100%', 
+            allowClear: true 
+        });
     })();
 </script>
 

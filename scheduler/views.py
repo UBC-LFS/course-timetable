@@ -334,12 +334,9 @@ def view_courses(request):
     number_query = request.GET.get("number", "").strip()
     section_query = request.GET.get("section", "").strip()
     term_query = request.GET.getlist("term", "")
-    year_query = request.GET.get("year", "").strip()
+    year_query = request.GET.getlist("year", "")
 
     courses = Course.objects.all().order_by("id").prefetch_related("day")
-    
-    for c in courses:
-        c.day_names = expand_days(c)
 
     # Filters
     if code_query:
@@ -351,7 +348,7 @@ def view_courses(request):
     if term_query:
         courses = courses.filter(term__name__in=term_query)
     if year_query:
-        courses = courses.filter(year__name__exact=year_query)
+        courses = courses.filter(academic_year__name__in=year_query)
 
     # Pagination
     paginator = Paginator(courses, 20)
