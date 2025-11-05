@@ -335,6 +335,7 @@ def view_courses(request):
     section_query = request.GET.get("section", "").strip()
     term_query = request.GET.getlist("term", "")
     year_query = request.GET.getlist("year", "")
+    day_query  = request.GET.getlist("day", "")
 
     courses = Course.objects.all().order_by("id").prefetch_related("day")
 
@@ -349,6 +350,10 @@ def view_courses(request):
         courses = courses.filter(term__name__in=term_query)
     if year_query:
         courses = courses.filter(academic_year__name__in=year_query)
+    if day_query:
+        # Any selected day matches
+        # distinct avoids dup rows from the M2M join
+        courses = courses.filter(day__name__in=day_query).distinct()
 
     # Pagination
     paginator = Paginator(courses, 20)
@@ -366,6 +371,11 @@ def view_courses(request):
     all_years = CourseYear.objects.values_list("name", flat=True).distinct()
     dropdown_years = sorted({y for y in all_years})
 
+    # Build days
+    all_days = CourseDay.objects.values_list("name", flat=True).distinct()
+    order = ["Mon", "Tues", "Wed", "Thurs", "Fri"]
+    dropdown_days = sorted(all_days, key=lambda d: order.index(d))
+
     querydict = request.GET.copy()
     if "page" in querydict:
         querydict.pop("page")
@@ -376,12 +386,14 @@ def view_courses(request):
         "page_obj": page_obj,
         "terms": dropdown_terms,
         "years": dropdown_years,
+        "days": dropdown_days,
         "querystring": querystring,
         "code_query": code_query,
         "number_query": number_query,
         "section_query": section_query,
         "term_query": term_query,
         "year_query": year_query,
+        "day_query": day_query,
     })
 
 

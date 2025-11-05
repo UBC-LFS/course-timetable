@@ -10,7 +10,7 @@
 
 <div class="view-courses-container">
     <div class="courses-navbar">
-            <form method="get" action="{% url 'scheduler:view_courses' %}" class="mb-3 d-flex flex-wrap gap-3">
+            <form method="get" action="{% url 'scheduler:view_courses' %}" class="mb-3 d-flex flex-wrap gap-3 align-items-end">
                 <div class="d-flex flex-column">
                     <label class="form-label">Code</label>
                     <input type="text" name="code" placeholder="Code (e.g. FNH)" value="{{ code_query }}" class="form-control w-auto">
@@ -46,9 +46,17 @@
 
                 <div class="d-flex flex-column">
                     <label class="form-label">Day</label>
+                    <select id="courses-day" name="day" class="form-select" multiple>
+                        {% for d in days %}
+                            <option value="{{ d }}" {% if d in day_query %}selected{% endif %}>{{ d }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
               
-                <button type="submit" class="btn btn-primary">Search</button>
+                <div class="d-flex flex-column">
+                    <button type="submit" class="btn btn-primary control-height px-3">Search</button>
+                </div>
+
             </form>
               
     </div>
@@ -164,6 +172,16 @@
             placeholder: "Select Years",
             width: '100%', 
             allowClear: true 
+        });
+
+        const $day = $('#courses-day');
+        if ($day.hasClass('select2-hidden-accessible')) {
+            $day.select2('destroy');
+        }
+        $day.select2({
+            placeholder: "Select Days",
+            width: '100%',
+            allowClear: true
         });
     })();
 </script>
