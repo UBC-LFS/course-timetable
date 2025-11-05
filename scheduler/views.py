@@ -333,34 +333,41 @@ def view_courses(request):
     code_query = request.GET.get("code", "").strip()
     number_query = request.GET.get("number", "").strip()
     section_query = request.GET.get("section", "").strip()
-    term_query = request.GET.getlist("term")   # now supports multiple checkbox values
+    term_query = request.GET.getlist("term", "")
     year_query = request.GET.get("year", "").strip()
 
-    courses = Course.objects.all().order_by("id")
+    courses = Course.objects.all().order_by("id").prefetch_related("day")
     
     for c in courses:
         c.day_names = expand_days(c)
 
     # Filters
     if code_query:
-        courses = courses.filter(code__name__icontains=code_query)
+        courses = courses.filter(code__name__exact=code_query)
     if number_query:
-        courses = courses.filter(number__name__icontains=number_query)
+        courses = courses.filter(number__name__exact=number_query)
     if section_query:
-        courses = courses.filter(section__name__icontains=section_query)
+        courses = courses.filter(section__name__exact=section_query)
     if term_query:
         courses = courses.filter(term__name__in=term_query)
     if year_query:
-        courses = courses.filter(year__name__icontains=year_query)
+        courses = courses.filter(year__name__exact=year_query)
 
     # Pagination
     paginator = Paginator(courses, 20)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    # Build distinct years → extract first 4 chars (2025 from 2025-26)
+    for c in page_obj.object_list:
+        c.day_names = expand_days(c)
+
+    # Build terms
+    all_terms = CourseTerm.objects.values_list("name", flat=True).distinct()
+    dropdown_terms = sorted({t for t in all_terms})
+
+    # Build years
     all_years = CourseYear.objects.values_list("name", flat=True).distinct()
-    dropdown_years = sorted({y[:4] for y in all_years if y})  # set of start years
+    dropdown_years = sorted({y for y in all_years})
 
     querydict = request.GET.copy()
     if "page" in querydict:
@@ -370,8 +377,8 @@ def view_courses(request):
     return render(request, "timetable/view_courses.html", {
         "courses": page_obj,
         "page_obj": page_obj,
-        "terms": ["T1", "T2", "T1_T2"],   # explicit checkboxes
-        "years": dropdown_years,          # cleaned years
+        "terms": dropdown_terms,
+        "years": dropdown_years,
         "querystring": querystring,
         "code_query": code_query,
         "number_query": number_query,

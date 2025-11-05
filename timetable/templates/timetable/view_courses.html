@@ -2,76 +2,49 @@
 {% load static %}
 
 {% block content %}
+
+<!-- libray for the filters -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <div class="view-courses-container">
     <div class="courses-navbar">
-            <div class="navbar">
-
-                <h3 class="mt-2 mb-2" style="margin-right: 20px;">
-                    Courses
-                </h3>
-
-                
-
-                <!-- Dropdown to filter by year -->
-                <div class="dropdown">
-                    <form method="get" action="{% url 'scheduler:view_courses' %}" class="year-form">
-                        {% csrf_token %}
-                            <div class="navbar">
-                                <span style="margin-right: 10px;">
-                                    
-                                    <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dropdownButton" data-default="Year">
-                                        Year Search
-                                    </button>
-                                    <ul class="dropdown-menu p-3" style="max-height: 200px; overflow-y: auto;">
-                                        {% for year in years %}
-                                        <li>
-                                            <label class="form-check-label d-block">
-                                                <input class="form-check-input me-1 year-checkbox" type="checkbox" name="year[]" value="{{ year }}">
-                                                {{ year }}
-                                            </label>
-                                        </li>
-                                        {% endfor %}
-                                    </ul>
-                                </span>
-                                <button type="submit" class="btn btn-primary">Search Year</button>
-                            </div>
-                        </form>
-                    </div>
-            </div>
-
-
             <form method="get" action="{% url 'scheduler:view_courses' %}" class="mb-3 d-flex flex-wrap gap-3">
-                <input type="text" name="code" placeholder="Code (e.g. FNH)" value="{{ code_query }}" class="form-control w-auto">
-                <input type="text" name="number" placeholder="Number (e.g. 200)" value="{{ number_query }}" class="form-control w-auto">
-                <input type="text" name="section" placeholder="Section (e.g. 001)" value="{{ section_query }}" class="form-control w-auto">
-              
-                <!-- ✅ Term checkboxes -->
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" name="term" value="T1"
-                         {% if "T1" in term_query %}checked{% endif %}>
-                  <label class="form-check-label">T1</label>
+                <div class="d-flex flex-column">
+                    <label class="form-label">Code</label>
+                    <input type="text" name="code" placeholder="Code (e.g. FNH)" value="{{ code_query }}" class="form-control w-auto">
                 </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" name="term" value="T2"
-                         {% if "T2" in term_query %}checked{% endif %}>
-                  <label class="form-check-label">T2</label>
+
+                <div class="d-flex flex-column">
+                    <label class="form-label">Number</label>
+                    <input type="text" name="number" placeholder="Number (e.g. 200)" value="{{ number_query }}" class="form-control w-auto">
                 </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" name="term" value="T1_T2"
-                         {% if "T1_T2" in term_query %}checked{% endif %}>
-                  <label class="form-check-label">T1_T2</label>
+
+                <div class="d-flex flex-column">
+                    <label class="form-label">Section</label>
+                    <input type="text" name="section" placeholder="Section (e.g. 001)" value="{{ section_query }}" class="form-control w-auto">
                 </div>
-              
-                <!-- ✅ Year dropdown -->
-                <select name="year" class="form-select w-auto">
-                  <option value="">Year</option>
-                  {% for y in years %}
-                    <option value="{{ y }}" {% if y == year_query %}selected{% endif %}>{{ y }}</option>
-                  {% endfor %}
-                </select>
+
+                <div class="d-flex flex-column">
+                    <label class="form-label">Term</label>
+                    <select id="courses-term" name="term" class="form-select" multiple>
+                        {% for t in terms %}
+                            <option value="{{ t }}" {% if t in term_query %}selected{% endif %}>{{ t }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <label class="form-label">Academic Year</label>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <label class="form-label">Day</label>
+                </div>
               
                 <button type="submit" class="btn btn-primary">Search</button>
-              </form>
+            </form>
               
     </div>
 
@@ -92,7 +65,7 @@
                     <th>Start</th>
                     <th>End</th>
                     <th>Day</th>
-                    <th>Year</th>
+                    <th>Academic Year</th>
                     <th>Edit</th>
                 </tr>
             </thead>
@@ -106,7 +79,7 @@
                     <td>{{ course.term }}</td>
                     <td>{{ course.start_time }}</td>
                     <td>{{ course.end_time }}</td>
-                    <td>{{ course.day_names|join:',' }}</td>
+                    <td>{{ course.day_names|join:','|default:"None" }}</td>
                     <td>{{ course.academic_year }}</td>
                     <td>
                         <a href="{% url 'scheduler:edit_course' course.id %}" class="btn btn-warning btn-sm">Edit</a>
@@ -114,7 +87,7 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="9">No courses found.</td>
+                    <td colspan="10">No courses found.</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -166,7 +139,23 @@
         </nav>
     </div>
   
+  
+      
+
       
 </div>
+<script>
+    (function(){
+      const $term = $('#courses-term');
+      if ($term.hasClass('select2-hidden-accessible')) {
+        $term.select2('destroy');
+      }
+      $term.select2({
+        placeholder: "Select Terms",
+        width: '100%',
+        allowClear: true
+      });
+    })();
+</script>
 
 {% endblock %}
