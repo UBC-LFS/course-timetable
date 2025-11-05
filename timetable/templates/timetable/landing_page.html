@@ -144,114 +144,118 @@
 
     </form>
 
-    <!--──────── TIMETABLE ────────-->
-    <div class="col-12">
-      <div class="card shadow-sm p-4 rounded-3">
-        <h4 class="fw-semibold text-center mb-4">Course Timetable</h4>
-        <div class="table-responsive rounded-corner-table">
-          
-          <!-- Timetable Grid -->
-          <table class="timetable-grid">
-            <thead>
-              <tr>
-                <th class="time-col"></th>
-                <th>Mon</th>
-                <th>Tues</th>
-                <th>Wed</th>
-                <th>Thurs</th>
-                <th>Fri</th>
-              </tr>
-            </thead>
+    {% if not selected_year or not selected_terms %}
+      <!-- do nothing -->
+    {% else %}
+      <!--──────── TIMETABLE ────────-->
+      <div class="col-12">
+        <div class="card shadow-sm p-4 rounded-3">
+          <h4 class="fw-semibold text-center mb-4">Course Timetable</h4>
+          <div class="table-responsive rounded-corner-table">
+            
+            <!-- Timetable Grid -->
+            <table class="timetable-grid">
+              <thead>
+                <tr>
+                  <th class="time-col"></th>
+                  <th>Mon</th>
+                  <th>Tues</th>
+                  <th>Wed</th>
+                  <th>Thurs</th>
+                  <th>Fri</th>
+                </tr>
+              </thead>
 
 
-            <!-- For each day go through hour list and insert course if it has matching day and hour-->
-            <tbody>
-              {% if submitted and not courses %}
-              <div class="error-courses-container">
+              <!-- For each day go through hour list and insert course if it has matching day and hour-->
+              <tbody>
+                {% if submitted and not courses %}
+                <div class="error-courses-container">
 
-                <h3 class="error-no-courses">No Courses Found</h3>
-              </div>
-              {% endif %}
+                  <h3 class="error-no-courses">No Courses Found</h3>
+                </div>
+                {% endif %}
 
-              {% for hour in hour_list %}
-              <tr>
-                <td class="time-col">{{ hour }}:00</td>
-                {% for day in day_list %}
+                {% for hour in hour_list %}
+                <tr>
+                  <td class="time-col">{{ hour }}:00</td>
+                  {% for day in day_list %}
 
-                <td class="course-cell">
-                  {% for course in courses %}
-                    {% with course|get_day:day as data %}
-                      {% if day in course.day_names %}
-                        {% if course.start_time and course.start_time.name|slice:":2" == hour %}
-                          <div class="course-item {% if data.overlap %}overlap{% endif %}"
-                               data-height="{{ course.pixel_height }}"
-                               data-bg="{{ course.code.color }}"
-                               data-top="{{ course.offset_top }}"
-                               data-width="{{ data.width|default:'100' }}"
-                               data-left="{{ data.left|default:'0' }}"
-                               data-z="{{ data.z|default:'1' }}"
-                               data-code="{{ course.code.name|default:'None' }}"
-                               data-number="{{ course.number.name|default:'None' }}"
-                               data-start="{{ course.start_time.name|default:'None' }}"
-                               data-end="{{ course.end_time.name|default:'None' }}"
-                               data-day="{{ course.day_names|join:',' }}"
-                               data-section="{{ course.section.name|default:'None' }}"
-                               data-academic-year="{{ course.academic_year.name|default:'None' }}"
-                               data-term="{{ course.term.name|default:'None' }}">
-                            <strong>{{ course.code.name|default:'None' }} {{ course.number.name|default:'None' }} {{ course.section.name|default:'None' }}</strong>
-                          </div>
+                  <td class="course-cell">
+                    {% for course in courses %}
+                      {% with course|get_day:day as data %}
+                        {% if day in course.day_names %}
+                          {% if course.start_time and course.start_time.name|slice:":2" == hour %}
+                            <div class="course-item {% if data.overlap %}overlap{% endif %}"
+                                data-height="{{ course.pixel_height }}"
+                                data-bg="{{ course.code.color }}"
+                                data-top="{{ course.offset_top }}"
+                                data-width="{{ data.width|default:'100' }}"
+                                data-left="{{ data.left|default:'0' }}"
+                                data-z="{{ data.z|default:'1' }}"
+                                data-code="{{ course.code.name|default:'None' }}"
+                                data-number="{{ course.number.name|default:'None' }}"
+                                data-start="{{ course.start_time.name|default:'None' }}"
+                                data-end="{{ course.end_time.name|default:'None' }}"
+                                data-day="{{ course.day_names|join:',' }}"
+                                data-section="{{ course.section.name|default:'None' }}"
+                                data-academic-year="{{ course.academic_year.name|default:'None' }}"
+                                data-term="{{ course.term.name|default:'None' }}">
+                              <strong>{{ course.code.name|default:'None' }} {{ course.number.name|default:'None' }} {{ course.section.name|default:'None' }}</strong>
+                            </div>
+                          {% endif %}
                         {% endif %}
-                      {% endif %}
-                    {% endwith %}
+                      {% endwith %}
+                    {% endfor %}
+                  </td>
+                  
                   {% endfor %}
-                </td>
-                
-                
+                </tr>
                 {% endfor %}
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
-    
-    <!--──────── COURSES WITHOUT SCHEDULED TIMES ────────-->
-    {% if invalid_courses %}
-    <div class="col-12 mt-4">
-      <div class="card shadow-sm p-4 rounded-3">
-        <h4 class="fw-semibold text-center mb-3">Courses Without Scheduled Times</h4>
-        <table class="table table-bordered table-striped table-hover text-center">
-          <thead>
-              <tr>
-                  <th>ID</th>
-                  <th>Code</th>
-                  <th>Number</th>
-                  <th>Section</th>
-                  <th>Year</th>
-                  <th>Term</th>
-              </tr>
-          </thead>
-          <tbody>
-              {% for course in invalid_courses %}
-              <tr>
-                  <td>{{ course.id }}</td>
-                  <td>{{ course.code }}</td>
-                  <td>{{ course.number }}</td>
-                  <td>{{ course.section }}</td>
-                  <td>{{ course.academic_year }}</td>
-                  <td>{{ course.term }}</td>
-              </tr>
-              {% empty %}
-              <tr>
-                  <td colspan="9">No courses found.</td>
-              </tr>
-              {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
+      
+      <!--──────── COURSES WITHOUT SCHEDULED TIMES ────────-->
+      {% if invalid_courses %}
+        <div class="col-12 mt-4">
+          <div class="card shadow-sm p-4 rounded-3">
+            <h4 class="fw-semibold text-center mb-3">Courses Without Scheduled Times</h4>
+            <table class="table table-bordered table-striped table-hover text-center">
+              <thead>
+                  <tr>
+                      <th>ID</th>
+                      <th>Code</th>
+                      <th>Number</th>
+                      <th>Section</th>
+                      <th>Year</th>
+                      <th>Term</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for course in invalid_courses %}
+                  <tr>
+                      <td>{{ course.id }}</td>
+                      <td>{{ course.code }}</td>
+                      <td>{{ course.number }}</td>
+                      <td>{{ course.section }}</td>
+                      <td>{{ course.academic_year }}</td>
+                      <td>{{ course.term }}</td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                      <td colspan="9">No courses found.</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {% endif %}
     {% endif %}
+  
   </div>
 </div>
 

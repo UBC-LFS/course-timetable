@@ -149,11 +149,11 @@ def landing_page(request):
     # Output collections
     courses = []          # timetable "occurrences"
     invalid_courses = []  # Course rows missing day/time/5 things on slug
+    all_courses = []      # all_courses = courses + invalid_courses
 
     if submitted:
         if not selected_year or not selected_terms:
             messages.error(request, "You have to select both Academic Year and Term.")
-            return redirect('scheduler:landing_page')
         else:
             # NOTE: with M2M you must prefetch 'day' (no select_related for M2M)
             # base queryset
