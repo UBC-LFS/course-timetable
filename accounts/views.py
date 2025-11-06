@@ -7,6 +7,8 @@ from django.contrib.auth import login as djangoLogin, logout as djangoLogout
 from django.contrib.auth.models import User
 import os
 from core import auth
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.views.decorators.cache import cache_control
 
 # Create your views here.
 
@@ -38,6 +40,12 @@ General flow:
 - Use built in django login after all checks
 '''
 
+# a reusable “staff required” decorator
+staff_required = user_passes_test(
+    lambda u: u.is_authenticated and u.is_staff,
+    login_url='accounts:ldap_login'
+)
+
 @never_cache
 def ldap_login(request):
     '''
@@ -49,15 +57,12 @@ def ldap_login(request):
     
     '''Everyone that passes here will be inside of LFS, but you need to check if they have authority within LFS by checking their user attributes'''
     
-    # if request.user.is_authenticated:
-    #     return redirect('scheduler:landing_page')
     cwl = request.POST.get('cwl')
     password = request.POST.get('password')
     
     if cwl and password:
         
-        # result = auth.authenticate(cwl, password)
-        result = True
+        result = auth.authenticate(cwl, password)
         if result:
             
             user = None
@@ -95,7 +100,9 @@ def ldap_logout(request):
     djangoLogout(request)
     return redirect('accounts:ldap_login')
 
-
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+@staff_required
 def view_users(request):
     
     # if not request.user.is_authenticated:
@@ -106,7 +113,10 @@ def view_users(request):
     return render(request, 'accounts/users/view_users.html', {
         'users': users_list
     })
-    
+
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+@staff_required  
 def update_user(request, user_id):
     if request.method == 'POST':
         user = User.objects.get(id=user_id)
@@ -125,25 +135,10 @@ def update_user(request, user_id):
         user.save()
 
     return redirect('accounts:view_users')
-# def create_user_page(request):
-    
-#     first_name
-#     last_name
-#     email
-#     is_staff
-#     is_active
-    
-    
-#     user = User.objects.create(
-#         first_name = first_name,
-#         last_name = last_name,
-#         email = email,
-#         is_staff = is_staff,
-#         is_active = is_active
-#     )
-    
-#     return render(request, 'accounts/users/create_user.html')
 
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+@staff_required
 def create_user(request):
     
     first_name = request.POST.get('first_name', '')
@@ -184,7 +179,9 @@ def create_user(request):
 
     return redirect('accounts:view_users')
 
-
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+@staff_required
 def delete_user(request, user_id):
     user = User.objects.get(id=user_id)
     try:
