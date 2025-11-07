@@ -1,9 +1,0 @@
-[
-{
-  "model": "scheduler.courseyear",
-  "pk": 1,
-  "fields": {
-    "name": "2025"
-  }
-}
-]
