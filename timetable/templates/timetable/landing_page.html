@@ -2,13 +2,6 @@
 {% load static %}
 {% block content %}
 {% load custom_filters %}
-<!-- 
-- edit navbar reorganize into admin folder
-- talk to brandon about fixtures
-- create a course
-- pre sort courses by highest year
-- figure out way to clone db to new year ( check w brandon ) (TA app already does that )
--->
 
 <!-- styles for timetable grid  -->
 <style>
@@ -27,7 +20,7 @@
 }
 </style>
 
-<!-- libray for the filters -->
+<!-- libraries for the filters -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -111,7 +104,7 @@
           <div class="mb-3">
             <div class="fw-semibold mb-1">By Program: </div>
             <div class="row g-2">
-              <!-- Program Name (enabled only if at least one term is selected) -->
+              <!-- Program Name -->
               <div class="col-md-6">
                 <label class="form-label">Name</label>
                 <select id="prog-name" name="pname" class="form-select"
@@ -123,7 +116,7 @@
                 </select>
               </div>
 
-              <!-- Program Year Level (enabled after Name) -->
+              <!-- Program Year Level -->
               <div class="col-md-6">
                 <label class="form-label">Year Level</label>
                 <select id="prog-level" name="plevel" class="form-select"
@@ -283,9 +276,6 @@
       if (t) el.style.marginTop = t + 'px';
       if (w) el.style.width = w + '%';
   
-      // RIGHT-ALIGN: ignore left; optionally set right offset if you ever pass one
-      // if needed later: el.style.right = (el.dataset.right || 0) + '%';
-  
       // TRANSPARENCY + colored stripe
       if (bg) {
         el.style.backgroundColor = hexToRgba(bg, 0.35);     // translucent fill
@@ -301,7 +291,7 @@
     const yearSel  = document.getElementById('year-select');
     const termSel  = document.getElementById('term-select');
 
-    // Helper: initialize Select2 on #term-select
+    // helper: initialize Select2 on #term-select
     function initSelect2() {
       // destroy if already initialized
       if ($(termSel).hasClass('select2-hidden-accessible')) {
@@ -587,7 +577,7 @@
     }
 
      function updateFromTerms() {
-      const vals = termSel.val();          // array or null
+      const vals = termSel.val();
       const hasTerms = Array.isArray(vals) && vals.length > 0;
       if (hasTerms) {
         enableProgramName();

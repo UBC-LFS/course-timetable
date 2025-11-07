@@ -16,13 +16,11 @@
 
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="mb-0">Course Codes</h3>
-    <!-- Create button -->
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
       Create
     </button>
   </div>
 
-  <!-- Codes table -->
   <div class="card">
     <div class="card-body p-0">
       <div class="table-responsive">
@@ -260,7 +258,7 @@
   // Intercept DELETE submit
   const deleteForm = document.getElementById('deleteForm');
   deleteForm.addEventListener('submit', async (e) => {
-    if (deleteForm.dataset.confirmed === '1') return; // already confirmed
+    if (deleteForm.dataset.confirmed === '1') return;
     e.preventDefault();
     const codeId = deleteForm.dataset.codeId;
     await showAffectedPreviewForCode(codeId, "Deleting this code will detach it from the following courses.");

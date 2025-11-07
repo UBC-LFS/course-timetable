@@ -170,14 +170,14 @@
   editModal.addEventListener('show.bs.modal', function (event) {
     const btn = event.relatedTarget;
     const id  = btn.getAttribute('data-year-id');
-    const val = btn.getAttribute('data-year-name');  // "2025", etc.
+    const val = btn.getAttribute('data-year-name');
     document.getElementById('editYear').value = val;
     document.getElementById('editForm').action =
       "{% url 'scheduler:course_year_update' 0 %}".replace("0", id);
     document.getElementById('editForm').dataset.yearId = id;
   });
 
-  // Intercept EDIT submit → preview → confirm → real submit
+  // Intercept EDIT submit
   const editForm = document.getElementById('editForm');
   editForm.addEventListener('submit', async (e) => {
     if (editForm.dataset.confirmed === '1') return;  // already confirmed
@@ -199,10 +199,10 @@
     document.getElementById('deleteForm').dataset.yearId = id;
   });
 
-  // Intercept DELETE submit → preview → confirm → real submit
+  // Intercept DELETE submit
   const deleteForm = document.getElementById('deleteForm');
   deleteForm.addEventListener('submit', async (e) => {
-    if (deleteForm.dataset.confirmed === '1') return; // already confirmed
+    if (deleteForm.dataset.confirmed === '1') return;
     e.preventDefault();
     const yearId = deleteForm.dataset.yearId
     await showAffectedPreviewForYear(yearId, "Deleting this year will detach it from the following courses.");
@@ -247,7 +247,6 @@
     const preview   = bootstrap.Modal.getOrCreateInstance(previewEl);
     preview.show();
 
-    // Confirm button submits whatever form triggered the preview
     const confirmBtn = document.getElementById('affectedConfirmBtn');
     confirmBtn.onclick = () => {
       if (pendingSubmitForm) {

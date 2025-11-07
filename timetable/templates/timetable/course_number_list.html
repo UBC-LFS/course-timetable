@@ -161,7 +161,7 @@
 
 {% block js %}
 <script>
-  // Edit modal wiring
+  // Edit
   const editModal = document.getElementById('editModal');
   editModal.addEventListener('show.bs.modal', function (event) {
     const btn = event.relatedTarget;
@@ -173,7 +173,7 @@
     document.getElementById('editForm').dataset.numberId = id;
   });
 
-  // Intercept EDIT submit → preview → confirm → real submit
+  // Intercept EDIT submit
   const editForm = document.getElementById('editForm');
   editForm.addEventListener('submit', async (e) => {
     if (editForm.dataset.confirmed === '1') return;  // already confirmed
@@ -183,7 +183,7 @@
     pendingSubmitForm = editForm;
   });
 
-  // Delete modal wiring
+  // Delete
   const deleteModal = document.getElementById('deleteModal');
   deleteModal.addEventListener('show.bs.modal', function (event) {
     const btn = event.relatedTarget;
@@ -195,10 +195,10 @@
     document.getElementById('deleteForm').dataset.numberId = id;
   });
 
-  // Intercept DELETE submit → preview → confirm → real submit
+  // Intercept DELETE submit
   const deleteForm = document.getElementById('deleteForm');
   deleteForm.addEventListener('submit', async (e) => {
-    if (deleteForm.dataset.confirmed === '1') return; // already confirmed
+    if (deleteForm.dataset.confirmed === '1') return;
     e.preventDefault();
     const numberId = deleteForm.dataset.numberId
     await showAffectedPreviewForNumber(numberId, "Deleting this number will detach it from the following courses.");
@@ -243,7 +243,6 @@
     const preview   = bootstrap.Modal.getOrCreateInstance(previewEl);
     preview.show();
 
-    // Confirm button submits whatever form triggered the preview
     const confirmBtn = document.getElementById('affectedConfirmBtn');
     confirmBtn.onclick = () => {
       if (pendingSubmitForm) {

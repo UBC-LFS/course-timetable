@@ -1,10 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from .models import CourseTerm, CourseCode, CourseNumber, CourseSection, CourseTime, CourseDay, Course, CourseYear, ProgramName
-from collections import defaultdict
 from datetime import datetime, timedelta
 from django.shortcuts import redirect
-from django.utils.text import slugify
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -20,24 +17,22 @@ from .forms import CourseYearForm
 from .models import Program, ProgramYearLevel
 from .forms import ProgramNameForm
 from django.urls import reverse
-from types import SimpleNamespace
-from django.http import Http404
 from django.http import JsonResponse
 from django.db.models import Min
 from django.views.decorators.http import require_GET
 import json
 from accounts.views import staff_required
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 
 
 '''
 TODO READ BEFORE CONTINUING:
 VIEWS WORK FLOW:
-1. Grab all variables from fixtures/database
+1. Grab all variables from database
 2. Grab all filters inputted by user from Landing Page
 3. Filter the courses based on the filters
-4. Create a slots dictionary with all time slots for each day split up into 15 minute intervals
+4. Create a slots dictionary with all time slots for each day split up into 1 minute intervals
     - This will represent the time slots in the timetable to find conflicting courses/overlaps
 5. Iterate through all courses to find their start/end time and add courses to their corresponding time slots in the slots dictionary
 6. If a slot has > 1 course in it, calculate the overlap width, offset left for each course in that slot
@@ -50,6 +45,7 @@ VIEWS WORK FLOW:
 ''' This constant defines how many pixels each minute of course duration will take up in the timetable view.'''
 PIXELS_PER_MINUTE = 1
 
+# helper
 def expand_days(course):
     parts = [d.name for d in course.day.all()]
     order = ["Mon", "Tues", "Wed", "Thurs", "Fri"]
@@ -94,6 +90,9 @@ def landing_page(request):
     all_years = CourseYear.objects.values_list("name", flat=True)
     dropdown_years = sorted({y for y in all_years})
 
+    # For the Name dropdown (once terms are chosen)
+    program_names = ProgramName.objects.order_by("name")
+
     selected_year  = request.GET.get("year", "").strip()
     selected_terms = request.GET.getlist("term") # multi-select
     selected_pname = request.GET.get("pname", "").strip()
@@ -111,9 +110,6 @@ def landing_page(request):
                     course_filters.append({"code": code, "numbers": nums})
         except Exception:
             course_filters = []
-
-    # For the Name dropdown (once terms are chosen)
-    program_names = ProgramName.objects.order_by("name")
 
     submitted      = ("search" in request.GET)
 
@@ -164,7 +160,7 @@ def landing_page(request):
         if not selected_year or not selected_terms:
             messages.error(request, "You have to select both Academic Year and Term.")
         else:
-            # NOTE: with M2M you must prefetch 'day' (no select_related for M2M)
+            # NOTE: with M2M you must prefetch 'day'
             # base queryset
             base_qs = (
                 Course.objects
@@ -276,12 +272,10 @@ def landing_page(request):
 
                 k = predecessors
                 width_pct = round(100.0 * (0.9 ** k), 2)
-                # left_pct  = 0.0
                 overlaps  = (k > 0)
 
                 # stash per-day values the same way your template already expects
                 setattr(c, f"{day_key}_overlap_width", width_pct)
-                # setattr(c, f"{day_key}_offset_left", left_pct)
                 setattr(c, f"{day_key}_overlaps", overlaps)
                 # Optional: z-index so a later (smaller) card sits on top
                 setattr(c, f"{day_key}_zindex", 100 + k)
@@ -329,7 +323,6 @@ def landing_page(request):
         'course_filters_json': course_filters_json,
         'numbers_by_code_json': numbers_by_code_json,
     })
-
 
 def redirect_root(request):
     if request.user.is_authenticated:
@@ -407,7 +400,7 @@ def view_courses(request):
         "day_query": day_query,
     })
 
-
+# helper
 def _summarize_form_errors(form):
     parts = []
     # field-specific
@@ -478,7 +471,7 @@ def course_term_affected(request, pk):
           .order_by("code__name", "number__name", "section__name",
                     "academic_year__name", "term__name"))
 
-    def safe_name(obj):  # handle NULL FKs
+    def safe_name(obj):
         return getattr(obj, "name", "") or "None"
 
     items = [{
@@ -496,7 +489,7 @@ def course_term_affected(request, pk):
 @staff_required
 def course_term_list(request):
     terms = CourseTerm.objects.order_by("id")
-    form = CourseTermForm()  # empty for the Create modal
+    form = CourseTermForm()
     return render(request, "timetable/course_term_list.html", {"terms": terms, "form": form})
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
@@ -959,7 +952,7 @@ def program_name_affected(request, pk):
 @staff_required
 def program_name_list(request):
     names = ProgramName.objects.order_by("id")
-    form = ProgramNameForm()  # empty for the Create modal
+    form = ProgramNameForm()
     return render(request, "timetable/program_name_list.html", {"names": names, "form": form})
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)

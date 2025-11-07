@@ -93,7 +93,7 @@
   </div>
 </div>
 
-<!-- EDIT MODAL (single reusable modal) -->
+<!-- EDIT MODAL -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -117,7 +117,7 @@
   </div>
 </div>
 
-<!-- DELETE MODAL (single reusable modal) -->
+<!-- DELETE MODAL -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -164,6 +164,7 @@
 
 {% block js %}
 <script>
+  // EDIT
   const editModal = document.getElementById('editModal');
   editModal.addEventListener('show.bs.modal', function (event) {
     const button = event.relatedTarget;
@@ -176,7 +177,7 @@
     document.getElementById('editForm').dataset.termId = termId;
   });
 
-  // Intercept Edit form submit to show preview first
+  // Intercept Edit submit
   const editForm = document.getElementById('editForm');
   editForm.addEventListener('submit', async function (e) {
     if (editForm.dataset.confirmed === '1') return; // already confirmed → let it submit
@@ -188,8 +189,8 @@
     pendingSubmitForm = editForm;
   });
 </script>
-
 <script>
+  // DELETE
   const deleteModal = document.getElementById('deleteModal');
   deleteModal.addEventListener('show.bs.modal', function (event) {
     const button = event.relatedTarget;
@@ -203,7 +204,7 @@
 
   const deleteForm = document.getElementById('deleteForm');
   deleteForm.addEventListener('submit', async function (e) {
-    if (deleteForm.dataset.confirmed === '1') return; // already confirmed
+    if (deleteForm.dataset.confirmed === '1') return;
     e.preventDefault();
 
     const termId = deleteForm.dataset.termId;
