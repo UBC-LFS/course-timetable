@@ -45,7 +45,7 @@ VIEWS WORK FLOW:
 ''' This constant defines how many pixels each minute of course duration will take up in the timetable view.'''
 PIXELS_PER_MINUTE = 1
 
-# helper
+# helper: sort the array in the order of "Mon, Tues, Wed, Thurs, Fri"
 def expand_days(course):
     parts = [d.name for d in course.day.all()]
     order = ["Mon", "Tues", "Wed", "Thurs", "Fri"]
@@ -77,7 +77,6 @@ def landing_page(request):
     if not request.user.is_authenticated:
         return redirect('accounts:ldap_login')
 
-    # ── Dropdown data
     hour_list = ["08","09","10","11","12","13","14","15","16","17","18","19","20","21"]
     terms   = CourseTerm.objects.all()
     codes   = CourseCode.objects.all()
@@ -239,7 +238,7 @@ def landing_page(request):
                     cur_time += INTERVAL
         
         # compute overlaps
-        # helper to turn "HH:MM" into minutes since midnight
+        # helper: turn "HH:MM" into minutes since midnight
         def _mins(hhmm: str) -> int:
             hh, mm = map(int, hhmm.split(":"))
             return hh * 60 + mm
@@ -287,7 +286,7 @@ def landing_page(request):
             c.duration_minutes = (end - start).seconds // 60
             c.pixel_height = c.duration_minutes * PIXELS_PER_MINUTE
             c.offset_top = (start.minute) * PIXELS_PER_MINUTE
-            c.day_names = expand_days(c)   # e.g. ["Mon", "Wed", "Fri"]
+            c.day_names = expand_days(c)
 
         # per-day overlap data used by template
         for c in courses:
@@ -400,7 +399,7 @@ def view_courses(request):
         "day_query": day_query,
     })
 
-# helper
+# helper: append error based on error types
 def _summarize_form_errors(form):
     parts = []
     # field-specific
