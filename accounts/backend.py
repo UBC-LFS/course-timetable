@@ -1,8 +1,5 @@
 import os
-from django.contrib.auth import get_user_model
-from django.contrib.auth.backends import BaseBackend
 from django.conf import settings
-
 from ldap3 import ALL_ATTRIBUTES, SUBTREE, Server, Connection
 from ldap3.core.exceptions import LDAPBindError
 

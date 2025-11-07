@@ -10,8 +10,6 @@ class Command(BaseCommand):
     help = "Ingest courses and program relationships from Excel file"
     
     # note: 
-    # For the course day, use the format "Monday_Wednesday" 
-    # (spell out the full day names and separate them with a comma). 
     # For example, a course held on Monday and Wednesday should be written as "Monday,Wednesday". 
     # For courses, format them as GRS_V 497B-001, 
     # use a space to separate the code and number, and a dash to separate the number and section.

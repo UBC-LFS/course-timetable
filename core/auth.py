@@ -6,7 +6,6 @@ from django.conf import settings
 from ldap3 import ALL_ATTRIBUTES, SUBTREE, Server, Connection
 from ldap3.core.exceptions import LDAPBindError
 import json
-import os
 
 
 def authenticate(username, password) -> bool:
@@ -60,7 +59,6 @@ def authenticate(username, password) -> bool:
         conn.search(
             search_base =  "uid={0},{1}".format(username, settings.LDAP_MEMBER_DN),
             search_filter = settings.LDAP_SEARCH_FILTER,
-            # search_filter = settings.LDAP_SEARCH_FILTER,
             search_scope = SUBTREE,
             attributes = ALL_ATTRIBUTES
         )
@@ -72,7 +70,7 @@ def authenticate(username, password) -> bool:
         # If not a valid authorization, return False
         # print(f"entries: {entries}")
         if len(entries) == 0:
-            return False #authorization failed
+            return False # authorization failed
 
         return True
 

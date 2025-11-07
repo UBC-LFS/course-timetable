@@ -1,12 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils.text import slugify
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import post_save, pre_delete, post_delete
 from django.dispatch import receiver
-
-import datetime as dt    
+    
 
 class CourseTerm(models.Model):
     name = models.CharField(max_length=20, unique=True)

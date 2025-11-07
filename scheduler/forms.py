@@ -4,9 +4,8 @@ from .models import (
     Course, CourseTerm, CourseCode, CourseNumber,
     CourseSection, CourseYear, CourseTime, CourseDay
 )
-from .models import Program, ProgramYearLevel, ProgramName
+from .models import ProgramName
 from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
 
 class CourseForm(forms.ModelForm):
     # Required dropdowns (add * in labels)
@@ -96,7 +95,6 @@ class CourseTermForm(forms.ModelForm):
 
     def clean_name(self):
         name = self.cleaned_data["name"].strip()
-        # enforce case-insensitive uniqueness
         qs = CourseTerm.objects.filter(name__exact=name)
         if self.instance.pk:
             qs = qs.exclude(pk=self.instance.pk)
@@ -202,7 +200,7 @@ class CourseTimeForm(forms.ModelForm):
         return normalized
 
 
-YEAR_CHOICES = [(str(y), str(y)) for y in range(2024, 2043)]  # 2024..2042 inclusive
+YEAR_CHOICES = [(str(y), str(y)) for y in range(2024, 2043)]  # 2024..2042 inclusive, change if needed
 class CourseYearForm(forms.ModelForm):
     class Meta:
         model = CourseYear

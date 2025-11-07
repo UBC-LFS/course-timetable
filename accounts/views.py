@@ -2,10 +2,8 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.views.decorators.cache import never_cache
 from django.shortcuts import render
-from accounts.backend import is_ldap_user
 from django.contrib.auth import login as djangoLogin, logout as djangoLogout
 from django.contrib.auth.models import User
-import os
 from core import auth
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.cache import cache_control
@@ -104,10 +102,6 @@ def ldap_logout(request):
 @login_required(login_url='accounts:ldap_login')
 @staff_required
 def view_users(request):
-    
-    # if not request.user.is_authenticated:
-    #     return redirect('accounts:ldap_login') # uncomment when auth works
-    
     users_list = User.objects.all()
     
     return render(request, 'accounts/users/view_users.html', {
