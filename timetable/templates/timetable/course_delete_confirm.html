@@ -1,0 +1,23 @@
+{% extends 'timetable/base.html' %}
+{% block content %}
+<div class="container my-4" style="max-width: 720px;">
+  <h2 class="mb-4">Delete Course</h2>
+
+  <dl class="row">
+    <dt class="col-sm-4">Code:</dt>          <dd class="col-sm-8">{{ details.code }}</dd>
+    <dt class="col-sm-4">Number:</dt>        <dd class="col-sm-8">{{ details.number }}</dd>
+    <dt class="col-sm-4">Section:</dt>       <dd class="col-sm-8">{{ details.section }}</dd>
+    <dt class="col-sm-4">Term:</dt>          <dd class="col-sm-8">{{ details.term }}</dd>
+    <dt class="col-sm-4">Day:</dt>           <dd class="col-sm-8">{{ details.day }}</dd>
+    <dt class="col-sm-4">Start Time:</dt>    <dd class="col-sm-8">{{ details.start_time }}</dd>
+    <dt class="col-sm-4">End Time:</dt>      <dd class="col-sm-8">{{ details.end_time }}</dd>
+    <dt class="col-sm-4">Academic Year:</dt> <dd class="col-sm-8">{{ details.academic_year }}</dd>
+  </dl>
+
+  <form method="post" action="{% url 'scheduler:delete_course' course.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger me-2">Confirm</button>
+    <a href="{% url 'scheduler:view_courses' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

@@ -91,6 +91,7 @@
                         <th>Day</th>
                         <th>Academic Year</th>
                         <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -107,10 +108,13 @@
                         <td>
                             <a href="{% url 'scheduler:edit_course' course.id %}" class="btn btn-warning btn-sm">Edit</a>
                         </td>
+                        <td>
+                            <a href="{% url 'scheduler:delete_course' course.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>                          
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="9">No courses found.</td>
+                        <td colspan="10">No courses found.</td>
                     </tr>
                     {% endfor %}
                 </tbody>

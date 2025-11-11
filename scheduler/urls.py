@@ -8,6 +8,7 @@ urlpatterns = [
     path('view_courses/', views.view_courses, name='view_courses'),
     path('update/<int:course_id>/', views.edit_course, name='edit_course'),
     path('create_course/', views.create_course, name='create_course'),
+    path("delete/<int:course_id>/", views.delete_course, name="delete_course"),
     path("terms-for-year/", views.ajax_terms_for_year, name="ajax_terms_for_year"),
     
     # settings – course term

@@ -24,6 +24,7 @@ import json
 from accounts.views import staff_required
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
+from django.views.decorators.http import require_http_methods
 
 
 '''
@@ -465,6 +466,44 @@ def edit_course(request, course_id):
     return render(request, "timetable/course_form.html", {
         "title": "Edit Course",
         "form": form,
+    })
+
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+@staff_required
+@require_http_methods(["GET", "POST"])
+def delete_course(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+
+    def safe_name(obj):
+        return getattr(obj, "name", None)
+    
+    def get_days(days):
+        if not days:
+            return "None"
+        order = ["Mon", "Tues", "Wed", "Thurs", "Fri"]
+        return ",".join(sorted(days, key=lambda d: order.index(d)))
+
+
+    details = {
+        "code":          safe_name(course.code),
+        "number":        safe_name(course.number),
+        "section":       safe_name(course.section),
+        "term":          safe_name(course.term),
+        "day":           get_days([d.name for d in course.day.all()]),
+        "start_time":    safe_name(course.start_time),
+        "end_time":      safe_name(course.end_time),
+        "academic_year": safe_name(course.academic_year),
+    }
+
+    if request.method == "POST":
+        course.delete()
+        messages.success(request, "Course deleted.")
+        return redirect("scheduler:view_courses")
+
+    return render(request, "timetable/course_delete_confirm.html", {
+        "course": course,
+        "details": details,
     })
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
