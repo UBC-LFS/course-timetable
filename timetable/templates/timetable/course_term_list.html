@@ -21,7 +21,6 @@
         <table class="table table-bordered table-striped table-hover text-center align-middle mb-0">
           <thead>
             <tr>
-              <th scope="col">ID</th>
               <th scope="col">Course Term</th>
               <th scope="col">Actions</th>
             </tr>
@@ -29,7 +28,6 @@
           <tbody>
             {% for t in terms %}
             <tr>
-              <td>{{ t.id }}</td>
               <td>{{ t.name }}</td>
               <td>
                 <div class="d-inline-flex gap-2">
@@ -55,7 +53,7 @@
             </tr>
             {% empty %}
             <tr>
-              <td colspan="3" class="text-muted py-4">No course terms yet.</td>
+              <td colspan="2" class="text-muted py-4">No course terms yet.</td>
             </tr>
             {% endfor %}
           </tbody>

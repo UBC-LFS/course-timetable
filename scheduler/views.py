@@ -497,7 +497,7 @@ def course_term_affected(request, pk):
 @login_required(login_url='accounts:ldap_login')
 @staff_required
 def course_term_list(request):
-    terms = CourseTerm.objects.order_by("id")
+    terms = CourseTerm.objects.all()
     form = CourseTermForm()
     return render(request, "timetable/course_term_list.html", {"terms": terms, "form": form})
 
@@ -572,7 +572,7 @@ def course_code_affected(request, pk):
 @login_required(login_url='accounts:ldap_login')
 @staff_required
 def course_code_list(request):
-    codes = CourseCode.objects.order_by("id")
+    codes = CourseCode.objects.all()
     form = CourseCodeForm()
     return render(request, "timetable/course_code_list.html", {"codes": codes, "form": form})
 
@@ -655,7 +655,7 @@ def course_number_affected(request, pk):
 @login_required(login_url='accounts:ldap_login')
 @staff_required
 def course_number_list(request):
-    numbers = CourseNumber.objects.order_by("id")
+    numbers = CourseNumber.objects.all()
     form = CourseNumberForm()
     return render(request, "timetable/course_number_list.html", {"numbers": numbers, "form": form})
 
@@ -730,7 +730,7 @@ def course_section_affected(request, pk):
 @login_required(login_url='accounts:ldap_login')
 @staff_required
 def course_section_list(request):
-    sections = CourseSection.objects.order_by("id")
+    sections = CourseSection.objects.all()
     form = CourseSectionForm()
     return render(request, "timetable/course_section_list.html", {"sections": sections, "form": form})
 
@@ -805,7 +805,7 @@ def course_time_affected(request, pk):
 @login_required(login_url='accounts:ldap_login')
 @staff_required
 def course_time_list(request):
-    times = CourseTime.objects.order_by("id")
+    times = CourseTime.objects.all()
     form = CourseTimeForm()
     hours   = [f"{i:02d}" for i in range(24)]
     minutes = [f"{i:02d}" for i in range(60)]
@@ -886,7 +886,7 @@ def course_year_affected(request, pk):
 @login_required(login_url='accounts:ldap_login')
 @staff_required
 def course_year_list(request):
-    years = CourseYear.objects.order_by("id")
+    years = CourseYear.objects.all()
     form = CourseYearForm()
     # pass choices to template for the Edit modal's select
     year_choices = [str(y) for y in range(2024, 2043)]
@@ -960,7 +960,7 @@ def program_name_affected(request, pk):
 @login_required(login_url='accounts:ldap_login')
 @staff_required
 def program_name_list(request):
-    names = ProgramName.objects.order_by("id")
+    names = ProgramName.objects.all()
     form = ProgramNameForm()
     return render(request, "timetable/program_name_list.html", {"names": names, "form": form})
 

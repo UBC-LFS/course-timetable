@@ -27,7 +27,6 @@
         <table class="table table-bordered table-striped table-hover text-center align-middle mb-0">
           <thead>
             <tr>
-              <th scope="col">ID</th>
               <th scope="col">Course Code</th>
               <th scope="col">Course Color</th>
               <th scope="col">Actions</th>
@@ -36,7 +35,6 @@
           <tbody>
             {% for c in codes %}
             <tr>
-              <td>{{ c.id }}</td>
               <td>{{ c.name }}</td>
               <td>
                 <span class="d-inline-block rounded cc-swatch"
@@ -67,7 +65,7 @@
             </tr>
             {% empty %}
             <tr>
-              <td colspan="4" class="text-muted py-4">No course codes yet.</td>
+              <td colspan="3" class="text-muted py-4">No course codes yet.</td>
             </tr>
             {% endfor %}
           </tbody>
