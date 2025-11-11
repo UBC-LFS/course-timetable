@@ -219,7 +219,6 @@
             <table class="table table-bordered table-striped table-hover text-center">
               <thead>
                   <tr>
-                      <th>ID</th>
                       <th>Code</th>
                       <th>Number</th>
                       <th>Section</th>
@@ -230,7 +229,6 @@
               <tbody>
                   {% for course in invalid_courses %}
                   <tr>
-                      <td>{{ course.id }}</td>
                       <td>{{ course.code }}</td>
                       <td>{{ course.number }}</td>
                       <td>{{ course.section }}</td>
@@ -238,9 +236,6 @@
                       <td>{{ course.term }}</td>
                   </tr>
                   {% empty %}
-                  <tr>
-                      <td colspan="9">No courses found.</td>
-                  </tr>
                   {% endfor %}
               </tbody>
             </table>

@@ -167,7 +167,7 @@ def landing_page(request):
                 .prefetch_related("day")
                 .filter(academic_year__name=selected_year,
                         term__name__in=selected_terms)
-                .order_by("id")
+                .order_by("code__name", "number__name", "section__name", "academic_year__name", "term__name")
             )
 
             # BY Course
