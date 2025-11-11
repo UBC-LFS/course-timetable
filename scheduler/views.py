@@ -332,6 +332,8 @@ def redirect_root(request):
 @login_required(login_url='accounts:ldap_login')
 @staff_required
 def view_courses(request):
+    submitted = "search" in request.GET
+
     # Queries
     code_query = request.GET.get("code", "").strip()
     number_query = request.GET.get("number", "").strip()
@@ -339,32 +341,36 @@ def view_courses(request):
     term_query = request.GET.getlist("term", "")
     year_query = request.GET.getlist("year", "")
     day_query  = request.GET.getlist("day", "")
+    courses = Course.objects.none()
+    page_obj = None
+    
+    if submitted:
 
-    courses = Course.objects.all().order_by("id").prefetch_related("day")
+        courses = Course.objects.all().order_by("id").prefetch_related("day")
 
-    # Filters
-    if code_query:
-        courses = courses.filter(code__name__exact=code_query)
-    if number_query:
-        courses = courses.filter(number__name__exact=number_query)
-    if section_query:
-        courses = courses.filter(section__name__exact=section_query)
-    if term_query:
-        courses = courses.filter(term__name__in=term_query)
-    if year_query:
-        courses = courses.filter(academic_year__name__in=year_query)
-    if day_query:
-        # Any selected day matches
-        # distinct avoids dup rows from the M2M join
-        courses = courses.filter(day__name__in=day_query).distinct()
+        # Filters
+        if code_query:
+            courses = courses.filter(code__name__exact=code_query)
+        if number_query:
+            courses = courses.filter(number__name__exact=number_query)
+        if section_query:
+            courses = courses.filter(section__name__exact=section_query)
+        if term_query:
+            courses = courses.filter(term__name__in=term_query)
+        if year_query:
+            courses = courses.filter(academic_year__name__in=year_query)
+        if day_query:
+            # Any selected day matches
+            # distinct avoids dup rows from the M2M join
+            courses = courses.filter(day__name__in=day_query).distinct()
 
-    # Pagination
-    paginator = Paginator(courses, 20)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+        # Pagination
+        paginator = Paginator(courses, 20)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
 
-    for c in page_obj.object_list:
-        c.day_names = expand_days(c)
+        for c in page_obj.object_list:
+            c.day_names = expand_days(c)
 
     # Build terms
     all_terms = CourseTerm.objects.values_list("name", flat=True).distinct()
@@ -397,6 +403,7 @@ def view_courses(request):
         "term_query": term_query,
         "year_query": year_query,
         "day_query": day_query,
+        "submitted": submitted,
     })
 
 # helper: append error based on error types
