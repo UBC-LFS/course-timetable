@@ -10,32 +10,9 @@
 
 <div class="view-courses-container">
     <div class="courses-navbar">
-            <form method="get" action="{% url 'scheduler:view_courses' %}" class="mb-3 d-flex flex-wrap gap-3 align-items-end">
-                <div class="d-flex flex-column">
-                    <label class="form-label">Code</label>
-                    <input type="text" name="code" placeholder="Code (e.g. FNH)" value="{{ code_query }}" class="form-control w-auto">
-                </div>
-
-                <div class="d-flex flex-column">
-                    <label class="form-label">Number</label>
-                    <input type="text" name="number" placeholder="Number (e.g. 200)" value="{{ number_query }}" class="form-control w-auto">
-                </div>
-
-                <div class="d-flex flex-column">
-                    <label class="form-label">Section</label>
-                    <input type="text" name="section" placeholder="Section (e.g. 001)" value="{{ section_query }}" class="form-control w-auto">
-                </div>
-
-                <div class="d-flex flex-column">
-                    <label class="form-label">Term</label>
-                    <select id="courses-term" name="term" class="form-select" multiple>
-                        {% for t in terms %}
-                            <option value="{{ t }}" {% if t in term_query %}selected{% endif %}>{{ t }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="d-flex flex-column">
+            <form method="get" action="{% url 'scheduler:view_courses' %}" class="mb-3 row g-3 align-items-end">
+                
+                <div class="col-md-3">
                     <label class="form-label">Academic Year</label>
                     <select id="courses-year" name="year" class="form-select" multiple>
                         {% for y in years %}
@@ -44,7 +21,35 @@
                     </select>
                 </div>
 
-                <div class="d-flex flex-column">
+                <div class = "col-md-9">
+                    <!-- in order to let Code input start from second line -->
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label">Code</label>
+                    <input type="text" name="code" placeholder="Code (e.g. FNH)" value="{{ code_query }}" class="form-control">
+                </div>
+                
+                <div class="col-md-2">
+                    <label class="form-label">Number</label>
+                    <input type="text" name="number" placeholder="Number (e.g. 200)" value="{{ number_query }}" class="form-control">
+                </div>
+                
+                <div class="col-md-2">
+                    <label class="form-label">Section</label>
+                    <input type="text" name="section" placeholder="Section (e.g. 001)" value="{{ section_query }}" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Term</label>
+                    <select id="courses-term" name="term" class="form-select" multiple>
+                        {% for t in terms %}
+                            <option value="{{ t }}" {% if t in term_query %}selected{% endif %}>{{ t }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="col-md-3">
                     <label class="form-label">Day</label>
                     <select id="courses-day" name="day" class="form-select" multiple>
                         {% for d in days %}
@@ -53,7 +58,7 @@
                     </select>
                 </div>
               
-                <div class="d-flex flex-column">
+                <div class="col-md-1">
                     <button type="submit" class="btn btn-primary control-height px-3">Search</button>
                 </div>
 
@@ -62,7 +67,7 @@
     </div>
 
     <div class="d-flex justify-content-between mb-3">
-        <a href="{% url 'scheduler:create_course' %}" class="btn btn-success">+ Add Course</a>
+        <a href="{% url 'scheduler:create_course' %}" class="btn btn-success">Add</a>
     </div>
 
     <!-- Courses Table -->
