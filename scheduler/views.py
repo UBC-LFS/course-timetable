@@ -346,31 +346,34 @@ def view_courses(request):
     
     if submitted:
 
-        courses = Course.objects.all().order_by("id").prefetch_related("day")
+        if not year_query:
+            messages.error(request, "You have to select at least one Academic Year.")
+        else:
+            courses = Course.objects.all().order_by("id").prefetch_related("day")
 
-        # Filters
-        if code_query:
-            courses = courses.filter(code__name__exact=code_query)
-        if number_query:
-            courses = courses.filter(number__name__exact=number_query)
-        if section_query:
-            courses = courses.filter(section__name__exact=section_query)
-        if term_query:
-            courses = courses.filter(term__name__in=term_query)
-        if year_query:
-            courses = courses.filter(academic_year__name__in=year_query)
-        if day_query:
-            # Any selected day matches
-            # distinct avoids dup rows from the M2M join
-            courses = courses.filter(day__name__in=day_query).distinct()
+            # Filters
+            if year_query:
+                courses = courses.filter(academic_year__name__in=year_query)
+            if code_query:
+                courses = courses.filter(code__name__exact=code_query)
+            if number_query:
+                courses = courses.filter(number__name__exact=number_query)
+            if section_query:
+                courses = courses.filter(section__name__exact=section_query)
+            if term_query:
+                courses = courses.filter(term__name__in=term_query)
+            if day_query:
+                # Any selected day matches
+                # distinct avoids dup rows from the M2M join
+                courses = courses.filter(day__name__in=day_query).distinct()
 
-        # Pagination
-        paginator = Paginator(courses, 20)
-        page_number = request.GET.get("page")
-        page_obj = paginator.get_page(page_number)
+            # Pagination
+            paginator = Paginator(courses, 20)
+            page_number = request.GET.get("page")
+            page_obj = paginator.get_page(page_number)
 
-        for c in page_obj.object_list:
-            c.day_names = expand_days(c)
+            for c in page_obj.object_list:
+                c.day_names = expand_days(c)
 
     # Build terms
     all_terms = CourseTerm.objects.values_list("name", flat=True).distinct()

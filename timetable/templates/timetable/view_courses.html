@@ -14,12 +14,12 @@
     .view-courses-container.no-results .courses-navbar { margin-bottom: 0 !important; }
 </style>
 
-<div class="view-courses-container {% if not submitted %}no-results{% endif %}">
+<div class="view-courses-container {% if not submitted or not year_query %}no-results{% endif %}">
     <div class="courses-navbar">
             <form method="get" action="{% url 'scheduler:view_courses' %}" class="mb-3 row g-3 align-items-end">
                 
                 <div class="col-md-3">
-                    <label class="form-label">Academic Year</label>
+                    <label class="form-label">Academic Year *</label>
                     <select id="courses-year" name="year" class="form-select" multiple>
                         {% for y in years %}
                             <option value="{{ y }}" {% if y in year_query %}selected{% endif %}>{{ y }}</option>
@@ -64,7 +64,7 @@
                     </select>
                 </div>
               
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-primary control-height px-3" name="search" value="1">Search</button>
                 </div>
 
@@ -76,7 +76,7 @@
         <a href="{% url 'scheduler:create_course' %}" class="btn btn-success">Add</a>
     </div>
 
-    {% if submitted %}
+    {% if submitted and year_query %}
         <!-- Courses Table -->
         <div class="table-wrapper table-responsive w-10 ml-5 mr-5">
             <table class="table table-bordered table-striped table-hover text-center">
