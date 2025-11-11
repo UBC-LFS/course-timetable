@@ -45,7 +45,7 @@
                 name="term"
                 class="form-select"
                 multiple
-                {% if not selected_year %}disabled{% endif %}>
+                {% if not selected_year or not available_terms_for_year %}disabled{% endif %}>
           {% if selected_year %}
             {% for t in available_terms_for_year %}
               <option value="{{ t }}" {% if t in selected_terms %}selected{% endif %}>{{ t }}</option>
@@ -120,7 +120,7 @@
               <div class="col-md-6">
                 <label class="form-label">Year Level</label>
                 <select id="prog-level" name="plevel" class="form-select"
-                        {% if not selected_pname %}disabled{% endif %}>
+                        {% if not selected_pname or not available_levels_for_name %}disabled{% endif %}>
                   <option value="">-- Select Year Level --</option>
                   {% if selected_pname %}
                     {% for lvl in available_levels_for_name %}
