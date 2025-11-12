@@ -27,7 +27,6 @@
         <table class="table table-bordered table-striped table-hover table-responsive-md text-center table-vertical-middle">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>CWL</th>
@@ -41,7 +40,6 @@
             <tbody>
                 {% for user in users %}
                     <tr>
-                        <td>{{ user.id }}</td>
                         <td>{{ user.first_name }}</td>
                         <td>{{ user.last_name }}</td>
                         <td>{{ user.username }}</td>
@@ -174,13 +172,13 @@
                                                         <div class="list-note list-note-gray-600">
                                                             <h5>User Information</h5>
                                                             <ul class="list-left-15">
-                                                                <li>ID: {{ user.id }}</li>
                                                                 <li>First Name: {{ user.first_name|default:"None" }}</li>
                                                                 <li>Last Name: {{ user.last_name|default:"None" }}</li>
-                                                                <li>CWL: {{ user.profile.cwl|default:"None" }}</li>
+                                                                <li>CWL: {{ user.username|default:"None" }}</li>
                                                                 <li>Email: {{ user.email|default:"None" }}</li>
                                                                 <li>Is Staff: {{ user.is_staff }}</li>
                                                                 <li>Is Active: {{ user.is_active }}</li>
+                                                                <li>Is Supervisor: {{ user.is_superuser }}</li>
                                                             </ul>
                                                         </div>
 

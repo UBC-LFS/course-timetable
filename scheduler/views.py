@@ -347,7 +347,7 @@ def view_courses(request):
     if submitted:
 
         if not year_query:
-            messages.error(request, "You have to select at least one Academic Year.")
+            messages.error(request, "You have to select Academic Year.")
         else:
             courses = (Course.objects.all()
             .prefetch_related("day")

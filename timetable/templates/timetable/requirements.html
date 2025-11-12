@@ -19,7 +19,7 @@
 
     <div class="col-md-4">
       <label class="form-label">Program Year Level *</label>
-      <select id="level-select" name="level" class="form-select" {% if not selected_program_name %}disabled{% endif %}>
+      <select id="level-select" name="level" class="form-select" {% if not selected_program_name or not available_levels_for_name%}disabled{% endif %}>
         <option value="">-- Select Year Level --</option>
         {% if selected_program_name %}
           {% for lvl in available_levels_for_name %}
