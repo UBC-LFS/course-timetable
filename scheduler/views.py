@@ -433,7 +433,7 @@ def create_course(request):
         form = CourseForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Course created successfully.")
+            messages.success(request, "Course created.")
             return redirect("scheduler:view_courses")
         summary = _summarize_form_errors(form) or "Please fix the errors and try again."
         messages.error(request, f"Create failed: {summary}")
@@ -455,10 +455,10 @@ def edit_course(request, course_id):
         form = CourseForm(request.POST, instance=course)
         if form.is_valid():
             form.save()
-            messages.success(request, "Course updated successfully.")
+            messages.success(request, "Course edited.")
             return redirect("scheduler:view_courses")
         summary = _summarize_form_errors(form) or "Please fix the errors and try again."
-        messages.error(request, f"Update failed: {summary}")
+        messages.error(request, f"Edit failed: {summary}")
     else:
         form = CourseForm(instance=course)
 
@@ -562,10 +562,10 @@ def course_term_update(request, pk):
     form = CourseTermForm(request.POST, instance=term)
     if form.is_valid():
         form.save()
-        messages.success(request, "Course Term updated.")
+        messages.success(request, "Course Term edited.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
-        messages.error(request, f"Update failed: {err}")
+        messages.error(request, f"Edit failed: {err}")
     return redirect("scheduler:course_term")
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
@@ -641,14 +641,14 @@ def course_code_update(request, pk):
     form = CourseCodeForm(request.POST, instance=code)
     if form.is_valid():
         form.save()
-        messages.success(request, "Course Code updated.")
+        messages.success(request, "Course Code edited.")
     else:
         name_err = " ".join(form.errors.get("name", []))
         color_err = " ".join(form.errors.get("color", []))
         # Combine only non-empty error
         err_list = [msg.strip() for msg in [name_err, color_err] if msg]
         err = " ".join(err_list) or "Please fix the errors and try again."
-        messages.error(request, f"Update failed: {err}")
+        messages.error(request, f"Edit failed: {err}")
     return redirect("scheduler:course_code")
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
@@ -720,10 +720,10 @@ def course_number_update(request, pk):
     form = CourseNumberForm(request.POST, instance=number)
     if form.is_valid():
         form.save()
-        messages.success(request, "Course Number updated.")
+        messages.success(request, "Course Number edited.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
-        messages.error(request, f"Update failed: {err}")
+        messages.error(request, f"Edit failed: {err}")
     return redirect("scheduler:course_number")
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
@@ -795,10 +795,10 @@ def course_section_update(request, pk):
     form = CourseSectionForm(request.POST, instance=section)
     if form.is_valid():
         form.save()
-        messages.success(request, "Course Section updated.")
+        messages.success(request, "Course Section edited.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
-        messages.error(request, f"Update failed: {err}")
+        messages.error(request, f"Edit failed: {err}")
     return redirect("scheduler:course_section")
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
@@ -876,10 +876,10 @@ def course_time_update(request, pk):
     form = CourseTimeForm(request.POST, instance=t)
     if form.is_valid():
         form.save()
-        messages.success(request, "Course Time updated.")
+        messages.success(request, "Course Time edited.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
-        messages.error(request, f"Update failed: {err}")
+        messages.error(request, f"Edit failed: {err}")
     return redirect("scheduler:course_time")
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
@@ -954,10 +954,10 @@ def course_year_update(request, pk):
     form = CourseYearForm(request.POST, instance=y)
     if form.is_valid():
         form.save()
-        messages.success(request, "Course Year updated.")
+        messages.success(request, "Course Year edited.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
-        messages.error(request, f"Update failed: {err}")
+        messages.error(request, f"Edit failed: {err}")
     return redirect("scheduler:course_year")
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
@@ -1025,10 +1025,10 @@ def program_name_update(request, pk):
     form = ProgramNameForm(request.POST, instance=name)
     if form.is_valid():
         form.save()
-        messages.success(request, "Program Name updated.")
+        messages.success(request, "Program Name edited.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
-        messages.error(request, f"Update failed: {err}")
+        messages.error(request, f"Edit failed: {err}")
     return redirect("scheduler:program_name")
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
