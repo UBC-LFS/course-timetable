@@ -24,6 +24,9 @@ import json
 from accounts.views import staff_required
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
+from .models import HistoryLog, HistoryTopic, HistoryAction
+from django.utils import timezone
+from zoneinfo import ZoneInfo
 
 
 '''
@@ -503,6 +506,62 @@ def delete_course(request, course_id):
         "details": details,
     })
 
+def _log_history(topic, user, action, before_value="", after_value=""):
+    HistoryLog.objects.create(
+        topic=topic,
+        user=user,
+        action=action,
+        before_value=before_value,
+        after_value=after_value,
+    )
+
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+@staff_required
+def history(request):
+    """
+    - For now, only Course Term is implemented.
+    """
+    # static options (value, label)
+    options = [
+        ("course_term",   "Course Term"),
+        ("course_code",   "Course Code"),
+        ("course_number", "Course Number"),
+        ("course_section","Course Section"),
+        ("course_time",   "Course Time"),
+        ("course_year",   "Course Year"),
+        ("program_name",  "Program Name"),
+    ]
+
+    selected = None
+    logs = None  # None = haven't searched; [] = searched but nothing found
+
+    if request.method == "POST":
+        selected = request.POST.get("name", "").strip()
+
+        if not selected:
+            messages.error(request, "You have to select Name.")
+        else:
+            if selected == "course_term":
+                logs = (
+                    HistoryLog.objects
+                    .filter(topic=HistoryTopic.COURSE_TERM)
+                    .select_related("user")
+                )
+            else:
+                # Show an empty result for now; you can swap for a banner if you prefer
+                logs = []
+                messages.info(request, "Only Course Term history is available right now.")
+            for log in logs:
+                log.local_time = timezone.localtime(log.created_at, ZoneInfo("America/Vancouver")).strftime("%Y-%m-%d %H:%M:%S")
+
+    context = {
+        "options": options,
+        "selected": selected,
+        "logs": logs,
+    }
+    return render(request, "timetable/history.html", context)
+
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
 @staff_required
@@ -546,7 +605,13 @@ def course_term_list(request):
 def course_term_create(request):
     form = CourseTermForm(request.POST)
     if form.is_valid():
-        form.save()
+        obj = form.save()
+        _log_history(
+                    topic=HistoryTopic.COURSE_TERM,
+                    user=request.user,
+                    action=HistoryAction.CREATED,
+                    after_value=obj.name,
+        )
         messages.success(request, "Course Term created.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
@@ -559,9 +624,18 @@ def course_term_create(request):
 @require_POST
 def course_term_update(request, pk):
     term = get_object_or_404(CourseTerm, pk=pk)
+    before = term.name
     form = CourseTermForm(request.POST, instance=term)
     if form.is_valid():
-        form.save()
+        obj = form.save()
+        after = obj.name
+        _log_history(
+                    topic=HistoryTopic.COURSE_TERM,
+                    user=request.user,
+                    action=HistoryAction.EDITED,
+                    before_value=before,
+                    after_value=after,
+        )
         messages.success(request, "Course Term edited.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
@@ -574,7 +648,14 @@ def course_term_update(request, pk):
 @require_POST
 def course_term_delete(request, pk):
     term = get_object_or_404(CourseTerm, pk=pk)
+    before = term.name
     term.delete()
+    _log_history(
+                topic=HistoryTopic.COURSE_TERM,
+                user=request.user,
+                action=HistoryAction.DELETED,
+                before_value=before,
+    )
     messages.success(request, "Course Term deleted.")
     return redirect("scheduler:course_term")
 

@@ -3,6 +3,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import post_save, pre_delete, post_delete
 from django.dispatch import receiver
+from django.contrib.auth.models import User
     
 
 class CourseTerm(models.Model):
@@ -134,6 +135,7 @@ class Program(models.Model):
     def __str__(self):
         return f"{self.name} {self.year_level.name}"
     
+
 def _reslug_courses(qs):
     qs = qs.select_related("code", "number", "section", "academic_year", "term")
     for c in qs:
@@ -185,12 +187,6 @@ def _year_pre_delete(sender, instance, **kwargs):
 def _term_pre_delete(sender, instance, **kwargs):
     instance._affected_course_ids = list(instance.course_set.values_list("id", flat=True))
 
-# # after delete, those courses have FK=NULL; re-save them to refresh slug
-# def _reslug_after_delete(instance):
-#     ids = getattr(instance, "_affected_course_ids", [])
-#     if ids:
-#         _reslug_courses(Course.objects.filter(id__in=ids))
-
 def _cleanup_or_reslug_after_delete(instance):
     ids = getattr(instance, "_affected_course_ids", [])
     if not ids:
@@ -225,8 +221,41 @@ def _year_post_delete(sender, instance, **kwargs):
 def _term_post_delete(sender, instance, **kwargs):
     # _reslug_after_delete(instance)
     _cleanup_or_reslug_after_delete(instance)
-    
 
+
+class HistoryTopic(models.TextChoices):
+    COURSE_TERM   = "course_term", "Course Term"
+    COURSE_CODE   = "course_code", "Course Code"
+    COURSE_NUMBER = "course_number", "Course Number"
+    COURSE_SECTION= "course_section", "Course Section"
+    COURSE_TIME   = "course_time", "Course Time"
+    COURSE_YEAR   = "course_year", "Course Year"
+    PROGRAM_NAME  = "program_name", "Program Name"
+
+
+class HistoryAction(models.TextChoices):
+    CREATED = "created", "created"
+    EDITED  = "edited", "edited"
+    DELETED = "deleted", "deleted"
+
+
+class HistoryLog(models.Model):
+    topic       = models.CharField(max_length=20, choices=HistoryTopic.choices)
+    user        = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    action      = models.CharField(max_length=20, choices=HistoryAction.choices)
+    before_value= models.CharField(max_length=100, blank=True)
+    after_value = models.CharField(max_length=100, blank=True)
+    created_at  = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        if self.action == HistoryAction.EDITED:
+            return f"{getattr(self.user, 'username', 'None')} edited {self.before_value} to {self.after_value}"
+        if self.action == HistoryAction.DELETED:
+            return f"{getattr(self.user, 'username', 'None')} deleted {self.before_value}"
+        return f"{getattr(self.user, 'username', 'None')} created {self.after_value}"
 
 
     

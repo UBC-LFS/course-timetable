@@ -1,0 +1,58 @@
+{% extends 'timetable/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-3">
+
+    <h2 class="mb-3">History</h2>
+
+  <!-- Search area -->
+    <form method="post">
+        {% csrf_token %}
+        <div class="d-flex flex-wrap align-items-end gap-3">
+            <div>
+                <label for="id_name" class="form-label mb-1">Name *</label>
+                <select id="id_name" name="name" class="form-select" style="min-width: 260px;">
+                    <option value="">-- Select --</option>
+                    {% for val, label in options %}
+                    <option value="{{ val }}" {% if selected == val %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+    
+
+  {% if logs != None %}
+    <div class="card mt-3">
+        <div class="card-body">
+            {% if logs %}
+            <ul class="list-unstyled mb-0">
+                {% for row in logs %}
+                <li class="mb-2">
+                    <span class="me-2">•</span>
+                    <strong>{{ row.user.username }}</strong>
+                    {% if row.action == "deleted" %}
+                    deleted <strong>{{ row.before_value }}</strong>
+                    {% elif row.action == "edited" %}
+                    edited <strong>{{ row.before_value }}</strong> to <strong>{{ row.after_value }}</strong>
+                    {% else %}
+                    created <strong>{{ row.after_value }}</strong>
+                    {% endif %}
+                    <span class="text-muted ms-2">{{ row.local_time }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="text-muted mb-0">No history found.</p>
+            {% endif %}
+        </div>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}
