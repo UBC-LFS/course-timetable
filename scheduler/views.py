@@ -548,10 +548,43 @@ def history(request):
                     .filter(topic=HistoryTopic.COURSE_TERM)
                     .select_related("user")
                 )
-            else:
-                # Show an empty result for now; you can swap for a banner if you prefer
-                logs = []
-                messages.info(request, "Only Course Term history is available right now.")
+            if selected == "course_code":
+                logs = (
+                    HistoryLog.objects
+                    .filter(topic=HistoryTopic.COURSE_CODE)
+                    .select_related("user")
+                )
+            if selected == "course_number":
+                logs = (
+                    HistoryLog.objects
+                    .filter(topic=HistoryTopic.COURSE_NUMBER)
+                    .select_related("user")
+                )
+            if selected == "course_section":
+                logs = (
+                    HistoryLog.objects
+                    .filter(topic=HistoryTopic.COURSE_SECTION)
+                    .select_related("user")
+                )
+            if selected == "course_time":
+                logs = (
+                    HistoryLog.objects
+                    .filter(topic=HistoryTopic.COURSE_TIME)
+                    .select_related("user")
+                )
+            if selected == "course_year":
+                logs = (
+                    HistoryLog.objects
+                    .filter(topic=HistoryTopic.COURSE_YEAR)
+                    .select_related("user")
+                )
+            if selected == "program_name":
+                logs = (
+                    HistoryLog.objects
+                    .filter(topic=HistoryTopic.PROGRAM_NAME)
+                    .select_related("user")
+                )
+                
             for log in logs:
                 log.local_time = timezone.localtime(log.created_at, ZoneInfo("America/Vancouver")).strftime("%Y-%m-%d %H:%M:%S")
 
@@ -702,7 +735,13 @@ def course_code_list(request):
 def course_code_create(request):
     form = CourseCodeForm(request.POST)
     if form.is_valid():
-        form.save()
+        obj = form.save()
+        _log_history(
+                    topic=HistoryTopic.COURSE_CODE,
+                    user=request.user,
+                    action=HistoryAction.CREATED,
+                    after_value=obj.name + obj.color,
+        )
         messages.success(request, "Course Code created.")
     else:
         name_err = " ".join(form.errors.get("name", []))
@@ -719,9 +758,18 @@ def course_code_create(request):
 @require_POST
 def course_code_update(request, pk):
     code = get_object_or_404(CourseCode, pk=pk)
+    before = code.name + code.color
     form = CourseCodeForm(request.POST, instance=code)
     if form.is_valid():
-        form.save()
+        obj = form.save()
+        after = obj.name + obj.color
+        _log_history(
+                    topic=HistoryTopic.COURSE_CODE,
+                    user=request.user,
+                    action=HistoryAction.EDITED,
+                    before_value=before,
+                    after_value=after,
+        )
         messages.success(request, "Course Code edited.")
     else:
         name_err = " ".join(form.errors.get("name", []))
@@ -738,7 +786,14 @@ def course_code_update(request, pk):
 @require_POST
 def course_code_delete(request, pk):
     code = get_object_or_404(CourseCode, pk=pk)
+    before = code.name + code.color
     code.delete()
+    _log_history(
+                topic=HistoryTopic.COURSE_CODE,
+                user=request.user,
+                action=HistoryAction.DELETED,
+                before_value=before,
+    )
     messages.success(request, "Course Code deleted.")
     return redirect("scheduler:course_code")
 

@@ -1,0 +1,42 @@
+[
+{
+  "model": "scheduler.coursecode",
+  "pk": 1,
+  "fields": {
+    "name": "APBI",
+    "color": "#2BB1D6"
+  }
+},
+{
+  "model": "scheduler.coursecode",
+  "pk": 2,
+  "fields": {
+    "name": "FNH",
+    "color": "#43D7C7"
+  }
+},
+{
+  "model": "scheduler.coursecode",
+  "pk": 3,
+  "fields": {
+    "name": "FRE",
+    "color": "#E47CC0"
+  }
+},
+{
+  "model": "scheduler.coursecode",
+  "pk": 4,
+  "fields": {
+    "name": "GRS",
+    "color": "#D2B64C"
+  }
+},
+{
+  "model": "scheduler.coursecode",
+  "pk": 5,
+  "fields": {
+    "name": "LFS",
+    "color": "#F46C63"
+  }
+}
+]

@@ -31,22 +31,53 @@
     <div class="card mt-3">
         <div class="card-body">
             {% if logs %}
-            <ul class="list-unstyled mb-0">
-                {% for row in logs %}
-                <li class="mb-2">
-                    <span class="me-2">•</span>
-                    <strong>{{ row.user.username }}</strong>
-                    {% if row.action == "deleted" %}
-                    deleted <strong>{{ row.before_value }}</strong>
-                    {% elif row.action == "edited" %}
-                    edited <strong>{{ row.before_value }}</strong> to <strong>{{ row.after_value }}</strong>
-                    {% else %}
-                    created <strong>{{ row.after_value }}</strong>
-                    {% endif %}
-                    <span class="text-muted ms-2">{{ row.local_time }}</span>
-                </li>
-                {% endfor %}
-            </ul>
+                {% if selected == "course_code" %}
+                <ul class="list-unstyled mb-0">
+                    {% for row in logs %}
+                    <li class="mb-2">
+                        <span class="me-2">•</span>
+                        <strong>{{ row.user.username }}</strong>
+                        {% if row.action == "deleted" %}
+                        deleted
+                        <strong>{{ row.before_value|slice:":-7" }}</strong>
+                        <strong>{{ row.before_value|slice:"-7:" }}</strong>
+
+                        {% elif row.action == "edited" %}
+                        edited 
+                        <strong>{{ row.before_value|slice:":-7" }}</strong>
+                        <strong>{{ row.before_value|slice:"-7:" }}</strong>
+                        to 
+                        <strong>{{ row.after_value|slice:":-7" }}</strong>
+                        <strong>{{ row.after_value|slice:"-7:" }}</strong>
+                        
+                        {% else %}
+                        created 
+                        <strong>{{ row.after_value|slice:":-7" }}</strong>
+                        <strong>{{ row.after_value|slice:"-7:" }}</strong>
+                        {% endif %}
+
+                        <span class="text-muted ms-2">{{ row.local_time }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <ul class="list-unstyled mb-0">
+                    {% for row in logs %}
+                    <li class="mb-2">
+                        <span class="me-2">•</span>
+                        <strong>{{ row.user.username }}</strong>
+                        {% if row.action == "deleted" %}
+                        deleted <strong>{{ row.before_value }}</strong>
+                        {% elif row.action == "edited" %}
+                        edited <strong>{{ row.before_value }}</strong> to <strong>{{ row.after_value }}</strong>
+                        {% else %}
+                        created <strong>{{ row.after_value }}</strong>
+                        {% endif %}
+                        <span class="text-muted ms-2">{{ row.local_time }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
             {% else %}
             <p class="text-muted mb-0">No history found.</p>
             {% endif %}
