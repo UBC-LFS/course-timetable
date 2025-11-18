@@ -5,8 +5,9 @@ from django.shortcuts import render
 from django.contrib.auth import login as djangoLogin, logout as djangoLogout
 from django.contrib.auth.models import User
 from core import auth
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
+from scheduler.models import (Profile, Role)
 
 # Create your views here.
 
@@ -38,11 +39,6 @@ General flow:
 - Use built in django login after all checks
 '''
 
-# a reusable “staff required” decorator
-staff_required = user_passes_test(
-    lambda u: u.is_authenticated and u.is_staff,
-    login_url='accounts:ldap_login'
-)
 
 @never_cache
 def ldap_login(request):
@@ -68,15 +64,13 @@ def ldap_login(request):
             if User.objects.filter(username=cwl).exists():
                 user = User.objects.get(username=cwl)
             else:
-                # Create a new user entry
                 user = User.objects.create_user(
-                    password=None, # Do not store password
+                    password=None,
                     username=cwl,
-                    is_superuser=False,
-                    is_staff=True,
-                    is_active=True
                 )
                 user.save()
+                user_role, _ = Role.objects.get_or_create(name= "User")
+                Profile.objects.get_or_create(user= user, role= user_role)
             if user:
                 djangoLogin(request, user)
                 return redirect('scheduler:landing_page')
@@ -94,13 +88,11 @@ def ldap_login(request):
 
 @never_cache
 def ldap_logout(request):
-    print('See you again {}'.format(request.user))
     djangoLogout(request)
     return redirect('accounts:ldap_login')
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def view_users(request):
     users_list = User.objects.all()
     
@@ -109,8 +101,7 @@ def view_users(request):
     })
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
-@login_required(login_url='accounts:ldap_login')
-@staff_required  
+@login_required(login_url='accounts:ldap_login') 
 def update_user(request, user_id):
     if request.method == 'POST':
         user = User.objects.get(id=user_id)
@@ -132,7 +123,6 @@ def update_user(request, user_id):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def create_user(request):
     
     first_name = request.POST.get('first_name', '')
@@ -175,7 +165,6 @@ def create_user(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def delete_user(request, user_id):
     user = User.objects.get(id=user_id)
     try:

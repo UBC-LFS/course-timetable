@@ -21,7 +21,6 @@ from django.http import JsonResponse
 from django.db.models import Min
 from django.views.decorators.http import require_GET
 import json
-from accounts.views import staff_required
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from .models import HistoryLog, HistoryTopic, HistoryAction
@@ -57,7 +56,6 @@ def expand_days(course):
 # --- AJAX: terms available for a given academic year ---
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_GET
 def ajax_terms_for_year(request):
     year = request.GET.get("year", "").strip()  # e.g., "2025"
@@ -75,7 +73,6 @@ def ajax_terms_for_year(request):
 '''This function handles the landing page of the timetable application.'''
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def landing_page(request):
     if not request.user.is_authenticated:
         return redirect('accounts:ldap_login')
@@ -333,7 +330,6 @@ def redirect_root(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def view_courses(request):
     submitted = "search" in request.GET
 
@@ -430,7 +426,6 @@ def _summarize_form_errors(form):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def create_course(request):
     if request.method == "POST":
         form = CourseForm(request.POST)
@@ -450,7 +445,6 @@ def create_course(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def edit_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
@@ -472,7 +466,6 @@ def edit_course(request, course_id):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def delete_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
@@ -517,7 +510,6 @@ def _log_history(topic, user, action, before_value="", after_value=""):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def history(request):
     """
     - For now, only Course Term is implemented.
@@ -597,7 +589,6 @@ def history(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def course_term_affected(request, pk):
     """
     Return all courses currently pointing at this CourseTerm.
@@ -625,7 +616,6 @@ def course_term_affected(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def course_term_list(request):
     terms = CourseTerm.objects.all()
     form = CourseTermForm()
@@ -633,7 +623,6 @@ def course_term_list(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_term_create(request):
     form = CourseTermForm(request.POST)
@@ -653,7 +642,6 @@ def course_term_create(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_term_update(request, pk):
     term = get_object_or_404(CourseTerm, pk=pk)
@@ -677,7 +665,6 @@ def course_term_update(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_term_delete(request, pk):
     term = get_object_or_404(CourseTerm, pk=pk)
@@ -694,7 +681,6 @@ def course_term_delete(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def course_code_affected(request, pk):
     """
     Return all courses currently pointing at this CourseCode.
@@ -722,7 +708,6 @@ def course_code_affected(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def course_code_list(request):
     codes = CourseCode.objects.all()
     form = CourseCodeForm()
@@ -730,7 +715,6 @@ def course_code_list(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_code_create(request):
     form = CourseCodeForm(request.POST)
@@ -754,7 +738,6 @@ def course_code_create(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_code_update(request, pk):
     code = get_object_or_404(CourseCode, pk=pk)
@@ -782,7 +765,6 @@ def course_code_update(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_code_delete(request, pk):
     code = get_object_or_404(CourseCode, pk=pk)
@@ -799,7 +781,6 @@ def course_code_delete(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def course_number_affected(request, pk):
     """
     Return all courses currently pointing at this CourseNumber.
@@ -827,7 +808,6 @@ def course_number_affected(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def course_number_list(request):
     numbers = CourseNumber.objects.all()
     form = CourseNumberForm()
@@ -835,7 +815,6 @@ def course_number_list(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_number_create(request):
     form = CourseNumberForm(request.POST)
@@ -855,7 +834,6 @@ def course_number_create(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_number_update(request, pk):
     number = get_object_or_404(CourseNumber, pk=pk)
@@ -879,7 +857,6 @@ def course_number_update(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_number_delete(request, pk):
     number = get_object_or_404(CourseNumber, pk=pk)
@@ -896,7 +873,6 @@ def course_number_delete(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def course_section_affected(request, pk):
     """
     Return all courses currently pointing at this CourseSection.
@@ -924,7 +900,6 @@ def course_section_affected(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def course_section_list(request):
     sections = CourseSection.objects.all()
     form = CourseSectionForm()
@@ -932,7 +907,6 @@ def course_section_list(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_section_create(request):
     form = CourseSectionForm(request.POST)
@@ -952,7 +926,6 @@ def course_section_create(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_section_update(request, pk):
     section = get_object_or_404(CourseSection, pk=pk)
@@ -976,7 +949,6 @@ def course_section_update(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_section_delete(request, pk):
     section = get_object_or_404(CourseSection, pk=pk)
@@ -993,7 +965,6 @@ def course_section_delete(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def course_time_affected(request, pk):
     """
     Return all courses referencing this CourseTime as start_time or end_time.
@@ -1021,7 +992,6 @@ def course_time_affected(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def course_time_list(request):
     times = CourseTime.objects.all()
     form = CourseTimeForm()
@@ -1035,7 +1005,6 @@ def course_time_list(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_time_create(request):
     form = CourseTimeForm(request.POST)
@@ -1055,7 +1024,6 @@ def course_time_create(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_time_update(request, pk):
     t = get_object_or_404(CourseTime, pk=pk)
@@ -1079,7 +1047,6 @@ def course_time_update(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_time_delete(request, pk):
     t = get_object_or_404(CourseTime, pk=pk)
@@ -1096,7 +1063,6 @@ def course_time_delete(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def course_year_affected(request, pk):
     """
     Return all courses currently pointing at this CourseYear.
@@ -1124,7 +1090,6 @@ def course_year_affected(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def course_year_list(request):
     years = CourseYear.objects.all()
     form = CourseYearForm()
@@ -1135,7 +1100,6 @@ def course_year_list(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_year_create(request):
     form = CourseYearForm(request.POST)
@@ -1155,7 +1119,6 @@ def course_year_create(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_year_update(request, pk):
     y = get_object_or_404(CourseYear, pk=pk)
@@ -1179,7 +1142,6 @@ def course_year_update(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def course_year_delete(request, pk):
     y = get_object_or_404(CourseYear, pk=pk)
@@ -1196,7 +1158,6 @@ def course_year_delete(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def program_name_affected(request, pk):
     """
     Return all programs currently pointing to this ProgramName.
@@ -1220,7 +1181,6 @@ def program_name_affected(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def program_name_list(request):
     names = ProgramName.objects.all()
     form = ProgramNameForm()
@@ -1228,7 +1188,6 @@ def program_name_list(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def program_name_create(request):
     form = ProgramNameForm(request.POST)
@@ -1248,7 +1207,6 @@ def program_name_create(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def program_name_update(request, pk):
     name = get_object_or_404(ProgramName, pk=pk)
@@ -1272,7 +1230,6 @@ def program_name_update(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def program_name_delete(request, pk):
     name = get_object_or_404(ProgramName, pk=pk)
@@ -1290,7 +1247,6 @@ def program_name_delete(request, pk):
 # --- AJAX: year levels available for a given program name ---
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_GET
 def ajax_levels_for_program(request):
     program_name = request.GET.get("program", "").strip()
@@ -1310,7 +1266,6 @@ def ajax_levels_for_program(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 def requirements(request):
     """
     Renders the Requirements page with two required filters:
@@ -1389,7 +1344,6 @@ def requirements(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def requirements_detach_course(request):
     """
@@ -1421,7 +1375,6 @@ def requirements_detach_course(request):
 # --- AJAX: numbers available for a given code ---
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_GET
 def ajax_numbers_for_code(request):
     code_name = request.GET.get("code", "").strip()
@@ -1438,7 +1391,6 @@ def ajax_numbers_for_code(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-@staff_required
 @require_POST
 def requirements_attach_course(request):
     program_name = request.POST.get("program_name", "").strip()

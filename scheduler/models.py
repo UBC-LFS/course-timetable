@@ -258,7 +258,19 @@ class HistoryLog(models.Model):
         return f"{getattr(self.user, 'username', 'None')} created {self.after_value}"
 
 
-    
+class Role(models.Model):
+    name = models.CharField(max_length=150, unique=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
     
 
-    
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} ({self.role})"

@@ -12,6 +12,9 @@ python manage.py dumpdata scheduler.ProgramYearLevel --indent 2 > fixtures/progr
 python manage.py dumpdata scheduler.ProgramName --indent 2 > fixtures/program_names.json
 python manage.py dumpdata scheduler.Course --indent 2 > fixtures/courses.json
 python manage.py dumpdata scheduler.Program --indent 2 > fixtures/programs.json
+python manage.py dumpdata scheduler.Role --indent 2 > fixtures/roles.json
+python manage.py dumpdata scheduler.Profile --indent 2 > fixtures/Profiles.json
+python manage.py dumpdata auth.User --indent 2 > fixtures/Users.json
 
 python manage.py flush
 

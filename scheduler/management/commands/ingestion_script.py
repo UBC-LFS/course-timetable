@@ -2,9 +2,10 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 from scheduler.models import (
     Course, CourseCode, CourseNumber, CourseSection, CourseTerm,
-    CourseDay, CourseTime, CourseYear, ProgramYearLevel, ProgramName, Program
+    CourseDay, CourseTime, CourseYear, ProgramYearLevel, ProgramName, Program, Role, Profile
 )
 from datetime import datetime, timedelta
+from django.contrib.auth.models import User
         
 class Command(BaseCommand):
     help = "Ingest courses and program relationships from Excel file"
@@ -16,6 +17,18 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         path = "scheduler/source_data/Course Map Raw Data 2.xlsx" # change if needed
         xl = pd.ExcelFile(path)
+
+        # # add roles
+        admin_role, _ = Role.objects.get_or_create(name= "Admin")
+        user_role, _ = Role.objects.get_or_create(name= "User")
+
+        # # creat Learning centre staff profile
+        # # 1. jhu32
+        user1 = User.objects.create_user(
+                    password=None,
+                    username="jhu32",
+                )
+        Profile.objects.get_or_create(user= user1, role= admin_role)
 
         for sheet_name in xl.sheet_names:
             df = xl.parse(sheet_name)
