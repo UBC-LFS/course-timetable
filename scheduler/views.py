@@ -937,7 +937,13 @@ def course_section_list(request):
 def course_section_create(request):
     form = CourseSectionForm(request.POST)
     if form.is_valid():
-        form.save()
+        obj = form.save()
+        _log_history(
+                    topic=HistoryTopic.COURSE_SECTION,
+                    user=request.user,
+                    action=HistoryAction.CREATED,
+                    after_value=obj.name,
+        )
         messages.success(request, "Course Section created.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
@@ -950,9 +956,18 @@ def course_section_create(request):
 @require_POST
 def course_section_update(request, pk):
     section = get_object_or_404(CourseSection, pk=pk)
+    before = section.name
     form = CourseSectionForm(request.POST, instance=section)
     if form.is_valid():
-        form.save()
+        obj = form.save()
+        after = obj.name
+        _log_history(
+                    topic=HistoryTopic.COURSE_SECTION,
+                    user=request.user,
+                    action=HistoryAction.EDITED,
+                    before_value=before,
+                    after_value=after,
+        )
         messages.success(request, "Course Section edited.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
@@ -965,7 +980,14 @@ def course_section_update(request, pk):
 @require_POST
 def course_section_delete(request, pk):
     section = get_object_or_404(CourseSection, pk=pk)
+    before = section.name
     section.delete()
+    _log_history(
+                topic=HistoryTopic.COURSE_SECTION,
+                user=request.user,
+                action=HistoryAction.DELETED,
+                before_value=before,
+    )
     messages.success(request, "Course Section deleted.")
     return redirect("scheduler:course_section")
 
@@ -1018,7 +1040,13 @@ def course_time_list(request):
 def course_time_create(request):
     form = CourseTimeForm(request.POST)
     if form.is_valid():
-        form.save()
+        obj = form.save()
+        _log_history(
+                    topic=HistoryTopic.COURSE_TIME,
+                    user=request.user,
+                    action=HistoryAction.CREATED,
+                    after_value=obj.name,
+        )
         messages.success(request, "Course Time created.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
@@ -1031,9 +1059,18 @@ def course_time_create(request):
 @require_POST
 def course_time_update(request, pk):
     t = get_object_or_404(CourseTime, pk=pk)
+    before = t.name
     form = CourseTimeForm(request.POST, instance=t)
     if form.is_valid():
-        form.save()
+        obj = form.save()
+        after = obj.name
+        _log_history(
+                    topic=HistoryTopic.COURSE_TIME,
+                    user=request.user,
+                    action=HistoryAction.EDITED,
+                    before_value=before,
+                    after_value=after,
+        )
         messages.success(request, "Course Time edited.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
@@ -1046,7 +1083,14 @@ def course_time_update(request, pk):
 @require_POST
 def course_time_delete(request, pk):
     t = get_object_or_404(CourseTime, pk=pk)
+    before = t.name
     t.delete()
+    _log_history(
+                topic=HistoryTopic.COURSE_TIME,
+                user=request.user,
+                action=HistoryAction.DELETED,
+                before_value=before,
+    )
     messages.success(request, "Course Time deleted.")
     return redirect("scheduler:course_time")
 
@@ -1096,7 +1140,13 @@ def course_year_list(request):
 def course_year_create(request):
     form = CourseYearForm(request.POST)
     if form.is_valid():
-        form.save()
+        obj = form.save()
+        _log_history(
+                    topic=HistoryTopic.COURSE_YEAR,
+                    user=request.user,
+                    action=HistoryAction.CREATED,
+                    after_value=obj.name,
+        )
         messages.success(request, "Course Year created.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
@@ -1109,9 +1159,18 @@ def course_year_create(request):
 @require_POST
 def course_year_update(request, pk):
     y = get_object_or_404(CourseYear, pk=pk)
+    before = y.name
     form = CourseYearForm(request.POST, instance=y)
     if form.is_valid():
-        form.save()
+        obj = form.save()
+        after = obj.name
+        _log_history(
+                    topic=HistoryTopic.COURSE_YEAR,
+                    user=request.user,
+                    action=HistoryAction.EDITED,
+                    before_value=before,
+                    after_value=after,
+        )
         messages.success(request, "Course Year edited.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
@@ -1124,7 +1183,14 @@ def course_year_update(request, pk):
 @require_POST
 def course_year_delete(request, pk):
     y = get_object_or_404(CourseYear, pk=pk)
+    before = y.name
     y.delete()
+    _log_history(
+                topic=HistoryTopic.COURSE_YEAR,
+                user=request.user,
+                action=HistoryAction.DELETED,
+                before_value=before,
+    )
     messages.success(request, "Course Year deleted.")
     return redirect("scheduler:course_year")
 
@@ -1167,7 +1233,13 @@ def program_name_list(request):
 def program_name_create(request):
     form = ProgramNameForm(request.POST)
     if form.is_valid():
-        form.save()
+        obj = form.save()
+        _log_history(
+                    topic=HistoryTopic.PROGRAM_NAME,
+                    user=request.user,
+                    action=HistoryAction.CREATED,
+                    after_value=obj.name,
+        )
         messages.success(request, "Program Name created.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
@@ -1180,9 +1252,18 @@ def program_name_create(request):
 @require_POST
 def program_name_update(request, pk):
     name = get_object_or_404(ProgramName, pk=pk)
+    before = name.name
     form = ProgramNameForm(request.POST, instance=name)
     if form.is_valid():
-        form.save()
+        obj = form.save()
+        after = obj.name
+        _log_history(
+                    topic=HistoryTopic.PROGRAM_NAME,
+                    user=request.user,
+                    action=HistoryAction.EDITED,
+                    before_value=before,
+                    after_value=after,
+        )
         messages.success(request, "Program Name edited.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
@@ -1195,7 +1276,14 @@ def program_name_update(request, pk):
 @require_POST
 def program_name_delete(request, pk):
     name = get_object_or_404(ProgramName, pk=pk)
+    before = name.name
     name.delete()
+    _log_history(
+                topic=HistoryTopic.PROGRAM_NAME,
+                user=request.user,
+                action=HistoryAction.DELETED,
+                before_value=before,
+    )
     messages.success(request, "Program Name deleted.")
     return redirect("scheduler:program_name")
 
