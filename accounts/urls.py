@@ -9,7 +9,7 @@ urlpatterns = [
     path('logout/', views.ldap_logout, name='ldap_logout'),
 
     path('view/', views.view_profiles, name='view_profiles'),
-    path('create_profile/', views.create_profile, name='create_profile'),
+    path('create/', views.create_profile, name='create_profile'),
     path('update/<int:pk>/', views.update_profile, name='update_profile'),
     path('delete/<int:pk>/', views.delete_profile, name='delete_profile'),
     

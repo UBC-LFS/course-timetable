@@ -11,6 +11,7 @@ from django.views.decorators.cache import cache_control
 from scheduler.models import (Profile, Role)
 from scheduler.forms import RoleForm
 from django.views.decorators.http import require_POST
+from functools import wraps
 
 # Create your views here.
 
@@ -42,6 +43,22 @@ General flow:
 - Use built in django login after all checks
 '''
 
+def admin_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        # If this decorator is stacked under @login_required,
+        # request.user is guaranteed to be authenticated here.
+        user = request.user
+
+        profile = Profile.objects.select_related("role").get(user=user)
+        role_name = (profile.role.name if profile.role else "")
+        if role_name != "Admin":
+            messages.error(request, "You do not have permission to access this page.")
+            return redirect("scheduler:landing_page")
+
+        return view_func(request, *args, **kwargs)
+
+    return _wrapped_view
 
 @never_cache
 def ldap_login(request):
@@ -96,6 +113,7 @@ def ldap_logout(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
+@admin_required
 def role_affected(request, pk):
     """
     Return all profiles currently pointing at this Role.
@@ -118,6 +136,7 @@ def role_affected(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
+@admin_required
 def role_list(request):
     roles = Role.objects.all()
     form = RoleForm()
@@ -125,6 +144,7 @@ def role_list(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
+@admin_required
 @require_POST
 def role_create(request):
     form = RoleForm(request.POST)
@@ -138,6 +158,7 @@ def role_create(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
+@admin_required
 @require_POST
 def role_update(request, pk):
     role = get_object_or_404(Role, pk=pk)
@@ -152,6 +173,7 @@ def role_update(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
+@admin_required
 @require_POST
 def role_delete(request, pk):
     role = get_object_or_404(Role, pk=pk)
@@ -161,6 +183,7 @@ def role_delete(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
+@admin_required
 def view_profiles(request):
     profiles = (
         Profile.objects
@@ -175,7 +198,8 @@ def view_profiles(request):
     })
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
-@login_required(login_url='accounts:ldap_login') 
+@login_required(login_url='accounts:ldap_login')
+@admin_required 
 @require_POST
 def update_profile(request, pk):
     profile = get_object_or_404(
@@ -211,6 +235,7 @@ def update_profile(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
+@admin_required
 @require_POST
 def create_profile(request):
     """
@@ -251,6 +276,7 @@ def create_profile(request):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
+@admin_required
 @require_POST
 def delete_profile(request, pk):
     profile = get_object_or_404(Profile.objects.select_related("user"), pk=pk)
