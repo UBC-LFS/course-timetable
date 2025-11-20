@@ -1,4 +1,5 @@
-from django.shortcuts import redirect
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.views.decorators.cache import never_cache
 from django.shortcuts import render
@@ -8,6 +9,8 @@ from core import auth
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from scheduler.models import (Profile, Role)
+from scheduler.forms import RoleForm
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 
@@ -90,6 +93,71 @@ def ldap_login(request):
 def ldap_logout(request):
     djangoLogout(request)
     return redirect('accounts:ldap_login')
+
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+def role_affected(request, pk):
+    """
+    Return all profiles currently pointing at this Role.
+    Used by the preview modal for both edit and delete.
+    """
+    role = get_object_or_404(Role, pk=pk)
+    qs = (Profile.objects
+          .filter(role=role)
+          .select_related("user", "role")
+          .order_by("role__name"))
+
+    items = [{
+        "role": getattr(p.role, "name", "") or "None",
+        "username": getattr(p.user, "username", "") or "None",
+        "first_name": getattr(p.user, "first_name", "") or "None",
+        "last_name": getattr(p.user, "last_name", "") or "None",
+    } for p in qs]
+
+    return JsonResponse({"count": len(items), "items": items})
+
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+def role_list(request):
+    roles = Role.objects.all()
+    form = RoleForm()
+    return render(request, "accounts/role_list.html", {"roles": roles, "form": form})
+
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+@require_POST
+def role_create(request):
+    form = RoleForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Role created.")
+    else:
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Create failed: {err}")
+    return redirect("accounts:role")
+
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+@require_POST
+def role_update(request, pk):
+    role = get_object_or_404(Role, pk=pk)
+    form = RoleForm(request.POST, instance=role)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Role edited.")
+    else:
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Edit failed: {err}")
+    return redirect("accounts:role")
+
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+@require_POST
+def role_delete(request, pk):
+    role = get_object_or_404(Role, pk=pk)
+    role.delete()
+    messages.success(request, "Role deleted.")
+    return redirect("accounts:role")
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')

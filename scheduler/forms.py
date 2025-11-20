@@ -2,7 +2,7 @@ from django import forms
 from datetime import datetime 
 from .models import (
     Course, CourseTerm, CourseCode, CourseNumber,
-    CourseSection, CourseYear, CourseTime, CourseDay
+    CourseSection, CourseYear, CourseTime, CourseDay, Role
 )
 from .models import ProgramName
 from django.core.exceptions import ValidationError
@@ -234,4 +234,22 @@ class ProgramNameForm(forms.ModelForm):
             qs = qs.exclude(pk=self.instance.pk)
         if qs.exists():
             raise forms.ValidationError("A Program Name with this value already exists.")
+        return name
+    
+
+class RoleForm(forms.ModelForm):
+    class Meta:
+        model = Role
+        fields = ["name"]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "e.g. Admin"}),
+        }
+
+    def clean_name(self):
+        name = self.cleaned_data["name"].strip()
+        qs = Role.objects.filter(name__exact=name)
+        if self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise forms.ValidationError("A Role with this name already exists.")
         return name

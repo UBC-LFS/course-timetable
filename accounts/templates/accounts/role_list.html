@@ -1,0 +1,267 @@
+{% extends 'timetable/base.html' %}
+{% load static %}
+
+{% block title %}Role{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Roles</h3>
+    <!-- Create button -->
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+      Create
+    </button>
+  </div>
+
+  <!-- Roles table -->
+  <div class="card">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover text-center align-middle mb-0">
+          <thead>
+            <tr>
+              <th scope="col">Role</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in roles %}
+            <tr>
+              <td>{{ r.name }}</td>
+              <td>
+                <div class="d-inline-flex gap-2">
+                  <!-- Edit button -->
+                  <button class="btn btn-sm btn-warning"
+                          data-bs-toggle="modal"
+                          data-bs-target="#editModal"
+                          data-role-id="{{ r.id }}"
+                          data-role-name="{{ r.name }}">
+                    Edit
+                  </button>
+        
+                  <!-- Delete button -->
+                  <button class="btn btn-sm btn-danger"
+                          data-bs-toggle="modal"
+                          data-bs-target="#deleteModal"
+                          data-role-id="{{ r.id }}"
+                          data-role-name="{{ r.name }}">
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="2" class="text-muted py-4">No roles yet.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE MODAL -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" action="{% url 'accounts:role_create' %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="createLabel">Create Role</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {{ form.non_field_errors }}
+          <div class="mb-3">
+            <label class="form-label">Role *</label>
+            {{ form.name }}
+            {% for e in form.name.errors %}
+              <div class="text-danger small">{{ e }}</div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" id="editForm">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="editLabel">Edit Role</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Role *</label>
+            <input id="editName" name="name" type="text" class="form-control" placeholder="e.g. Admin" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="post" id="deleteForm">
+          {% csrf_token %}
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteLabel">Delete Role</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+  
+          <div class="modal-body">
+            <p class="mb-2">Are you sure you want to delete this Role?</p>
+            <div class="fw-semibold">Role: <span id="deleteName"></span></div>
+          </div>
+  
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+<!-- AFFECTED COURSES PREVIEW MODAL -->
+<div class="modal fade" id="affectedModal" tabindex="-1" aria-labelledby="affectedLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="affectedLabel">Affected Users</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted mb-2" id="affectedIntro"></p>
+        <ul class="mb-0" id="affectedList"></ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="affectedConfirmBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+  // EDIT
+  const editModal = document.getElementById('editModal');
+  editModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const roleId = button.getAttribute('data-role-id');
+    const roleName = button.getAttribute('data-role-name');
+    document.getElementById('editName').value = roleName;
+    document.getElementById('editForm').action =
+      "{% url 'accounts:role_update' 0 %}".replace("0", roleId);
+    // stash the role id for preview use
+    document.getElementById('editForm').dataset.roleId = roleId;
+  });
+
+  // Intercept Edit submit
+  const editForm = document.getElementById('editForm');
+  editForm.addEventListener('submit', async function (e) {
+    if (editForm.dataset.confirmed === '1') return; // already confirmed → let it submit
+    e.preventDefault();
+
+    const roleId = editForm.dataset.roleId;
+    await showAffectedPreview(roleId, "Editing this role will update the following users.");
+    // When user clicks Confirm in the preview, we'll submit for real.
+    pendingSubmitForm = editForm;
+  });
+</script>
+<script>
+  // DELETE
+  const deleteModal = document.getElementById('deleteModal');
+  deleteModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const roleId = button.getAttribute('data-role-id');
+    const roleName = button.getAttribute('data-role-name');
+    document.getElementById('deleteName').textContent = roleName;
+    const form = document.getElementById('deleteForm');
+    form.action = "{% url 'accounts:role_delete' 0 %}".replace("0", roleId);
+    form.dataset.roleId = roleId;
+  });
+
+  const deleteForm = document.getElementById('deleteForm');
+  deleteForm.addEventListener('submit', async function (e) {
+    if (deleteForm.dataset.confirmed === '1') return;
+    e.preventDefault();
+
+    const roleId = deleteForm.dataset.roleId;
+    await showAffectedPreview(roleId, "Deleting this role will detach it from the following users.");
+    pendingSubmitForm = deleteForm;
+  });
+</script>
+
+<script>
+  // Utility: hide any open Bootstrap modals
+  function hideOpenModals() {
+    document.querySelectorAll('.modal.show').forEach(el => {
+      (bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el)).hide();
+    });
+  }
+
+  let pendingSubmitForm = null;
+
+  async function showAffectedPreview(roleId, introText) {
+    hideOpenModals(); // ensure edit/delete is fully closed
+
+    // fetch affected profiles
+    const url = "{% url 'accounts:role_affected' 0 %}".replace("0", roleId);
+    const res = await fetch(url, { method: "GET", headers: { "Accept": "application/json" } });
+    const data = await res.json();
+
+    // fill modal
+    const intro = document.getElementById('affectedIntro');
+    const list  = document.getElementById('affectedList');
+    intro.textContent = introText;
+    list.innerHTML = "";
+
+    if (!data.items || data.items.length === 0) {
+      const li = document.createElement('li');
+      li.className = "text-muted";
+      li.textContent = "No users will be affected.";
+      list.appendChild(li);
+    } else {
+      for (const p of data.items) {
+        const li = document.createElement('li');
+        li.textContent = `${p.first_name} ${p.last_name} ${p.username} ${p.role}`.trim();
+        list.appendChild(li);
+      }
+    }
+
+    const previewEl = document.getElementById('affectedModal');
+    const preview   = bootstrap.Modal.getOrCreateInstance(previewEl);
+    preview.show();
+
+    // Confirm button submits whatever form triggered the preview
+    const confirmBtn = document.getElementById('affectedConfirmBtn');
+    confirmBtn.onclick = () => {
+      if (pendingSubmitForm) {
+        pendingSubmitForm.dataset.confirmed = '1';
+        pendingSubmitForm.submit();
+        pendingSubmitForm = null;
+      }
+      preview.hide();
+    };
+  }
+</script>
+{% endblock %}
