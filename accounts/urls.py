@@ -7,10 +7,11 @@ app_name = 'accounts'
 urlpatterns = [
     path('login/', views.ldap_login, name='ldap_login'),
     path('logout/', views.ldap_logout, name='ldap_logout'),
-    path('view/', views.view_users, name='view_users'),
-    path('create_user/', views.create_user, name='create_user'),
-    path('update/<int:user_id>/', views.update_user, name='update_user'),
-    path('delete/<int:user_id>/', views.delete_user, name='delete_user'),
+
+    path('view/', views.view_profiles, name='view_profiles'),
+    path('create_profile/', views.create_profile, name='create_profile'),
+    path('update/<int:pk>/', views.update_profile, name='update_profile'),
+    path('delete/<int:pk>/', views.delete_profile, name='delete_profile'),
     
     path('admin_role/', views.role_list, name='role'),
     path("admin/role/create/", views.role_create, name="role_create"),

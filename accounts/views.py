@@ -161,84 +161,103 @@ def role_delete(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-def view_users(request):
-    users_list = User.objects.all()
-    
-    return render(request, 'accounts/users/view_users.html', {
-        'users': users_list
+def view_profiles(request):
+    profiles = (
+        Profile.objects
+        .select_related("user", "role")
+        .order_by("user__username")
+    )
+    roles = Role.objects.all().order_by("name")
+
+    return render(request, 'accounts/profile_list.html', {
+        'profiles': profiles,
+        'roles': roles,
     })
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login') 
-def update_user(request, user_id):
-    if request.method == 'POST':
-        user = User.objects.get(id=user_id)
-        print(user)
-        data = request.POST
-        
-        user.first_name = data.get('first_name', user.first_name)
-        user.last_name = data.get('last_name', user.last_name)
-        user.username = data.get('cwl', user.username)
-        user.email = data.get('email', user.email)
-        user.is_staff = data.get('is_staff', user.is_staff)
-        user.is_active = data.get('is_active', user.is_active)
-        user.is_staff = bool(data.get('is_staff')) 
-        user.is_active = bool(data.get('is_active')) 
+@require_POST
+def update_profile(request, pk):
+    profile = get_object_or_404(
+        Profile.objects.select_related("user", "role"),
+        pk=pk,
+    )
+    user = profile.user
 
-        user.save()
+    first_name = (request.POST.get("first_name") or "").strip()
+    last_name = (request.POST.get("last_name") or "").strip()
+    cwl = (request.POST.get("cwl") or "").strip()
+    role_id = request.POST.get("role")
 
-    return redirect('accounts:view_users')
+    # Duplicate CWL check
+    if User.objects.filter(username__exact=cwl).exclude(pk=user.pk).exists():
+        messages.error(request, "Edit failed: A user with this CWL already exists.")
+        return redirect("accounts:view_profiles")
+
+    role = get_object_or_404(Role, pk=role_id)
+
+    # Update User
+    user.username = cwl
+    user.first_name = first_name
+    user.last_name = last_name
+    user.save()
+
+    # Update Profile
+    profile.role = role
+    profile.save(update_fields=["role"])
+
+    messages.success(request, "User edited.")
+    return redirect("accounts:view_profiles")
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-def create_user(request):
-    
-    first_name = request.POST.get('first_name', '')
-    last_name = request.POST.get('last_name', '')
-    email = request.POST.get('email', '')
-    is_staff = request.POST.get('is_staff', False)
-    is_active = request.POST.get('is_active', False)
-    
-    if not first_name or not last_name or not email:
-       print('First name, last name, and email are required.')
-       return render(request, 'accounts/users/create_user.html')
+@require_POST
+def create_profile(request):
+    """
+    Create a new User + Profile.
 
-    if User.objects.filter(email=email).exists():
-        print('A user with this email already exists.')
-        return render(request, 'accounts/users/create_user.html')
+    - First Name -> user.first_name
+    - Last Name  -> user.last_name
+    - CWL        -> user.username
+    - Role       -> Profile.role
+    """
+    first_name = (request.POST.get("first_name") or "").strip()
+    last_name = (request.POST.get("last_name") or "").strip()
+    cwl = (request.POST.get("cwl") or "").strip()
+    role_id = request.POST.get("role")
 
-    if is_staff == 'on':
-        is_staff = True
-    else:
-        is_staff = False
+    # Duplicate CWL check 
+    if User.objects.filter(username__exact=cwl).exists():
+        messages.error(request, "Create failed: A user with this CWL already exists.")
+        return redirect("accounts:view_profiles")
 
-    if is_active == 'on':
-        is_active = True
-    else:
-        is_active = False
+    # Resolve Role
+    role = get_object_or_404(Role, pk=role_id)
 
-    print(first_name, last_name, email, is_staff, is_active)
-    
-    
-    User.objects.create(
-        username=request.POST.get("cwl"),
+    # Create User
+    user = User.objects.create_user(
+        username=cwl,
+        password=None,
         first_name=first_name,
         last_name=last_name,
-        email=email,
-        is_staff=is_staff,
-        is_active=is_active
     )
+    user.save()
 
-    return redirect('accounts:view_users')
+    # Create Profile
+    Profile.objects.create(user=user, role=role)
+
+    messages.success(request, "User created.")
+    return redirect("accounts:view_profiles")
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-def delete_user(request, user_id):
-    user = User.objects.get(id=user_id)
-    try:
-        user.delete()
-        print("User Successfully deleted")
-    except Exception as e:
-        print(f"Error deleting user {user_id}: {e}")
-    return redirect('accounts:view_users')
+@require_POST
+def delete_profile(request, pk):
+    profile = get_object_or_404(Profile.objects.select_related("user"), pk=pk)
+    user = profile.user
 
+    # Deleting the User will also delete Profile (on_delete=CASCADE)
+    user.delete()
+
+    messages.success(request, "User deleted.")
+    return redirect("accounts:view_profiles")

@@ -1,0 +1,249 @@
+{% extends 'timetable/base.html' %}
+{% load static %}
+
+{% block title %}Profiles{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Users</h3>
+    <!-- Create button -->
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+      Create
+    </button>
+  </div>
+
+  <!-- Profiles table -->
+  <div class="card">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover text-center align-middle mb-0">
+          <thead>
+            <tr>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name</th>
+              <th scope="col">CWL</th>
+              <th scope="col">Role</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in profiles %}
+            <tr>
+              <td>{{ p.user.first_name|default:"None" }}</td>
+              <td>{{ p.user.last_name|default:"None" }}</td>
+              <td>{{ p.user.username }}</td>
+              <td>{{ p.role.name|default:"None" }}</td>
+              <td>
+                <div class="d-inline-flex gap-2">
+                  <!-- Edit button -->
+                  <button class="btn btn-sm btn-warning"
+                          data-bs-toggle="modal"
+                          data-bs-target="#editModal"
+                          data-profile-id="{{ p.id }}"
+                          data-first-name="{{ p.user.first_name }}"
+                          data-last-name="{{ p.user.last_name }}"
+                          data-cwl="{{ p.user.username }}"
+                          data-role-id="{{ p.role.id }}">
+                    Edit
+                  </button>
+
+                  <!-- Delete button -->
+                  <button class="btn btn-sm btn-danger"
+                          data-bs-toggle="modal"
+                          data-bs-target="#deleteModal"
+                          data-profile-id="{{ p.id }}"
+                          data-first-name="{{ p.user.first_name|default:'None' }}"
+                          data-last-name="{{ p.user.last_name|default:'None' }}"
+                          data-cwl="{{ p.user.username }}"
+                          data-role-name="{{ p.role.name|default:'None' }}">
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5" class="text-muted py-4">No users yet.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE MODAL -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" action="{% url 'accounts:create_profile' %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="createLabel">Create User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input type="text" name="first_name" class="form-control" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input type="text" name="last_name" class="form-control" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">CWL *</label>
+            <input type="text" name="cwl" class="form-control" required />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Role *</label>
+            <select name="role" class="form-select" required>
+              <option value="">Select Role</option>
+              {% for r in roles %}
+                <option value="{{ r.id }}">{{ r.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" id="editForm">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="editLabel">Edit User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input id="editFirstName" type="text" name="first_name" class="form-control" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input id="editLastName" type="text" name="last_name" class="form-control" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">CWL *</label>
+            <input id="editCwl" type="text" name="cwl" class="form-control" required />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Role *</label>
+            <select id="editRole" name="role" class="form-select" required>
+              <option value="">Select Role</option>
+              {% for r in roles %}
+                <option value="{{ r.id }}">{{ r.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" id="deleteForm">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteLabel">Delete User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <p class="mb-2">Are you sure you want to delete this User?</p>
+          <div class="fw-semibold mb-1">First Name: <span id="deleteFirstName"></span></div>
+          <div class="fw-semibold mb-1">Last Name: <span id="deleteLastName"></span></div>
+          <div class="fw-semibold mb-1">CWL: <span id="deleteCwl"></span></div>
+          <div class="fw-semibold mb-1">Role: <span id="deleteRole"></span></div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+  // EDIT
+  const editModal = document.getElementById('editModal');
+  editModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+
+    const profileId = button.getAttribute('data-profile-id');
+    const firstName = button.getAttribute('data-first-name');
+    const lastName = button.getAttribute('data-last-name');
+    const cwl = button.getAttribute('data-cwl');
+    const roleId = button.getAttribute('data-role-id');
+
+    document.getElementById('editFirstName').value = firstName;
+    document.getElementById('editLastName').value = lastName;
+    document.getElementById('editCwl').value = cwl;
+
+    const roleSelect = document.getElementById('editRole');
+    if (roleId) {
+      roleSelect.value = roleId;
+    } else {
+      roleSelect.value = '';
+    }
+
+    const form = document.getElementById('editForm');
+    form.action = "{% url 'accounts:update_profile' 0 %}".replace("0", profileId);
+  });
+
+  // DELETE
+  const deleteModal = document.getElementById('deleteModal');
+  deleteModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+
+    const profileId = button.getAttribute('data-profile-id');
+    const firstName = button.getAttribute('data-first-name');
+    const lastName = button.getAttribute('data-last-name');
+    const cwl = button.getAttribute('data-cwl');
+    const roleName = button.getAttribute('data-role-name');
+
+    document.getElementById('deleteFirstName').textContent = firstName;
+    document.getElementById('deleteLastName').textContent = lastName;
+    document.getElementById('deleteCwl').textContent = cwl;
+    document.getElementById('deleteRole').textContent = roleName;
+
+    const form = document.getElementById('deleteForm');
+    form.action = "{% url 'accounts:delete_profile' 0 %}".replace("0", profileId);
+  });
+</script>
+{% endblock %}
