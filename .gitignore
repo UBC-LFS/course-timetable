@@ -16,3 +16,4 @@ source_data
 scheduler/fixtures
 staticfiles
 timetable/settings.py
+management
