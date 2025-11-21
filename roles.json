@@ -1,0 +1,16 @@
+[
+{
+  "model": "scheduler.role",
+  "pk": 1,
+  "fields": {
+    "name": "Admin"
+  }
+},
+{
+  "model": "scheduler.role",
+  "pk": 2,
+  "fields": {
+    "name": "User"
+  }
+}
+]

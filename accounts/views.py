@@ -89,8 +89,10 @@ def ldap_login(request):
                     username=cwl,
                 )
                 user.save()
-                user_role, _ = Role.objects.get_or_create(name= "User")
-                Profile.objects.get_or_create(user= user, role= user_role)
+            
+            user_role, _ = Role.objects.get_or_create(name= "User")
+            Profile.objects.get_or_create(user=user, defaults={"role": user_role})
+
             if user:
                 djangoLogin(request, user)
                 return redirect('scheduler:landing_page')
