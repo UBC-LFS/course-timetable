@@ -187,15 +187,11 @@ def role_delete(request, pk):
 @login_required(login_url='accounts:ldap_login')
 @admin_required
 def view_profiles(request):
-    profiles = (
-        Profile.objects
-        .select_related("user", "role")
-        .order_by("user__username")
-    )
+    users = User.objects.all().order_by("username")
     roles = Role.objects.all().order_by("name")
 
     return render(request, 'accounts/profile_list.html', {
-        'profiles': profiles,
+        'users': users,
         'roles': roles,
     })
 

@@ -29,23 +29,23 @@
             </tr>
           </thead>
           <tbody>
-            {% for p in profiles %}
+            {% for user in users %}
             <tr>
-              <td>{{ p.user.first_name|default:"None" }}</td>
-              <td>{{ p.user.last_name|default:"None" }}</td>
-              <td>{{ p.user.username }}</td>
-              <td>{{ p.role.name|default:"None" }}</td>
+              <td>{{ user.first_name|default:"None" }}</td>
+              <td>{{ user.last_name|default:"None" }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.profile.role.name|default:"None" }}</td>
               <td>
                 <div class="d-inline-flex gap-2">
                   <!-- Edit button -->
                   <button class="btn btn-sm btn-warning"
                           data-bs-toggle="modal"
                           data-bs-target="#editModal"
-                          data-profile-id="{{ p.id }}"
-                          data-first-name="{{ p.user.first_name }}"
-                          data-last-name="{{ p.user.last_name }}"
-                          data-cwl="{{ p.user.username }}"
-                          data-role-id="{{ p.role.id }}">
+                          data-profile-id="{{ user.profile.id }}"
+                          data-first-name="{{ user.first_name }}"
+                          data-last-name="{{ user.last_name }}"
+                          data-cwl="{{ user.username }}"
+                          data-role-id="{{ user.profile.role.id }}">
                     Edit
                   </button>
 
@@ -53,11 +53,11 @@
                   <button class="btn btn-sm btn-danger"
                           data-bs-toggle="modal"
                           data-bs-target="#deleteModal"
-                          data-profile-id="{{ p.id }}"
-                          data-first-name="{{ p.user.first_name|default:'None' }}"
-                          data-last-name="{{ p.user.last_name|default:'None' }}"
-                          data-cwl="{{ p.user.username }}"
-                          data-role-name="{{ p.role.name|default:'None' }}">
+                          data-profile-id="{{ user.profile.id }}"
+                          data-first-name="{{ user.first_name|default:'None' }}"
+                          data-last-name="{{ user.last_name|default:'None' }}"
+                          data-cwl="{{ user.username }}"
+                          data-role-name="{{ user.profile.role.name|default:'None' }}">
                     Delete
                   </button>
                 </div>
