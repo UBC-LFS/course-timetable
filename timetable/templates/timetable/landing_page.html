@@ -56,6 +56,7 @@
       
       <div class="col-md-2">
         <button type="submit" class="btn btn-primary" name="search" value="1">Search</button>
+        <button type="button" id="clear-filters" class="btn btn-primary">Clear</button>
       </div>
 
       <!--──────── Filters block ────────-->
@@ -607,6 +608,22 @@
     }
 
     nameSel?.addEventListener('change', e => loadLevelsFor(e.target.value));
+  })();
+</script>
+<script>
+  // Clear Button
+  (function () {
+    const clearBtn = document.getElementById('clear-filters');
+    if (!clearBtn) return;
+
+    clearBtn.addEventListener('click', function () {
+      // Reset Academic Year
+      const yearSel = document.getElementById('year-select');
+      if (yearSel) {
+        yearSel.value = "";
+        yearSel.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
   })();
 </script>
 {% endblock %}

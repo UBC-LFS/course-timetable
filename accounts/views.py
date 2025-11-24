@@ -187,6 +187,8 @@ def role_delete(request, pk):
 @login_required(login_url='accounts:ldap_login')
 @admin_required
 def view_profiles(request):
+    # By convention, we display User table instead of Profile table.
+    # Since User and Profile are one to one relationship, displaying User table is the same as displaying Profile table.
     users = User.objects.all().order_by("username")
     roles = Role.objects.all().order_by("name")
 
