@@ -17,30 +17,14 @@ from functools import wraps
 
 '''
 General flow:
-1. User logs in from login page.html
+1. User logs in from login.html
 2. Info from form is passed into this view
     info:
         username, password
-3. Check if form is valid
-4. Check accounts with django auth
-5. Use the backend.py is_ldap_user method for utilizing LDAP
-6. if user auth then go to home page
+3. Use the backend.py is_ldap_user() for utilizing LDAP
+4. Use built in django login after all checks
+5. if user auth then go to home page
    else send error
-
-'''
-
-#TODO: Below
-'''
-1. create auth.authenticate function in another file
-- Use accounts -> views.py login functionality from inventory
-    - look at custom authenticate function (not djangos)
-        - don't need to make custom model just check is is_superuser and is _staff false or true
-
-2. where Profile.objects.filter(cwl=cwl) is put a check for roles
-    - Checking superuser and staff here
-
-3.
-- Use built in django login after all checks
 '''
 
 def admin_required(view_func):
@@ -62,14 +46,6 @@ def admin_required(view_func):
 
 @never_cache
 def ldap_login(request):
-    '''
-    1. If result is valid then by default the person is a staff member
-    2. Now we need to check if they are a superuser
-        - This can only be assigned through another superuser
-    3. 
-    '''
-    
-    '''Everyone that passes here will be inside of LFS, but you need to check if they have authority within LFS by checking their user attributes'''
     
     cwl = request.POST.get('cwl')
     password = request.POST.get('password')
