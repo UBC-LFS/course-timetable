@@ -74,8 +74,6 @@ def ajax_terms_for_year(request):
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
 def landing_page(request):
-    if not request.user.is_authenticated:
-        return redirect('accounts:ldap_login')
 
     hour_list = ["08","09","10","11","12","13","14","15","16","17","18","19","20","21"]
     terms   = CourseTerm.objects.all()
@@ -1277,12 +1275,11 @@ def requirements(request):
     """
     # dynamic dropdown data
     program_names = ProgramName.objects.order_by("name")
-    year_levels = ProgramYearLevel.objects.order_by("name")
 
     # read selection (GET)
     selected_program_name = request.GET.get("program", "").strip()
     selected_level_name = request.GET.get("level", "").strip()
-    submitted = "search" in request.GET  # Search button pressed
+    submitted = "search" in request.GET
 
     # preload year levels options for the selected name, this make UI more beautiful than client fetch available_levels_for_name
     available_levels_for_name = []
@@ -1331,7 +1328,6 @@ def requirements(request):
 
     return render(request, "timetable/requirements.html", {
         "program_names": program_names,
-        "year_levels": year_levels,
         "selected_program_name": selected_program_name,  
         "selected_level_name": selected_level_name,      
         "submitted": submitted,
@@ -1403,7 +1399,7 @@ def requirements_attach_course(request):
     level_obj = get_object_or_404(ProgramYearLevel, name=level_name)
     program   = Program.objects.filter(name=name_obj, year_level=level_obj).first()
 
-    # If already present, block with a friendly message
+    # If already present, block with a message
     already = program.courses.filter(code__name=code_name, number__name=number_name).exists()
     if already:
         messages.error(request, "Add failed: A Course with this code and this number already exists.")

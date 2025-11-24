@@ -199,27 +199,22 @@ def _cleanup_or_reslug_after_delete(instance):
 
 @receiver(post_delete, sender=CourseCode)
 def _code_post_delete(sender, instance, **kwargs):
-    # _reslug_after_delete(instance)
     _cleanup_or_reslug_after_delete(instance)
 
 @receiver(post_delete, sender=CourseNumber)
 def _number_post_delete(sender, instance, **kwargs):
-    # _reslug_after_delete(instance)
     _cleanup_or_reslug_after_delete(instance)
 
 @receiver(post_delete, sender=CourseSection)
 def _section_post_delete(sender, instance, **kwargs):
-    # _reslug_after_delete(instance)
     _cleanup_or_reslug_after_delete(instance)
 
 @receiver(post_delete, sender=CourseYear)
 def _year_post_delete(sender, instance, **kwargs):
-    # _reslug_after_delete(instance)
     _cleanup_or_reslug_after_delete(instance)
 
 @receiver(post_delete, sender=CourseTerm)
 def _term_post_delete(sender, instance, **kwargs):
-    # _reslug_after_delete(instance)
     _cleanup_or_reslug_after_delete(instance)
 
 

@@ -181,7 +181,7 @@ class CourseTimeForm(forms.ModelForm):
         model = CourseTime
         fields = ["name"]
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control"}),  # hidden via template; still needed for server
+            "name": forms.TextInput(attrs={"class": "form-control"}),
         }
 
     def clean_name(self):
