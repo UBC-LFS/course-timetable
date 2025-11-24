@@ -66,6 +66,7 @@
               
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-primary control-height px-3" name="search" value="1">Search</button>
+                    <button type="button" id="clear-filters" class="btn btn-primary control-height px-3">Clear</button>
                 </div>
 
             </form>
@@ -199,6 +200,22 @@
             width: '100%',
             allowClear: true
         });
+
+        // Clear button
+        const clearBtn = document.getElementById('clear-filters');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function () {
+                // Clear multi-selects (Year, Term, Day)
+                $year.val(null).trigger('change');
+                $term.val(null).trigger('change');
+                $day.val(null).trigger('change');
+
+                // Clear text inputs (Code, Number, Section)
+                $('input[name="code"]').val('');
+                $('input[name="number"]').val('');
+                $('input[name="section"]').val('');
+            });
+        }
     })();
 </script>
 {% endblock %}

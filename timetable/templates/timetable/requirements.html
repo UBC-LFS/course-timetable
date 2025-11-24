@@ -31,6 +31,7 @@
 
     <div class="col-md-4">
       <button type="submit" name="search" value="1" class="btn btn-primary">Search</button>
+      <button type="button" id="clear-filters" class="btn btn-primary">Clear</button>
     </div>
   </form>
 
@@ -162,6 +163,7 @@
   (function() {
     const programSel = document.getElementById('program-select');
     const levelSel   = document.getElementById('level-select');
+    const clearBtn   = document.getElementById('clear-filters');
   
     function resetLevels() {
       levelSel.innerHTML = '<option value="">-- Select Year Level --</option>';
@@ -190,6 +192,14 @@
   
     // On change, (re)populate year levels for the chosen program
     programSel.addEventListener('change', (e) => loadLevelsFor(e.target.value));
+
+    // Clear button
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        programSel.value = "";
+        programSel.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    }
   })();
 </script>
 <script>

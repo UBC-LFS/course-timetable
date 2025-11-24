@@ -22,6 +22,7 @@
     
             <div>
                 <button type="submit" class="btn btn-primary">Search</button>
+                <button type="button" id="clear-filters" class="btn btn-primary">Clear</button>
             </div>
         </div>
     </form>
@@ -86,4 +87,19 @@
   {% endif %}
 
 </div>
+<script>
+    // Clear Button
+    (function () {
+      const clearBtn = document.getElementById('clear-filters');
+      if (!clearBtn) return;
+  
+      clearBtn.addEventListener('click', function () {
+        const Sel = document.getElementById('id_name');
+        if (Sel) {
+          Sel.value = "";
+          Sel.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      });
+    })();
+  </script>
 {% endblock %}
