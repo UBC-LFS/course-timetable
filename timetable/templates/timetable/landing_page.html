@@ -248,8 +248,8 @@
   </div>
 </div>
 
-<!-- setup for timetable grid outline -->
 <script>
+  // setup for timetable grid outline
   (function () {
     const items = document.querySelectorAll('.course-item');
   
@@ -282,6 +282,7 @@
   })();
 </script>
 <script>
+  // Academic Year and Term filter
   (function() {
     const termsUrl = "{% url 'scheduler:ajax_terms_for_year' %}";
     const yearSel  = document.getElementById('year-select');
@@ -346,6 +347,7 @@
   })();
 </script>
 <script>
+  // By Course filter
   (function(){
     const termSel   = $('#term-select');
     const linesHost = document.getElementById('by-course-lines');
@@ -355,7 +357,7 @@
     const preloadMap = JSON.parse('{{ numbers_by_code_json|default:"{}"|escapejs }}');
   
     let nextLineId = 0;
-  
+
     function hasTerms() {
       const v = termSel.val();
       return Array.isArray(v) && v.length > 0;
@@ -400,7 +402,7 @@
       code.disabled   = !enabled;
       addBtn.disabled = !enabled;
   
-      // number depends on code; if disabling the row, also clear/disable number
+      // number depends on code; if disabling the row, also clear and disable number
       if (!enabled) {
         number.innerHTML = "";
         number.disabled  = true;
@@ -543,6 +545,7 @@
   })();
 </script>
 <script>
+  // By Program
   (function(){
     const termSel   = $('#term-select'); 
     const nameSel  = document.getElementById('prog-name');
