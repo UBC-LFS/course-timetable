@@ -203,7 +203,9 @@
   })();
 </script>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  // REMOVE
+  (function() {
+    document.addEventListener('DOMContentLoaded', function () {
     const modalEl   = document.getElementById('confirmDetach');
     const modal     = new bootstrap.Modal(modalEl);
     const txt       = document.getElementById('confirmCourseText');
@@ -223,8 +225,10 @@
       });
     });
   });
+  })();
 </script>
 <script>
+  // ADD
   (function() {
     const codeSel   = document.getElementById('add-code');
     const numSel    = document.getElementById('add-number');
