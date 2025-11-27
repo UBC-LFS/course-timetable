@@ -4,24 +4,24 @@
 {% block content %}
 <div class="container py-4">
 
-  <h2 class="mb-3">Program Requirements</h2>
+  <h2 class="mb-3">Major Requirements</h2>
 
   <form method="get" class="row g-3 align-items-end">
     <div class="col-md-4">
-      <label class="form-label">Program Name *</label>
-      <select id="program-select" name="program" class="form-select">
-        <option value="">-- Select Program --</option>
-        {% for name in program_names %}
-          <option value="{{ name.name }}" {% if name.name == selected_program_name %}selected{% endif %}>{{ name.name }}</option>
+      <label class="form-label">Major Name *</label>
+      <select id="major-select" name="major" class="form-select">
+        <option value="">-- Select Major --</option>
+        {% for name in major_names %}
+          <option value="{{ name.name }}" {% if name.name == selected_major_name %}selected{% endif %}>{{ name.name }}</option>
         {% endfor %}
       </select>
     </div>
 
     <div class="col-md-4">
-      <label class="form-label">Program Year Level *</label>
-      <select id="level-select" name="level" class="form-select" {% if not selected_program_name or not available_levels_for_name%}disabled{% endif %}>
+      <label class="form-label">Major Year Level *</label>
+      <select id="level-select" name="level" class="form-select" {% if not selected_major_name or not available_levels_for_name%}disabled{% endif %}>
         <option value="">-- Select Year Level --</option>
-        {% if selected_program_name %}
+        {% if selected_major_name %}
           {% for lvl in available_levels_for_name %}
             <option value="{{ lvl }}" {% if lvl == selected_level_name %}selected{% endif %}>{{ lvl }}</option>
           {% endfor %}
@@ -37,10 +37,10 @@
 
   {% if submitted %}
     {% if not_found %}
-      <!-- actually no need anymore, because a program must have a year level -->
-      <div class="alert alert-warning mt-4">No such program exists.</div>
+      <!-- actually no need anymore, because a major must have a year level -->
+      <div class="alert alert-warning mt-4">No such major exists.</div>
     {% else %}
-      {% if not selected_program_name or not selected_level_name %}
+      {% if not selected_major_name or not selected_level_name %}
         <!-- do nothing -->
       {% else %}
         <div class="mt-2">
@@ -91,19 +91,19 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Remove Course from Program</h5>
+          <h5 class="modal-title">Remove Course from Major</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
   
         <form method="post" action="{% url 'scheduler:requirements_detach_course' %}">
           {% csrf_token %}
           <div class="modal-body">
-            <p>Are you sure you want to remove this course from the program?</p>
+            <p>Are you sure you want to remove this course from the major?</p>
             <p class="mb-0"><strong>Course:</strong> <strong><span id="confirmCourseText"></span></strong></p>
           </div>
           <div class="modal-footer">
             <!-- hidden fields filled by JS -->
-            <input type="hidden" name="program_name" id="hidProgram" value="{{ selected_program_name }}">
+            <input type="hidden" name="major_name" id="hidMajor" value="{{ selected_major_name }}">
             <input type="hidden" name="level_name"   id="hidLevel"   value="{{ selected_level_name }}">
             <input type="hidden" name="code_name"    id="hidCode">
             <input type="hidden" name="number_name"  id="hidNumber">
@@ -119,7 +119,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Add Course to Program</h5>
+          <h5 class="modal-title">Add Course to Major</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
   
@@ -143,7 +143,7 @@
               </select>
             </div>
   
-            <input type="hidden" name="program_name" value="{{ selected_program_name }}">
+            <input type="hidden" name="major_name" value="{{ selected_major_name }}">
             <input type="hidden" name="level_name"   value="{{ selected_level_name }}">
           </div>
   
@@ -161,7 +161,7 @@
 {% block js %}
 <script>
   (function() {
-    const programSel = document.getElementById('program-select');
+    const majorSel = document.getElementById('major-select');
     const levelSel   = document.getElementById('level-select');
     const clearBtn   = document.getElementById('clear-filters');
   
@@ -169,35 +169,35 @@
       levelSel.innerHTML = '<option value="">-- Select Year Level --</option>';
     }
   
-    async function loadLevelsFor(programName) {
+    async function loadLevelsFor(majorName) {
       resetLevels();
-      if (!programName) {
+      if (!majorName) {
         levelSel.disabled = true;
         return;
       }
       try {
-        const resp = await fetch("{% url 'scheduler:ajax_levels_for_program' %}?program=" + encodeURIComponent(programName));
+        const resp = await fetch("{% url 'scheduler:ajax_levels_for_major' %}?major=" + encodeURIComponent(majorName));
         const data = await resp.json();
         for (const lvl of data.levels) {
           const opt = document.createElement('option');
           opt.value = opt.textContent = lvl;
           levelSel.appendChild(opt);
         }
-        levelSel.disabled = data.levels.length === 0; // stays disabled if none, actually no need, becasue each program must have a year level
+        levelSel.disabled = data.levels.length === 0; // stays disabled if none, actually no need, becasue each major must have a year level
       } catch (e) {
         // fallback: keep it disabled on error
         levelSel.disabled = true;
       }
     }
   
-    // On change, (re)populate year levels for the chosen program
-    programSel.addEventListener('change', (e) => loadLevelsFor(e.target.value));
+    // On change, (re)populate year levels for the chosen major
+    majorSel.addEventListener('change', (e) => loadLevelsFor(e.target.value));
 
     // Clear button
     if (clearBtn) {
       clearBtn.addEventListener('click', function () {
-        programSel.value = "";
-        programSel.dispatchEvent(new Event('change', { bubbles: true }));
+        majorSel.value = "";
+        majorSel.dispatchEvent(new Event('change', { bubbles: true }));
       });
     }
   })();

@@ -101,23 +101,23 @@
             </template>
           </div>
           
-          <!-- By Program -->
+          <!-- By Major -->
           <div class="mb-3">
-            <div class="fw-semibold mb-1">By Program: </div>
+            <div class="fw-semibold mb-1">By Major: </div>
             <div class="row g-2">
-              <!-- Program Name -->
+              <!-- Major Name -->
               <div class="col-md-6">
                 <label class="form-label">Name</label>
                 <select id="prog-name" name="pname" class="form-select"
                         {% if not selected_terms %}disabled{% endif %}>
                   <option value="">-- Select Name --</option>
-                  {% for n in program_names %}
+                  {% for n in major_names %}
                     <option value="{{ n.name }}" {% if n.name == selected_pname %}selected{% endif %}>{{ n.name }}</option>
                   {% endfor %}
                 </select>
               </div>
 
-              <!-- Program Year Level -->
+              <!-- Major Year Level -->
               <div class="col-md-6">
                 <label class="form-label">Year Level</label>
                 <select id="prog-level" name="plevel" class="form-select"
@@ -545,13 +545,13 @@
   })();
 </script>
 <script>
-  // By Program
+  // By Major
   (function(){
     const termSel   = $('#term-select'); 
     const nameSel  = document.getElementById('prog-name');
     const levelSel = document.getElementById('prog-level');
 
-    function disableProgramFilters() {
+    function disableMajorFilters() {
       // reset name
       if (nameSel) {
         nameSel.value = "";
@@ -564,7 +564,7 @@
       }
     }
 
-    function enableProgramName() {
+    function enableMajorName() {
       if (nameSel) {
         nameSel.disabled = false;
       }
@@ -579,9 +579,9 @@
       const vals = termSel.val();
       const hasTerms = Array.isArray(vals) && vals.length > 0;
       if (hasTerms) {
-        enableProgramName();
+        enableMajorName();
       } else {
-        disableProgramFilters();
+        disableMajorFilters();
       }
     }
 
@@ -592,12 +592,12 @@
       levelSel.disabled = true;
     }
 
-    async function loadLevelsFor(programName) {
+    async function loadLevelsFor(majorName) {
       resetLevels();
-      if (!programName) return;
+      if (!majorName) return;
 
       try {
-        const resp = await fetch("{% url 'scheduler:ajax_levels_for_program' %}?program=" + encodeURIComponent(programName));
+        const resp = await fetch("{% url 'scheduler:ajax_levels_for_major' %}?major=" + encodeURIComponent(majorName));
         const data = await resp.json();
         data.levels.forEach(l => {
           const opt = document.createElement('option');

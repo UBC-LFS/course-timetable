@@ -70,7 +70,7 @@ class CourseYear(models.Model):
     def __str__(self):
         return self.name
         
-class ProgramYearLevel(models.Model):
+class MajorYearLevel(models.Model):
     name = models.CharField(max_length=20, unique=True)
 
     class Meta:
@@ -79,7 +79,7 @@ class ProgramYearLevel(models.Model):
     def __str__(self):
         return self.name
 
-class ProgramName(models.Model):
+class MajorName(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
     class Meta:
@@ -127,10 +127,10 @@ class Course(models.Model):
         return f"{self.code.name} {self.number.name} {self.section.name} ({self.academic_year.name}, {self.term.name})"
     
     
-class Program(models.Model):
-    name = models.ForeignKey(ProgramName, on_delete=models.CASCADE)
-    year_level = models.ForeignKey(ProgramYearLevel, on_delete=models.CASCADE)
-    courses = models.ManyToManyField(Course, blank=True, related_name="programs")  # many-to-many
+class Major(models.Model):
+    name = models.ForeignKey(MajorName, on_delete=models.CASCADE)
+    year_level = models.ForeignKey(MajorYearLevel, on_delete=models.CASCADE)
+    courses = models.ManyToManyField(Course, blank=True, related_name="majors")  # many-to-many
         
     def __str__(self):
         return f"{self.name} {self.year_level.name}"
@@ -225,7 +225,7 @@ class HistoryTopic(models.TextChoices):
     COURSE_SECTION= "course_section", "Course Section"
     COURSE_TIME   = "course_time", "Course Time"
     COURSE_YEAR   = "course_year", "Course Year"
-    PROGRAM_NAME  = "program_name", "Program Name"
+    MAJOR_NAME  = "major_name", "Major Name"
 
 
 class HistoryAction(models.TextChoices):

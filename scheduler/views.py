@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import CourseTerm, CourseCode, CourseNumber, CourseSection, CourseTime, CourseDay, Course, CourseYear, ProgramName
+from .models import CourseTerm, CourseCode, CourseNumber, CourseSection, CourseTime, CourseDay, Course, CourseYear, MajorName
 from datetime import datetime, timedelta
 from django.shortcuts import redirect
 from django.contrib import messages
@@ -14,8 +14,8 @@ from .forms import CourseNumberForm
 from .forms import CourseSectionForm
 from .forms import CourseTimeForm
 from .forms import CourseYearForm
-from .models import Program, ProgramYearLevel
-from .forms import ProgramNameForm
+from .models import Major, MajorYearLevel
+from .forms import MajorNameForm
 from django.urls import reverse
 from django.http import JsonResponse
 from django.db.models import Min
@@ -88,7 +88,7 @@ def landing_page(request):
     dropdown_years = sorted({y for y in all_years})
 
     # For the Name dropdown (once terms are chosen)
-    program_names = ProgramName.objects.order_by("name")
+    major_names = MajorName.objects.order_by("name")
 
     selected_year  = request.GET.get("year", "").strip()
     selected_terms = request.GET.getlist("term") # multi-select
@@ -141,7 +141,7 @@ def landing_page(request):
     available_levels_for_name = []
     if selected_pname:
         available_levels_for_name = list(
-            Program.objects
+            Major.objects
             .filter(name__name=selected_pname)
             .values_list("year_level__name", flat=True)
             .distinct()
@@ -183,12 +183,12 @@ def landing_page(request):
                 if or_q:
                     base_qs = base_qs.filter(or_q)
 
-            # By Program
+            # By Major
             if selected_pname and not selected_plevel:
-                base_qs = base_qs.filter(programs__name__name=selected_pname)
+                base_qs = base_qs.filter(majors__name__name=selected_pname)
             elif selected_pname and selected_plevel:
-                base_qs = base_qs.filter(programs__name__name=selected_pname,
-                                          programs__year_level__name=selected_plevel)
+                base_qs = base_qs.filter(majors__name__name=selected_pname,
+                                          majors__year_level__name=selected_plevel)
             all_courses = base_qs
 
         # A course is valid only if it has at least one day AND both times AND 5 things
@@ -312,7 +312,7 @@ def landing_page(request):
         'dropdown_years': dropdown_years,
         'selected_year': selected_year,
         'selected_terms': selected_terms,
-        'program_names': program_names,
+        'major_names': major_names,
         'selected_pname': selected_pname,
         'selected_plevel': selected_plevel,
         'available_levels_for_name': available_levels_for_name,
@@ -520,7 +520,7 @@ def history(request):
         ("course_section","Course Section"),
         ("course_time",   "Course Time"),
         ("course_year",   "Course Year"),
-        ("program_name",  "Program Name"),
+        ("major_name",  "Major Name"),
     ]
 
     selected = None
@@ -568,10 +568,10 @@ def history(request):
                     .filter(topic=HistoryTopic.COURSE_YEAR)
                     .select_related("user")
                 )
-            if selected == "program_name":
+            if selected == "major_name":
                 logs = (
                     HistoryLog.objects
-                    .filter(topic=HistoryTopic.PROGRAM_NAME)
+                    .filter(topic=HistoryTopic.MAJOR_NAME)
                     .select_related("user")
                 )
                 
@@ -1156,14 +1156,14 @@ def course_year_delete(request, pk):
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-def program_name_affected(request, pk):
+def major_name_affected(request, pk):
     """
-    Return all programs currently pointing to this ProgramName.
+    Return all majors currently pointing to this MajorName.
     Used by the preview modal for both edit and delete.
     """
-    program_name = get_object_or_404(ProgramName, pk=pk)
-    qs = (Program.objects
-          .filter(name=program_name)
+    major_name = get_object_or_404(MajorName, pk=pk)
+    qs = (Major.objects
+          .filter(name=major_name)
           .select_related("name", "year_level")
           .order_by("name__name", "year_level__name"))
 
@@ -1171,89 +1171,89 @@ def program_name_affected(request, pk):
         return getattr(obj, "name", "") or "None"
 
     items = [{
-        "program_name": safe_name(p.name),            
-        "year_level":   safe_name(p.year_level),     
-    } for p in qs]
+        "major_name": safe_name(m.name),            
+        "year_level":   safe_name(m.year_level),     
+    } for m in qs]
 
     return JsonResponse({"count": len(items), "items": items})
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
-def program_name_list(request):
-    names = ProgramName.objects.all()
-    form = ProgramNameForm()
-    return render(request, "timetable/program_name_list.html", {"names": names, "form": form})
+def major_name_list(request):
+    names = MajorName.objects.all()
+    form = MajorNameForm()
+    return render(request, "timetable/major_name_list.html", {"names": names, "form": form})
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
 @require_POST
-def program_name_create(request):
-    form = ProgramNameForm(request.POST)
+def major_name_create(request):
+    form = MajorNameForm(request.POST)
     if form.is_valid():
         obj = form.save()
         _log_history(
-                    topic=HistoryTopic.PROGRAM_NAME,
+                    topic=HistoryTopic.MAJOR_NAME,
                     user=request.user,
                     action=HistoryAction.CREATED,
                     after_value=obj.name,
         )
-        messages.success(request, "Program Name created.")
+        messages.success(request, "Major Name created.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Create failed: {err}")
-    return redirect("scheduler:program_name")
+    return redirect("scheduler:major_name")
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
 @require_POST
-def program_name_update(request, pk):
-    name = get_object_or_404(ProgramName, pk=pk)
+def major_name_update(request, pk):
+    name = get_object_or_404(MajorName, pk=pk)
     before = name.name
-    form = ProgramNameForm(request.POST, instance=name)
+    form = MajorNameForm(request.POST, instance=name)
     if form.is_valid():
         obj = form.save()
         after = obj.name
         _log_history(
-                    topic=HistoryTopic.PROGRAM_NAME,
+                    topic=HistoryTopic.MAJOR_NAME,
                     user=request.user,
                     action=HistoryAction.EDITED,
                     before_value=before,
                     after_value=after,
         )
-        messages.success(request, "Program Name edited.")
+        messages.success(request, "Major Name edited.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Edit failed: {err}")
-    return redirect("scheduler:program_name")
+    return redirect("scheduler:major_name")
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
 @require_POST
-def program_name_delete(request, pk):
-    name = get_object_or_404(ProgramName, pk=pk)
+def major_name_delete(request, pk):
+    name = get_object_or_404(MajorName, pk=pk)
     before = name.name
     name.delete()
     _log_history(
-                topic=HistoryTopic.PROGRAM_NAME,
+                topic=HistoryTopic.MAJOR_NAME,
                 user=request.user,
                 action=HistoryAction.DELETED,
                 before_value=before,
     )
-    messages.success(request, "Program Name deleted.")
-    return redirect("scheduler:program_name")
+    messages.success(request, "Major Name deleted.")
+    return redirect("scheduler:major_name")
 
-# --- AJAX: year levels available for a given program name ---
+# --- AJAX: year levels available for a given major name ---
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
 @require_GET
-def ajax_levels_for_program(request):
-    program_name = request.GET.get("program", "").strip()
-    if not program_name:
+def ajax_levels_for_major(request):
+    major_name = request.GET.get("major", "").strip()
+    if not major_name:
         return JsonResponse({"levels": []})
 
-    name_obj = get_object_or_404(ProgramName, name=program_name)
+    name_obj = get_object_or_404(MajorName, name=major_name)
     levels = (
-        Program.objects
+        Major.objects
         .filter(name=name_obj)
         .select_related("year_level")
         .order_by("year_level__name")
@@ -1267,27 +1267,27 @@ def ajax_levels_for_program(request):
 def requirements(request):
     """
     Renders the Requirements page with two required filters:
-    - Program Name
-    - Program Year Level
+    - Major Name
+    - Major Year Level
 
     After both are chosen and Search is clicked, we show the table of courses
-    linked to that program, or “No such program exists.”
+    linked to that major, or “No such major exists.”
     """
     # dynamic dropdown data
-    program_names = ProgramName.objects.order_by("name")
+    major_names = MajorName.objects.order_by("name")
 
     # read selection (GET)
-    selected_program_name = request.GET.get("program", "").strip()
+    selected_major_name = request.GET.get("major", "").strip()
     selected_level_name = request.GET.get("level", "").strip()
     submitted = "search" in request.GET
 
     # preload year levels options for the selected name, this make UI more beautiful than client fetch available_levels_for_name
     available_levels_for_name = []
-    if selected_program_name:
-        name_obj = ProgramName.objects.filter(name=selected_program_name).first()
+    if selected_major_name:
+        name_obj = MajorName.objects.filter(name=selected_major_name).first()
         if name_obj:
             available_levels_for_name = list(
-                Program.objects
+                Major.objects
                 .filter(name=name_obj)
                 .values_list("year_level__name", flat=True)
                 .distinct()
@@ -1295,20 +1295,20 @@ def requirements(request):
             )
 
     courses = None
-    program_obj = None
+    major_obj = None
     not_found = False
 
     if submitted:
-        if not selected_program_name or not selected_level_name:
-            messages.error(request, "You have to select both Program Name and Program Year Level.")
+        if not selected_major_name or not selected_level_name:
+            messages.error(request, "You have to select both Major Name and Major Year Level.")
         else:
-            level_obj = get_object_or_404(ProgramYearLevel, name=selected_level_name)
-            program_name_obj = get_object_or_404(ProgramName, name=selected_program_name)
-            program_obj = Program.objects.filter(name=program_name_obj, year_level=level_obj).first()
-            if program_obj:
-                # one id per (code, number) pair inside this program
+            level_obj = get_object_or_404(MajorYearLevel, name=selected_level_name)
+            major_name_obj = get_object_or_404(MajorName, name=selected_major_name)
+            major_obj = Major.objects.filter(name=major_name_obj, year_level=level_obj).first()
+            if major_obj:
+                # one id per (code, number) pair inside this major
                 subq = (
-                    program_obj.courses
+                    major_obj.courses
                     .values("code", "number")
                     .annotate(min_id=Min("id"))
                     .values("min_id")
@@ -1327,11 +1327,11 @@ def requirements(request):
     course_codes = CourseCode.objects.order_by("name")
 
     return render(request, "timetable/requirements.html", {
-        "program_names": program_names,
-        "selected_program_name": selected_program_name,  
+        "major_names": major_names,
+        "selected_major_name": selected_major_name,  
         "selected_level_name": selected_level_name,      
         "submitted": submitted,
-        "program_obj": program_obj,
+        "major_obj": major_obj,
         "courses": courses,
         "not_found": not_found,
         "course_codes": course_codes,
@@ -1343,29 +1343,29 @@ def requirements(request):
 @require_POST
 def requirements_detach_course(request):
     """
-    Detach ALL courses that share (code, number) from a given (ProgramName, ProgramYearLevel).
+    Detach ALL courses that share (code, number) from a given (MajorName, MajorYearLevel).
     Redirects back to the Requirements page showing the updated table.
     """
-    program_name = request.POST.get("program_name", "").strip()
+    major_name = request.POST.get("major_name", "").strip()
     level_name   = request.POST.get("level_name", "").strip()
     code_name    = request.POST.get("code_name", "").strip()
     number_name  = request.POST.get("number_name", "").strip()
 
-    # Resolve program
-    name_obj  = get_object_or_404(ProgramName, name=program_name)
-    level_obj = get_object_or_404(ProgramYearLevel, name=level_name)
-    program   = Program.objects.filter(name=name_obj, year_level=level_obj).first()
+    # Resolve major
+    name_obj  = get_object_or_404(MajorName, name=major_name)
+    level_obj = get_object_or_404(MajorYearLevel, name=level_name)
+    major   = Major.objects.filter(name=name_obj, year_level=level_obj).first()
 
-    # Find all matching courses already attached to this program
-    qs = program.courses.filter(code__name=code_name, number__name=number_name)
+    # Find all matching courses already attached to this major
+    qs = major.courses.filter(code__name=code_name, number__name=number_name)
 
     # Detach them all from the M2M
-    program.courses.remove(*qs)
+    major.courses.remove(*qs)
     messages.success(request, "Course removed.")
 
     # Send the user back to the same results view
     url = (f"{reverse('scheduler:requirements')}"
-           f"?program={program_name}&level={level_name}&search=1")
+           f"?major={major_name}&level={level_name}&search=1")
     return redirect(url)
 
 # --- AJAX: numbers available for a given code ---
@@ -1389,27 +1389,27 @@ def ajax_numbers_for_code(request):
 @login_required(login_url='accounts:ldap_login')
 @require_POST
 def requirements_attach_course(request):
-    program_name = request.POST.get("program_name", "").strip()
+    major_name = request.POST.get("major_name", "").strip()
     level_name   = request.POST.get("level_name", "").strip()
     code_name    = request.POST.get("code_name", "").strip()
     number_name  = request.POST.get("number_name", "").strip()
 
-    # Resolve the program
-    name_obj  = get_object_or_404(ProgramName, name=program_name)
-    level_obj = get_object_or_404(ProgramYearLevel, name=level_name)
-    program   = Program.objects.filter(name=name_obj, year_level=level_obj).first()
+    # Resolve the major
+    name_obj  = get_object_or_404(MajorName, name=major_name)
+    level_obj = get_object_or_404(MajorYearLevel, name=level_name)
+    major   = Major.objects.filter(name=name_obj, year_level=level_obj).first()
 
     # If already present, block with a message
-    already = program.courses.filter(code__name=code_name, number__name=number_name).exists()
+    already = major.courses.filter(code__name=code_name, number__name=number_name).exists()
     if already:
         messages.error(request, "Add failed: A Course with this code and this number already exists.")
     else:
-        # Attach ALL matching Course rows to this program
+        # Attach ALL matching Course rows to this major
         to_add = Course.objects.filter(code__name=code_name, number__name=number_name)
-        program.courses.add(*to_add)
+        major.courses.add(*to_add)
         messages.success(request, "Course added.")
 
     # Return to the same results view (table will show the new row)
     url = (f"{reverse('scheduler:requirements')}"
-           f"?program={program_name}&level={level_name}&search=1")
+           f"?major={major_name}&level={level_name}&search=1")
     return redirect(url)

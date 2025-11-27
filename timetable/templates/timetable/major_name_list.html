@@ -1,13 +1,13 @@
 {% extends 'timetable/base.html' %}
 {% load static %}
 
-{% block title %}Program Name Settings{% endblock %}
+{% block title %}Major Name Settings{% endblock %}
 
 {% block content %}
 <div class="container py-4">
 
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3 class="mb-0">Program Names</h3>
+    <h3 class="mb-0">Major Names</h3>
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
   </div>
 
@@ -17,7 +17,7 @@
         <table class="table table-bordered table-striped table-hover text-center align-middle mb-0">
           <thead>
             <tr>
-              <th scope="col">Program Name</th>
+              <th scope="col">Major Name</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -31,8 +31,8 @@
                   <button class="btn btn-sm btn-warning"
                           data-bs-toggle="modal"
                           data-bs-target="#editModal"
-                          data-program-name-id="{{ n.id }}"
-                          data-program-name-name="{{ n.name }}">
+                          data-major-name-id="{{ n.id }}"
+                          data-major-name-name="{{ n.name }}">
                     Edit
                   </button>
         
@@ -40,8 +40,8 @@
                   <button class="btn btn-sm btn-danger"
                           data-bs-toggle="modal"
                           data-bs-target="#deleteModal"
-                          data-program-name-id="{{ n.id }}"
-                          data-program-name-name="{{ n.name }}">
+                          data-major-name-id="{{ n.id }}"
+                          data-major-name-name="{{ n.name }}">
                     Delete
                   </button>
                 </div>
@@ -49,7 +49,7 @@
             </tr>
             {% empty %}
             <tr>
-              <td colspan="2" class="text-muted py-4">No program names yet.</td>
+              <td colspan="2" class="text-muted py-4">No major names yet.</td>
             </tr>
             {% endfor %}
           </tbody>
@@ -64,16 +64,16 @@
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form method="post" action="{% url 'scheduler:program_name_create' %}">
+      <form method="post" action="{% url 'scheduler:major_name_create' %}">
         {% csrf_token %}
         <div class="modal-header">
-          <h5 class="modal-title" id="createLabel">Create Program Name</h5>
+          <h5 class="modal-title" id="createLabel">Create Major Name</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           {{ form.non_field_errors }}
           <div class="mb-3">
-            <label class="form-label">Program Name *</label>
+            <label class="form-label">Major Name *</label>
             {{ form.name }}
             {% for e in form.name.errors %}
               <div class="text-danger small">{{ e }}</div>
@@ -95,12 +95,12 @@
       <form method="post" id="editForm">
         {% csrf_token %}
         <div class="modal-header">
-          <h5 class="modal-title" id="editLabel">Edit Program Name</h5>
+          <h5 class="modal-title" id="editLabel">Edit Major Name</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label class="form-label">Program Name *</label>
+            <label class="form-label">Major Name *</label>
             <input id="editName" name="name" type="text" class="form-control" placeholder="e.g. Food Science" required />
           </div>
         </div>
@@ -119,11 +119,11 @@
       <form method="post" id="deleteForm">
         {% csrf_token %}
         <div class="modal-header">
-          <h5 class="modal-title" id="deleteLabel">Delete Program Name</h5>
+          <h5 class="modal-title" id="deleteLabel">Delete Major Name</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p class="mb-2">Are you sure you want to delete this Program Name?</p>
+          <p class="mb-2">Are you sure you want to delete this Major Name?</p>
           <div class="fw-semibold">Name: <span id="deleteName"></span></div>
         </div>
         <div class="modal-footer">
@@ -139,7 +139,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="affectedLabel">Affected Programs</h5>
+        <h5 class="modal-title" id="affectedLabel">Affected Majors</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -161,12 +161,12 @@
   const editModal = document.getElementById('editModal');
   editModal.addEventListener('show.bs.modal', function (event) {
     const button = event.relatedTarget;
-    const programNameId = button.getAttribute('data-program-name-id');
-    const programNameName = button.getAttribute('data-program-name-name');
-    document.getElementById('editName').value = programNameName;
+    const majorNameId = button.getAttribute('data-major-name-id');
+    const majorNameName = button.getAttribute('data-major-name-name');
+    document.getElementById('editName').value = majorNameName;
     document.getElementById('editForm').action =
-      "{% url 'scheduler:program_name_update' 0 %}".replace("0", programNameId);
-    document.getElementById('editForm').dataset.programNameId = programNameId;
+      "{% url 'scheduler:major_name_update' 0 %}".replace("0", majorNameId);
+    document.getElementById('editForm').dataset.majorNameId = majorNameId;
   });
 
   // Intercept EDIT submit
@@ -174,8 +174,8 @@
   editForm.addEventListener('submit', async (e) => {
     if (editForm.dataset.confirmed === '1') return; // already confirmed
     e.preventDefault();
-    const programNameId = editForm.dataset.programNameId
-    await showAffectedPreviewForProgramName(programNameId, "Editing this name will update the following programs.");
+    const majorNameId = editForm.dataset.majorNameId
+    await showAffectedPreviewForMajorName(majorNameId, "Editing this name will update the following majors.");
     pendingSubmitForm = editForm;
   });
 </script>
@@ -185,12 +185,12 @@
   const deleteModal = document.getElementById('deleteModal');
   deleteModal.addEventListener('show.bs.modal', function (event) {
     const button = event.relatedTarget;
-    const programNameId = button.getAttribute('data-program-name-id');
-    const programNameName = button.getAttribute('data-program-name-name');
-    document.getElementById('deleteName').textContent = programNameName;
+    const majorNameId = button.getAttribute('data-major-name-id');
+    const majorNameName = button.getAttribute('data-major-name-name');
+    document.getElementById('deleteName').textContent = majorNameName;
     document.getElementById('deleteForm').action =
-      "{% url 'scheduler:program_name_delete' 0 %}".replace("0", programNameId);
-    document.getElementById('deleteForm').dataset.programNameId = programNameId;
+      "{% url 'scheduler:major_name_delete' 0 %}".replace("0", majorNameId);
+    document.getElementById('deleteForm').dataset.majorNameId = majorNameId;
   });
 
   // Intercept DELETE submit
@@ -198,8 +198,8 @@
   deleteForm.addEventListener('submit', async (e) => {
     if (deleteForm.dataset.confirmed === '1') return;
     e.preventDefault();
-    const programNameId = deleteForm.dataset.programNameId
-    await showAffectedPreviewForProgramName(programNameId, "Deleting this name will detach it from the following programs.");
+    const majorNameId = deleteForm.dataset.majorNameId
+    await showAffectedPreviewForMajorName(majorNameId, "Deleting this name will detach it from the following majors.");
     pendingSubmitForm = deleteForm;
   });
 </script>
@@ -212,10 +212,10 @@
 
   let pendingSubmitForm = null;
 
-  async function showAffectedPreviewForProgramName(programNameId, introText) {
+  async function showAffectedPreviewForMajorName(majorNameId, introText) {
     hideOpenModals();
 
-    const url = "{% url 'scheduler:program_name_affected' 0 %}".replace("0", programNameId);
+    const url = "{% url 'scheduler:major_name_affected' 0 %}".replace("0", majorNameId);
     const res = await fetch(url, { method: "GET", headers: { "Accept": "application/json" } });
     const data = await res.json();
 
@@ -227,12 +227,12 @@
     if (!data.items || data.items.length === 0) {
       const li = document.createElement('li');
       li.className = "text-muted";
-      li.textContent = "No programs will be affected.";
+      li.textContent = "No majors will be affected.";
       list.appendChild(li);
     } else {
-      for (const p of data.items) {
+      for (const m of data.items) {
         const li = document.createElement('li');
-        li.textContent = `${p.program_name} ${p.year_level}`.trim();
+        li.textContent = `${m.major_name} ${m.year_level}`.trim();
         list.appendChild(li);
       }
     }

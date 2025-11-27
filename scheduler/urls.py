@@ -53,16 +53,16 @@ urlpatterns = [
     path("settings/course-year/<int:pk>/delete/", views.course_year_delete, name="course_year_delete"),
     path("settings/course-year/<int:pk>/affected/", views.course_year_affected, name="course_year_affected"),
 
-    # settings – program name
-    path("setting_program_name/", views.program_name_list, name="program_name"),
-    path("settings/program-name/create/", views.program_name_create, name="program_name_create"),
-    path("settings/program-name/<int:pk>/update/", views.program_name_update, name="program_name_update"),
-    path("settings/program-name/<int:pk>/delete/", views.program_name_delete, name="program_name_delete"),
-    path("settings/program-name/<int:pk>/affected/", views.program_name_affected, name="program_name_affected"),
+    # settings – major name
+    path("setting_major_name/", views.major_name_list, name="major_name"),
+    path("settings/major-name/create/", views.major_name_create, name="major_name_create"),
+    path("settings/major-name/<int:pk>/update/", views.major_name_update, name="major_name_update"),
+    path("settings/major-name/<int:pk>/delete/", views.major_name_delete, name="major_name_delete"),
+    path("settings/major-name/<int:pk>/affected/", views.major_name_affected, name="major_name_affected"),
 
     # Requirements
     path('requirements/', views.requirements, name='requirements'),       
-    path("requirements/levels/", views.ajax_levels_for_program, name="ajax_levels_for_program"),
+    path("requirements/levels/", views.ajax_levels_for_major, name="ajax_levels_for_major"),
     path("requirements/detach/", views.requirements_detach_course, name="requirements_detach_course"),
     path("requirements/numbers/", views.ajax_numbers_for_code,   name="ajax_numbers_for_code"),
     path("requirements/attach/",  views.requirements_attach_course, name="requirements_attach_course"),

@@ -4,7 +4,7 @@ from .models import (
     Course, CourseTerm, CourseCode, CourseNumber,
     CourseSection, CourseYear, CourseTime, CourseDay, Role
 )
-from .models import ProgramName
+from .models import MajorName
 from django.core.exceptions import ValidationError
 
 class CourseForm(forms.ModelForm):
@@ -219,9 +219,9 @@ class CourseYearForm(forms.ModelForm):
         return name
 
 
-class ProgramNameForm(forms.ModelForm):
+class MajorNameForm(forms.ModelForm):
     class Meta:
-        model = ProgramName
+        model = MajorName
         fields = ["name"]
         widgets = {
             "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "e.g. Food Science"}),
@@ -229,11 +229,11 @@ class ProgramNameForm(forms.ModelForm):
 
     def clean_name(self):
         name = self.cleaned_data["name"].strip()
-        qs = ProgramName.objects.filter(name__exact=name)
+        qs = MajorName.objects.filter(name__exact=name)
         if self.instance.pk:
             qs = qs.exclude(pk=self.instance.pk)
         if qs.exists():
-            raise forms.ValidationError("A Program Name with this value already exists.")
+            raise forms.ValidationError("A Major Name with this value already exists.")
         return name
     
 
