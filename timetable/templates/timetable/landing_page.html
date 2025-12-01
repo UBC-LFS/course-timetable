@@ -368,6 +368,37 @@
       if ($el.hasClass('select2-hidden-accessible')) $el.select2('destroy');
       $el.select2({ placeholder: "Select Numbers", width: '100%', allowClear: true });
     }
+
+    // Populate Number select with concrete numbers + “100 level / 200 level …”
+    function fillNumberSelect(selectEl, numbers) {
+      selectEl.innerHTML = "";
+      const levelDigits = new Set();
+
+      (numbers || []).forEach(n => {
+        if (!n) return;
+        const value = String(n).trim();
+        if (!value) return;
+
+        const opt = document.createElement('option');
+        opt.value = value;
+        opt.textContent = value;
+        selectEl.appendChild(opt);
+
+        const m = value.match(/^(\d)/);
+        if (m && m[1] !== '0') {
+          levelDigits.add(m[1]); // e.g. "1" → 100 level
+        }
+      });
+
+      // Add synthetic “X00 level” options only for levels that exist
+      Array.from(levelDigits).sort().forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = "L" + d;          // special token understood by the server
+        opt.textContent = d + "00 level";
+        opt.dataset.level = "true";
+        selectEl.appendChild(opt);
+      });
+    }
   
     async function loadNumbersInto(selectEl, code) {
       // clear + disable while loading
@@ -379,12 +410,7 @@
       try {
         const resp = await fetch(urlNums + "?code=" + encodeURIComponent(code));
         const data = await resp.json();
-        data.numbers.forEach(n => {
-          const opt = document.createElement('option');
-          opt.value = n; 
-          opt.textContent = n;
-          selectEl.appendChild(opt);
-        });
+        fillNumberSelect(selectEl, data.numbers); 
         selectEl.disabled = (data.numbers.length === 0);
         initNumSelect2(selectEl);
       } catch(e) {
@@ -448,18 +474,12 @@
       code.addEventListener('change', () => {
         const pre = preloadMap[code.value];
         if (pre && pre.length) {
-          number.innerHTML = "";
-          pre.forEach(n => {
-            const opt = document.createElement('option');
-            opt.value = n; 
-            opt.textContent = n;
-            number.appendChild(opt);
-          });
+          fillNumberSelect(number, pre);
           number.disabled = false;
           initNumSelect2(number);
         } else {
           // fallback
-          loadNumbersInto(number, code.value); 
+          loadNumbersInto(number, code.value);
         }
       });
 
@@ -479,13 +499,7 @@
       if (prefill && prefill.code) {
         const pre = preloadMap[prefill.code];
         if (pre && pre.length) {
-          number.innerHTML = "";
-          pre.forEach(n => {
-            const opt = document.createElement('option');
-            opt.value = n; 
-            opt.textContent = n;
-            number.appendChild(opt);
-          });
+          fillNumberSelect(number, pre);
           number.disabled = false;
           initNumSelect2(number);
           if (prefill.numbers && prefill.numbers.length) {

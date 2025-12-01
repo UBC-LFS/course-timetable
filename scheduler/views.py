@@ -169,6 +169,9 @@ def landing_page(request):
             )
 
             # BY Course
+            # Numbers can now be either:
+            #   - concrete numbers, e.g. "101", "210"
+            #   - synthetic "level" tokens: "L1" → 100 level, "L2" → 200 level, etc.
             if course_filters:
                 or_q = Q()
                 for f in course_filters:
@@ -177,7 +180,21 @@ def landing_page(request):
                     if not code and not nums:
                         continue
                     if code and nums:
-                        or_q |= Q(code__name=code, number__name__in=nums)
+                        exact_nums = []
+                        level_digits = []
+
+                        for raw in nums:
+                            s = str(raw)
+                            if s.startswith("L") and len(s) == 2 and s[1].isdigit():
+                                level_digits.append(s[1])   # "L1" → "1"
+                            else:
+                                exact_nums.append(s)
+                        
+                        or_q |= Q(code__name=code,
+                                    number__name__in=exact_nums)
+                        for d in level_digits:
+                            or_q |= Q(code__name=code,
+                                    number__name__startswith=d)
                     elif code:
                         or_q |= Q(code__name=code)
                 if or_q:
