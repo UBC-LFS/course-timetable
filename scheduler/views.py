@@ -170,8 +170,8 @@ def landing_page(request):
 
             # BY Course
             # Numbers can now be either:
-            #   - concrete numbers, e.g. "101", "210"
-            #   - synthetic "level" tokens: "L1" → 100 level, "L2" → 200 level, etc.
+            #   - concrete course numbers, e.g. "101", "210"
+            #   - synthetic "level" tokens: "L1" → 100 level (course number starts with 1), "L2" → 200 level, etc.
             if course_filters:
                 or_q = Q()
                 for f in course_filters:
