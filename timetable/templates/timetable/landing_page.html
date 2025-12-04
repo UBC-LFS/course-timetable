@@ -372,17 +372,17 @@
     // Populate Number select with concrete course numbers + “100 level / 200 level …”
     function fillNumberSelect(selectEl, numbers) {
       selectEl.innerHTML = "";
-      const levelDigits = new Set();
 
+      const levelDigits = new Set();
+      const concreteValues = [];  
+
+      // 1) Scan numbers, remember concrete values and which levels exist
       (numbers || []).forEach(n => {
         if (!n) return;
         const value = String(n).trim();
         if (!value) return;
 
-        const opt = document.createElement('option');
-        opt.value = value;
-        opt.textContent = value;
-        selectEl.appendChild(opt);
+        concreteValues.push(value);
 
         const m = value.match(/^(\d)/);
         if (m && m[1] !== '0') {
@@ -390,7 +390,7 @@
         }
       });
 
-      // Add synthetic “X00 level” options only for levels that exist
+      // 2) Add synthetic “X00 level” options only for levels that exist
       Array.from(levelDigits).sort().forEach(d => {
         const opt = document.createElement('option');
         opt.value = "L" + d;          // special token understood by the server
@@ -398,6 +398,14 @@
         opt.dataset.level = "true";
         selectEl.appendChild(opt);
       });
+
+      // 3) Then add all the concrete course numbers
+      concreteValues.forEach(value => {
+          const opt = document.createElement('option');
+          opt.value = value;
+          opt.textContent = value;
+          selectEl.appendChild(opt);
+        });
     }
   
     async function loadNumbersInto(selectEl, code) {
