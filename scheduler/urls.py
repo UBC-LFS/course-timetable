@@ -69,8 +69,7 @@ urlpatterns = [
 
     # Import
     path("import/", views.import_page, name="import_page"),
-    path("import/upload/", views.import_upload, name="import_upload"),
 
-    
+    # History
     path("settings/history/", views.history, name="history"),  
 ] 

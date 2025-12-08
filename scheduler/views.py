@@ -1431,32 +1431,40 @@ def requirements_attach_course(request):
            f"?major={major_name}&level={level_name}&search=1")
     return redirect(url)
 
+def _human_readable_size(num_bytes: int) -> str:
+    if num_bytes < 1024:
+        return f"{num_bytes} B"
+    kb = num_bytes / 1024.0
+    if kb < 1024:
+        return f"{kb:.1f} KB".rstrip("0").rstrip(".")
+    mb = kb / 1024.0
+    return f"{mb:.1f} MB".rstrip("0").rstrip(".")
+
+
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
 def import_page(request):
-    """
-    Simple page that shows the upload UI. The actual file upload is
-    done via JS to import_upload().
-    """
-    return render(request, "timetable/import.html")
+    upload_success = False
+    uploaded_file_name = ""
+    uploaded_file_size_human = ""
 
-@cache_control(no_cache=True, no_store=True, must_revalidate=True)
-@login_required(login_url='accounts:ldap_login')
-@require_POST
-def import_upload(request):
-    """
-    Receive a single file over POST and respond with JSON.
-    For now, just print success on the server side.
-    """
-    f = request.FILES.get("requirements_file")
+    if request.method == "POST":
+        f = request.FILES.get("requirements_file")
 
-    if not f:
-        # messages.error(request, "An error occurred, please upload again.")
-        return JsonResponse({"ok": False, "error": "No file uploaded."}, status=400)
+        if not f:
+            messages.error(request, "An error occurred, please upload again.")
+        else:
+            # Later: run your real script here
+            print("Import file received:", f.name, f.size, "bytes")
 
-    # Later you’ll run your script here.
-    # For now, just log something so you can see it in the console.
-    print("Import file received:", f.name, f.size, "bytes")
+            messages.success(request, "Upload successful.")
+            upload_success = True
+            uploaded_file_name = f.name
+            uploaded_file_size_human = _human_readable_size(f.size)
 
-    # messages.success(request, "Upload successful.")
-    return JsonResponse({"ok": True})
+    context = {
+        "upload_success": upload_success,
+        "uploaded_file_name": uploaded_file_name,
+        "uploaded_file_size_human": uploaded_file_size_human,
+    }
+    return render(request, "timetable/import.html", context)
