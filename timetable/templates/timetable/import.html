@@ -1,0 +1,239 @@
+{% extends "timetable/base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+  .border-dashed { border-style: dashed !important; }
+  .drop-hover { background-color: #f8f9fa; }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Upload file</h5>
+          </div>
+  
+          <div class="card-body">
+            <form id="importUploadForm" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+  
+              <!-- Drop area / click area -->
+              <div id="dropZone"
+                   class="border border-2 border-dashed rounded-3 py-5 text-center mb-3 bg-light"
+                   style="cursor:pointer;">
+                <input type="file" id="fileInput"
+                       name="requirements_file"
+                       class="d-none" />
+  
+                <!-- default subtitle -->
+                <p id="dz-sub-default" class="text-muted mb-0">
+                  You can upload 1 file
+                </p>
+  
+                <!-- file metadata layout (hidden until success) -->
+                <div id="dz-sub-meta"
+                     class="d-none px-3 mt-2 d-flex justify-content-between align-items-center">
+                  <span id="fileName" class="fw-semibold text-start"></span>
+                  <span id="fileSize" class="text-muted small text-center"></span>
+                  <button type="button"
+                          id="fileClearBtn"
+                          class="btn btn-sm btn-outline-secondary ms-2">
+                    ×
+                  </button>
+                </div>
+              </div>
+  
+              <!-- Populate button -->
+              <div class="d-flex justify-content-end mt-3">
+                <button type="button"
+                        id="populateBtn"
+                        class="btn btn-primary"
+                        disabled>
+                  Populate
+                </button>
+              </div>
+  
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+
+{% block js %}
+<script>
+    (function() {
+      const form        = document.getElementById('importUploadForm');
+      const fileInput   = document.getElementById('fileInput');
+      const dropZone    = document.getElementById('dropZone');
+      const dzSubDefault= document.getElementById('dz-sub-default');
+      const dzSubMeta   = document.getElementById('dz-sub-meta');
+      const fileNameEl  = document.getElementById('fileName');
+      const fileSizeEl  = document.getElementById('fileSize');
+      const fileClearBtn= document.getElementById('fileClearBtn');
+      const populateBtn = document.getElementById('populateBtn');
+    
+      const uploadUrl   = "{% url 'scheduler:import_upload' %}";
+      const csrfToken   = form.querySelector('input[name=csrfmiddlewaretoken]').value;
+    
+      // idle | uploading | success
+      let state = 'idle';
+    
+      function humanFileSize(bytes) {
+        const thresh = 1024;
+        if (bytes < thresh) { return bytes + ' B'; }
+        const units = ['KB','MB','GB'];
+        let u = -1;
+        do {
+          bytes /= thresh;
+          ++u;
+        } while (bytes >= thresh && u < units.length - 1);
+        return bytes.toFixed(1).replace(/\.0$/, '') + ' ' + units[u];
+      }
+    
+      // insert Bootstrap-style alert just under header, matching base.html
+      function showGlobalMessage(text, level) {
+        // level: 'success' | 'error'
+        let cls = 'alert-info';
+        if (level === 'success') cls = 'alert-success';
+        if (level === 'error')   cls = 'alert-danger';
+    
+        let container = document.getElementById('flash-messages-js');
+        if (!container) {
+          container = document.createElement('div');
+          container.id = 'flash-messages-js';
+          // insert after header
+          const header = document.querySelector('header.navbar');
+          if (header && header.parentNode) {
+            header.parentNode.insertBefore(container, header.nextSibling);
+          } else {
+            document.body.insertBefore(container, document.body.firstChild);
+          }
+        }
+    
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'alert ' + cls + ' alert-dismissible fade show';
+        alertDiv.setAttribute('role', 'alert');
+        alertDiv.innerHTML =
+          text +
+          '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+        container.appendChild(alertDiv);
+      }
+    
+      function showDefaultSubtitle(text) {
+        dzSubDefault.textContent = text;
+        dzSubDefault.classList.remove('d-none');
+        dzSubMeta.classList.add('d-none');
+      }
+    
+      function showFileMeta(file) {
+        fileNameEl.textContent = file.name;
+        fileSizeEl.textContent = humanFileSize(file.size);
+        dzSubDefault.classList.add('d-none');
+        dzSubMeta.classList.remove('d-none');
+      }
+    
+      function resetToInitialState() {
+        state = 'idle';
+        fileInput.value = '';
+        fileInput.disabled = false;
+        populateBtn.disabled = true;
+        showDefaultSubtitle('You can upload 1 file');
+      }
+    
+      function handleFiles(fileList) {
+        if (!fileList || !fileList.length) return;
+        if (state === 'success') return; // allow only 1 successful file
+    
+        const file = fileList[0]; // enforce single file
+    
+        state = 'uploading';
+        fileInput.disabled = true;
+        populateBtn.disabled = true;
+        showDefaultSubtitle('Uploading…');
+    
+        const formData = new FormData();
+        formData.append('requirements_file', file);
+    
+        fetch(uploadUrl, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-CSRFToken': csrfToken,
+          },
+          credentials: 'same-origin',
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.ok) {
+            state = 'success';
+            // keep input disabled so user cannot add another file
+            showFileMeta(file);
+            populateBtn.disabled = false;
+            showGlobalMessage('Upload successful.', 'success');
+          } else {
+            resetToInitialState();
+            showGlobalMessage('An error occurred, please upload again.', 'error');
+          }
+        })
+        .catch(() => {
+          resetToInitialState();
+          showGlobalMessage('An error occurred, please upload again.', 'error');
+        });
+      }
+    
+      // Dropzone behaviour
+      dropZone.addEventListener('click', function() {
+        if (state === 'success') return;   // only 1 file allowed
+        fileInput.click();
+      });
+    
+      fileInput.addEventListener('change', function(e) {
+        handleFiles(e.target.files);
+      });
+    
+      ['dragenter','dragover'].forEach(function(ev) {
+        dropZone.addEventListener(ev, function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (state === 'success') return;
+          dropZone.classList.add('drop-hover');
+        });
+      });
+    
+      ['dragleave','drop'].forEach(function(ev) {
+        dropZone.addEventListener(ev, function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          dropZone.classList.remove('drop-hover');
+        });
+      });
+    
+      dropZone.addEventListener('drop', function(e) {
+        if (state === 'success') return;
+        const dt = e.dataTransfer;
+        if (!dt) return;
+        handleFiles(dt.files);
+      });
+    
+      // X button: clear file & go back to initial state
+      fileClearBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        resetToInitialState();
+      });
+    
+      // Populate click – still placeholder
+      populateBtn.addEventListener('click', function() {
+        if (state !== 'success') return;
+        // later: POST to your processing endpoint
+        alert('Populate will use the uploaded file (placeholder for now).');
+      });
+    
+      // initial
+      resetToInitialState();
+    })();
+</script>
+{% endblock %}

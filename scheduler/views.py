@@ -1430,3 +1430,33 @@ def requirements_attach_course(request):
     url = (f"{reverse('scheduler:requirements')}"
            f"?major={major_name}&level={level_name}&search=1")
     return redirect(url)
+
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+def import_page(request):
+    """
+    Simple page that shows the upload UI. The actual file upload is
+    done via JS to import_upload().
+    """
+    return render(request, "timetable/import.html")
+
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+@require_POST
+def import_upload(request):
+    """
+    Receive a single file over POST and respond with JSON.
+    For now, just print success on the server side.
+    """
+    f = request.FILES.get("requirements_file")
+
+    if not f:
+        # messages.error(request, "An error occurred, please upload again.")
+        return JsonResponse({"ok": False, "error": "No file uploaded."}, status=400)
+
+    # Later you’ll run your script here.
+    # For now, just log something so you can see it in the console.
+    print("Import file received:", f.name, f.size, "bytes")
+
+    # messages.success(request, "Upload successful.")
+    return JsonResponse({"ok": True})

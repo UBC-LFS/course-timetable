@@ -71,7 +71,11 @@
 
         <li class="nav-item">
           <a class="nav-link text-white" href="{% url 'scheduler:requirements' %}">Major Requirements</a>
-        </li>        
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{% url 'scheduler:import_page' %}">Import</a>
+        </li> 
       
         {% if user.is_authenticated %}
         <li class="nav-item">
@@ -102,6 +106,9 @@
     </div>
   {% endfor %}
 {% endif %}
+
+<!-- JS-injected flash messages  -->
+<div id="flash-messages-js"></div>
 
 <!-- ──────────── MAIN CONTENT ──────────── -->
 <main class="my-0">
