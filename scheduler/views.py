@@ -1431,7 +1431,7 @@ def requirements_attach_course(request):
            f"?major={major_name}&level={level_name}&search=1")
     return redirect(url)
 
-def _human_readable_size(num_bytes: int) -> str:
+def _human_readable_size(num_bytes):
     if num_bytes < 1024:
         return f"{num_bytes} B"
     kb = num_bytes / 1024.0
