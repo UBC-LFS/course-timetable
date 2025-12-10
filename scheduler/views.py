@@ -26,6 +26,10 @@ from django.views.decorators.cache import cache_control
 from .models import HistoryLog, HistoryTopic, HistoryAction
 from django.utils import timezone
 from zoneinfo import ZoneInfo
+import openpyxl
+import os
+import tempfile
+import random
 
 
 '''
@@ -401,7 +405,7 @@ def view_courses(request):
 
     # Build days
     all_days = CourseDay.objects.values_list("name", flat=True).distinct()
-    order = ["Mon", "Tues", "Wed", "Thurs", "Fri"]
+    order = ["Mon", "Tue", "Wed", "Thu", "Fri"]
     dropdown_days = sorted(all_days, key=lambda d: order.index(d))
 
     querydict = request.GET.copy()
@@ -490,7 +494,7 @@ def delete_course(request, course_id):
     def get_days(days):
         if not days:
             return "None"
-        order = ["Mon", "Tues", "Wed", "Thurs", "Fri"]
+        order = ["Mon", "Tue", "Wed", "Thu", "Fri"]
         return ",".join(sorted(days, key=lambda d: order.index(d)))
 
     details = {
@@ -1446,7 +1450,7 @@ def _human_readable_size(num_bytes):
 def import_page(request):
     upload_success = False
     uploaded_file_name = ""
-    uploaded_file_size_human = ""
+    uploaded_file_size = ""
 
     if request.method == "POST":
         f = request.FILES.get("requirements_file")
@@ -1454,17 +1458,455 @@ def import_page(request):
         if not f:
             messages.error(request, "An error occurred, please upload again.")
         else:
-            # Later: run your real script here
-            print("Import file received:", f.name, f.size, "bytes")
+            try:
+                # Clean up any previous temp file for this session
+                old_path = request.session.get("import_temp_path")
+                if old_path and os.path.exists(old_path):
+                    os.remove(old_path)
+                
+                suffix = os.path.splitext(f.name)[1] or ".xlsx"
+                with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+                    for chunk in f.chunks():
+                        tmp.write(chunk)
+                    temp_path = tmp.name
 
-            messages.success(request, "Upload successful.")
-            upload_success = True
-            uploaded_file_name = f.name
-            uploaded_file_size_human = _human_readable_size(f.size)
+                # Store metadata in session so Populate can use it
+                request.session["import_temp_path"] = temp_path
+                request.session["import_original_name"] = f.name
+                request.session["import_size_bytes"] = f.size
+
+                upload_success = True
+                uploaded_file_name = f.name
+                uploaded_file_size = _human_readable_size(f.size)
+
+                messages.success(request, "Upload successful.")
+            except Exception:
+                # fallback
+                request.session.pop("import_temp_path", None)
+                request.session.pop("import_original_name", None)
+                request.session.pop("import_size_bytes", None)
+                messages.error(request, "An error occurred, please upload again.")
 
     context = {
         "upload_success": upload_success,
         "uploaded_file_name": uploaded_file_name,
-        "uploaded_file_size_human": uploaded_file_size_human,
+        "uploaded_file_size": uploaded_file_size,
     }
     return render(request, "timetable/import.html", context)
+
+def _parse_time_token(raw):
+    if not raw:
+        return None
+    parts = str(raw).strip().split()
+    if not parts:
+        return None
+
+    time_part = parts[0] # e.g. "9:30"
+    meridian = parts[1].lower() if len(parts) > 1 else ""
+
+    # Split hour and minute
+    if ":" in time_part:
+        hour_str, minute_str = time_part.split(":", 1)
+    else:
+        hour_str, minute_str = time_part, "00"
+
+    try:
+        hour = int(hour_str)
+        minute = int(minute_str)
+    except ValueError:
+        return None
+
+    if meridian in ("p.m.", "pm", "p.m"):
+        if hour != 12:
+            hour += 12
+
+    return f"{hour:02d}:{minute:02d}"
+
+def _parse_import_excel(path):
+    """
+    Read the uploaded Excel and return a list of parsed course dicts.
+
+    Each item looks like:
+    {
+        "code": "APBI",
+        "number": "200" or "200SpecialTopic",
+        "section": "001",
+        "year": "2025",
+        "term": "W1",
+        "days": ["Mon", "Wed"],
+        "start_time": "11:00",
+        "end_time": "13:00",
+    }
+    """
+    wb = openpyxl.load_workbook(path, data_only=True)
+    ws = wb.active
+
+    # Map column headers to indices
+    header_row = [c.value for c in next(ws.iter_rows(min_row=1, max_row=1))]
+    idx = {name: header_row.index(name) for name in header_row if name}
+
+    required_cols = [
+        "Course Subject",
+        "Course Number",
+        "Special Topic",
+        "Section Number",
+        "Academic Period",
+        "Term",
+        "Meeting Pattern and Location",
+    ]
+    for col in required_cols:
+        if col not in idx:
+            raise ValueError(f"Missing column {col} in Excel file.")
+
+    parsed = []
+
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if not any(row):
+            continue
+
+        def val(col_name):
+            v = row[idx[col_name]]
+            if v is None:
+                return ""
+            return str(v).strip()
+
+        subject = val("Course Subject")
+        course_number = val("Course Number")
+        special_topic = val("Special Topic")
+        section_number = val("Section Number")
+        academic_period = val("Academic Period")
+        term = val("Term")
+        meeting = val("Meeting Pattern and Location")
+
+        # CourseCode
+        code_name = subject or None
+
+        # CourseNumber
+        if special_topic:
+            number_name = f"{course_number}{special_topic}" or None
+        else:
+            number_name = course_number or None
+
+        # CourseSection
+        raw_section = section_number or ""
+        if special_topic and "_" in raw_section:
+            section_name = raw_section.split("_", 1)[1].strip() or None
+        else:
+            section_name = raw_section or None
+
+        # CourseYear
+        year_name = (academic_period[:4].strip() if academic_period else None)
+
+        # Term
+        term_name = term or None
+
+        # Meeting pattern / day / time
+        raw_day = None
+        raw_time = None
+        if meeting:
+            parts = [p.strip() for p in str(meeting).split("|") if p and str(p).strip()]
+            if parts:
+                if parts[0] == "UBCV":
+                    # UBCV | ... | ... | ... | day | time
+                    if len(parts) >= 6:
+                        raw_day = parts[4]
+                        raw_time = parts[5]
+                else:
+                    if len(parts) >= 2:
+                        raw_day = parts[0]
+                        raw_time = parts[1]
+
+        day_names = []
+        if raw_day:
+            day_names = [d.strip() for d in raw_day.split(" ") if d.strip()]
+
+        start_token = None
+        end_token = None
+        if raw_time:
+            time_parts = [t.strip() for t in raw_time.split("-") if t.strip()]
+            if len(time_parts) >= 2:
+                start_token, end_token = time_parts[0], time_parts[1]
+
+        start_name = _parse_time_token(start_token) if start_token else None
+        end_name = _parse_time_token(end_token) if end_token else None
+
+        parsed.append({
+            "code": code_name or None,
+            "number": number_name or None,
+            "section": section_name or None,
+            "year": year_name or None,
+            "term": term_name or None,
+            "days": day_names,
+            "start_time": start_name or None,
+            "end_time": end_name or None,
+        })
+
+    return parsed
+
+DISTINCT_COLORS = [
+    "#1f77b4",  # blue
+    "#ff7f0e",  # orange
+    "#2ca02c",  # green
+    "#d62728",  # red
+    "#9467bd",  # purple
+    "#8c564b",  # brown
+    "#e377c2",  # pink
+    "#7f7f7f",  # gray
+    "#bcbd22",  # olive
+    "#17becf",  # cyan
+]
+
+def _next_code_color(used_colors: set):
+    # Pick a color that is not already used
+    for c in DISTINCT_COLORS:
+        if c not in used_colors:
+            used_colors.add(c)
+            return c
+    # Fallback: random unique color
+    while True:
+        c = "#{:06x}".format(random.randint(0, 0xFFFFFF))
+        if c not in used_colors:
+            used_colors.add(c)
+            return c
+
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+@require_POST
+def import_populate_preview(request):
+    temp_path = request.session.get("import_temp_path")
+    if not temp_path or not os.path.exists(temp_path):
+        messages.error(request, "An error occurred, please try again.")
+        return JsonResponse({"ok": False, "redirect": reverse("scheduler:import_page")})
+
+    try:
+        parsed_courses = _parse_import_excel(temp_path)
+    except Exception:
+        messages.error(request, "An error occurred, please try again.")
+        return JsonResponse({"ok": False, "redirect": reverse("scheduler:import_page")})
+
+    # Store the parsed data in the session for the commit step
+    request.session["import_parsed_courses"] = parsed_courses
+
+    existing_codes = set(CourseCode.objects.values_list("name", flat=True))
+    existing_numbers = set(CourseNumber.objects.values_list("name", flat=True))
+    existing_sections = set(CourseSection.objects.values_list("name", flat=True))
+    existing_years = set(CourseYear.objects.values_list("name", flat=True))
+    existing_terms = set(CourseTerm.objects.values_list("name", flat=True))
+    existing_days = set(CourseDay.objects.values_list("name", flat=True))
+    existing_times = set(CourseTime.objects.values_list("name", flat=True))
+
+    codes = set()
+    numbers = set()
+    sections = set()
+    years = set()
+    terms = set()
+    days = set()
+    times = set()
+
+    for c in parsed_courses:
+        if c["code"]:
+            codes.add(c["code"])
+        if c["number"]:
+            numbers.add(c["number"])
+        if c["section"]:
+            sections.add(c["section"])
+        if c["year"]:
+            years.add(c["year"])
+        if c["term"]:
+            terms.add(c["term"])
+        for d in c["days"]:
+            days.add(d)
+        if c["start_time"]:
+            times.add(c["start_time"])
+        if c["end_time"]:
+            times.add(c["end_time"])
+
+    new_fields = {
+        "codes": sorted(n for n in codes if n not in existing_codes),
+        "numbers": sorted(n for n in numbers if n not in existing_numbers),
+        "sections": sorted(n for n in sections if n not in existing_sections),
+        "years": sorted(n for n in years if n not in existing_years),
+        "terms": sorted(n for n in terms if n not in existing_terms),
+        "days": sorted(n for n in days if n not in existing_days),
+        "times": sorted(n for n in times if n not in existing_times),
+    }
+
+    # Determine courses that will be new
+    new_courses_preview = []
+    
+    for c in parsed_courses:
+        # If any of the fields are new, the course is automatically new
+        if (
+            (c["code"] in new_fields["codes"])
+            or (c["number"] in new_fields["numbers"])
+            or (c["section"] in new_fields["sections"])
+            or (c["year"] in new_fields["years"])
+            or (c["term"] in new_fields["terms"])
+        ):
+            is_new = True
+        else:
+            # All fields already exist in DB: check if course exists
+            filters = {}
+            if c["code"]:
+                filters["code__name"] = c["code"]
+            else:
+                filters["code__isnull"] = True
+
+            if c["number"]:
+                filters["number__name"] = c["number"]
+            else:
+                filters["number__isnull"] = True
+
+            if c["section"]:
+                filters["section__name"] = c["section"]
+            else:
+                filters["section__isnull"] = True
+
+            if c["year"]:
+                filters["academic_year__name"] = c["year"]
+            else:
+                filters["academic_year__isnull"] = True
+
+            if c["term"]:
+                filters["term__name"] = c["term"]
+            else:
+                filters["term__isnull"] = True
+
+            is_new = not Course.objects.filter(**filters).exists()
+
+        if is_new:
+            new_courses_preview.append({
+                "code": c["code"] or None,
+                "number": c["number"] or None,
+                "section": c["section"] or None,
+                "year": c["year"] or None,
+                "term": c["term"] or None,
+            })
+
+    return JsonResponse({
+        "ok": True,
+        "course_fields": new_fields,
+        "courses": new_courses_preview,
+    })
+
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+@require_POST
+def import_populate_commit(request):
+    parsed_courses = request.session.get("import_parsed_courses")
+    if not parsed_courses:
+        messages.error(request, "An error occurred, please try again.")
+        return JsonResponse({"ok": False, "redirect": reverse("scheduler:import_page")})
+
+    # Build caches of existing objects
+    code_cache = {c.name: c for c in CourseCode.objects.all()}
+    number_cache = {n.name: n for n in CourseNumber.objects.all()}
+    section_cache = {s.name: s for s in CourseSection.objects.all()}
+    year_cache = {y.name: y for y in CourseYear.objects.all()}
+    term_cache = {t.name: t for t in CourseTerm.objects.all()}
+    day_cache = {d.name: d for d in CourseDay.objects.all()}
+    time_cache = {t.name: t for t in CourseTime.objects.all()}
+
+    used_colors = set(CourseCode.objects.values_list("color", flat=True))
+
+    def get_code(name):
+        if not name:
+            return None
+        if name in code_cache:
+            return code_cache[name]
+        color = _next_code_color(used_colors)
+        obj = CourseCode.objects.create(name=name, color=color)
+        code_cache[name] = obj
+        return obj
+
+    def get_simple(model_cache, ModelClass, name):
+        if not name:
+            return None
+        if name in model_cache:
+            return model_cache[name]
+        obj = ModelClass.objects.create(name=name)
+        model_cache[name] = obj
+        return obj
+
+    for c in parsed_courses:
+
+        code_obj = get_code(c["code"])
+        number_obj = get_simple(number_cache, CourseNumber, c["number"])
+        section_obj = get_simple(section_cache, CourseSection, c["section"])
+        year_obj = get_simple(year_cache, CourseYear, c["year"])
+        term_obj = get_simple(term_cache, CourseTerm, c["term"])
+
+        start_time_obj = None
+        end_time_obj = None
+        if c["start_time"]:
+            if c["start_time"] in time_cache:
+                start_time_obj = time_cache[c["start_time"]]
+            else:
+                start_time_obj = CourseTime.objects.create(name=c["start_time"])
+                time_cache[c["start_time"]] = start_time_obj
+
+        if c["end_time"]:
+            if c["end_time"] in time_cache:
+                end_time_obj = time_cache[c["end_time"]]
+            else:
+                end_time_obj = CourseTime.objects.create(name=c["end_time"])
+                time_cache[c["end_time"]] = end_time_obj
+
+        day_objs = []
+        for d in c["days"]:
+            if d in day_cache:
+                day_objs.append(day_cache[d])
+            else:
+                obj = CourseDay.objects.create(name=d)
+                day_cache[d] = obj
+                day_objs.append(obj)
+
+        # Check if course already exists
+        filters = {}
+        if code_obj:
+            filters["code"] = code_obj
+        else:
+            filters["code__isnull"] = True
+
+        if number_obj:
+            filters["number"] = number_obj
+        else:
+            filters["number__isnull"] = True
+
+        if section_obj:
+            filters["section"] = section_obj
+        else:
+            filters["section__isnull"] = True
+
+        if year_obj:
+            filters["academic_year"] = year_obj
+        else:
+            filters["academic_year__isnull"] = True
+
+        if term_obj:
+            filters["term"] = term_obj
+        else:
+            filters["term__isnull"] = True
+
+        course = Course.objects.filter(**filters).first()
+        if course is None:
+            course = Course.objects.create(
+                code=code_obj,
+                number=number_obj,
+                section=section_obj,
+                academic_year=year_obj,
+                term=term_obj,
+                start_time=start_time_obj,
+                end_time=end_time_obj,
+            )
+            if day_objs:
+                course.day.set(day_objs)
+
+    # Clean up data
+    request.session.pop("import_parsed_courses", None)
+    request.session.pop("import_temp_path", None)
+    request.session.pop("import_original_name", None)
+    request.session.pop("import_size_bytes", None)
+
+    messages.success(request, "Populate successful.")
+    return JsonResponse({"ok": True, "redirect": reverse("scheduler:import_page")})

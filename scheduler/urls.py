@@ -69,6 +69,8 @@ urlpatterns = [
 
     # Import
     path("import/", views.import_page, name="import_page"),
+    path("import/populate/preview/", views.import_populate_preview, name="import_populate_preview"),
+    path("import/populate/commit/", views.import_populate_commit, name="import_populate_commit"),
 
     # History
     path("settings/history/", views.history, name="history"),  

@@ -1,0 +1,5411 @@
+[
+{
+  "model": "scheduler.course",
+  "pk": 1,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 2,
+    "slug": "apbi_v-200-001-2025-w2-1",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 2,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 3,
+    "slug": "apbi_v-200-002-2025-w2-2",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 3,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 5,
+    "slug": "apbi_v-200-l01-2025-w2-3",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 4,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 4,
+    "academic_year": 1,
+    "start_time": 5,
+    "end_time": 6,
+    "slug": "apbi_v-200-l02-2025-w2-4",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 5,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 5,
+    "academic_year": 1,
+    "start_time": 7,
+    "end_time": 1,
+    "slug": "apbi_v-200-l03-2025-w2-5",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 6,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 6,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 3,
+    "slug": "apbi_v-200-l04-2025-w2-6",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 7,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 7,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 5,
+    "slug": "apbi_v-200-l05-2025-w2-7",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 8,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 8,
+    "academic_year": 1,
+    "start_time": 5,
+    "end_time": 6,
+    "slug": "apbi_v-200-l06-2025-w2-8",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 9,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 9,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-200-l07-2025-w2-9",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 10,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 10,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 5,
+    "slug": "apbi_v-200-l08-2025-w2-10",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 11,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 11,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-200-l09-2025-w2-11",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 12,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 12,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 3,
+    "slug": "apbi_v-200-l10-2025-w2-12",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 13,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 13,
+    "academic_year": 1,
+    "start_time": 3,
+    "end_time": 6,
+    "slug": "apbi_v-200-pr1-2025-w2-13",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 14,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 14,
+    "academic_year": 1,
+    "start_time": 7,
+    "end_time": 4,
+    "slug": "apbi_v-200-pr2-2025-w2-14",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 15,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 15,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 9,
+    "slug": "apbi_v-200-pr3-2025-w2-15",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 16,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 1,
+    "section": 16,
+    "academic_year": 1,
+    "start_time": 7,
+    "end_time": 4,
+    "slug": "apbi_v-200-pr4-2025-w2-16",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 17,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 2,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 3,
+    "slug": "apbi_v-210-001-2025-w2-17",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 18,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 2,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 11,
+    "slug": "apbi_v-210-l01-2025-w2-18",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 19,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 2,
+    "section": 5,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 6,
+    "slug": "apbi_v-210-l03-2025-w2-19",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 20,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 2,
+    "section": 7,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 6,
+    "slug": "apbi_v-210-l05-2025-w2-20",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 21,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 2,
+    "section": 8,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 6,
+    "slug": "apbi_v-210-l06-2025-w2-21",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 22,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 2,
+    "section": 10,
+    "academic_year": 1,
+    "start_time": 7,
+    "end_time": 2,
+    "slug": "apbi_v-210-l08-2025-w2-22",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 23,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 3,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 2,
+    "slug": "apbi_v-214-002-2025-w2-23",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 24,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 4,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 12,
+    "slug": "apbi_v-265-001-2025-w2-24",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 25,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 5,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 13,
+    "end_time": 6,
+    "slug": "apbi_v-311-001-2025-w2-25",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 26,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 6,
+    "section": 17,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "apbi_v-314-003-2025-w2-26",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 27,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 7,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 13,
+    "slug": "apbi_v-315-001-2025-w2-27",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 28,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 8,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 12,
+    "end_time": 14,
+    "slug": "apbi_v-316-001-2025-w2-28",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 29,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 9,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "apbi_v-317-002-2025-w2-29",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 30,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 10,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-322-002-2025-w2-30",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 31,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 10,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-322-l01-2025-w2-31",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 32,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 11,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 12,
+    "slug": "apbi_v-326-002-2025-w2-32",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 33,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 11,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": 3,
+    "end_time": 8,
+    "slug": "apbi_v-326-l01-2025-w2-33",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 34,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 12,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 3,
+    "slug": "apbi_v-342-001-2025-w2-34",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 35,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 12,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 6,
+    "slug": "apbi_v-342-l01-2025-w2-35",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 36,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 13,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "apbi_v-360-001-2025-w2-36",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 37,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 14,
+    "section": 18,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-361-199-2025-w2-37",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 38,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 15,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 5,
+    "end_time": 6,
+    "slug": "apbi_v-402-002-2025-w2-38",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 39,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 16,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "apbi_v-405-002-2025-w2-39",
+    "day": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 40,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 17,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-415-001-2025-w2-40",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 41,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 18,
+    "section": 19,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-419-201-2025-w2-41",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 42,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 19,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 15,
+    "slug": "apbi_v-423-001-2025-w2-42",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 43,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 20,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 3,
+    "slug": "apbi_v-427-002-2025-w2-43",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 44,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 21,
+    "section": 19,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 4,
+    "slug": "apbi_v-490d-201-2025-w2-44",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 45,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 22,
+    "section": 20,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-490e-202-2025-w2-45",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 46,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 23,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-496a-002-2025-w2-46",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 47,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 24,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-496b-002-2025-w2-47",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 48,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 25,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-497a-002-2025-w2-48",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 49,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 26,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-497b-002-2025-w2-49",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 50,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 27,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-497c-002-2025-w2-50",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 51,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 28,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-497d-002-2025-w2-51",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 52,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 29,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-497e-002-2025-w2-52",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 53,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 30,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-498-002-2025-w2-53",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 54,
+  "fields": {
+    "term": 1,
+    "code": 1,
+    "number": 31,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-499-002-2025-w2-54",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 55,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 32,
+    "section": 19,
+    "academic_year": 1,
+    "start_time": 13,
+    "end_time": 6,
+    "slug": "fnh_v-160-201-2025-w2-55",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 56,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 33,
+    "section": 19,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "fnh_v-161-201-2025-w2-56",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 57,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 1,
+    "section": 21,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 11,
+    "slug": "fnh_v-200-103-2025-w2-57",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 58,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 1,
+    "section": 22,
+    "academic_year": 1,
+    "start_time": 3,
+    "end_time": 4,
+    "slug": "fnh_v-200-104-2025-w2-58",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 59,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 34,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 3,
+    "slug": "fnh_v-250-002-2025-w2-59",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 60,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 35,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 16,
+    "end_time": 3,
+    "slug": "fnh_v-303-001-2025-w2-60",
+    "day": [
+      3,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 61,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 36,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 17,
+    "end_time": 16,
+    "slug": "fnh_v-309-001-2025-w2-61",
+    "day": [
+      3,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 62,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 36,
+    "section": 23,
+    "academic_year": 1,
+    "start_time": 17,
+    "end_time": 1,
+    "slug": "fnh_v-309-d01-2025-w2-62",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 63,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 11,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 6,
+    "slug": "fnh_v-326-001-2025-w2-63",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 64,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 11,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 6,
+    "slug": "fnh_v-326-002-2025-w2-64",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 65,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 37,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 12,
+    "end_time": 6,
+    "slug": "fnh_v-330-002-2025-w2-65",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 66,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 37,
+    "section": 24,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l2a-2025-w2-66",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 67,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 37,
+    "section": 25,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l2b-2025-w2-67",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 68,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 37,
+    "section": 26,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l2c-2025-w2-68",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 69,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 37,
+    "section": 27,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l2d-2025-w2-69",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 70,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 37,
+    "section": 28,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l2e-2025-w2-70",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 71,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 37,
+    "section": 29,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l2f-2025-w2-71",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 72,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 37,
+    "section": 30,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l2g-2025-w2-72",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 73,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 37,
+    "section": 31,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l2h-2025-w2-73",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 74,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 38,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 12,
+    "end_time": 6,
+    "slug": "fnh_v-335-001-2025-w2-74",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 75,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 38,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-335-l01-2025-w2-75",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 76,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 39,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 16,
+    "end_time": 3,
+    "slug": "fnh_v-340-002-2025-w2-76",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 77,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 39,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 13,
+    "slug": "fnh_v-340-l01-2025-w2-77",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 78,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 39,
+    "section": 4,
+    "academic_year": 1,
+    "start_time": 19,
+    "end_time": 20,
+    "slug": "fnh_v-340-l02-2025-w2-78",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 79,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 40,
+    "section": 19,
+    "academic_year": 1,
+    "start_time": 21,
+    "end_time": 5,
+    "slug": "fnh_v-345-201-2025-w2-79",
+    "day": [
+      3,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 80,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 41,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "fnh_v-351-002-2025-w2-80",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 81,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 42,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 11,
+    "slug": "fnh_v-355-002-2025-w2-81",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 82,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 43,
+    "section": 19,
+    "academic_year": 1,
+    "start_time": 17,
+    "end_time": 16,
+    "slug": "fnh_v-375-201-2025-w2-82",
+    "day": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 83,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 44,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 11,
+    "slug": "fnh_v-401-001-2025-w2-83",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 84,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 15,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 2,
+    "slug": "fnh_v-402-001-2025-w2-84",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 85,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 45,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 3,
+    "slug": "fnh_v-403-002-2025-w2-85",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 86,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 45,
+    "section": 32,
+    "academic_year": 1,
+    "start_time": 17,
+    "end_time": 1,
+    "slug": "fnh_v-403-d03-2025-w2-86",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 87,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 45,
+    "section": 33,
+    "academic_year": 1,
+    "start_time": 3,
+    "end_time": 4,
+    "slug": "fnh_v-403-d04-2025-w2-87",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 88,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 46,
+    "section": 19,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 12,
+    "slug": "fnh_v-404-201-2025-w2-88",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 89,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 16,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": 3,
+    "end_time": 4,
+    "slug": "fnh_v-405-101-2025-w2-89",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 90,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 18,
+    "section": 19,
+    "academic_year": 1,
+    "start_time": 7,
+    "end_time": 10,
+    "slug": "fnh_v-419-201-2025-w2-90",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 91,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 47,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "fnh_v-451-002-2025-w2-91",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 92,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 48,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fnh_v-455-001-2025-w2-92",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 93,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 49,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "fnh_v-473-001-2025-w2-93",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 94,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 50,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 13,
+    "slug": "fnh_v-474-002-2025-w2-94",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 95,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 51,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 11,
+    "slug": "fnh_v-475-002-2025-w2-95",
+    "day": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 96,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 52,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 2,
+    "slug": "fnh_v-477-001-2025-w2-96",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 97,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 53,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 17,
+    "end_time": 3,
+    "slug": "fnh_v-480-002-2025-w2-97",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 98,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 54,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": 17,
+    "end_time": 6,
+    "slug": "fnh_v-483-101-2025-w2-98",
+    "day": [
+      3,
+      1,
+      5,
+      4,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 99,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 55,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 11,
+    "slug": "fnh_v-490a-001-2025-w2-99",
+    "day": [
+      3,
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 100,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 25,
+    "section": 35,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fnh_v-497a-102-2025-w2-100",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 101,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 26,
+    "section": 35,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fnh_v-497b-102-2025-w2-101",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 102,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 29,
+    "section": 35,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fnh_v-497e-102-2025-w2-102",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 103,
+  "fields": {
+    "term": 1,
+    "code": 2,
+    "number": 31,
+    "section": 35,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fnh_v-499-102-2025-w2-103",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 104,
+  "fields": {
+    "term": 1,
+    "code": 3,
+    "number": 56,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "fre_v-290a-002-2025-w2-104",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 105,
+  "fields": {
+    "term": 1,
+    "code": 3,
+    "number": 57,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 22,
+    "end_time": 1,
+    "slug": "fre_v-302-001-2025-w2-105",
+    "day": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 106,
+  "fields": {
+    "term": 1,
+    "code": 3,
+    "number": 57,
+    "section": 19,
+    "academic_year": 1,
+    "start_time": 17,
+    "end_time": 1,
+    "slug": "fre_v-302-201-2025-w2-106",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 107,
+  "fields": {
+    "term": 1,
+    "code": 3,
+    "number": 58,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 12,
+    "end_time": 14,
+    "slug": "fre_v-385-002-2025-w2-107",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 108,
+  "fields": {
+    "term": 1,
+    "code": 3,
+    "number": 59,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 23,
+    "end_time": 4,
+    "slug": "fre_v-420-002-2025-w2-108",
+    "day": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 109,
+  "fields": {
+    "term": 1,
+    "code": 3,
+    "number": 60,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "fre_v-430-002-2025-w2-109",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 110,
+  "fields": {
+    "term": 1,
+    "code": 3,
+    "number": 50,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 16,
+    "end_time": 3,
+    "slug": "fre_v-474-001-2025-w2-110",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 111,
+  "fields": {
+    "term": 1,
+    "code": 3,
+    "number": 50,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": 13,
+    "end_time": 19,
+    "slug": "fre_v-474-l01-2025-w2-111",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 112,
+  "fields": {
+    "term": 1,
+    "code": 3,
+    "number": 61,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fre_v-490b-002-2025-w2-112",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 113,
+  "fields": {
+    "term": 1,
+    "code": 3,
+    "number": 61,
+    "section": 4,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fre_v-490b-l02-2025-w2-113",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 114,
+  "fields": {
+    "term": 1,
+    "code": 3,
+    "number": 62,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fre_v-490-l01-2025-w2-114",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 115,
+  "fields": {
+    "term": 1,
+    "code": 4,
+    "number": 56,
+    "section": 21,
+    "academic_year": 1,
+    "start_time": 14,
+    "end_time": 9,
+    "slug": "grs_v-290a-103-2025-w2-115",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 116,
+  "fields": {
+    "term": 1,
+    "code": 4,
+    "number": 63,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "grs_v-300-001-2025-w2-116",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 117,
+  "fields": {
+    "term": 1,
+    "code": 4,
+    "number": 64,
+    "section": 21,
+    "academic_year": 1,
+    "start_time": 14,
+    "end_time": 9,
+    "slug": "grs_v-390a-103-2025-w2-117",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 118,
+  "fields": {
+    "term": 1,
+    "code": 4,
+    "number": 65,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "grs_v-397a-002-2025-w2-118",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 119,
+  "fields": {
+    "term": 1,
+    "code": 4,
+    "number": 66,
+    "section": 36,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "grs_v-397b-004-2025-w2-119",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 120,
+  "fields": {
+    "term": 1,
+    "code": 4,
+    "number": 62,
+    "section": 21,
+    "academic_year": 1,
+    "start_time": 14,
+    "end_time": 9,
+    "slug": "grs_v-490-103-2025-w2-120",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 121,
+  "fields": {
+    "term": 1,
+    "code": 4,
+    "number": 26,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "grs_v-497b-002-2025-w2-121",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 122,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 67,
+    "section": 19,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 8,
+    "slug": "lfs_v-101-201-2025-w2-122",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 123,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 67,
+    "section": 23,
+    "academic_year": 1,
+    "start_time": 5,
+    "end_time": 12,
+    "slug": "lfs_v-101-d01-2025-w2-123",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 124,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 68,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 8,
+    "slug": "lfs_v-150-002-2025-w2-124",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 125,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 68,
+    "section": 36,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 11,
+    "slug": "lfs_v-150-004-2025-w2-125",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 126,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 68,
+    "section": 37,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-150-007-2025-w2-126",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 127,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 68,
+    "section": 38,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 5,
+    "slug": "lfs_v-150-008-2025-w2-127",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 128,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 68,
+    "section": 19,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 2,
+    "slug": "lfs_v-150-201-2025-w2-128",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 129,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 69,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 13,
+    "slug": "lfs_v-252-002-2025-w2-129",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 130,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 69,
+    "section": 17,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 13,
+    "slug": "lfs_v-252-003-2025-w2-130",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 131,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 69,
+    "section": 23,
+    "academic_year": 1,
+    "start_time": 5,
+    "end_time": 12,
+    "slug": "lfs_v-252-d01-2025-w2-131",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 132,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 69,
+    "section": 39,
+    "academic_year": 1,
+    "start_time": 12,
+    "end_time": 6,
+    "slug": "lfs_v-252-d02-2025-w2-132",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 133,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 69,
+    "section": 32,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "lfs_v-252-d03-2025-w2-133",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 134,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 69,
+    "section": 33,
+    "academic_year": 1,
+    "start_time": 12,
+    "end_time": 6,
+    "slug": "lfs_v-252-d04-2025-w2-134",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 135,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 69,
+    "section": 40,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "lfs_v-252-d05-2025-w2-135",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 136,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 69,
+    "section": 41,
+    "academic_year": 1,
+    "start_time": 12,
+    "end_time": 6,
+    "slug": "lfs_v-252-d06-2025-w2-136",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 137,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 69,
+    "section": 42,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "lfs_v-252-d07-2025-w2-137",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 138,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 69,
+    "section": 43,
+    "academic_year": 1,
+    "start_time": 5,
+    "end_time": 12,
+    "slug": "lfs_v-252-d08-2025-w2-138",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 139,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 69,
+    "section": 44,
+    "academic_year": 1,
+    "start_time": 12,
+    "end_time": 6,
+    "slug": "lfs_v-252-d09-2025-w2-139",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 140,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 69,
+    "section": 45,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "lfs_v-252-d10-2025-w2-140",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 141,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 70,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-302a-002-2025-w2-141",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 142,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 71,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 13,
+    "slug": "lfs_v-350-002-2025-w2-142",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 143,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 72,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-398-002-2025-w2-143",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 144,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 73,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-399-002-2025-w2-144",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 145,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 74,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 9,
+    "slug": "lfs_v-400-001-2025-w2-145",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 146,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 74,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 3,
+    "slug": "lfs_v-400-l01-2025-w2-146",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 147,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 74,
+    "section": 4,
+    "academic_year": 1,
+    "start_time": 9,
+    "end_time": 24,
+    "slug": "lfs_v-400-l02-2025-w2-147",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 148,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 15,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "lfs_v-402-001-2025-w2-148",
+    "day": [
+      3,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 149,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 75,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 6,
+    "slug": "lfs_v-450-001-2025-w2-149",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 150,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 23,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-496a-002-2025-w2-150",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 151,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 24,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-496b-002-2025-w2-151",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 152,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 30,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-498-002-2025-w2-152",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 153,
+  "fields": {
+    "term": 1,
+    "code": 5,
+    "number": 31,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-499-002-2025-w2-153",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 154,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 76,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "apbi_v-244-001-2025-w1-154",
+    "day": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 155,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 76,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 4,
+    "slug": "apbi_v-244-l01-2025-w1-155",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 156,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 76,
+    "section": 4,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 5,
+    "slug": "apbi_v-244-l02-2025-w1-156",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 157,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 76,
+    "section": 5,
+    "academic_year": 1,
+    "start_time": 17,
+    "end_time": 2,
+    "slug": "apbi_v-244-l03-2025-w1-157",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 158,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 76,
+    "section": 6,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 4,
+    "slug": "apbi_v-244-l04-2025-w1-158",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 159,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 76,
+    "section": 7,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 5,
+    "slug": "apbi_v-244-l05-2025-w1-159",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 160,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 76,
+    "section": 8,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-244-l06-2025-w1-160",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 161,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 77,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 3,
+    "slug": "apbi_v-260-001-2025-w1-161",
+    "day": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 162,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 77,
+    "section": 23,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-260-d01-2025-w1-162",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 163,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 77,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 12,
+    "slug": "apbi_v-260-l01-2025-w1-163",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 164,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 78,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 11,
+    "slug": "apbi_v-301-001-2025-w1-164",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 165,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 79,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "apbi_v-312-001-2025-w1-165",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 166,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 80,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "apbi_v-313-001-2025-w1-166",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 167,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 81,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "apbi_v-318-001-2025-w1-167",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 168,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 82,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 13,
+    "slug": "apbi_v-319-001-2025-w1-168",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 169,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 83,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 2,
+    "slug": "apbi_v-324-001-2025-w1-169",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 170,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 83,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 6,
+    "slug": "apbi_v-324-l01-2025-w1-170",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 171,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 83,
+    "section": 4,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 6,
+    "slug": "apbi_v-324-l02-2025-w1-171",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 172,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 84,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 7,
+    "end_time": 17,
+    "slug": "apbi_v-327-001-2025-w1-172",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 173,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 84,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": 17,
+    "end_time": 2,
+    "slug": "apbi_v-327-l01-2025-w1-173",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 174,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 84,
+    "section": 4,
+    "academic_year": 1,
+    "start_time": 17,
+    "end_time": 2,
+    "slug": "apbi_v-327-l02-2025-w1-174",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 175,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 84,
+    "section": 5,
+    "academic_year": 1,
+    "start_time": 21,
+    "end_time": 13,
+    "slug": "apbi_v-327-l03-2025-w1-175",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 176,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 84,
+    "section": 6,
+    "academic_year": 1,
+    "start_time": 21,
+    "end_time": 13,
+    "slug": "apbi_v-327-l04-2025-w1-176",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 177,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 85,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-328-001-2025-w1-177",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 178,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 41,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 2,
+    "slug": "apbi_v-351-101-2025-w1-178",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 179,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 41,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 6,
+    "slug": "apbi_v-351-l01-2025-w1-179",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 180,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 41,
+    "section": 4,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 6,
+    "slug": "apbi_v-351-l02-2025-w1-180",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 181,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 41,
+    "section": 5,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 6,
+    "slug": "apbi_v-351-l03-2025-w1-181",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 182,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 41,
+    "section": 6,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 6,
+    "slug": "apbi_v-351-l04-2025-w1-182",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 183,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 72,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 6,
+    "slug": "apbi_v-398-001-2025-w1-183",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 184,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 44,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 3,
+    "slug": "apbi_v-401-001-2025-w1-184",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 185,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 86,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-406-001-2025-w1-185",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 186,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 87,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 13,
+    "slug": "apbi_v-410-001-2025-w1-186",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 187,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 87,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 23,
+    "slug": "apbi_v-410-002-2025-w1-187",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 188,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 88,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 12,
+    "slug": "apbi_v-414-001-2025-w1-188",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 189,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 17,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 13,
+    "slug": "apbi_v-415-002-2025-w1-189",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 190,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 89,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 4,
+    "slug": "apbi_v-416-001-2025-w1-190",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 191,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 90,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 12,
+    "slug": "apbi_v-422-001-2025-w1-191",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 192,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 91,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 3,
+    "slug": "apbi_v-426-001-2025-w1-192",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 193,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 91,
+    "section": 46,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 12,
+    "slug": "apbi_v-426-t01-2025-w1-193",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 194,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 92,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 13,
+    "end_time": 6,
+    "slug": "apbi_v-440-001-2025-w1-194",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 195,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 93,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 13,
+    "slug": "apbi_v-442-001-2025-w1-195",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 196,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 94,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 3,
+    "end_time": 4,
+    "slug": "apbi_v-444-001-2025-w1-196",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 197,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 94,
+    "section": 23,
+    "academic_year": 1,
+    "start_time": 13,
+    "end_time": 14,
+    "slug": "apbi_v-444-d01-2025-w1-197",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 198,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 95,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "apbi_v-460-001-2025-w1-198",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 199,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 96,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-465-001-2025-w1-199",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 200,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 51,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-475-001-2025-w1-200",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 201,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 97,
+    "section": 22,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-490f-104-2025-w1-201",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 202,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 98,
+    "section": 47,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 23,
+    "slug": "apbi_v-490h-106-2025-w1-202",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 203,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 99,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-490i-001-2025-w1-203",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 204,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 23,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-496a-001-2025-w1-204",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 205,
+  "fields": {
+    "term": 3,
+    "code": 1,
+    "number": 23,
+    "section": 17,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-496a-003-2025-w1-2-205",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 206,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 24,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-496b-001-2025-w1-206",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 207,
+  "fields": {
+    "term": 3,
+    "code": 1,
+    "number": 24,
+    "section": 17,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-496b-003-2025-w1-2-207",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 208,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 25,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-497a-001-2025-w1-208",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 209,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 26,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-497b-001-2025-w1-209",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 210,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 27,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-497c-001-2025-w1-210",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 211,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 28,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-497d-001-2025-w1-211",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 212,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 29,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-497e-001-2025-w1-212",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 213,
+  "fields": {
+    "term": 3,
+    "code": 1,
+    "number": 29,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-497e-101-2025-w1-2-213",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 214,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 30,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-498-001-2025-w1-214",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 215,
+  "fields": {
+    "term": 3,
+    "code": 1,
+    "number": 30,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-498-101-2025-w1-2-215",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 216,
+  "fields": {
+    "term": 2,
+    "code": 1,
+    "number": 31,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-499-001-2025-w1-216",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 217,
+  "fields": {
+    "term": 3,
+    "code": 1,
+    "number": 31,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "apbi_v-499-101-2025-w1-2-217",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 218,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 32,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "fnh_v-160-101-2025-w1-218",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 219,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 1,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": 3,
+    "end_time": 4,
+    "slug": "fnh_v-200-101-2025-w1-219",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 220,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 1,
+    "section": 35,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "fnh_v-200-102-2025-w1-220",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 221,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 1,
+    "section": 48,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fnh_v-200-105-2025-w1-221",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 222,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 34,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "fnh_v-250-001-2025-w1-222",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 223,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 63,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 11,
+    "slug": "fnh_v-300-001-2025-w1-223",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 224,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 63,
+    "section": 23,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 5,
+    "slug": "fnh_v-300-d01-2025-w1-224",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 225,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 78,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 16,
+    "end_time": 3,
+    "slug": "fnh_v-301-001-2025-w1-225",
+    "day": [
+      3,
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 226,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 78,
+    "section": 23,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 8,
+    "slug": "fnh_v-301-d01-2025-w1-226",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 227,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 57,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "fnh_v-302-101-2025-w1-227",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 228,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 57,
+    "section": 23,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 3,
+    "slug": "fnh_v-302-d01-2025-w1-228",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 229,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 80,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 3,
+    "end_time": 4,
+    "slug": "fnh_v-313-001-2025-w1-229",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 230,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 100,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 6,
+    "slug": "fnh_v-325-001-2025-w1-230",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 231,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 100,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 6,
+    "slug": "fnh_v-325-002-2025-w1-231",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 232,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 37,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 12,
+    "end_time": 6,
+    "slug": "fnh_v-330-001-2025-w1-232",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 233,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 37,
+    "section": 49,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l1a-2025-w1-233",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 234,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 37,
+    "section": 50,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l1b-2025-w1-234",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 235,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 37,
+    "section": 51,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l1c-2025-w1-235",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 236,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 37,
+    "section": 52,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l1d-2025-w1-236",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 237,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 37,
+    "section": 53,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l1e-2025-w1-237",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 238,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 37,
+    "section": 54,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l1f-2025-w1-238",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 239,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 37,
+    "section": 55,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l1g-2025-w1-239",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 240,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 37,
+    "section": 56,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 18,
+    "slug": "fnh_v-330-l1h-2025-w1-240",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 241,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 12,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "fnh_v-342-001-2025-w1-241",
+    "day": [
+      3,
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 242,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 71,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "fnh_v-350-001-2025-w1-242",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 243,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 42,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 11,
+    "slug": "fnh_v-355-001-2025-w1-243",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 244,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 101,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 13,
+    "end_time": 6,
+    "slug": "fnh_v-370-001-2025-w1-244",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 245,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 102,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 11,
+    "slug": "fnh_v-371-002-2025-w1-245",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 246,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 103,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 12,
+    "slug": "fnh_v-380-001-2025-w1-246",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 247,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 72,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 12,
+    "end_time": 14,
+    "slug": "fnh_v-398-001-2025-w1-247",
+    "day": [
+      3,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 248,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 72,
+    "section": 23,
+    "academic_year": 1,
+    "start_time": 12,
+    "end_time": 6,
+    "slug": "fnh_v-398-d01-2025-w1-248",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 249,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 45,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 3,
+    "slug": "fnh_v-403-001-2025-w1-249",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 250,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 45,
+    "section": 23,
+    "academic_year": 1,
+    "start_time": 17,
+    "end_time": 1,
+    "slug": "fnh_v-403-d01-2025-w1-250",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 251,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 45,
+    "section": 39,
+    "academic_year": 1,
+    "start_time": 3,
+    "end_time": 4,
+    "slug": "fnh_v-403-d02-2025-w1-251",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 252,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 104,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 13,
+    "slug": "fnh_v-413-001-2025-w1-252",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 253,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 88,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fnh_v-414-101-2025-w1-253",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 254,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 17,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 6,
+    "end_time": 15,
+    "slug": "fnh_v-415-001-2025-w1-254",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 255,
+  "fields": {
+    "term": 3,
+    "code": 2,
+    "number": 105,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 12,
+    "slug": "fnh_v-425-001-2025-w1-2-255",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 256,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 92,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 5,
+    "slug": "fnh_v-440-001-2025-w1-256",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 257,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 92,
+    "section": 57,
+    "academic_year": 1,
+    "start_time": 5,
+    "end_time": 12,
+    "slug": "fnh_v-440-e01-2025-w1-257",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 258,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 106,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 17,
+    "end_time": 16,
+    "slug": "fnh_v-470-001-2025-w1-258",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 259,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 107,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "fnh_v-472-001-2025-w1-259",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 260,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 108,
+    "section": 19,
+    "academic_year": 1,
+    "start_time": 17,
+    "end_time": 6,
+    "slug": "fnh_v-482-201-2025-w1-260",
+    "day": [
+      3,
+      1,
+      5,
+      4,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 261,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 25,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fnh_v-497a-101-2025-w1-261",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 262,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 26,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fnh_v-497b-101-2025-w1-262",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 263,
+  "fields": {
+    "term": 3,
+    "code": 2,
+    "number": 27,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fnh_v-497c-001-2025-w1-2-263",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 264,
+  "fields": {
+    "term": 3,
+    "code": 2,
+    "number": 29,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fnh_v-497e-001-2025-w1-2-264",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 265,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 29,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fnh_v-497e-101-2025-w1-265",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 266,
+  "fields": {
+    "term": 3,
+    "code": 2,
+    "number": 31,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fnh_v-499-001-2025-w1-2-266",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 267,
+  "fields": {
+    "term": 2,
+    "code": 2,
+    "number": 31,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fnh_v-499-101-2025-w1-267",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 268,
+  "fields": {
+    "term": 2,
+    "code": 3,
+    "number": 109,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 13,
+    "end_time": 6,
+    "slug": "fre_v-306-001-2025-w1-268",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 269,
+  "fields": {
+    "term": 2,
+    "code": 3,
+    "number": 11,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 13,
+    "slug": "fre_v-326-001-2025-w1-269",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 270,
+  "fields": {
+    "term": 2,
+    "code": 3,
+    "number": 39,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "fre_v-340-001-2025-w1-270",
+    "day": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 271,
+  "fields": {
+    "term": 2,
+    "code": 3,
+    "number": 110,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "fre_v-374-001-2025-w1-271",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 272,
+  "fields": {
+    "term": 2,
+    "code": 3,
+    "number": 111,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": 7,
+    "end_time": 10,
+    "slug": "fre_v-394-101-2025-w1-272",
+    "day": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 273,
+  "fields": {
+    "term": 2,
+    "code": 3,
+    "number": 111,
+    "section": 21,
+    "academic_year": 1,
+    "start_time": 8,
+    "end_time": 13,
+    "slug": "fre_v-394-103-2025-w1-273",
+    "day": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 274,
+  "fields": {
+    "term": 2,
+    "code": 3,
+    "number": 55,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 2,
+    "end_time": 11,
+    "slug": "fre_v-490a-001-2025-w1-274",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 275,
+  "fields": {
+    "term": 2,
+    "code": 3,
+    "number": 55,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fre_v-490a-l01-2025-w1-275",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 276,
+  "fields": {
+    "term": 2,
+    "code": 3,
+    "number": 62,
+    "section": 58,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "fre_v-490-lxt-2025-w1-276",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 277,
+  "fields": {
+    "term": 3,
+    "code": 4,
+    "number": 56,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 14,
+    "end_time": 9,
+    "slug": "grs_v-290a-001-2025-w1-2-277",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 278,
+  "fields": {
+    "term": 2,
+    "code": 4,
+    "number": 56,
+    "section": 35,
+    "academic_year": 1,
+    "start_time": 14,
+    "end_time": 9,
+    "slug": "grs_v-290a-102-2025-w1-278",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 279,
+  "fields": {
+    "term": 3,
+    "code": 4,
+    "number": 56,
+    "section": 22,
+    "academic_year": 1,
+    "start_time": 14,
+    "end_time": 9,
+    "slug": "grs_v-290a-104-2025-w1-2-279",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 280,
+  "fields": {
+    "term": 3,
+    "code": 4,
+    "number": 64,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 14,
+    "end_time": 9,
+    "slug": "grs_v-390a-001-2025-w1-2-280",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 281,
+  "fields": {
+    "term": 2,
+    "code": 4,
+    "number": 64,
+    "section": 35,
+    "academic_year": 1,
+    "start_time": 14,
+    "end_time": 9,
+    "slug": "grs_v-390a-102-2025-w1-281",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 282,
+  "fields": {
+    "term": 3,
+    "code": 4,
+    "number": 64,
+    "section": 22,
+    "academic_year": 1,
+    "start_time": 14,
+    "end_time": 9,
+    "slug": "grs_v-390a-104-2025-w1-2-282",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 283,
+  "fields": {
+    "term": 2,
+    "code": 4,
+    "number": 65,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "grs_v-397a-001-2025-w1-283",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 284,
+  "fields": {
+    "term": 2,
+    "code": 4,
+    "number": 66,
+    "section": 17,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "grs_v-397b-003-2025-w1-284",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 285,
+  "fields": {
+    "term": 3,
+    "code": 4,
+    "number": 62,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 14,
+    "end_time": 9,
+    "slug": "grs_v-490-001-2025-w1-2-285",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 286,
+  "fields": {
+    "term": 2,
+    "code": 4,
+    "number": 62,
+    "section": 35,
+    "academic_year": 1,
+    "start_time": 14,
+    "end_time": 9,
+    "slug": "grs_v-490-102-2025-w1-286",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 287,
+  "fields": {
+    "term": 3,
+    "code": 4,
+    "number": 62,
+    "section": 22,
+    "academic_year": 1,
+    "start_time": 14,
+    "end_time": 9,
+    "slug": "grs_v-490-104-2025-w1-2-287",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 288,
+  "fields": {
+    "term": 2,
+    "code": 4,
+    "number": 26,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "grs_v-497b-001-2025-w1-288",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 289,
+  "fields": {
+    "term": 3,
+    "code": 4,
+    "number": 26,
+    "section": 17,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "grs_v-497b-003-2025-w1-2-289",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 290,
+  "fields": {
+    "term": 3,
+    "code": 4,
+    "number": 29,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "grs_v-497e-101-2025-w1-2-290",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 291,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 112,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 3,
+    "end_time": 4,
+    "slug": "lfs_v-100-001-2025-w1-291",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 292,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 112,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 3,
+    "end_time": 4,
+    "slug": "lfs_v-100-002-2025-w1-292",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 293,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 112,
+    "section": 17,
+    "academic_year": 1,
+    "start_time": 3,
+    "end_time": 4,
+    "slug": "lfs_v-100-003-2025-w1-293",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 294,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 112,
+    "section": 59,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-100-xmt-2025-w1-294",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 295,
+  "fields": {
+    "term": 3,
+    "code": 5,
+    "number": 113,
+    "section": 34,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 2,
+    "slug": "lfs_v-110-101-2025-w1-2-295",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 296,
+  "fields": {
+    "term": 3,
+    "code": 5,
+    "number": 113,
+    "section": 3,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 2,
+    "slug": "lfs_v-110-l01-2025-w1-2-296",
+    "day": [
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 297,
+  "fields": {
+    "term": 3,
+    "code": 5,
+    "number": 113,
+    "section": 46,
+    "academic_year": 1,
+    "start_time": 1,
+    "end_time": 2,
+    "slug": "lfs_v-110-t01-2025-w1-2-297",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 298,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 68,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "lfs_v-150-001-2025-w1-298",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 299,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 68,
+    "section": 17,
+    "academic_year": 1,
+    "start_time": 4,
+    "end_time": 8,
+    "slug": "lfs_v-150-003-2025-w1-299",
+    "day": [
+      3,
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 300,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 68,
+    "section": 60,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "lfs_v-150-005-2025-w1-300",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 301,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 68,
+    "section": 61,
+    "academic_year": 1,
+    "start_time": 10,
+    "end_time": 2,
+    "slug": "lfs_v-150-006-2025-w1-301",
+    "day": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 302,
+  "fields": {
+    "term": 3,
+    "code": 5,
+    "number": 34,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "lfs_v-250-001-2025-w1-2-302",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 303,
+  "fields": {
+    "term": 3,
+    "code": 5,
+    "number": 34,
+    "section": 2,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "lfs_v-250-002-2025-w1-2-303",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 304,
+  "fields": {
+    "term": 3,
+    "code": 5,
+    "number": 34,
+    "section": 17,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "lfs_v-250-003-2025-w1-2-304",
+    "day": [
+      4
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 305,
+  "fields": {
+    "term": 3,
+    "code": 5,
+    "number": 34,
+    "section": 23,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-250-d01-2025-w1-2-305",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 306,
+  "fields": {
+    "term": 3,
+    "code": 5,
+    "number": 34,
+    "section": 39,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 8,
+    "slug": "lfs_v-250-d02-2025-w1-2-306",
+    "day": [
+      5
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 307,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 70,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-302a-001-2025-w1-307",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 308,
+  "fields": {
+    "term": 3,
+    "code": 5,
+    "number": 114,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-302b-001-2025-w1-2-308",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 309,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 39,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 3,
+    "end_time": 5,
+    "slug": "lfs_v-340-001-2025-w1-309",
+    "day": [
+      1
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 310,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 71,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": 11,
+    "end_time": 13,
+    "slug": "lfs_v-350-001-2025-w1-310",
+    "day": [
+      3
+    ]
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 311,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 72,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-398-001-2025-w1-311",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 312,
+  "fields": {
+    "term": 3,
+    "code": 5,
+    "number": 72,
+    "section": 17,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-398-003-2025-w1-2-312",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 313,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 73,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-399-001-2025-w1-313",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 314,
+  "fields": {
+    "term": 3,
+    "code": 5,
+    "number": 73,
+    "section": 17,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-399-003-2025-w1-2-314",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 315,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 23,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-496a-001-2025-w1-315",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 316,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 24,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-496b-001-2025-w1-316",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 317,
+  "fields": {
+    "term": 3,
+    "code": 5,
+    "number": 24,
+    "section": 17,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-496b-003-2025-w1-2-317",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 318,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 30,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-498-001-2025-w1-318",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 319,
+  "fields": {
+    "term": 3,
+    "code": 5,
+    "number": 30,
+    "section": 17,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-498-003-2025-w1-2-319",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 320,
+  "fields": {
+    "term": 2,
+    "code": 5,
+    "number": 31,
+    "section": 1,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-499-001-2025-w1-320",
+    "day": []
+  }
+},
+{
+  "model": "scheduler.course",
+  "pk": 321,
+  "fields": {
+    "term": 3,
+    "code": 5,
+    "number": 31,
+    "section": 17,
+    "academic_year": 1,
+    "start_time": null,
+    "end_time": null,
+    "slug": "lfs_v-499-003-2025-w1-2-321",
+    "day": []
+  }
+}
+]

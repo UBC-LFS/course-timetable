@@ -40,7 +40,7 @@
                   {% if upload_success %}{{ uploaded_file_name }}{% endif %}
                 </span>
                 <span id="fileSize" class="text-muted small text-center">
-                  {% if upload_success %}{{ uploaded_file_size_human }}{% endif %}
+                  {% if upload_success %}{{ uploaded_file_size }}{% endif %}
                 </span>
                 <button type="button"
                         id="fileClearBtn"
@@ -66,6 +66,70 @@
     </div>
   </div>
 </div>
+
+<!-- Populate progress modal (blocking) -->
+<div class="modal fade" id="populateProgressModal" tabindex="-1"
+     aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h5 class="modal-title">Populate data</h5>
+      </div>
+      <div class="modal-body">
+        <div class="spinner-border" role="status" aria-hidden="true"></div>
+        <p class="mt-3 mb-0">Parsing file… please wait.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Created Course fields modal -->
+<div class="modal fade" id="courseFieldsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Created Course fields</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Course Code:</strong> <span id="fieldCodes">None</span></p>
+        <p><strong>Course Number:</strong> <span id="fieldNumbers">None</span></p>
+        <p><strong>Course Section:</strong> <span id="fieldSections">None</span></p>
+        <p><strong>Course Year:</strong> <span id="fieldYears">None</span></p>
+        <p><strong>Course Term:</strong> <span id="fieldTerms">None</span></p>
+        <p><strong>Course Day:</strong> <span id="fieldDays">None</span></p>
+        <p><strong>Course Time:</strong> <span id="fieldTimes">None</span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="courseFieldsConfirm"
+                class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Created Courses modal -->
+<div class="modal fade" id="coursesModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Created Courses</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>The following courses will be created:</p>
+        <ul id="coursesList"></ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="coursesConfirm"
+                class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block js %}
@@ -80,6 +144,9 @@
       const fileSizeEl  = document.getElementById('fileSize');
       const fileClearBtn= document.getElementById('fileClearBtn');
       const populateBtn = document.getElementById('populateBtn');
+      const populatePreviewUrl = "{% url 'scheduler:import_populate_preview' %}";
+      const populateCommitUrl = "{% url 'scheduler:import_populate_commit' %}";
+      const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
     
       // initial state from server
       let uploadSuccess = '{{ upload_success|yesno:"true,false" }}' === 'true';
@@ -164,11 +231,135 @@
         dzSubMeta.classList.add('d-none');
         populateBtn.disabled = true;
       });
-    
-      // Populate – placeholder (later you’ll hook this up to your script)
-      populateBtn.addEventListener('click', function() {
-        if (!uploadSuccess) return;
-        alert('Populate will use the uploaded file (placeholder for now).');
+
+      // Populate
+      const progressModal = new bootstrap.Modal(
+        document.getElementById("populateProgressModal")
+      );
+      const courseFieldsModal = new bootstrap.Modal(
+        document.getElementById("courseFieldsModal")
+      );
+      const coursesModal = new bootstrap.Modal(
+        document.getElementById("coursesModal")
+      );
+
+      const fieldCodesEl = document.getElementById("fieldCodes");
+      const fieldNumbersEl = document.getElementById("fieldNumbers");
+      const fieldSectionsEl = document.getElementById("fieldSections");
+      const fieldYearsEl = document.getElementById("fieldYears");
+      const fieldTermsEl = document.getElementById("fieldTerms");
+      const fieldDaysEl = document.getElementById("fieldDays");
+      const fieldTimesEl = document.getElementById("fieldTimes");
+      const coursesListEl = document.getElementById("coursesList");
+
+      const courseFieldsConfirmBtn = document.getElementById("courseFieldsConfirm");
+      const coursesConfirmBtn = document.getElementById("coursesConfirm");
+
+      function listOrNone(arr) {
+        if (!arr || arr.length === 0) {
+          return "None";
+        }
+        return arr.join(", ");
+      }
+
+      if (populateBtn) {
+        populateBtn.addEventListener("click", function () {
+          if (!uploadSuccess) {
+            return;
+          }
+          // Show blocking progress modal
+          progressModal.show();
+
+          fetch(populatePreviewUrl, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrfToken,
+                "X-Requested-With": "XMLHttpRequest",
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            progressModal.hide();
+
+            if (!data.ok) {
+              if (data.redirect) {
+                window.location.href = data.redirect;
+              } else {
+                window.location.reload();
+              }
+              return;
+            }
+
+            const fields = data.course_fields || {};
+
+            fieldCodesEl.textContent = listOrNone(fields.codes);
+            fieldNumbersEl.textContent = listOrNone(fields.numbers);
+            fieldSectionsEl.textContent = listOrNone(fields.sections);
+            fieldYearsEl.textContent = listOrNone(fields.years);
+            fieldTermsEl.textContent = listOrNone(fields.terms);
+            fieldDaysEl.textContent = listOrNone(fields.days);
+            fieldTimesEl.textContent = listOrNone(fields.times);
+
+            // Courses preview
+            coursesListEl.innerHTML = "";
+            const courses = data.courses || [];
+            if (courses.length === 0) {
+              const li = document.createElement("li");
+              li.textContent = "No courses will be created";
+              coursesListEl.appendChild(li);
+            } else {
+              courses.forEach(c => {
+                const li = document.createElement("li");
+                const code = c.code || "None";
+                const number = c.number || "None";
+                const section = c.section || "None";
+                const year = c.year || "None";
+                const term = c.term || "None";
+                li.textContent = `${code} ${number} ${section} ${year} ${term}`;
+                coursesListEl.appendChild(li);
+              });
+            }
+
+            // Show first modal (Course fields)
+            courseFieldsModal.show();
+          })
+          .catch(() => {
+            // fallback
+            progressModal.hide();
+            window.location.reload();
+          });
+        });
+      }
+
+      // When user confirms created fields, show courses modal
+      courseFieldsConfirmBtn.addEventListener("click", function () {
+        courseFieldsModal.hide();
+        coursesModal.show();
+      });
+
+      // When user confirms courses, actually commit to DB
+      coursesConfirmBtn.addEventListener("click", function () {
+        coursesConfirmBtn.disabled = true;
+
+        fetch(populateCommitUrl, {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": csrfToken,
+            "X-Requested-With": "XMLHttpRequest",
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.redirect) {
+            window.location.href = data.redirect;
+          } else {
+            window.location.reload();
+          }
+        })
+        .catch(() => {
+          // fallback
+          window.location.reload();
+        });
       });
     
       setInitialStateFromServer();
