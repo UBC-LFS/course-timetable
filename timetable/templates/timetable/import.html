@@ -73,7 +73,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content text-center">
       <div class="modal-header">
-        <h5 class="modal-title">Populate data</h5>
+        <h5 class="modal-title">Parsing</h5>
       </div>
       <div class="modal-body">
         <div class="spinner-border" role="status" aria-hidden="true"></div>
@@ -88,7 +88,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Created Course fields</h5>
+        <h5 class="modal-title">Created Course Fields</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"
                 aria-label="Close"></button>
       </div>
@@ -130,6 +130,21 @@
   </div>
 </div>
 
+<!-- Creating  modal -->
+<div class="modal fade" id="populateCommitModal" tabindex="-1"
+     aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h5 class="modal-title">Creating</h5>
+      </div>
+      <div class="modal-body">
+        <div class="spinner-border" role="status" aria-hidden="true"></div>
+        <p class="mt-3 mb-0">Creating courses… please wait.</p>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block js %}
@@ -242,6 +257,9 @@
       const coursesModal = new bootstrap.Modal(
         document.getElementById("coursesModal")
       );
+      const commitModal = new bootstrap.Modal(
+        document.getElementById("populateCommitModal")
+      );
 
       const fieldCodesEl = document.getElementById("fieldCodes");
       const fieldNumbersEl = document.getElementById("fieldNumbers");
@@ -279,55 +297,67 @@
           })
           .then(response => response.json())
           .then(data => {
-            progressModal.hide();
+            // Always hide the Parsing modal first
+            const progressEl = document.getElementById("populateProgressModal");
 
-            if (!data.ok) {
-              if (data.redirect) {
-                window.location.href = data.redirect;
-              } else {
-                window.location.reload();
+            const showFieldsModal = function () {
+              if (!data.ok) {
+                if (data.redirect) {
+                  window.location.href = data.redirect;
+                } else {
+                  window.location.reload();
+                }
+                return;
               }
-              return;
-            }
 
-            const fields = data.course_fields || {};
+              const fields = data.course_fields || {};
 
-            fieldCodesEl.textContent = listOrNone(fields.codes);
-            fieldNumbersEl.textContent = listOrNone(fields.numbers);
-            fieldSectionsEl.textContent = listOrNone(fields.sections);
-            fieldYearsEl.textContent = listOrNone(fields.years);
-            fieldTermsEl.textContent = listOrNone(fields.terms);
-            fieldDaysEl.textContent = listOrNone(fields.days);
-            fieldTimesEl.textContent = listOrNone(fields.times);
+              fieldCodesEl.textContent = listOrNone(fields.codes);
+              fieldNumbersEl.textContent = listOrNone(fields.numbers);
+              fieldSectionsEl.textContent = listOrNone(fields.sections);
+              fieldYearsEl.textContent = listOrNone(fields.years);
+              fieldTermsEl.textContent = listOrNone(fields.terms);
+              fieldDaysEl.textContent = listOrNone(fields.days);
+              fieldTimesEl.textContent = listOrNone(fields.times);
 
-            // Courses preview
-            coursesListEl.innerHTML = "";
-            const courses = data.courses || [];
-            if (courses.length === 0) {
-              const li = document.createElement("li");
-              li.textContent = "No courses will be created";
-              coursesListEl.appendChild(li);
-            } else {
-              courses.forEach(c => {
+              // Courses preview
+              coursesListEl.innerHTML = "";
+              const courses = data.courses || [];
+              if (courses.length === 0) {
                 const li = document.createElement("li");
-                const code = c.code || "None";
-                const number = c.number || "None";
-                const section = c.section || "None";
-                const year = c.year || "None";
-                const term = c.term || "None";
-                li.textContent = `${code} ${number} ${section} ${year} ${term}`;
+                li.textContent = "No courses will be created";
                 coursesListEl.appendChild(li);
-              });
-            }
+              } else {
+                courses.forEach(c => {
+                  const li = document.createElement("li");
+                  const code = c.code || "None";
+                  const number = c.number || "None";
+                  const section = c.section || "None";
+                  const year = c.year || "None";
+                  const term = c.term || "None";
+                  li.textContent = `${code} ${number} ${section} ${year} ${term}`;
+                  coursesListEl.appendChild(li);
+                });
+              }
 
-            // Show first modal (Course fields)
-            courseFieldsModal.show();
+              courseFieldsModal.show();
+            };
+
+            // If the modal is currently shown, wait for hidden event
+            if (progressEl.classList.contains("show")) {
+              progressEl.addEventListener(
+                "hidden.bs.modal",
+                function handler() {
+                  progressEl.removeEventListener("hidden.bs.modal", handler);
+                  showFieldsModal();
+                }
+              );
+              progressModal.hide();
+            } else {
+              // Just in case it is already hidden
+              showFieldsModal();
+            }
           })
-          .catch(() => {
-            // fallback
-            progressModal.hide();
-            window.location.reload();
-          });
         });
       }
 
@@ -341,6 +371,9 @@
       coursesConfirmBtn.addEventListener("click", function () {
         coursesConfirmBtn.disabled = true;
 
+        coursesModal.hide();
+        commitModal.show();
+
         fetch(populateCommitUrl, {
           method: "POST",
           headers: {
@@ -350,6 +383,7 @@
         })
         .then(response => response.json())
         .then(data => {
+          commitModal.hide();
           if (data.redirect) {
             window.location.href = data.redirect;
           } else {
@@ -358,6 +392,7 @@
         })
         .catch(() => {
           // fallback
+          commitModal.hide();
           window.location.reload();
         });
       });
