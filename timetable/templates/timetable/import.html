@@ -297,67 +297,53 @@
           })
           .then(response => response.json())
           .then(data => {
-            // Always hide the Parsing modal first
-            const progressEl = document.getElementById("populateProgressModal");
-
-            const showFieldsModal = function () {
-              if (!data.ok) {
-                if (data.redirect) {
-                  window.location.href = data.redirect;
-                } else {
-                  window.location.reload();
-                }
-                return;
-              }
-
-              const fields = data.course_fields || {};
-
-              fieldCodesEl.textContent = listOrNone(fields.codes);
-              fieldNumbersEl.textContent = listOrNone(fields.numbers);
-              fieldSectionsEl.textContent = listOrNone(fields.sections);
-              fieldYearsEl.textContent = listOrNone(fields.years);
-              fieldTermsEl.textContent = listOrNone(fields.terms);
-              fieldDaysEl.textContent = listOrNone(fields.days);
-              fieldTimesEl.textContent = listOrNone(fields.times);
-
-              // Courses preview
-              coursesListEl.innerHTML = "";
-              const courses = data.courses || [];
-              if (courses.length === 0) {
-                const li = document.createElement("li");
-                li.textContent = "No courses will be created";
-                coursesListEl.appendChild(li);
+            if (!data.ok) {
+              if (data.redirect) {
+                window.location.href = data.redirect;
               } else {
-                courses.forEach(c => {
-                  const li = document.createElement("li");
-                  const code = c.code || "None";
-                  const number = c.number || "None";
-                  const section = c.section || "None";
-                  const year = c.year || "None";
-                  const term = c.term || "None";
-                  li.textContent = `${code} ${number} ${section} ${year} ${term}`;
-                  coursesListEl.appendChild(li);
-                });
+                window.location.reload();
               }
-
-              courseFieldsModal.show();
-            };
-
-            // If the modal is currently shown, wait for hidden event
-            if (progressEl.classList.contains("show")) {
-              progressEl.addEventListener(
-                "hidden.bs.modal",
-                function handler() {
-                  progressEl.removeEventListener("hidden.bs.modal", handler);
-                  showFieldsModal();
-                }
-              );
-              progressModal.hide();
-            } else {
-              // Just in case it is already hidden
-              showFieldsModal();
+              return;
             }
+
+            const fields = data.course_fields || {};
+
+            fieldCodesEl.textContent = listOrNone(fields.codes);
+            fieldNumbersEl.textContent = listOrNone(fields.numbers);
+            fieldSectionsEl.textContent = listOrNone(fields.sections);
+            fieldYearsEl.textContent = listOrNone(fields.years);
+            fieldTermsEl.textContent = listOrNone(fields.terms);
+            fieldDaysEl.textContent = listOrNone(fields.days);
+            fieldTimesEl.textContent = listOrNone(fields.times);
+
+            // Courses preview
+            coursesListEl.innerHTML = "";
+            const courses = data.courses || [];
+            if (courses.length === 0) {
+              const li = document.createElement("li");
+              li.textContent = "No courses will be created";
+              coursesListEl.appendChild(li);
+            } else {
+              courses.forEach(c => {
+                const li = document.createElement("li");
+                const code = c.code || "None";
+                const number = c.number || "None";
+                const section = c.section || "None";
+                const year = c.year || "None";
+                const term = c.term || "None";
+                li.textContent = `${code} ${number} ${section} ${year} ${term}`;
+                coursesListEl.appendChild(li);
+              });
+            }
+            
+            progressModal.hide();
+            courseFieldsModal.show();
           })
+          .catch(() => {
+            // fallback
+            progressModal.hide();
+            window.location.reload();
+          });
         });
       }
 
