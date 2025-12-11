@@ -297,6 +297,8 @@
           })
           .then(response => response.json())
           .then(data => {
+            progressModal.hide();
+
             if (!data.ok) {
               if (data.redirect) {
                 window.location.href = data.redirect;
@@ -308,6 +310,7 @@
 
             const fields = data.course_fields || {};
 
+            // course fields preview
             fieldCodesEl.textContent = listOrNone(fields.codes);
             fieldNumbersEl.textContent = listOrNone(fields.numbers);
             fieldSectionsEl.textContent = listOrNone(fields.sections);
@@ -335,8 +338,7 @@
                 coursesListEl.appendChild(li);
               });
             }
-            
-            progressModal.hide();
+
             courseFieldsModal.show();
           })
           .catch(() => {

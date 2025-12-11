@@ -1721,13 +1721,16 @@ def import_populate_preview(request):
         if c["end_time"]:
             times.add(c["end_time"])
 
+    order = ["Mon", "Tue", "Wed", "Thu", "Fri"]
+    days = sorted((n for n in days if n not in existing_days), key=lambda d: order.index(d))
+
     new_fields = {
         "codes": sorted(n for n in codes if n not in existing_codes),
         "numbers": sorted(n for n in numbers if n not in existing_numbers),
         "sections": sorted(n for n in sections if n not in existing_sections),
         "years": sorted(n for n in years if n not in existing_years),
         "terms": sorted(n for n in terms if n not in existing_terms),
-        "days": sorted(n for n in days if n not in existing_days),
+        "days": days,
         "times": sorted(n for n in times if n not in existing_times),
     }
 
