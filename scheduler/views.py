@@ -1212,6 +1212,9 @@ def major_name_create(request):
     form = MajorNameForm(request.POST)
     if form.is_valid():
         obj = form.save()
+        # Create one Major per existing MajorYearLevel
+        for level in MajorYearLevel.objects.all():
+            Major.objects.create(name=obj, year_level=level)
         _log_history(
                     topic=HistoryTopic.MAJOR_NAME,
                     user=request.user,
