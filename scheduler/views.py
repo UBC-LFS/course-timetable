@@ -225,7 +225,7 @@ def landing_page(request):
     
     if courses:
         # build time grid
-        DAYS = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri']
+        DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
         START_TIME = '08:00'
         END_TIME   = '21:00'
         INTERVAL   = timedelta(minutes=1)
@@ -263,7 +263,7 @@ def landing_page(request):
             return hh * 60 + mm
         
         # Build day -> courses (sorted by start_time then id for stability)
-        day_to_courses = {"Mon": [], "Tues": [], "Wed": [], "Thurs": [], "Fri": []}
+        day_to_courses = {"Mon": [], "Tue": [], "Wed": [], "Thu": [], "Fri": []}
         for c in courses:
             for d in expand_days(c):
                 day_to_courses[d].append(c)
@@ -311,9 +311,9 @@ def landing_page(request):
         for c in courses:
             c.day_data = {
                 "Mon":   {"overlap": getattr(c, 'Mon_overlaps',   None), "width": getattr(c, 'Mon_overlap_width',   None), "left": getattr(c, 'Mon_offset_left',   None), "z": getattr(c, 'Mon_zindex',   None)},
-                "Tues":  {"overlap": getattr(c, 'Tues_overlaps',  None), "width": getattr(c, 'Tues_overlap_width',  None), "left": getattr(c, 'Tues_offset_left',  None), "z": getattr(c, 'Tues_zindex',  None)},
+                "Tue":  {"overlap": getattr(c, 'Tues_overlaps',  None), "width": getattr(c, 'Tues_overlap_width',  None), "left": getattr(c, 'Tues_offset_left',  None), "z": getattr(c, 'Tues_zindex',  None)},
                 "Wed":   {"overlap": getattr(c, 'Wed_overlaps',   None), "width": getattr(c, 'Wed_overlap_width',   None), "left": getattr(c, 'Wed_offset_left',   None), "z": getattr(c, 'Wed_zindex',   None)},
-                "Thurs": {"overlap": getattr(c, 'Thurs_overlaps', None), "width": getattr(c, 'Thurs_overlap_width', None), "left": getattr(c, 'Thurs_offset_left', None), "z": getattr(c, 'Thurs_zindex', None)},
+                "Thu": {"overlap": getattr(c, 'Thurs_overlaps', None), "width": getattr(c, 'Thurs_overlap_width', None), "left": getattr(c, 'Thurs_offset_left', None), "z": getattr(c, 'Thurs_zindex', None)},
                 "Fri":   {"overlap": getattr(c, 'Fri_overlaps',   None), "width": getattr(c, 'Fri_overlap_width',   None), "left": getattr(c, 'Fri_offset_left',   None), "z": getattr(c, 'Fri_zindex',   None)},
             }
 
@@ -328,7 +328,7 @@ def landing_page(request):
         'days': days,
         'courses': courses,
         'invalid_courses': invalid_courses,
-        'day_list': ['Mon','Tues','Wed','Thurs','Fri'],
+        'day_list': ['Mon','Tue','Wed','Thu','Fri'],
         'submitted': submitted,
         'dropdown_years': dropdown_years,
         'selected_year': selected_year,
@@ -1647,16 +1647,16 @@ def _parse_import_excel(path):
     return parsed
 
 DISTINCT_COLORS = [
-    "#1f77b4",  # blue
-    "#ff7f0e",  # orange
-    "#2ca02c",  # green
-    "#d62728",  # red
-    "#9467bd",  # purple
-    "#8c564b",  # brown
-    "#e377c2",  # pink
-    "#7f7f7f",  # gray
-    "#bcbd22",  # olive
-    "#17becf",  # cyan
+    "#1F77B4",  # blue
+    "#FF7F0E",  # orange
+    "#2CA02C",  # green
+    "#D62728",  # red
+    "#9467BD",  # purple
+    "#8C564B",  # brown
+    "#E377C2",  # pink
+    "#7F7F7F",  # gray
+    "#BCBD22",  # olive
+    "#17BECF",  # cyan
 ]
 
 def _next_code_color(used_colors: set):
@@ -1667,7 +1667,7 @@ def _next_code_color(used_colors: set):
             return c
     # Fallback: random unique color
     while True:
-        c = "#{:06x}".format(random.randint(0, 0xFFFFFF))
+        c = "#{:06x}".format(random.randint(0, 0xFFFFFF)).upper()
         if c not in used_colors:
             used_colors.add(c)
             return c
