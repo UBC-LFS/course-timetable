@@ -162,6 +162,7 @@
       const populatePreviewUrl = "{% url 'scheduler:import_populate_preview' %}";
       const populateCommitUrl = "{% url 'scheduler:import_populate_commit' %}";
       const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
+      const importPageUrl      = "{% url 'scheduler:import_page' %}";
     
       // initial state from server
       let uploadSuccess = '{{ upload_success|yesno:"true,false" }}' === 'true';
@@ -169,7 +170,6 @@
     
       function setInitialStateFromServer() {
         if (uploadSuccess) {
-          // file already uploaded successfully
           fileInput.disabled = true;
           populateBtn.disabled = false;
         } else {
@@ -248,18 +248,15 @@
       });
 
       // Populate
-      const progressModal = new bootstrap.Modal(
-        document.getElementById("populateProgressModal")
-      );
-      const courseFieldsModal = new bootstrap.Modal(
-        document.getElementById("courseFieldsModal")
-      );
-      const coursesModal = new bootstrap.Modal(
-        document.getElementById("coursesModal")
-      );
-      const commitModal = new bootstrap.Modal(
-        document.getElementById("populateCommitModal")
-      );
+      const progressModalEl      = document.getElementById("populateProgressModal");
+      const courseFieldsModalEl  = document.getElementById("courseFieldsModal");
+      const coursesModalEl       = document.getElementById("coursesModal");
+      const commitModalEl        = document.getElementById("populateCommitModal");
+
+      const progressModal     = new bootstrap.Modal(progressModalEl);
+      const courseFieldsModal = new bootstrap.Modal(courseFieldsModalEl);
+      const coursesModal      = new bootstrap.Modal(coursesModalEl);
+      const commitModal       = new bootstrap.Modal(commitModalEl);
 
       const fieldCodesEl = document.getElementById("fieldCodes");
       const fieldNumbersEl = document.getElementById("fieldNumbers");
@@ -280,11 +277,34 @@
         return arr.join(", ");
       }
 
+      // flags to distinguish Confirm to close modal vs. dismiss ("X" on top right or places outside modal) to close modal
+      let fieldsConfirmed  = false;
+      let coursesConfirmed = false;
+
+      // If user closes Created Course Fields modal via X / outside, reset to initial state
+      courseFieldsModalEl.addEventListener("hidden.bs.modal", function () {
+        if (!fieldsConfirmed) {
+          window.location.href = importPageUrl;
+        }
+      });
+
+      // If user closes Created Courses modal via X / outside, reset to initial state
+      coursesModalEl.addEventListener("hidden.bs.modal", function () {
+        if (!coursesConfirmed) {
+          window.location.href = importPageUrl;
+        }
+      });
+
       if (populateBtn) {
         populateBtn.addEventListener("click", function () {
           if (!uploadSuccess) {
             return;
           }
+
+          // Reset flags at the start of each populate run
+          fieldsConfirmed  = false;
+          coursesConfirmed = false;
+
           // Show blocking progress modal
           progressModal.show();
 
@@ -351,12 +371,14 @@
 
       // When user confirms created fields, show courses modal
       courseFieldsConfirmBtn.addEventListener("click", function () {
+        fieldsConfirmed = true;
         courseFieldsModal.hide();
         coursesModal.show();
       });
 
       // When user confirms courses, actually commit to DB
       coursesConfirmBtn.addEventListener("click", function () {
+        coursesConfirmed = true;
         coursesConfirmBtn.disabled = true;
 
         coursesModal.hide();
