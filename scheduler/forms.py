@@ -6,6 +6,7 @@ from .models import (
 )
 from .models import MajorName
 from django.core.exceptions import ValidationError
+from django.db.models import Case, When, IntegerField
 
 class CourseForm(forms.ModelForm):
     # Required dropdowns (add * in labels)
@@ -47,7 +48,7 @@ class CourseForm(forms.ModelForm):
 
     # Optional dropdowns
     day = forms.ModelMultipleChoiceField(
-        queryset=CourseDay.objects.filter(name__in=["Mon", "Tues", "Wed", "Thurs", "Fri"]).order_by("id"),
+        queryset=CourseDay.objects.none(),  # will be set in __init__
         required=False,
         widget=forms.CheckboxSelectMultiple,   # renders 5 checkboxes
         label="Days"
@@ -66,6 +67,26 @@ class CourseForm(forms.ModelForm):
     class Meta:
         model  = Course
         fields = ["code","number","section","term","day","start_time","end_time","academic_year"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Order Mon → Fri explicitly
+        order_case = Case(
+            When(name="Mon", then=0),
+            When(name="Tue", then=1),
+            When(name="Wed", then=2),
+            When(name="Thu", then=3),
+            When(name="Fri", then=4),
+            output_field=IntegerField(),
+        )
+
+        self.fields["day"].queryset = (
+            CourseDay.objects
+            .filter(name__in=["Mon", "Tue", "Wed", "Thu", "Fri"])
+            .annotate(day_order=order_case)
+            .order_by("day_order")
+        )
 
     # --- validations ----
     def clean(self):
