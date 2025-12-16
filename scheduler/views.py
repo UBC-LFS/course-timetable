@@ -1447,10 +1447,41 @@ def _human_readable_size(num_bytes):
     mb = kb / 1024.0
     return f"{mb:.1f} MB".rstrip("0").rstrip(".")
 
+REQUIRED_IMPORT_COLUMNS = [
+        "Course Subject",
+        "Course Number",
+        "Special Topic",
+        "Section Number",
+        "Academic Period",
+        "Term",
+        "Meeting Pattern and Location",
+]
+
+def _validate_columns(path):
+    wb = openpyxl.load_workbook(path, data_only=True)
+    ws = wb.active
+    header_row = [c.value for c in next(ws.iter_rows(min_row=1, max_row=1))]
+    idx = {name: header_row.index(name) for name in header_row if name}
+    missing = False
+    for col in REQUIRED_IMPORT_COLUMNS:
+        if col not in idx:
+            missing = True
+            break
+    return missing
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
 def import_page(request):
+    
+    def _cleanup_session_and_file():
+        old_path = request.session.get("import_temp_path")
+        if old_path and os.path.exists(old_path):
+            os.remove(old_path)
+        
+        request.session.pop("import_temp_path", None)
+        request.session.pop("import_original_name", None)
+        request.session.pop("import_size_bytes", None)
+
     upload_success = False
     uploaded_file_name = ""
     uploaded_file_size = ""
@@ -1459,36 +1490,34 @@ def import_page(request):
         f = request.FILES.get("requirements_file")
 
         if not f:
+            _cleanup_session_and_file()
             messages.error(request, "An error occurred, please upload again.")
         else:
-            try:
-                # Clean up any previous temp file for this session
-                old_path = request.session.get("import_temp_path")
-                if old_path and os.path.exists(old_path):
-                    os.remove(old_path)
-                
-                suffix = os.path.splitext(f.name)[1] or ".xlsx"
-                with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+            ext = os.path.splitext(f.name)[1].lower()
+            if ext != ".xlsx":
+                _cleanup_session_and_file()
+                messages.error(request, "An error occurred, please upload again.")
+            else:
+                # Always save as .xlsx
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
                     for chunk in f.chunks():
                         tmp.write(chunk)
                     temp_path = tmp.name
 
-                # Store metadata in session so Populate can use it
-                request.session["import_temp_path"] = temp_path
-                request.session["import_original_name"] = f.name
-                request.session["import_size_bytes"] = f.size
+                missing = _validate_columns(temp_path)
+                if missing:
+                    _cleanup_session_and_file()
+                    messages.error(request, "An error occurred, please upload again.")
+                else:
+                    # Store metadata in session so Populate can use it
+                    request.session["import_temp_path"] = temp_path
+                    request.session["import_original_name"] = f.name
+                    request.session["import_size_bytes"] = _human_readable_size(f.size)
 
-                upload_success = True
-                uploaded_file_name = f.name
-                uploaded_file_size = _human_readable_size(f.size)
-
-                messages.success(request, "Upload successful.")
-            except Exception:
-                # fallback
-                request.session.pop("import_temp_path", None)
-                request.session.pop("import_original_name", None)
-                request.session.pop("import_size_bytes", None)
-                messages.error(request, "An error occurred, please upload again.")
+                    upload_success = True
+                    uploaded_file_name = f.name
+                    uploaded_file_size = _human_readable_size(f.size)
+                    messages.success(request, "Upload successful.")
 
     context = {
         "upload_success": upload_success,
@@ -1543,23 +1572,8 @@ def _parse_import_excel(path):
     """
     wb = openpyxl.load_workbook(path, data_only=True)
     ws = wb.active
-
-    # Map column headers to indices
     header_row = [c.value for c in next(ws.iter_rows(min_row=1, max_row=1))]
     idx = {name: header_row.index(name) for name in header_row if name}
-
-    required_cols = [
-        "Course Subject",
-        "Course Number",
-        "Special Topic",
-        "Section Number",
-        "Academic Period",
-        "Term",
-        "Meeting Pattern and Location",
-    ]
-    for col in required_cols:
-        if col not in idx:
-            raise ValueError(f"Missing column {col} in Excel file.")
 
     parsed = []
 
@@ -1681,11 +1695,7 @@ def import_populate_preview(request):
         messages.error(request, "An error occurred, please try again.")
         return JsonResponse({"ok": False, "redirect": reverse("scheduler:import_page")})
 
-    try:
-        parsed_courses = _parse_import_excel(temp_path)
-    except Exception:
-        messages.error(request, "An error occurred, please try again.")
-        return JsonResponse({"ok": False, "redirect": reverse("scheduler:import_page")})
+    parsed_courses = _parse_import_excel(temp_path)
 
     # Store the parsed data in the session for the commit step
     request.session["import_parsed_courses"] = parsed_courses
