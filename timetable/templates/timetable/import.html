@@ -16,6 +16,21 @@
         </div>
 
         <div class="card-body">
+
+          <p class="mb-2">
+            Upload a Microsoft Excel (.xlsx) file containing course data.
+          </p>
+          <p class="mb-1 fw-semibold">Required columns:</p>
+          <ul class="mb-3 small">
+            <li>Course Subject</li>
+            <li>Course Number</li>
+            <li>Special Topic</li>
+            <li>Section Number</li>
+            <li>Academic Period</li>
+            <li>Term</li>
+            <li>Meeting Pattern and Location</li>
+          </ul>
+
           <form id="importUploadForm" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
