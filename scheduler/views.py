@@ -1496,7 +1496,7 @@ def import_page(request):
             ext = os.path.splitext(f.name)[1].lower()
             if ext != ".xlsx":
                 _cleanup_session_and_file()
-                messages.error(request, "An error occurred, please upload again.")
+                messages.error(request, "Unsupported file type, please upload again.")
             else:
                 # Always save as .xlsx
                 with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
@@ -1507,7 +1507,7 @@ def import_page(request):
                 missing = _validate_columns(temp_path)
                 if missing:
                     _cleanup_session_and_file()
-                    messages.error(request, "An error occurred, please upload again.")
+                    messages.error(request, "Missing required columns, please upload again.")
                 else:
                     # Store metadata in session so Populate can use it
                     request.session["import_temp_path"] = temp_path
