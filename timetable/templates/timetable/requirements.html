@@ -10,7 +10,7 @@
     <div class="col-md-4">
       <label class="form-label">Major Name *</label>
       <select id="major-select" name="major" class="form-select">
-        <option value="">-- Select Major --</option>
+        <option value="">-- Select Name --</option>
         {% for name in major_names %}
           <option value="{{ name.name }}" {% if name.name == selected_major_name %}selected{% endif %}>{{ name.name }}</option>
         {% endfor %}
