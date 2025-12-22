@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="container py-4">
+<div class="container py-4" id="requirements-root" data-levels-url="{% url 'scheduler:ajax_levels_for_major' %}" data-numbers-url="{% url 'scheduler:ajax_numbers_for_code' %}">
 
   <h2 class="mb-3">Major Requirements</h2>
 
@@ -159,114 +159,5 @@
 {% endblock %}
 
 {% block js %}
-<script>
-  (function() {
-    const majorSel = document.getElementById('major-select');
-    const levelSel   = document.getElementById('level-select');
-    const clearBtn   = document.getElementById('clear-filters');
-  
-    function resetLevels() {
-      levelSel.innerHTML = '<option value="">-- Select Year Level --</option>';
-    }
-  
-    async function loadLevelsFor(majorName) {
-      resetLevels();
-      if (!majorName) {
-        levelSel.disabled = true;
-        return;
-      }
-      try {
-        const resp = await fetch("{% url 'scheduler:ajax_levels_for_major' %}?major=" + encodeURIComponent(majorName));
-        const data = await resp.json();
-        for (const lvl of data.levels) {
-          const opt = document.createElement('option');
-          opt.value = opt.textContent = lvl;
-          levelSel.appendChild(opt);
-        }
-        levelSel.disabled = data.levels.length === 0; // stays disabled if none, actually no need, becasue each major must have a year level
-      } catch (e) {
-        // fallback: keep it disabled on error
-        levelSel.disabled = true;
-      }
-    }
-  
-    // On change, (re)populate year levels for the chosen major
-    majorSel.addEventListener('change', (e) => loadLevelsFor(e.target.value));
-
-    // Clear button
-    if (clearBtn) {
-      clearBtn.addEventListener('click', function () {
-        majorSel.value = "";
-        majorSel.dispatchEvent(new Event('change', { bubbles: true }));
-      });
-    }
-  })();
-</script>
-<script>
-  // REMOVE
-  (function() {
-    document.addEventListener('DOMContentLoaded', function () {
-    const modalEl   = document.getElementById('confirmDetach');
-    const modal     = new bootstrap.Modal(modalEl);
-    const txt       = document.getElementById('confirmCourseText');
-    const hidCode   = document.getElementById('hidCode');
-    const hidNumber = document.getElementById('hidNumber');
-
-    document.querySelectorAll('.js-open-delete').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const code = btn.dataset.code;
-        const num  = btn.dataset.number;
-
-        txt.textContent     = `${code} ${num}`;
-        hidCode.value       = code;
-        hidNumber.value     = num;
-
-        modal.show();
-      });
-    });
-  });
-  })();
-</script>
-<script>
-  // ADD
-  (function() {
-    const codeSel   = document.getElementById('add-code');
-    const numSel    = document.getElementById('add-number');
-
-    function resetNums() {
-      numSel.innerHTML = '<option value="">-- Select Number --</option>';
-      numSel.disabled = true;
-    }
-
-    function resetAddForm() {
-      // clear BOTH dropdowns every time the modal opens
-      if (codeSel) codeSel.selectedIndex = 0;   // <-- clear Course Code
-      resetNums();                               // <-- clears & disables Number
-    }
-
-    async function loadNumbersFor(codeName) {
-      resetNums();
-      if (!codeName) return;
-      try {
-        const resp = await fetch("{% url 'scheduler:ajax_numbers_for_code' %}?code=" + encodeURIComponent(codeName));
-        const data = await resp.json();
-        for (const n of data.numbers) {
-          const opt = document.createElement('option');
-          opt.value = opt.textContent = n;
-          numSel.appendChild(opt);
-        }
-        numSel.disabled = data.numbers.length === 0;
-      } catch (e) {
-        numSel.disabled = true;
-      }
-    }
-
-    codeSel?.addEventListener('change', (e) => {
-      loadNumbersFor(e.target.value);
-    });
-
-    // In case the modal is reopened, always reset
-    document.getElementById('addCourseModal')?.addEventListener('show.bs.modal', resetAddForm);
-  })();
-</script>
+<script src="{% static 'timetable/js/requirements.js' %}"></script>
 {% endblock %}
