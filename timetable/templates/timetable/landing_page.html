@@ -4,31 +4,24 @@
 {% load custom_filters %}
 
 <!-- styles for timetable grid  -->
-<style>
-.timetable-grid .course-cell { position: relative; }
-.course-item{
-  position: absolute;
-  right: 0;          /* anchor to the right edge */
-  left: auto;        /* ignore any left positioning */
-  border-radius: .4rem;
-  padding: .25rem .35rem;
-  font-size: .8rem;
-  line-height: 1.1;
-  color: #111;
-  box-shadow: 0 1px 2px rgba(0,0,0,.08);
-  overflow: hidden;
-}
-</style>
+<link rel="stylesheet" href="{% static 'timetable/css/landing_page.css' %}">
 
 <!-- libraries for the filters -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+<div id="landing-page-data"
+     class="d-none"
+     data-terms-url="{% url 'scheduler:ajax_terms_for_year' %}"
+     data-numbers-url="{% url 'scheduler:ajax_numbers_for_code' %}"
+     data-levels-url="{% url 'scheduler:ajax_levels_for_major' %}"
+     data-numbers-by-code='{{ numbers_by_code_json|default:"{}"|escapejs }}'></div>
+
 <div class="container-fluid py-4 px-4">
   <div class="row gy-4 flex-column">
     <!-- ───────── Mini Year/Term Filters ───────── -->
-    <form method="get" action="{% url 'scheduler:landing_page' %}" class="row g-3 align-items-end mb-3">
+    <form id="landing-page-form" method="get" action="{% url 'scheduler:landing_page' %}" class="row g-3 align-items-end mb-3">
       <div class="col-md-3">
         <label class="form-label">Academic Year *</label>
         <select id="year-select" name="year" class="form-select">
@@ -247,6 +240,7 @@
   
   </div>
 </div>
+<script src="{% static 'timetable/js/landing_page.js' %}"></script>
 
 <script>
   // setup for timetable grid outline
@@ -650,5 +644,5 @@
       }
     });
   })();
-</script>
+</script> -->
 {% endblock %}
