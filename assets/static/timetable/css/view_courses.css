@@ -1,0 +1,3 @@
+/* Collapse the page when there are no results yet */
+.view-courses-container.no-results { min-height: 0 !important; padding-bottom: 0 !important; }
+.view-courses-container.no-results .courses-navbar { margin-bottom: 0 !important; }
