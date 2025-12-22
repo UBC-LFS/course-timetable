@@ -4,7 +4,10 @@
 {% block title %}Course Year Settings{% endblock %}
 
 {% block content %}
-<div class="container py-4">
+<div class="container py-4" id="course-years-root"
+     data-update-url="{% url 'scheduler:course_year_update' 0 %}"
+     data-delete-url="{% url 'scheduler:course_year_delete' 0 %}"
+     data-affected-url="{% url 'scheduler:course_year_affected' 0 %}">
 
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="mb-0">Course Years</h3>
@@ -162,98 +165,5 @@
 {% endblock %}
 
 {% block js %}
-<script>
-  // EDIT
-  const editModal = document.getElementById('editModal');
-  editModal.addEventListener('show.bs.modal', function (event) {
-    const btn = event.relatedTarget;
-    const id  = btn.getAttribute('data-year-id');
-    const val = btn.getAttribute('data-year-name');
-    document.getElementById('editYear').value = val;
-    document.getElementById('editForm').action =
-      "{% url 'scheduler:course_year_update' 0 %}".replace("0", id);
-    document.getElementById('editForm').dataset.yearId = id;
-  });
-
-  // Intercept EDIT submit
-  const editForm = document.getElementById('editForm');
-  editForm.addEventListener('submit', async (e) => {
-    if (editForm.dataset.confirmed === '1') return;  // already confirmed
-    e.preventDefault();
-    const yearId = editForm.dataset.yearId;
-    await showAffectedPreviewForYear(yearId, "Editing this year will update the following courses.");
-    pendingSubmitForm = editForm;
-  });
-
-  // DELETE
-  const deleteModal = document.getElementById('deleteModal');
-  deleteModal.addEventListener('show.bs.modal', function (event) {
-    const btn = event.relatedTarget;
-    const id  = btn.getAttribute('data-year-id');
-    const val = btn.getAttribute('data-year-name');
-    document.getElementById('deleteName').textContent = val;
-    document.getElementById('deleteForm').action =
-      "{% url 'scheduler:course_year_delete' 0 %}".replace("0", id);
-    document.getElementById('deleteForm').dataset.yearId = id;
-  });
-
-  // Intercept DELETE submit
-  const deleteForm = document.getElementById('deleteForm');
-  deleteForm.addEventListener('submit', async (e) => {
-    if (deleteForm.dataset.confirmed === '1') return;
-    e.preventDefault();
-    const yearId = deleteForm.dataset.yearId
-    await showAffectedPreviewForYear(yearId, "Deleting this year will detach it from the following courses.");
-    pendingSubmitForm = deleteForm;
-  });
-</script>
-<script>
-  function hideOpenModals() {
-    document.querySelectorAll('.modal.show').forEach(el => {
-      (bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el)).hide();
-    });
-  }
-
-  let pendingSubmitForm = null;
-
-  async function showAffectedPreviewForYear(yearId, introText) {
-    hideOpenModals();
-
-    const url = "{% url 'scheduler:course_year_affected' 0 %}".replace("0", yearId);
-    const res = await fetch(url, { method: "GET", headers: { "Accept": "application/json" } });
-    const data = await res.json();
-
-    const intro = document.getElementById('affectedIntro');
-    const list  = document.getElementById('affectedList');
-    intro.textContent = introText;
-    list.innerHTML = "";
-
-    if (!data.items || data.items.length === 0) {
-      const li = document.createElement('li');
-      li.className = "text-muted";
-      li.textContent = "No courses will be affected.";
-      list.appendChild(li);
-    } else {
-      for (const c of data.items) {
-        const li = document.createElement('li');
-        li.textContent = `${c.code} ${c.number} ${c.section} ${c.year} ${c.term}`.trim();
-        list.appendChild(li);
-      }
-    }
-
-    const previewEl = document.getElementById('affectedModal');
-    const preview   = bootstrap.Modal.getOrCreateInstance(previewEl);
-    preview.show();
-
-    const confirmBtn = document.getElementById('affectedConfirmBtn');
-    confirmBtn.onclick = () => {
-      if (pendingSubmitForm) {
-        pendingSubmitForm.dataset.confirmed = '1';
-        pendingSubmitForm.submit();
-        pendingSubmitForm = null;
-      }
-      preview.hide();
-    };
-  }
-</script>
+<script src="{% static 'timetable/js/course_year_list.js' %}"></script>
 {% endblock %}
