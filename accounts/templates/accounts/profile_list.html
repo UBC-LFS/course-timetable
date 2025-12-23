@@ -4,7 +4,9 @@
 {% block title %}Profiles{% endblock %}
 
 {% block content %}
-<div class="container py-4">
+<div class="container py-4" id="profiles-root"
+     data-update-url="{% url 'accounts:update_profile' 0 %}"
+     data-delete-url="{% url 'accounts:delete_profile' 0 %}">
 
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="mb-0">Users</h3>
@@ -199,51 +201,5 @@
 {% endblock %}
 
 {% block js %}
-<script>
-  // EDIT
-  const editModal = document.getElementById('editModal');
-  editModal.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget;
-
-    const profileId = button.getAttribute('data-profile-id');
-    const firstName = button.getAttribute('data-first-name');
-    const lastName = button.getAttribute('data-last-name');
-    const cwl = button.getAttribute('data-cwl');
-    const roleId = button.getAttribute('data-role-id');
-
-    document.getElementById('editFirstName').value = firstName;
-    document.getElementById('editLastName').value = lastName;
-    document.getElementById('editCwl').value = cwl;
-
-    const roleSelect = document.getElementById('editRole');
-    if (roleId) {
-      roleSelect.value = roleId;
-    } else {
-      roleSelect.value = '';
-    }
-
-    const form = document.getElementById('editForm');
-    form.action = "{% url 'accounts:update_profile' 0 %}".replace("0", profileId);
-  });
-
-  // DELETE
-  const deleteModal = document.getElementById('deleteModal');
-  deleteModal.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget;
-
-    const profileId = button.getAttribute('data-profile-id');
-    const firstName = button.getAttribute('data-first-name');
-    const lastName = button.getAttribute('data-last-name');
-    const cwl = button.getAttribute('data-cwl');
-    const roleName = button.getAttribute('data-role-name');
-
-    document.getElementById('deleteFirstName').textContent = firstName;
-    document.getElementById('deleteLastName').textContent = lastName;
-    document.getElementById('deleteCwl').textContent = cwl;
-    document.getElementById('deleteRole').textContent = roleName;
-
-    const form = document.getElementById('deleteForm');
-    form.action = "{% url 'accounts:delete_profile' 0 %}".replace("0", profileId);
-  });
-</script>
+<script src="{% static 'timetable/js/profile_list.js' %}"></script>
 {% endblock %}
