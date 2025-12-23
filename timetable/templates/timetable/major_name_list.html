@@ -4,7 +4,10 @@
 {% block title %}Major Name Settings{% endblock %}
 
 {% block content %}
-<div class="container py-4">
+<div class="container py-4" id="major-names-root"
+     data-update-url="{% url 'scheduler:major_name_update' 0 %}"
+     data-delete-url="{% url 'scheduler:major_name_delete' 0 %}"
+     data-affected-url="{% url 'scheduler:major_name_affected' 0 %}">
 
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="mb-0">Major Names</h3>
@@ -156,100 +159,5 @@
 {% endblock %}
 
 {% block js %}
-<script>
-  // EDIT
-  const editModal = document.getElementById('editModal');
-  editModal.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget;
-    const majorNameId = button.getAttribute('data-major-name-id');
-    const majorNameName = button.getAttribute('data-major-name-name');
-    document.getElementById('editName').value = majorNameName;
-    document.getElementById('editForm').action =
-      "{% url 'scheduler:major_name_update' 0 %}".replace("0", majorNameId);
-    document.getElementById('editForm').dataset.majorNameId = majorNameId;
-  });
-
-  // Intercept EDIT submit
-  const editForm = document.getElementById('editForm');
-  editForm.addEventListener('submit', async (e) => {
-    if (editForm.dataset.confirmed === '1') return; // already confirmed
-    e.preventDefault();
-    const majorNameId = editForm.dataset.majorNameId
-    await showAffectedPreviewForMajorName(majorNameId, "Editing this name will update the following majors.");
-    pendingSubmitForm = editForm;
-  });
-</script>
-
-<script>
-  // DELETE
-  const deleteModal = document.getElementById('deleteModal');
-  deleteModal.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget;
-    const majorNameId = button.getAttribute('data-major-name-id');
-    const majorNameName = button.getAttribute('data-major-name-name');
-    document.getElementById('deleteName').textContent = majorNameName;
-    document.getElementById('deleteForm').action =
-      "{% url 'scheduler:major_name_delete' 0 %}".replace("0", majorNameId);
-    document.getElementById('deleteForm').dataset.majorNameId = majorNameId;
-  });
-
-  // Intercept DELETE submit
-  const deleteForm = document.getElementById('deleteForm');
-  deleteForm.addEventListener('submit', async (e) => {
-    if (deleteForm.dataset.confirmed === '1') return;
-    e.preventDefault();
-    const majorNameId = deleteForm.dataset.majorNameId
-    await showAffectedPreviewForMajorName(majorNameId, "Deleting this name will detach it from the following majors.");
-    pendingSubmitForm = deleteForm;
-  });
-</script>
-<script>
-  function hideOpenModals() {
-    document.querySelectorAll('.modal.show').forEach(el => {
-      (bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el)).hide();
-    });
-  }
-
-  let pendingSubmitForm = null;
-
-  async function showAffectedPreviewForMajorName(majorNameId, introText) {
-    hideOpenModals();
-
-    const url = "{% url 'scheduler:major_name_affected' 0 %}".replace("0", majorNameId);
-    const res = await fetch(url, { method: "GET", headers: { "Accept": "application/json" } });
-    const data = await res.json();
-
-    const intro = document.getElementById('affectedIntro');
-    const list  = document.getElementById('affectedList');
-    intro.textContent = introText;
-    list.innerHTML = "";
-
-    if (!data.items || data.items.length === 0) {
-      const li = document.createElement('li');
-      li.className = "text-muted";
-      li.textContent = "No majors will be affected.";
-      list.appendChild(li);
-    } else {
-      for (const m of data.items) {
-        const li = document.createElement('li');
-        li.textContent = `${m.major_name} ${m.year_level}`.trim();
-        list.appendChild(li);
-      }
-    }
-
-    const previewEl = document.getElementById('affectedModal');
-    const preview   = bootstrap.Modal.getOrCreateInstance(previewEl);
-    preview.show();
-
-    const confirmBtn = document.getElementById('affectedConfirmBtn');
-    confirmBtn.onclick = () => {
-      if (pendingSubmitForm) {
-        pendingSubmitForm.dataset.confirmed = '1';
-        pendingSubmitForm.submit();
-        pendingSubmitForm = null;
-      }
-      preview.hide();
-    };
-  }
-</script>
+<script src="{% static 'timetable/js/major_name_list.js' %}"></script>
 {% endblock %}
