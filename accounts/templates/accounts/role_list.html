@@ -4,7 +4,10 @@
 {% block title %}Roles{% endblock %}
 
 {% block content %}
-<div class="container py-4">
+<div class="container py-4" id="roles-root"
+     data-update-url="{% url 'accounts:role_update' 0 %}"
+     data-delete-url="{% url 'accounts:role_delete' 0 %}"
+     data-affected-url="{% url 'accounts:role_affected' 0 %}">
 
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="mb-0">Roles</h3>
@@ -161,107 +164,5 @@
 {% endblock %}
 
 {% block js %}
-<script>
-  // EDIT
-  const editModal = document.getElementById('editModal');
-  editModal.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget;
-    const roleId = button.getAttribute('data-role-id');
-    const roleName = button.getAttribute('data-role-name');
-    document.getElementById('editName').value = roleName;
-    document.getElementById('editForm').action =
-      "{% url 'accounts:role_update' 0 %}".replace("0", roleId);
-    // stash the role id for preview use
-    document.getElementById('editForm').dataset.roleId = roleId;
-  });
-
-  // Intercept Edit submit
-  const editForm = document.getElementById('editForm');
-  editForm.addEventListener('submit', async function (e) {
-    if (editForm.dataset.confirmed === '1') return; // already confirmed → let it submit
-    e.preventDefault();
-
-    const roleId = editForm.dataset.roleId;
-    await showAffectedPreview(roleId, "Editing this role will update the following users.");
-    // When user clicks Confirm in the preview, we'll submit for real.
-    pendingSubmitForm = editForm;
-  });
-</script>
-<script>
-  // DELETE
-  const deleteModal = document.getElementById('deleteModal');
-  deleteModal.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget;
-    const roleId = button.getAttribute('data-role-id');
-    const roleName = button.getAttribute('data-role-name');
-    document.getElementById('deleteName').textContent = roleName;
-    const form = document.getElementById('deleteForm');
-    form.action = "{% url 'accounts:role_delete' 0 %}".replace("0", roleId);
-    form.dataset.roleId = roleId;
-  });
-
-  const deleteForm = document.getElementById('deleteForm');
-  deleteForm.addEventListener('submit', async function (e) {
-    if (deleteForm.dataset.confirmed === '1') return;
-    e.preventDefault();
-
-    const roleId = deleteForm.dataset.roleId;
-    await showAffectedPreview(roleId, "Deleting this role will detach it from the following users.");
-    pendingSubmitForm = deleteForm;
-  });
-</script>
-
-<script>
-  // Utility: hide any open Bootstrap modals
-  function hideOpenModals() {
-    document.querySelectorAll('.modal.show').forEach(el => {
-      (bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el)).hide();
-    });
-  }
-
-  let pendingSubmitForm = null;
-
-  async function showAffectedPreview(roleId, introText) {
-    hideOpenModals(); // ensure edit/delete is fully closed
-
-    // fetch affected profiles
-    const url = "{% url 'accounts:role_affected' 0 %}".replace("0", roleId);
-    const res = await fetch(url, { method: "GET", headers: { "Accept": "application/json" } });
-    const data = await res.json();
-
-    // fill modal
-    const intro = document.getElementById('affectedIntro');
-    const list  = document.getElementById('affectedList');
-    intro.textContent = introText;
-    list.innerHTML = "";
-
-    if (!data.items || data.items.length === 0) {
-      const li = document.createElement('li');
-      li.className = "text-muted";
-      li.textContent = "No users will be affected.";
-      list.appendChild(li);
-    } else {
-      for (const p of data.items) {
-        const li = document.createElement('li');
-        li.textContent = `${p.first_name} ${p.last_name} ${p.username} ${p.role}`.trim();
-        list.appendChild(li);
-      }
-    }
-
-    const previewEl = document.getElementById('affectedModal');
-    const preview   = bootstrap.Modal.getOrCreateInstance(previewEl);
-    preview.show();
-
-    // Confirm button submits whatever form triggered the preview
-    const confirmBtn = document.getElementById('affectedConfirmBtn');
-    confirmBtn.onclick = () => {
-      if (pendingSubmitForm) {
-        pendingSubmitForm.dataset.confirmed = '1';
-        pendingSubmitForm.submit();
-        pendingSubmitForm = null;
-      }
-      preview.hide();
-    };
-  }
-</script>
+<script src="{% static 'timetable/js/role_list.js' %}"></script>
 {% endblock %}
