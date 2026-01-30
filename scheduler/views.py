@@ -86,6 +86,7 @@ def landing_page(request):
     sections= CourseSection.objects.all()
     times   = CourseTime.objects.all()
     days    = CourseDay.objects.all()
+    form    = CourseForm()
 
     # Academic Year
     all_years = CourseYear.objects.values_list("name", flat=True)
@@ -340,6 +341,7 @@ def landing_page(request):
         'available_terms_for_year': available_terms_for_year,
         'course_filters_json': course_filters_json,
         'numbers_by_code_json': numbers_by_code_json,
+        'form': form,
     })
 
 def redirect_root(request):
@@ -483,6 +485,20 @@ def edit_course(request, course_id):
         "form": form,
     })
 
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@login_required(login_url='accounts:ldap_login')
+@require_POST
+def modal_edit_course(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    form = CourseForm(request.POST, instance=course)
+    if form.is_valid():
+        obj = form.save()
+        messages.success(request, "Course successfully updated.")
+    else:
+        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Update failed: {err}")
+    return redirect("scheduler:landing_page")
+ 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
 def delete_course(request, course_id):

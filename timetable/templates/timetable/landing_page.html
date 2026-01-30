@@ -173,23 +173,132 @@
                       {% with course|get_day:day as data %}
                         {% if day in course.day_names %}
                           {% if course.start_time and course.start_time.name|slice:":2" == hour %}
-                            <div class="course-item {% if data.overlap %}overlap{% endif %}"
-                                data-height="{{ course.pixel_height }}"
-                                data-bg="{{ course.code.color }}"
-                                data-top="{{ course.offset_top }}"
-                                data-width="{{ data.width|default:'100' }}"
-                                data-left="{{ data.left|default:'0' }}"
-                                data-z="{{ data.z|default:'1' }}"
-                                data-code="{{ course.code.name|default:'None' }}"
-                                data-number="{{ course.number.name|default:'None' }}"
-                                data-start="{{ course.start_time.name|default:'None' }}"
-                                data-end="{{ course.end_time.name|default:'None' }}"
-                                data-day="{{ course.day_names|join:',' }}"
-                                data-section="{{ course.section.name|default:'None' }}"
-                                data-academic-year="{{ course.academic_year.name|default:'None' }}"
-                                data-term="{{ course.term.name|default:'None' }}">
-                              <strong>{{ course.code.name|default:'None' }} {{ course.number.name|default:'None' }} {{ course.section.name|default:'None' }}</strong>
-                            </div>
+                            <!-- Course item -->
+                              <div class="course-item {% if data.overlap %}overlap{% endif %}"
+                                  data-height="{{ course.pixel_height }}"
+                                  data-bg="{{ course.code.color }}"
+                                  data-top="{{ course.offset_top }}"
+                                  data-width="{{ data.width|default:'100' }}"
+                                  data-left="{{ data.left|default:'0' }}"
+                                  data-z="{{ data.z|default:'1' }}"
+                                  data-code="{{ course.code.name|default:'None' }}"
+                                  data-number="{{ course.number.name|default:'None' }}"
+                                  data-start="{{ course.start_time.name|default:'None' }}"
+                                  data-end="{{ course.end_time.name|default:'None' }}"
+                                  data-day="{{ course.day_names|join:',' }}"
+                                  data-section="{{ course.section.name|default:'None' }}"
+                                  data-academic-year="{{ course.academic_year.name|default:'None' }}"
+                                  data-term="{{ course.term.name|default:'None' }}">
+                                <a href="" data-bs-toggle="modal" data-bs-target="#detailModal{{course.id}}">
+                                  <strong>{{ course.code.name|default:'None' }} {{ course.number.name|default:'None' }} {{ course.section.name|default:'None' }}</strong>
+                                </a>
+                              </div>
+                            </button>
+
+                            <!-- Course Details Modal -->
+                              <div class="modal fade" id="detailModal{{course.id}}">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5> Course Details </h5>
+                                    </div>
+                                    <div class="modal-body">
+                                      <div class="mb-3">
+                                        <p> <strong> Course Code</strong>: {{ course.code.name }}</p>
+                                      </div>
+                                      <div class="mb-3">
+                                        <p> <strong> Course Number</strong>: {{ course.number.name }}</p>
+                                      </div>
+                                      <div class="mb-3">
+                                        <p> <strong> Course Section</strong>: {{ course.section.name }}</p>
+                                      </div>
+                                      <div class="mb-3">
+                                        <p> <strong> Course Term</strong>: {{ course.term.name }}</p>
+                                      </div>
+                                      <div class="mb-3">
+                                        <!-- TODO: Order the days by order of the week as opposed to alphabetical order -->
+                                        <p> <strong> Course Days</strong>: {{ course.day_names|join:',' }}</p>
+                                      </div>
+                                      <div class="mb-3">
+                                        <p> <strong> Start Time</strong>: {{ course.start_time.name }}</p>
+                                      </div>
+                                      <div class="mb-3">
+                                        <p> <strong> End Time</strong>: {{ course.end_time.name }}</p>
+                                      </div>
+                                      <div class="mb-3">
+                                        <p> <strong> Academic Year</strong>: {{ course.academic_year.name }}</p>
+                                      </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button class="btn btn-sm btn-warning"
+                                              data-bs-toggle="modal"
+                                              data-bs-target="#editModal"
+                                              data-course-id="{{ course.id }}"
+                                              data-course-code="{{ course.code.id }}"
+                                              data-course-number="{{ course.number.id }}"
+                                              data-course-section="{{ course.section.id }}"
+                                              data-course-term="{{ course.term.id }}"
+                                              data-course-day="{% for d in course.day.all %}{{ d.id }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                                              data-course-start_time="{{ course.start_time.id }}"
+                                              data-course-end_time="{{ course.end_time.id }}"
+                                              data-course-academic_year="{{ course.academic_year.id }}">
+                                        Edit
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            <!-- Update Course Modal -->
+                              <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <form id="editForm" method="post">
+                                      {% csrf_token %}
+                                      <div class="modal-header">
+                                        <h5> Edit Course Details </h5>
+                                      </div>
+                                      <div class="modal-body">
+                                        <div class="mb-3">
+                                          <label class="form-label">Code *</label>
+                                          {{ form.code }}
+                                        </div>
+                                        <div class="mb-3">
+                                          <label class="form-label">Number *</label>
+                                          {{ form.number }}
+                                        </div>
+                                        <div class="mb-3">
+                                          <label class="form-label">Section *</label>
+                                          {{ form.section }}
+                                        </div>
+                                        <div class="mb-3">
+                                          <label class="form-label">Term *</label>
+                                          {{ form.term }}
+                                        </div>
+                                        <div class="mb-3">
+                                          <label class="form-label">Day *</label>
+                                          {{ form.day }}
+                                        </div>
+                                        <div class="mb-3">
+                                          <label class="form-label">Start Time</label>
+                                          {{ form.start_time }}
+                                        </div>
+                                        <div class="mb-3">
+                                          <label class="form-label">End Time</label>
+                                          {{ form.end_time }}
+                                        </div>
+                                        <div class="mb-3">
+                                          <label class="form-label">Academic Year *</label>
+                                          {{ form.academic_year }}
+                                        </div>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="submit" class="btn btn-warning"> Update </button>
+                                      </div>
+                                    </form> 
+                                  </div>
+                                </div>
+                              </div>
                           {% endif %}
                         {% endif %}
                       {% endwith %}

@@ -418,3 +418,40 @@
     }
   });
 })();
+
+// modals
+(function () {
+
+  const editModal = document.getElementById('editModal');
+  if(editModal) {
+    editModal.addEventListener('show.bs.modal', function (event) {
+      const courseFields = ['code', 'number', 'section', 'term', 'day', 'start_time', 'end_time', 'academic_year'] 
+      const button = event.relatedTarget;
+      const course_id = button.getAttribute(`data-course-id`); 
+
+      // TODO: If anyone figures out a way to not hardcode this link, then you should probably implement it 
+      const link = `course/${course_id}/`;
+
+      document.getElementById('editForm').action = link;
+      for(const field of courseFields) {
+        const attr = `data-course-${field}`;
+        if (field == 'day') {
+
+          // attrValue should be of format 5,1,3 ...
+          const attrValues= button.getAttribute(attr).split(',').map(s => s.trim()).map(Number).map(x => x-1);
+          console.log(attrValues);
+
+          for(const val of attrValues) {
+            const id = `id_day_${val}`;
+            document.getElementById(id).checked = "Checker";
+          }
+        } else {
+          const id = `id_${field}`;
+          const attrValue = button.getAttribute(attr);
+          document.getElementById(id).value = attrValue;
+        }
+      }
+    });
+  }
+})();
+
