@@ -105,6 +105,72 @@ class CourseForm(forms.ModelForm):
 
         return cleaned
 
+class CoursePopupForm(forms.ModelForm):
+    class Meta:
+        model  = Course
+        fields = ["term","day","start_time","end_time"]
+
+    term = forms.ModelChoiceField(
+        queryset=CourseTerm.objects.all().order_by("name"),
+        required=True, empty_label="Select Term",
+        label="Term *",
+        widget=forms.Select(attrs={"class": "form-select"}),
+        error_messages={"required": "Term field is required."},
+    )
+    day = forms.ModelMultipleChoiceField(
+        queryset=CourseDay.objects.none(),  # will be set in __init__
+        required=False,
+        widget=forms.CheckboxSelectMultiple,   # renders 5 checkboxes
+        label="Days"
+    )
+    start_time = forms.ModelChoiceField(
+        queryset=CourseTime.objects.all().order_by("name"),
+        required=False, empty_label="Select Start Time",
+        widget=forms.Select(attrs={"class": "form-select"})
+    )
+    end_time = forms.ModelChoiceField(
+        queryset=CourseTime.objects.all().order_by("name"),
+        required=False, empty_label="Select End Time",
+        widget=forms.Select(attrs={"class": "form-select"})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Order Mon → Fri explicitly
+        order_case = Case(
+            When(name="Mon", then=0),
+            When(name="Tue", then=1),
+            When(name="Wed", then=2),
+            When(name="Thu", then=3),
+            When(name="Fri", then=4),
+            output_field=IntegerField(),
+        )
+
+        self.fields["day"].queryset = (
+            CourseDay.objects
+            .filter(name__in=["Mon", "Tue", "Wed", "Thu", "Fri"])
+            .annotate(day_order=order_case)
+            .order_by("day_order")
+        )
+
+    # --- validations ----
+    def clean(self):
+        cleaned = super().clean()
+
+        # time order (only if both provided)
+        start = cleaned.get("start_time")
+        end   = cleaned.get("end_time")
+        if start and end:
+                s = datetime.strptime(start.name[:5], "%H:%M")
+                e = datetime.strptime(end.name[:5], "%H:%M")
+                if not e > s:
+                    raise ValidationError(
+                        "End time must be later than start time."
+                    )
+
+        return cleaned
+
 
 class CourseTermForm(forms.ModelForm):
     class Meta:

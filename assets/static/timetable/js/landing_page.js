@@ -425,7 +425,7 @@
   const editModal = document.getElementById('editModal');
   if(editModal) {
     editModal.addEventListener('show.bs.modal', function (event) {
-      const courseFields = ['code', 'number', 'section', 'term', 'day', 'start_time', 'end_time', 'academic_year'] 
+      const courseFields = ['term', 'day', 'start_time', 'end_time'] 
       const button = event.relatedTarget;
       const course_id = button.getAttribute(`data-course-id`); 
 

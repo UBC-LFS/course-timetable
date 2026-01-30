@@ -14,6 +14,7 @@ from .forms import CourseNumberForm
 from .forms import CourseSectionForm
 from .forms import CourseTimeForm
 from .forms import CourseYearForm
+from .forms import CoursePopupForm
 from .models import Major, MajorYearLevel
 from .forms import MajorNameForm
 from django.urls import reverse
@@ -86,7 +87,7 @@ def landing_page(request):
     sections= CourseSection.objects.all()
     times   = CourseTime.objects.all()
     days    = CourseDay.objects.all()
-    form    = CourseForm()
+    popupform = CoursePopupForm()
 
     # Academic Year
     all_years = CourseYear.objects.values_list("name", flat=True)
@@ -341,7 +342,7 @@ def landing_page(request):
         'available_terms_for_year': available_terms_for_year,
         'course_filters_json': course_filters_json,
         'numbers_by_code_json': numbers_by_code_json,
-        'form': form,
+        'form': popupform,
     })
 
 def redirect_root(request):
@@ -490,7 +491,7 @@ def edit_course(request, course_id):
 @require_POST
 def modal_edit_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
-    form = CourseForm(request.POST, instance=course)
+    form = CoursePopupForm(request.POST, instance=course)
     if form.is_valid():
         obj = form.save()
         messages.success(request, "Course successfully updated.")
