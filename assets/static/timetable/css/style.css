@@ -4,6 +4,9 @@
   bottom: 0;
 }
 
+.wordmark {
+  letter-spacing: 3px;
+}
 
 .primary-bg {
   background-color: #002145;
