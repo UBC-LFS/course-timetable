@@ -133,6 +133,7 @@ class CoursePopupForm(forms.ModelForm):
         required=False, empty_label="Select End Time",
         widget=forms.Select(attrs={"class": "form-select"})
     )
+    query = forms.CharField(required=False, widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

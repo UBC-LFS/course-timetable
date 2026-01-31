@@ -498,7 +498,9 @@ def modal_edit_course(request, course_id):
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Update failed: {err}")
-    return redirect("scheduler:landing_page")
+    redirect_url_base = reverse("scheduler:landing_page")
+    search = form.cleaned_data["query"]
+    return redirect(f"{redirect_url_base}{search}")
  
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')

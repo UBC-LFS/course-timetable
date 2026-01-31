@@ -425,7 +425,7 @@
   const editModal = document.getElementById('editModal');
   if(editModal) {
     editModal.addEventListener('show.bs.modal', function (event) {
-      const courseFields = ['term', 'day', 'start_time', 'end_time'] 
+      const courseFields = ['term', 'day', 'start_time', 'end_time', 'query'] 
       const button = event.relatedTarget;
       const course_id = button.getAttribute(`data-course-id`); 
 
@@ -436,8 +436,6 @@
       for(const field of courseFields) {
         const attr = `data-course-${field}`;
         if (field == 'day') {
-
-          // attrValue should be of format 5,1,3 ...
           const attrValues= button.getAttribute(attr).split(',').map(s => s.trim()).map(Number).map(x => x-1);
           console.log(attrValues);
 
@@ -445,6 +443,10 @@
             const id = `id_day_${val}`;
             document.getElementById(id).checked = "Checker";
           }
+        } else if (field == 'query') {
+          const id = "id_query";
+          const query = window.location.search;
+          document.getElementById(id).value = query;
         } else {
           const id = `id_${field}`;
           const attrValue = button.getAttribute(attr);
