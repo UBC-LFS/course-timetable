@@ -1,7 +1,11 @@
-.sticky {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 0 auto;
 }
 
 .wordmark {
@@ -123,7 +127,6 @@
 /* VIEW COURSES section */
 
 .view-courses-container {
-  min-height: 100dvh;
   margin-left: 10px;
   margin-right: 10px;
 }
