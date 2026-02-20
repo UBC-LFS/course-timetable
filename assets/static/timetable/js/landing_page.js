@@ -439,7 +439,7 @@
         if (field == 'day') {
 
           const attrValues = new Set(button.getAttribute(attr).split(',').map(s => s.trim()).map(Number).map(x => x-1));
-          console.log(attrValues);
+          // console.log(attrValues);
 
           for(const day of [0,1,2,3,4]) {
             const id = `id_day_${day}`;
