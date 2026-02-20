@@ -430,19 +430,26 @@
       const course_id = button.getAttribute(`data-course-id`); 
 
       // TODO: If anyone figures out a way to not hardcode this link, then you should probably implement it 
-      const link = `course/${course_id}/`;
-
+      const link = `update_modal/${course_id}/`;
       document.getElementById('editForm').action = link;
+
+      // prefill form fields
       for(const field of courseFields) {
         const attr = `data-course-${field}`;
         if (field == 'day') {
-          const attrValues= button.getAttribute(attr).split(',').map(s => s.trim()).map(Number).map(x => x-1);
+
+          const attrValues = new Set(button.getAttribute(attr).split(',').map(s => s.trim()).map(Number).map(x => x-1));
           console.log(attrValues);
 
-          for(const val of attrValues) {
-            const id = `id_day_${val}`;
-            document.getElementById(id).checked = "Checker";
+          for(const day of [0,1,2,3,4]) {
+            const id = `id_day_${day}`;
+            if(attrValues.has(day)){
+              document.getElementById(id).checked = true;
+            } else {
+              document.getElementById(id).checked = false;
+            }
           }
+
         } else if (field == 'query') {
           const id = "id_query";
           const query = window.location.search;
@@ -453,6 +460,9 @@
           document.getElementById(id).value = attrValue;
         }
       }
+
+      // Update title of course we are editing
+      // document.getElementById('editForm').querySelector('h5').content += `${editModal.dataset.courseCodeName} ${editModal.dataset.courseNumberName} ${editModal.dataset.courseSectionName}`
     });
   }
 })();

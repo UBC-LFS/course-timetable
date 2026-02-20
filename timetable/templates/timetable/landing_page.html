@@ -193,7 +193,6 @@
                                   <strong>{{ course.code.name|default:'None' }} {{ course.number.name|default:'None' }} {{ course.section.name|default:'None' }}</strong>
                                 </a>
                               </div>
-                            </button>
 
                             <!-- Course Details Modal -->
                               <div class="modal fade" id="detailModal{{course.id}}">
@@ -216,7 +215,6 @@
                                         <p> <strong> Course Term</strong>: {{ course.term.name }}</p>
                                       </div>
                                       <div class="mb-3">
-                                        <!-- TODO: Order the days by order of the week as opposed to alphabetical order -->
                                         <p> <strong> Course Days</strong>: {{ course.day_names|join:',' }}</p>
                                       </div>
                                       <div class="mb-3">
