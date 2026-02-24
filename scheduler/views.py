@@ -313,9 +313,9 @@ def landing_page(request):
         for c in courses:
             c.day_data = {
                 "Mon":   {"overlap": getattr(c, 'Mon_overlaps',   None), "width": getattr(c, 'Mon_overlap_width',   None), "left": getattr(c, 'Mon_offset_left',   None), "z": getattr(c, 'Mon_zindex',   None)},
-                "Tue":  {"overlap": getattr(c, 'Tues_overlaps',  None), "width": getattr(c, 'Tues_overlap_width',  None), "left": getattr(c, 'Tues_offset_left',  None), "z": getattr(c, 'Tues_zindex',  None)},
+                "Tue":  {"overlap": getattr(c, 'Tue_overlaps',  None), "width": getattr(c, 'Tue_overlap_width',  None), "left": getattr(c, 'Tue_offset_left',  None), "z": getattr(c, 'Tue_zindex',  None)},
                 "Wed":   {"overlap": getattr(c, 'Wed_overlaps',   None), "width": getattr(c, 'Wed_overlap_width',   None), "left": getattr(c, 'Wed_offset_left',   None), "z": getattr(c, 'Wed_zindex',   None)},
-                "Thu": {"overlap": getattr(c, 'Thurs_overlaps', None), "width": getattr(c, 'Thurs_overlap_width', None), "left": getattr(c, 'Thurs_offset_left', None), "z": getattr(c, 'Thurs_zindex', None)},
+                "Thu": {"overlap": getattr(c, 'Thu_overlaps', None), "width": getattr(c, 'Thu_overlap_width', None), "left": getattr(c, 'Thu_offset_left', None), "z": getattr(c, 'Thu_zindex', None)},
                 "Fri":   {"overlap": getattr(c, 'Fri_overlaps',   None), "width": getattr(c, 'Fri_overlap_width',   None), "left": getattr(c, 'Fri_offset_left',   None), "z": getattr(c, 'Fri_zindex',   None)},
             }
 
