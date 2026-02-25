@@ -174,6 +174,7 @@
                         {% if day in course.day_names %}
                           {% if course.start_time and course.start_time.name|slice:":2" == hour %}
                             <!-- Course item -->
+                            <a onclick="" data-bs-toggle="modal" data-bs-target="#detailModal{{course.id}}">
                               <div class="course-item {% if data.overlap %}overlap{% endif %}"
                                   data-height="{{ course.pixel_height }}"
                                   data-bg="{{ course.code.color }}"
@@ -189,10 +190,9 @@
                                   data-section="{{ course.section.name|default:'None' }}"
                                   data-academic-year="{{ course.academic_year.name|default:'None' }}"
                                   data-term="{{ course.term.name|default:'None' }}">
-                                <a href="" data-bs-toggle="modal" data-bs-target="#detailModal{{course.id}}">
-                                  <strong>{{ course.code.name|default:'None' }} {{ course.number.name|default:'None' }} {{ course.section.name|default:'None' }}</strong>
-                                </a>
+                                <strong>{{ course.code.name|default:'None' }} {{ course.number.name|default:'None' }} {{ course.section.name|default:'None' }}</strong>
                               </div>
+                            </a>
 
                             <!-- Course Details Modal -->
                               <div class="modal fade" id="detailModal{{course.id}}">
