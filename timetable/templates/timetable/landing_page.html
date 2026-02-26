@@ -243,43 +243,6 @@
                                 </div>
                               </div>
 
-                            <!-- Update Course Modal -->
-                              <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog">
-                                  <div class="modal-content">
-                                    <form id="editForm" method="post">
-                                      {% csrf_token %}
-                                      <div class="modal-header">
-                                        <h5> Edit Course Details </h5>
-                                      </div>
-                                      <div class="modal-body">
-                                        <div class="mb-3">
-                                          <label class="form-label">Term *</label>
-                                          {{ form.term }}
-                                        </div>
-                                        <div class="mb-3">
-                                          <label class="form-label">Day *</label>
-                                          {{ form.day }}
-                                        </div>
-                                        <div class="mb-3">
-                                          <label class="form-label">Start Time</label>
-                                          {{ form.start_time }}
-                                        </div>
-                                        <div class="mb-3">
-                                          <label class="form-label">End Time</label>
-                                          {{ form.end_time }}
-                                        </div>
-                                        <div class="mb-3">
-                                          {{ form.query }}
-                                        </div>
-                                      </div>
-                                      <div class="modal-footer">
-                                        <button type="submit" class="btn btn-warning"> Update </button>
-                                      </div>
-                                    </form> 
-                                  </div>
-                                </div>
-                              </div>
                           {% endif %}
                         {% endif %}
                       {% endwith %}
@@ -308,6 +271,7 @@
                       <th>Section</th>
                       <th>Academic Year</th>
                       <th>Term</th>
+                      <th>Edit</th>
                   </tr>
               </thead>
               <tbody>
@@ -318,6 +282,18 @@
                       <td>{{ course.section }}</td>
                       <td>{{ course.academic_year }}</td>
                       <td>{{ course.term }}</td>
+                      <td>
+                        <button class="btn btn-sm btn-warning"
+                                data-bs-toggle="modal"
+                                data-bs-target="#editModal"
+                                data-course-id="{{ course.id }}"
+                                data-course-term="{{ course.term.id }}"
+                                data-course-day="{% for d in course.day.all %}{{ d.id }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                                data-course-start_time="{{ course.start_time.id }}"
+                                data-course-end_time="{{ course.end_time.id }}">
+                          Edit
+                        </button>
+                      </td>
                   </tr>
                   {% empty %}
                   {% endfor %}
@@ -327,6 +303,44 @@
         </div>
       {% endif %}
     {% endif %}
+
+  <!-- Update Course Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="editForm" method="post">
+            {% csrf_token %}
+            <div class="modal-header">
+              <h5> Edit Course Details </h5>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">Term *</label>
+                {{ form.term }}
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Day *</label>
+                {{ form.day }}
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Start Time</label>
+                {{ form.start_time }}
+              </div>
+              <div class="mb-3">
+                <label class="form-label">End Time</label>
+                {{ form.end_time }}
+              </div>
+              <div class="mb-3">
+                {{ form.query }}
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-warning"> Update </button>
+            </div>
+          </form> 
+        </div>
+      </div>
+    </div>
   
   </div>
 </div>
