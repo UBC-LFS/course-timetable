@@ -378,11 +378,11 @@ def view_courses(request):
             if year_query:
                 courses = courses.filter(academic_year__name__in=year_query)
             if code_query:
-                courses = courses.filter(code__name__exact=code_query)
+                courses = courses.filter(code__name__icontains=code_query)
             if number_query:
-                courses = courses.filter(number__name__exact=number_query)
+                courses = courses.filter(number__name__icontains=number_query)
             if section_query:
-                courses = courses.filter(section__name__exact=section_query)
+                courses = courses.filter(section__name__icontains=section_query)
             if term_query:
                 courses = courses.filter(term__name__in=term_query)
             if day_query:
