@@ -433,6 +433,9 @@
       const link = `update_modal/${course_id}/`;
       document.getElementById('editForm').action = link;
 
+      // Update title of course we are editing
+      document.getElementById('editForm').querySelector('h5').textContent = `Editing ${button.dataset.courseCode} ${button.dataset.courseNumber} ${button.dataset.courseSection}`
+
       // prefill form fields
       for(const field of courseFields) {
         const attr = `data-course-${field}`;
@@ -469,8 +472,6 @@
         }
       }
 
-      // Update title of course we are editing
-      // document.getElementById('editForm').querySelector('h5').content += `${editModal.dataset.courseCodeName} ${editModal.dataset.courseNumberName} ${editModal.dataset.courseSectionName}`
     });
   }
 })();

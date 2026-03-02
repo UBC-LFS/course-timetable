@@ -232,6 +232,9 @@
                                               data-bs-toggle="modal"
                                               data-bs-target="#editModal"
                                               data-course-id="{{ course.id }}"
+                                              data-course-code="{{ course.code.name }}"
+                                              data-course-number="{{ course.number.name }}"
+                                              data-course-section="{{ course.section.name }}"
                                               data-course-term="{{ course.term.id }}"
                                               data-course-day="{{ course.day_names|join:',' }}"
                                               data-course-start_time="{{ course.start_time.id }}"
@@ -287,6 +290,9 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#editModal"
                                 data-course-id="{{ course.id }}"
+                                data-course-code="{{ course.code.name }}"
+                                data-course-number="{{ course.number.name }}"
+                                data-course-section="{{ course.section.name }}"
                                 data-course-term="{{ course.term.id }}"
                                 data-course-day="{{ course.day_names|join:',' }}"
                                 data-course-start_time="{{ course.start_time.id }}"
@@ -311,7 +317,8 @@
           <form id="editForm" method="post">
             {% csrf_token %}
             <div class="modal-header">
-              <h5> Edit Course Details </h5>
+              <!-- This element should be empty. It's updated by the javascript -->
+              <h5></h5>
             </div>
             <div class="modal-body">
               <div class="mb-3">
