@@ -3,6 +3,7 @@
   position: absolute;
   right: 0;          /* anchor to the right edge */
   left: auto;        /* ignore any left positioning */
+  top: -.1rem;
   border-radius: .4rem;
   padding: .25rem .35rem;
   font-size: .8rem;
