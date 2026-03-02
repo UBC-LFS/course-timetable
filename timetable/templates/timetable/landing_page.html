@@ -233,7 +233,7 @@
                                               data-bs-target="#editModal"
                                               data-course-id="{{ course.id }}"
                                               data-course-term="{{ course.term.id }}"
-                                              data-course-day="{% for d in course.day.all %}{{ d.id }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                                              data-course-day="{{ course.day_names|join:',' }}"
                                               data-course-start_time="{{ course.start_time.id }}"
                                               data-course-end_time="{{ course.end_time.id }}">
                                         Edit
@@ -288,7 +288,7 @@
                                 data-bs-target="#editModal"
                                 data-course-id="{{ course.id }}"
                                 data-course-term="{{ course.term.id }}"
-                                data-course-day="{% for d in course.day.all %}{{ d.id }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                                data-course-day="{{ course.day_names|join:',' }}"
                                 data-course-start_time="{{ course.start_time.id }}"
                                 data-course-end_time="{{ course.end_time.id }}">
                           Edit

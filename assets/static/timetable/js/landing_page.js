@@ -438,20 +438,28 @@
         const attr = `data-course-${field}`;
         if (field == 'day') {
 
-          const attrValues = new Set(button.getAttribute(attr).split(',').map(s => s.trim()).map(Number).map(x => x-1));
-          // console.log(attrValues);
+          // const attrValues = new Set(button.getAttribute(attr).split(',').map(s => s.trim()).map(Number).map(x => x-1));
+          const attrValues = new Set(button.getAttribute(attr).split(',').map(s => s.trim()));
+          console.log(attrValues);
 
-          for(const day of [0,1,2,3,4]) {
-            const id = `id_day_${day}`;
-            if(attrValues.has(day)){
-              document.getElementById(id).checked = true;
+          for(const dayNum of [0,1,2,3,4]) {
+            const elementId = `id_day_${dayNum}`;
+            const numToDayMap = {
+              0: 'Mon',
+              1: 'Tue',
+              2: 'Wed',
+              3: 'Thu',
+              4: 'Fri',
+            }
+            if(attrValues.has(numToDayMap[dayNum])){
+              document.getElementById(elementId).checked = true;
             } else {
-              document.getElementById(id).checked = false;
+              document.getElementById(elementId).checked = false;
             }
           }
 
         } else if (field == 'query') {
-          const id = "id_query";
+          const id = 'id_query';
           const query = window.location.search;
           document.getElementById(id).value = query;
         } else {
