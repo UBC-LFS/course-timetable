@@ -126,6 +126,46 @@
             </div>
           </div>
 
+          <!-- Class times -->
+          <div class="mb-3">
+            <div class="fw-semibold mb-1">By Time: </div>
+            <div class="row g-2">
+
+              <!-- Days -->
+              <div class="col-md-4">
+                <label class="form-label">Days</label>
+                <select id="prog-name" name="days" class="form-select">
+                  <option value="">-- Select Days --</option>
+                  {% for day in days %}
+                    <option value="{{ day.name }}">{{ day.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <!-- Start Time -->
+              <div class="col-md-4">
+                <label class="form-label">Starting Time</label>
+                <select id="prog-name" name="starttime" class="form-select">
+                  <option value="">-- Select Start Time --</option>
+                  {% for time in times  %}
+                    <option value="{{ time.name }}">{{ time.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <!-- End Time -->
+              <div class="col-md-4">
+                <label class="form-label">End Time</label>
+                <select id="prog-level" name="endtime" class="form-select">
+                  <option value="">-- Select End Time --</option>
+                  {% for time in times %}
+                    <option value="{{ time.name }}">{{ time.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
