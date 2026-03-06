@@ -19,7 +19,7 @@ from .models import Major, MajorYearLevel
 from .forms import MajorNameForm
 from django.urls import reverse
 from django.http import JsonResponse
-from django.db.models import Min
+from django.db.models import Min, Case, When, IntegerField
 from django.views.decorators.http import require_GET
 import json
 from django.contrib.auth.decorators import login_required
@@ -80,13 +80,28 @@ def ajax_terms_for_year(request):
 @login_required(login_url='accounts:ldap_login')
 def landing_page(request):
 
+    # helper: turn "HH:MM" into minutes since midnight
+    def _mins(hhmm: str) -> int:
+        hh, mm = map(int, hhmm.split(":"))
+        return hh * 60 + mm
+
+    # Order Mon → Fri explicitly
+    order_case = Case(
+        When(name="Mon", then=0),
+        When(name="Tue", then=1),
+        When(name="Wed", then=2),
+        When(name="Thu", then=3),
+        When(name="Fri", then=4),
+        output_field=IntegerField(),
+    )
+
     hour_list = ["08","09","10","11","12","13","14","15","16","17","18","19","20","21"]
     terms   = CourseTerm.objects.all()
     codes   = CourseCode.objects.all()
     numbers = CourseNumber.objects.all()
     sections= CourseSection.objects.all()
     times   = CourseTime.objects.all()
-    days    = CourseDay.objects.all()
+    days    = CourseDay.objects.filter(name__in=["Mon", "Tue", "Wed", "Thu", "Fri"]).annotate(day_order=order_case).order_by("day_order")
     popupform = CoursePopupForm()
 
     # Academic Year
@@ -100,6 +115,9 @@ def landing_page(request):
     selected_terms = request.GET.getlist("term") # multi-select
     selected_pname = request.GET.get("pname", "").strip()
     selected_plevel = request.GET.get("plevel", "").strip()
+    selected_days = request.GET.getlist("days") # multi-select
+    selected_starttime = request.GET.get("start", "").strip()
+    selected_endtime = request.GET.get("end", "").strip()
     course_filters_json = request.GET.get("course_filters_json", "").strip()
     course_filters = []
     if course_filters_json:
@@ -212,8 +230,10 @@ def landing_page(request):
             elif selected_pname and selected_plevel:
                 base_qs = base_qs.filter(majors__name__name=selected_pname,
                                           majors__year_level__name=selected_plevel)
-            all_courses = base_qs
 
+            # By times
+            # TODO: Implement 
+            all_courses = base_qs
         # A course is valid only if it has at least one day AND both times AND 5 things
         courses = []
         for c in all_courses:
@@ -259,11 +279,6 @@ def landing_page(request):
                     cur_time += INTERVAL
         
         # compute overlaps
-        # helper: turn "HH:MM" into minutes since midnight
-        def _mins(hhmm: str) -> int:
-            hh, mm = map(int, hhmm.split(":"))
-            return hh * 60 + mm
-        
         # Build day -> courses (sorted by start_time then id for stability)
         day_to_courses = {"Mon": [], "Tue": [], "Wed": [], "Thu": [], "Fri": []}
         for c in courses:
@@ -338,6 +353,9 @@ def landing_page(request):
         'major_names': major_names,
         'selected_pname': selected_pname,
         'selected_plevel': selected_plevel,
+        'selected_days': selected_days,
+        'selected_starttime': selected_starttime,
+        'selected_endtime': selected_endtime,
         'available_levels_for_name': available_levels_for_name,
         'available_terms_for_year': available_terms_for_year,
         'course_filters_json': course_filters_json,

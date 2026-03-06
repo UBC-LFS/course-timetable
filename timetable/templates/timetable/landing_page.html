@@ -134,10 +134,9 @@
               <!-- Days -->
               <div class="col-md-4">
                 <label class="form-label">Days</label>
-                <select id="prog-name" name="days" class="form-select">
-                  <option value="">-- Select Days --</option>
+                <select id="days" name="days" class="form-select" multiple {% if not selected_terms %} disabled {% endif %}>
                   {% for day in days %}
-                    <option value="{{ day.name }}">{{ day.name }}</option>
+                    <option value="{{ day.name }}" {% if day.name in selected_days %} selected {% endif %}>{{ day.name }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -145,10 +144,10 @@
               <!-- Start Time -->
               <div class="col-md-4">
                 <label class="form-label">Starting Time</label>
-                <select id="prog-name" name="starttime" class="form-select">
+                <select id="start-time" name="start" class="form-select" {% if not selected_terms %} disabled {% endif %}>
                   <option value="">-- Select Start Time --</option>
                   {% for time in times  %}
-                    <option value="{{ time.name }}">{{ time.name }}</option>
+                    <option value="{{ time.name }}" {% if time.name in selected_starttime %} selected {% endif %}>{{ time.name }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -156,10 +155,10 @@
               <!-- End Time -->
               <div class="col-md-4">
                 <label class="form-label">End Time</label>
-                <select id="prog-level" name="endtime" class="form-select">
+                <select id="end-time" name="end" class="form-select" {% if not selected_terms %} disabled {% endif %}>
                   <option value="">-- Select End Time --</option>
                   {% for time in times %}
-                    <option value="{{ time.name }}">{{ time.name }}</option>
+                    <option value="{{ time.name }}" {% if time.name in selected_endtime %} selected {% endif %}>{{ time.name }}</option>
                   {% endfor %}
                 </select>
               </div>

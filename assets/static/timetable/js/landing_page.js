@@ -404,6 +404,75 @@
   nameSel?.addEventListener('change', e => loadLevelsFor(e.target.value));
 })();
 
+// By time
+(function() {
+
+  const termSel = document.getElementById('term-select');
+  const daySel = document.getElementById('days');
+  const startTimeSel = document.getElementById('start-time');
+  const endTimeSel = document.getElementById('end-time');
+
+  // helper: initialize Select2 on #days
+  function initDaysSelect2() {
+    if($(daySel).hasClass('select2-hidden-accessible')) {
+      $(daySel).select2('destroy');
+    } 
+    $(daySel).select2({
+      placeholder: ' -- Select Days --',
+      width: '100%',
+      allowClear: true
+    });
+  }
+
+  initDaysSelect2()
+
+  function disableTimeFilters() {
+    // insert code for disabling time filters
+    if(startTimeSel) {
+      startTimeSel.value = '';
+      startTimeSel.disabled = true;
+    }
+
+    if(endTimeSel) {
+      endTimeSel.value = '';
+      endTimeSel.disabled = true;
+    }
+
+    if(daySel) {
+      daySel.value = '';
+      daySel.disabled = true;
+    }
+  }
+
+  function enableTimeFilters() {
+    if(startTimeSel) {
+      startTimeSel.disabled = false;
+    }
+
+    if(endTimeSel) {
+      endTimeSel.disabled = false;
+    }
+
+    if(daySel) {
+      daySel.disabled = false;
+    }
+  }
+
+  function updateFromTerms() {
+    const vals = $(termSel).val();
+    const hasTerms = Array.isArray(vals) && vals.length > 0;
+    if (hasTerms) {
+      enableTimeFilters();
+    } else {
+      disableTimeFilters();
+      initDaysSelect2();
+    }
+  }
+
+  $(termSel).on('change', updateFromTerms);
+})();
+
+
 // Clear Button
 (function () {
   const clearBtn = document.getElementById('clear-filters');
