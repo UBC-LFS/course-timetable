@@ -232,7 +232,11 @@ def landing_page(request):
                                           majors__year_level__name=selected_plevel)
 
             # By times
-            # TODO: Implement 
+            if selected_days:
+                base_qs = base_qs.filter(day__name__in=selected_days)
+            
+            # TODO: Implement based on start and end times 
+
             all_courses = base_qs
         # A course is valid only if it has at least one day AND both times AND 5 things
         courses = []
