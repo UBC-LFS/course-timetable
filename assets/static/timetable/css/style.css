@@ -35,6 +35,10 @@ main {
   padding: 0px;
 }
 
+.time-text-offset {
+  margin-top: -2.0rem;
+}
+
 .rounded-corner-table {
   border-radius: 12px;
   border: 1px solid #eee;
