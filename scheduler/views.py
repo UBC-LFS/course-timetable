@@ -234,18 +234,29 @@ def landing_page(request):
             # By times
             if selected_days:
                 base_qs = base_qs.filter(day__name__in=selected_days)
-            
-            # TODO: Implement based on start and end times 
+
+            # Not possible to filter for start/end times on database 
 
             all_courses = base_qs
+
         # A course is valid only if it has at least one day AND both times AND 5 things
         courses = []
         for c in all_courses:
             has_times = (c.start_time is not None and c.end_time is not None)
             has_days  = c.day.exists()
             has_5_things_on_slug = (c.code is not None and c.number is not None and c.section is not None and c.academic_year is not None and c.term is not None)
+
             if has_times and has_days and has_5_things_on_slug:
-                courses.append(c)
+                START_TIME = selected_starttime if selected_starttime else '8:00'
+                END_TIME = selected_endtime if selected_endtime else '21:00'
+                course_start_min = _mins(c.start_time.name[:5])
+                course_end_min = _mins(c.end_time.name[:5])
+                selected_start_min = _mins(START_TIME)
+                selected_end_min = _mins(END_TIME)
+                if course_start_min < selected_start_min or course_end_min > selected_end_min:
+                    continue
+                else:
+                    courses.append(c)
             else:
                 invalid_courses.append(c)
     
