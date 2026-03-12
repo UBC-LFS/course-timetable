@@ -1,31 +1,28 @@
-from django.shortcuts import render
-from .models import CourseTerm, CourseCode, CourseNumber, CourseSection, CourseTime, CourseDay, Course, CourseYear, MajorName
-from datetime import datetime, timedelta
-from django.shortcuts import redirect
+from .models import (
+    CourseTerm, CourseCode, CourseNumber, 
+    CourseSection, CourseTime, CourseDay, 
+    Course, CourseYear, MajorName, 
+    Major, MajorYearLevel, Timeslot, HistoryLog,
+    HistoryTopic, HistoryAction
+)
+from .forms import (
+    CourseForm, CourseTermForm, CourseCodeForm, CourseNumberForm,
+    CourseSectionForm, CourseTimeForm, CourseYearForm, CoursePopupForm,
+    MajorNameForm
+)
+from django.db.models import Q, Min, Case, When, IntegerField
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.http import require_POST, require_GET
+from django.views.decorators.cache import cache_control
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.db.models import Q
-from .forms import CourseForm
-from django.shortcuts import get_object_or_404
-from django.views.decorators.http import require_POST
-from .forms import CourseTermForm
-from .forms import CourseCodeForm
-from .forms import CourseNumberForm
-from .forms import CourseSectionForm
-from .forms import CourseTimeForm
-from .forms import CourseYearForm
-from .forms import CoursePopupForm
-from .models import Major, MajorYearLevel
-from .forms import MajorNameForm
 from django.urls import reverse
 from django.http import JsonResponse
-from django.db.models import Min, Case, When, IntegerField
-from django.views.decorators.http import require_GET
-import json
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.cache import cache_control
-from .models import HistoryLog, HistoryTopic, HistoryAction
 from django.utils import timezone
+
+from datetime import datetime, timedelta
+import json
 from zoneinfo import ZoneInfo
 import openpyxl
 import os
@@ -506,17 +503,17 @@ def edit_course(request, course_id):
     if request.method == "POST":
         form = CourseForm(request.POST, instance=course)
         if form.is_valid():
-            form.save()
+            course_form.save()
             messages.success(request, "Course edited.")
             return redirect("scheduler:view_courses")
-        summary = _summarize_form_errors(form) or "Please fix the errors and try again."
+        summary = _summarize_form_errors(course_form) or "Please fix the errors and try again."
         messages.error(request, f"Edit failed: {summary}")
     else:
-        form = CourseForm(instance=course)
+        course_form = CourseForm(instance=course)
 
     return render(request, "timetable/course_form.html", {
         "title": "Edit Course",
-        "form": form,
+        "course_form": course_form,
     })
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
