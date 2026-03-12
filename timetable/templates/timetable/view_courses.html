@@ -11,159 +11,159 @@
 <link rel="stylesheet" href="{% static 'timetable/css/view_courses.css' %}">
 
 <div class="view-courses-container {% if not submitted or not year_query %}no-results{% endif %}">
-    <div class="courses-navbar">
-            <form method="get" action="{% url 'scheduler:view_courses' %}" class="mb-3 row g-3 align-items-end">
-                
-                <div class="col-md-3">
-                    <label class="form-label">Academic Year *</label>
-                    <select id="courses-year" name="year" class="form-select" multiple>
-                        {% for y in years %}
-                            <option value="{{ y }}" {% if y in year_query %}selected{% endif %}>{{ y }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class = "col-md-9">
-                    <!-- in order to let Code input start from second line -->
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">Code</label>
-                    <input type="text" name="code" placeholder="Code (e.g. FNH)" value="{{ code_query }}" class="form-control">
-                </div>
-                
-                <div class="col-md-2">
-                    <label class="form-label">Number</label>
-                    <input type="text" name="number" placeholder="Number (e.g. 200)" value="{{ number_query }}" class="form-control">
-                </div>
-                
-                <div class="col-md-2">
-                    <label class="form-label">Section</label>
-                    <input type="text" name="section" placeholder="Section (e.g. 001)" value="{{ section_query }}" class="form-control">
-                </div>
-
-                <div class="col-md-3">
-                    <label class="form-label">Term</label>
-                    <select id="courses-term" name="term" class="form-select" multiple>
-                        {% for t in terms %}
-                            <option value="{{ t }}" {% if t in term_query %}selected{% endif %}>{{ t }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                
-                <div class="col-md-3">
-                    <label class="form-label">Day</label>
-                    <select id="courses-day" name="day" class="form-select" multiple>
-                        {% for d in days %}
-                            <option value="{{ d }}" {% if d in day_query %}selected{% endif %}>{{ d }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-              
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary control-height px-3" name="search" value="1">Search</button>
-                    <button type="button" id="clear-filters" class="btn btn-primary control-height px-3">Clear</button>
-                </div>
-
-            </form>
-              
-    </div>
-
-    <div class="d-flex justify-content-between mb-3">
-        <a href="{% url 'scheduler:create_course' %}" class="btn btn-primary">Create</a>
-    </div>
-
-    {% if submitted and year_query %}
-        <!-- Courses Table -->
-        <div class="table-wrapper table-responsive w-10 ml-5 mr-5">
-            <table class="table table-bordered table-striped table-hover text-center">
-                <thead>
-                    <tr>
-                        <th>Code</th>
-                        <th>Number</th>
-                        <th>Section</th>
-                        <th>Term</th>
-                        <th>Start</th>
-                        <th>End</th>
-                        <th>Day</th>
-                        <th>Academic Year</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for course in courses %}
-                    <tr>
-                        <td>{{ course.code }}</td>
-                        <td>{{ course.number }}</td>
-                        <td>{{ course.section }}</td>
-                        <td>{{ course.term }}</td>
-                        <td>{{ course.start_time }}</td>
-                        <td>{{ course.end_time }}</td>
-                        <td>{{ course.day_names|join:','|default:"None" }}</td>
-                        <td>{{ course.academic_year }}</td>
-                        <td>
-                            <a href="{% url 'scheduler:edit_course' course.id %}" class="btn btn-warning btn-sm">Edit</a>
-                        </td>
-                        <td>
-                            <a href="{% url 'scheduler:delete_course' course.id %}" class="btn btn-danger btn-sm">Delete</a>
-                        </td>                          
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="10">No courses found.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+  <div class="courses-navbar">
+      <form method="get" action="{% url 'scheduler:view_courses' %}" class="mb-3 row g-3 align-items-end">
+        
+        <div class="col-md-3">
+          <label class="form-label">Academic Year *</label>
+          <select id="courses-year" name="year" class="form-select" multiple>
+            {% for y in years %}
+              <option value="{{ y }}" {% if y in year_query %}selected{% endif %}>{{ y }}</option>
+            {% endfor %}
+          </select>
         </div>
 
+        <div class = "col-md-9">
+          <!-- in order to let Code input start from second line -->
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label">Code</label>
+          <input type="text" name="code" placeholder="Code (e.g. FNH)" value="{{ code_query }}" class="form-control">
+        </div>
         
-        <!--──────── PAGINATION CONTROLS ────────-->
-        <div class="pagination-container mt-3 d-flex justify-content-center">
-            <nav aria-label="Course pagination">
-            <ul class="pagination">
+        <div class="col-md-2">
+          <label class="form-label">Number</label>
+          <input type="text" name="number" placeholder="Number (e.g. 200)" value="{{ number_query }}" class="form-control">
+        </div>
         
-                {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a class="page-link"
-                    href="?{{ querystring }}&page={{ page_obj.previous_page_number }}">
-                    Previous
-                    </a>
-                </li>
-                {% else %}
-                <li class="page-item disabled"><span class="page-link">Previous</span></li>
-                {% endif %}
+        <div class="col-md-2">
+          <label class="form-label">Section</label>
+          <input type="text" name="section" placeholder="Section (e.g. 001)" value="{{ section_query }}" class="form-control">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Term</label>
+          <select id="courses-term" name="term" class="form-select" multiple>
+            {% for t in terms %}
+              <option value="{{ t }}" {% if t in term_query %}selected{% endif %}>{{ t }}</option>
+            {% endfor %}
+          </select>
+        </div>
         
-                {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
-                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
-                {% else %}
-                    <li class="page-item">
-                    <a class="page-link"
-                        href="?{{ querystring }}&page={{ num }}">
-                        {{ num }}
-                    </a>
-                    </li>
-                {% endif %}
-                {% endfor %}
+        <div class="col-md-3">
+          <label class="form-label">Day</label>
+          <select id="courses-day" name="day" class="form-select" multiple>
+            {% for d in days %}
+              <option value="{{ d }}" {% if d in day_query %}selected{% endif %}>{{ d }}</option>
+            {% endfor %}
+          </select>
+        </div>
         
-                {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link"
-                    href="?{{ querystring }}&page={{ page_obj.next_page_number }}">
-                    Next
-                    </a>
-                </li>
-                {% else %}
-                <li class="page-item disabled"><span class="page-link">Next</span></li>
-                {% endif %}
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-primary control-height px-3" name="search" value="1">Search</button>
+          <button type="button" id="clear-filters" class="btn btn-primary control-height px-3">Clear</button>
+        </div>
+
+      </form>
         
-            </ul>
-            </nav>
-        </div> 
-    {% endif %}
+  </div>
+
+  <div class="d-flex justify-content-between mb-3">
+    <a href="{% url 'scheduler:create_course' %}" class="btn btn-primary">Create</a>
+  </div>
+
+  {% if submitted and year_query %}
+    <!-- Courses Table -->
+    <div class="table-wrapper table-responsive w-10 ml-5 mr-5">
+      <table class="table table-bordered table-striped table-hover text-center">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Number</th>
+            <th>Section</th>
+            <th>Term</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Day</th>
+            <th>Academic Year</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for course in courses %}
+          <tr>
+            <td>{{ course.code }}</td>
+            <td>{{ course.number }}</td>
+            <td>{{ course.section }}</td>
+            <td>{{ course.term }}</td>
+            <td>{{ course.start_time }}</td>
+            <td>{{ course.end_time }}</td>
+            <td>{{ course.day_names|join:','|default:"None" }}</td>
+            <td>{{ course.academic_year }}</td>
+            <td>
+              <a href="{% url 'scheduler:edit_course' course.id %}" class="btn btn-warning btn-sm">Edit</a>
+            </td>
+            <td>
+              <a href="{% url 'scheduler:delete_course' course.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>                          
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="10">No courses found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
     
+    <!--──────── PAGINATION CONTROLS ────────-->
+    <div class="pagination-container mt-3 d-flex justify-content-center">
+      <nav aria-label="Course pagination">
+      <ul class="pagination">
+    
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link"
+          href="?{{ querystring }}&page={{ page_obj.previous_page_number }}">
+          Previous
+          </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+        {% endif %}
+    
+        {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+        {% else %}
+          <li class="page-item">
+          <a class="page-link"
+            href="?{{ querystring }}&page={{ num }}">
+            {{ num }}
+          </a>
+          </li>
+        {% endif %}
+        {% endfor %}
+    
+        {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link"
+          href="?{{ querystring }}&page={{ page_obj.next_page_number }}">
+          Next
+          </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Next</span></li>
+        {% endif %}
+    
+      </ul>
+      </nav>
+    </div> 
+  {% endif %}
+  
 </div>
 <script src="{% static 'timetable/js/view_courses.js' %}"></script>
 {% endblock %}
