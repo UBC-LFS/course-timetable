@@ -97,6 +97,8 @@ class Course(models.Model):
     start_time = models.ForeignKey(CourseTime, on_delete=models.SET_NULL, null=True, blank=True, related_name="start_time")
     end_time = models.ForeignKey(CourseTime, on_delete=models.SET_NULL, null=True, blank=True, related_name="end_time")
     day = models.ManyToManyField(CourseDay, blank=True, related_name="courses")
+    off_cycle = models.BooleanField(default=False)
+    
     slug = models.SlugField(max_length=256, unique=True)    # URL-friendly identifier
 
     class Meta:
@@ -126,6 +128,11 @@ class Course(models.Model):
     def __str__(self):
         return f"{self.code.name} {self.number.name} {self.section.name} ({self.academic_year.name}, {self.term.name})"
     
+class Timeslot(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True)
+    day = models.ForeignKey(CourseDay, on_delete=models.SET_NULL, null=True, blank=True)
+    start_time = models.ForeignKey(CourseTime, on_delete=models.SET_NULL, null=True, blank=True, related_name="offcycle_start")
+    end_time = models.ForeignKey(CourseTime, on_delete=models.SET_NULL, null=True, blank=True, related_name="offsycle_end")
     
 class Major(models.Model):
     name = models.ForeignKey(MajorName, on_delete=models.CASCADE)
