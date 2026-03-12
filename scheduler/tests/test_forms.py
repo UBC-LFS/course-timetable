@@ -1,0 +1,100 @@
+from django.test import TestCase
+from datetime import datetime
+from scheduler.forms import CourseForm
+from scheduler.models import (
+    CourseCode, CourseNumber, CourseSection, CourseTerm,
+    CourseYear, CourseDay, CourseTime, Course
+)
+
+
+class CourseFormTest(TestCase):
+
+    def setUp(self):
+        self.code = CourseCode.objects.create(name="TEST_V", color="#123456")
+        self.number = CourseNumber.objects.create(name="100")
+        self.section = CourseSection.objects.create(name="001")
+        self.term = CourseTerm.objects.create(name="T1")
+        self.year = CourseYear.objects.create(name="2025")
+
+        self.monday = CourseDay.objects.create(name="Mon")
+        self.tuesday = CourseDay.objects.create(name="Tue")
+        self.wednesday = CourseDay.objects.create(name="Wed")
+        self.thursday = CourseDay.objects.create(name="Thu")
+        self.friday = CourseDay.objects.create(name="Fri")
+
+        # Times
+        self.t0800 = CourseTime.objects.create(name="08:00")
+        self.t0900 = CourseTime.objects.create(name="09:00")
+
+    def test_required_fields(self):
+        form = CourseForm(data={})
+        self.assertFalse(form.is_valid())
+
+        self.assertIn("code", form.errors)
+        self.assertIn("number", form.errors)
+        self.assertIn("section", form.errors)
+        self.assertIn("term", form.errors)
+        self.assertIn("academic_year", form.errors)
+
+    def test_day_ordering(self):
+        form = CourseForm()
+        day_names = [d.name for d in form.fields["day"].queryset]
+
+        self.assertEqual(day_names, ["Mon", "Tue", "Wed", "Thu", "Fri"])
+
+    def test_end_time_must_be_after_start_time(self):
+        form = CourseForm(
+            data={
+                "code": self.code.id,
+                "number": self.number.id,
+                "section": self.section.id,
+                "term": self.term.id,
+                "academic_year": self.year.id,
+                
+                # wrong order
+                "start_time": self.t0900.id,
+                "end_time": self.t0800.id,  
+            }
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("End time must be later than start time.", form.errors["__all__"])
+
+    def test_time_validation_passes_when_valid(self):
+        form = CourseForm(
+            data={
+                "code": self.code.id,
+                "number": self.number.id,
+                "section": self.section.id,
+                "term": self.term.id,
+                "academic_year": self.year.id,
+                "start_time": self.t0800.id,
+                "end_time": self.t0900.id,
+            }
+        )
+        self.assertTrue(form.is_valid())
+
+    def test_form_valid_with_all_fields(self):
+        form = CourseForm(
+            data={
+                "code": self.code.id,
+                "number": self.number.id,
+                "section": self.section.id,
+                "term": self.term.id,
+                "academic_year": self.year.id,
+                "day": [self.monday.id, self.wednesday.id],
+                "start_time": self.t0800.id,
+                "end_time": self.t0900.id,
+            }
+        )
+
+        self.assertTrue(form.is_valid())
+        obj = form.save()
+
+        self.assertEqual(obj.code, self.code)
+        self.assertEqual(obj.number, self.number)
+        self.assertEqual(obj.section, self.section)
+        self.assertEqual(obj.term, self.term)
+        self.assertEqual(obj.academic_year, self.year)
+        self.assertIn(self.monday, obj.day.all())
+        self.assertIn(self.wednesday, obj.day.all())
