@@ -1,12 +1,48 @@
 from django import forms
 from datetime import datetime 
 from .models import (
-    Course, CourseTerm, CourseCode, CourseNumber,
-    CourseSection, CourseYear, CourseTime, CourseDay, Role
+    Course, CourseTerm, CourseCode, CourseNumber, CourseSection,
+    CourseYear, CourseTime, CourseDay, MajorName, Role, Timeslot
 )
-from .models import MajorName
 from django.core.exceptions import ValidationError
 from django.db.models import Case, When, IntegerField
+
+class TimeslotForm(forms.ModelForm):
+    select_day = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput,
+    )
+    start_time = forms.ModelChoiceField(
+        queryset=CourseTime.objects.all().order_by("name"),
+        required=False, empty_label="Select Start Time",
+        widget=forms.Select(attrs={"class": "form-select"})
+    )
+    end_time   = forms.ModelChoiceField(
+        queryset=CourseTime.objects.all().order_by("name"),
+        required=False, empty_label="Select End Time",
+        widget=forms.Select(attrs={"class": "form-select"})
+    )
+
+    class Meta:
+        model  = Timeslot
+        fields = ["start_time","end_time"]
+
+    # --- validations ----
+    def clean(self):
+        cleaned = super().clean()
+
+        # time order (only if both provided)
+        start = cleaned.get("start_time")
+        end   = cleaned.get("end_time")
+        if start and end:
+                s = datetime.strptime(start.name[:5], "%H:%M")
+                e = datetime.strptime(end.name[:5], "%H:%M")
+                if not e > s:
+                    raise ValidationError(
+                        "End time must be later than start time."
+                    )
+
+        return cleaned
 
 class CourseForm(forms.ModelForm):
     # Required dropdowns (add * in labels)
@@ -177,6 +213,13 @@ class CoursePopupForm(forms.ModelForm):
 
         return cleaned
 
+TimeslotFormSet = forms.inlineformset_factory(
+    parent_model=Course,
+    model=Timeslot,
+    form=TimeslotForm,
+    extra=1,
+    can_delete=True
+)
 
 class CourseTermForm(forms.ModelForm):
     class Meta:
