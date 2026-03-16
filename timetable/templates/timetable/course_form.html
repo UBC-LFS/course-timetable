@@ -1,4 +1,6 @@
 {% extends "timetable/base.html" %}
+{% load static %}
+
 {% block content %}
 <div class="container mt-4">
   <h2>{{ title }}</h2>
@@ -8,54 +10,83 @@
 
     <!-- Code -->
     <div class="mb-3">
-      <label class="form-label">{{ form.code.label }}</label>
-      {{ form.code }}
+      <label class="form-label">{{ course_form.code.label }}</label>
+      {{ course_form.code }}
     </div>
 
     <!-- Number -->
     <div class="mb-3">
-      <label class="form-label">{{ form.number.label }}</label>
-      {{ form.number }}
+      <label class="form-label">{{ course_form.number.label }}</label>
+      {{ course_form.number }}
     </div>
 
     <!-- Section -->
     <div class="mb-3">
-      <label class="form-label">{{ form.section.label }}</label>
-      {{ form.section }}
+      <label class="form-label">{{ course_form.section.label }}</label>
+      {{ course_form.section }}
     </div>
 
     <!-- Term -->
     <div class="mb-3">
-      <label class="form-label">{{ form.term.label }}</label>
-      {{ form.term }}
+      <label class="form-label">{{ course_form.term.label }}</label>
+      {{ course_form.term }}
     </div>
 
-    <!-- Day (optional) -->
+    <!-- Off-cycle -->
     <div class="mb-3">
-      <label class="form-label">Day</label>
-      {{ form.day }}
+      <label class="form-label">{{ course_form.off_cycle.label }}</label>
+      {{ course_form.off_cycle }}
     </div>
 
-    <!-- Start Time (optional) -->
-    <div class="mb-3">
-      <label class="form-label">Start Time</label>
-      {{ form.start_time }}
+    <!-- Non off-cycle display -->
+    <div id="regular-options"> 
+      <!-- Day (optional) -->
+      <div class="mb-3">
+        <label class="form-label">Day</label>
+        {{ course_form.day }}
+      </div>
+
+      <!-- Start Time (optional) -->
+      <div class="mb-3">
+        <label class="form-label">Start Time</label>
+        {{ course_form.start_time }}
+      </div>
+
+      <!-- End Time (optional) -->
+      <div class="mb-3">
+        <label class="form-label">End Time</label>
+        {{ course_form.end_time }}
+      </div>
+
+      <!-- Academic Year -->
+      <div class="mb-3">
+        <label class="form-label">{{ course_form.academic_year.label }}</label>
+        {{ course_form.academic_year }}
+      </div>
     </div>
 
-    <!-- End Time (optional) -->
-    <div class="mb-3">
-      <label class="form-label">End Time</label>
-      {{ form.end_time }}
-    </div>
+    <div id="off-cycle-options">
 
-    <!-- Academic Year -->
-    <div class="mb-3">
-      <label class="form-label">{{ form.academic_year.label }}</label>
-      {{ form.academic_year }}
-    </div>
+      {% for form, day in timeslot_formset %}
+        <div class="row mb-3">
+          <div class="col-4">
+             {{ form.select_day }} {{ day.name }}
+          </div>
+          <div class="col-4">
+            {{ form.start_time }}
+          </div>
+          <div class="col-4">
+            {{ form.end_time }}
+          </div>
+        </div>
+      {% endfor  %}
+
+    </div> 
 
     <button type="submit" class="btn btn-primary">Save</button>
     <a href="{% url 'scheduler:view_courses' %}" class="btn btn-secondary">Cancel</a>
   </form>
 </div>
+
+<script src="{% static 'timetable/js/course_form.js' %}"></script>
 {% endblock %}
