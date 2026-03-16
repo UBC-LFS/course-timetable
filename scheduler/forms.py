@@ -107,7 +107,7 @@ class CourseForm(forms.ModelForm):
 
     class Meta:
         model  = Course
-        fields = ["code","number","section","term","day","start_time","end_time","academic_year"]
+        fields = ["code","number","section","term","off_cycle","day","start_time","end_time","academic_year"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -212,14 +212,6 @@ class CoursePopupForm(forms.ModelForm):
                     )
 
         return cleaned
-
-TimeslotFormSet = forms.inlineformset_factory(
-    parent_model=Course,
-    model=Timeslot,
-    form=TimeslotForm,
-    extra=1,
-    can_delete=True
-)
 
 class CourseTermForm(forms.ModelForm):
     class Meta:
