@@ -133,6 +133,9 @@ class Timeslot(models.Model):
     day = models.ForeignKey(CourseDay, on_delete=models.SET_NULL, null=True, blank=True)
     start_time = models.ForeignKey(CourseTime, on_delete=models.SET_NULL, null=True, blank=True, related_name="offcycle_start")
     end_time = models.ForeignKey(CourseTime, on_delete=models.SET_NULL, null=True, blank=True, related_name="offsycle_end")
+
+    class Meta:
+        unique_together = ["course", "day"]
     
 class Major(models.Model):
     name = models.ForeignKey(MajorName, on_delete=models.CASCADE)
