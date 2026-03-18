@@ -100,9 +100,19 @@
             <td>{{ course.section }}</td>
             <td>{{ course.term }}</td>
             <td>{{ course.off_cycle }}</td>
-            <td>{{ course.start_time }}</td>
-            <td>{{ course.end_time }}</td>
-            <td>{{ course.day_names|join:','|default:"None" }}</td>
+            {% if course.off_cycle %}
+              <td> N/A </td>
+              <td> N/A </td>
+              <td>
+                {% for timeslot in course.timeslot_set.all %}
+                  {{ timeslot.day.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              </td>
+            {% else %}
+              <td>{{ course.start_time }}</td>
+              <td>{{ course.end_time }}</td>
+              <td>{{ course.day_names|join:','|default:"None" }}</td>
+            {% endif %}
             <td>{{ course.academic_year }}</td>
             <td>
               <a href="{% url 'scheduler:edit_course' course.id %}" class="btn btn-warning btn-sm">Edit</a>

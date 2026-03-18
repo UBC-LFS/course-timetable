@@ -492,10 +492,7 @@ def create_course(request):
     )
 
     days = list(CourseDay.objects.filter(name__in=["Mon", "Tue", "Wed", "Thu", "Fri"]).annotate(day_order=order_case).order_by("day_order"))
-    TimeslotFormSet = formset_factory(TimeslotForm, extra=len(days))
-
-    # print("DEBUG: printing post request")
-    # print(request.POST)
+    TimeslotFormSet = formset_factory(TimeslotForm, extra=len(days), max_num=len(days), absolute_max=len(days))
 
     if request.method == "POST":
         course_form = CourseForm(request.POST)
@@ -505,11 +502,9 @@ def create_course(request):
             for idx, form in enumerate(timeslot_formset.forms):
                 if form.is_valid():
                     if form.cleaned_data.get('select_day'):
-                        print('level3')
                         timeslot = form.save(commit=False) 
                         timeslot.course = course
                         timeslot.day = days[idx] 
-                        print(days[idx].id)
                         timeslot.save()
             messages.success(request, "Course created.")
             return redirect("scheduler:view_courses")
@@ -536,38 +531,62 @@ def edit_course(request, course_id):
         When(name="Tue", then=1),
         When(name="Wed", then=2),
         When(name="Thu", then=3),
-        When(name="Fri", then=4),
+        When(name="Fri", then=4),   
         output_field=IntegerField(),
     )
 
+    days = list(CourseDay.objects.filter(name__in=["Mon", "Tue", "Wed", "Thu", "Fri"]).annotate(day_order=order_case).order_by("day_order"))
     course = get_object_or_404(Course, id=course_id)
-    timeslots = []
+    timeslots = {}
     for timeslot in course.timeslot_set.all():
-        data = {"day": timeslot.day , "start_time": timeslot.start_time, "end_time": timeslot.end_time}
-        timeslot.append()
+        timeslots[timeslot.day.name] = {"select_day": True, "start_time": timeslot.start_time, "end_time": timeslot.end_time}
 
-    assert(len(timeslots) <= 5)
+    formset_data = []
+    for day in ["Mon", "Tue", "Wed", "Thu", "Fri"]:
+        form_data = timeslots.get(day)
+        if form_data:
+            formset_data.append(form_data) 
+        else:
+            formset_data.append({"select_day": False, "start_time": None, "end_time": None})
 
-    TimeslotFormSet = formset_factory(TimeslotForm, extra=5) 
+    TimeslotFormSet = formset_factory(TimeslotForm, extra=len(days), max_num=len(days), absolute_max=len(days))
 
     if request.method == "POST":
         course_form = CourseForm(request.POST, instance=course)
-        timeslot_formset = TimeslotFormSet(request.POST) 
-        if course_form.is_valid() and timeslot_formset.is_valid():
+        timeslot_formset = TimeslotFormSet(request.POST, initial=formset_data)
+        if course_form.is_valid():
             course_form.save()
+            for idx, form in enumerate(timeslot_formset.forms):
+                if form.is_valid():
+                    # update timeslots or delete them
+                    if form.cleaned_data.get("select_day"):
+                        Timeslot.objects.update_or_create(
+                            course=course,
+                            day=days[idx],
+                            start_time=form.cleaned_data.get("start_time"),
+                            end_time=form.cleaned_data.get("end_time"),
+                        )
+                    else:
+                        deleted, _ = Timeslot.objects.filter(course=course, day=days[idx]).delete()
+                        if deleted:
+                            print("removed")
+                        else:
+                            print('nothing to remove')
+
             messages.success(request, "Course edited.")
             return redirect("scheduler:view_courses")
         summary = _summarize_form_errors(course_form) or "Please fix the errors and try again."
-        messages.error(request, f"Edit failed: {summary}")
+        messages.error(request, f"Create failed: {summary}")
     else:
         course_form = CourseForm(instance=course)
-        timeslot_formset = TimeslotFormSet(initial=data)
+        timeslot_formset = TimeslotFormSet(initial=formset_data)
 
 
     return render(request, "timetable/course_form.html", {
         "title": "Edit Course",
         "course_form": course_form,
         "timeslot_formset": timeslot_formset,
+        "formset_day_pair": zip(timeslot_formset, days),
     })
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
