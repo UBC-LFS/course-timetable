@@ -8,9 +8,19 @@
     <dt class="col-sm-4">Number:</dt>        <dd class="col-sm-8">{{ details.number }}</dd>
     <dt class="col-sm-4">Section:</dt>       <dd class="col-sm-8">{{ details.section }}</dd>
     <dt class="col-sm-4">Term:</dt>          <dd class="col-sm-8">{{ details.term }}</dd>
-    <dt class="col-sm-4">Day:</dt>           <dd class="col-sm-8">{{ details.day }}</dd>
-    <dt class="col-sm-4">Start Time:</dt>    <dd class="col-sm-8">{{ details.start_time }}</dd>
-    <dt class="col-sm-4">End Time:</dt>      <dd class="col-sm-8">{{ details.end_time }}</dd>
+    <dt class="col-sm-4">Is Off Cycle?</dt>  <dd class="col-sm-8">{{ details.off_cycle }}</dd>
+    {% if course.off_cycle %}
+      <dt class="col-sm-4"> Off-cycle days</dt> 
+      {% for timeslot in details.timeslots %}
+        <dd class="col-sm-8"> {{ timeslot.day.name }}: {{ timeslot.start_time.name }}-{{ timeslot.end_time.name }}</dd>
+        <dt class="col-sm-4"></dt> 
+      {% endfor %}
+      <dd class="col-sm-8"></dd>
+    {% else %}
+      <dt class="col-sm-4">Day:</dt>           <dd class="col-sm-8">{{ details.day }}</dd>
+      <dt class="col-sm-4">Start Time:</dt>    <dd class="col-sm-8">{{ details.start_time }}</dd>
+      <dt class="col-sm-4">End Time:</dt>      <dd class="col-sm-8">{{ details.end_time }}</dd>
+    {% endif %}
     <dt class="col-sm-4">Academic Year:</dt> <dd class="col-sm-8">{{ details.academic_year }}</dd>
   </dl>
 

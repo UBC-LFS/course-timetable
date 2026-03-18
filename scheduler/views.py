@@ -563,8 +563,10 @@ def edit_course(request, course_id):
                         Timeslot.objects.update_or_create(
                             course=course,
                             day=days[idx],
-                            start_time=form.cleaned_data.get("start_time"),
-                            end_time=form.cleaned_data.get("end_time"),
+                            defaults={
+                                "start_time": form.cleaned_data.get("start_time"),
+                                "end_time": form.cleaned_data.get("end_time"),
+                            }
                         )
                     else:
                         deleted, _ = Timeslot.objects.filter(course=course, day=days[idx]).delete()
@@ -608,7 +610,9 @@ def modal_edit_course(request, course_id):
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
 def delete_course(request, course_id):
+
     course = get_object_or_404(Course, id=course_id)
+    timeslots = course.timeslot_set.all()
 
     def safe_name(obj):
         return getattr(obj, "name", None)
@@ -624,13 +628,16 @@ def delete_course(request, course_id):
         "number":        safe_name(course.number),
         "section":       safe_name(course.section),
         "term":          safe_name(course.term),
+        "off_cycle":     course.off_cycle,
         "day":           get_days([d.name for d in course.day.all()]),
         "start_time":    safe_name(course.start_time),
         "end_time":      safe_name(course.end_time),
+        "timeslots":     timeslots,
         "academic_year": safe_name(course.academic_year),
     }
 
     if request.method == "POST":
+        timeslots.delete()
         course.delete()
         messages.success(request, "Course deleted.")
         return redirect("scheduler:view_courses")
