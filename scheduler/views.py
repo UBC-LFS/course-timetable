@@ -236,100 +236,94 @@ def landing_page(request):
             # Not possible to filter for start/end times on database 
 
             all_courses = base_qs
-
-        # A course is valid only if it has at least one day AND both times AND 5 things
+    
+        day_to_timeslots = {"Mon": [], "Tue": [], "Wed": [], "Thu": [], "Fri": []}
         courses = []
+        off_cycle_courses = []
+        invalid_courses = []
+
+        START_TIME = selected_starttime if selected_starttime else '8:00'
+        END_TIME = selected_endtime if selected_endtime else '21:00'
+
+        # separate off cycle courses or regular courses
         for c in all_courses:
-            has_times = (c.start_time is not None and c.end_time is not None)
-            has_days  = c.day.exists()
+            if c.off_cycle:
+                off_cycle_courses.append(c)
+            else:
+                courses.append(c)
+        
+        # handle regular courses
+        for c in courses:
             has_5_things_on_slug = (c.code is not None and c.number is not None and c.section is not None and c.academic_year is not None and c.term is not None)
+            has_times = (c.start_time is not None and c.end_time is not None)
+            has_days = c.day.exists()
 
             if has_times and has_days and has_5_things_on_slug:
-                START_TIME = selected_starttime if selected_starttime else '8:00'
-                END_TIME = selected_endtime if selected_endtime else '21:00'
-                course_start_min = _mins(c.start_time.name[:5])
-                course_end_min = _mins(c.end_time.name[:5])
-                selected_start_min = _mins(START_TIME)
-                selected_end_min = _mins(END_TIME)
-                if course_start_min < selected_start_min or course_end_min > selected_end_min:
-                    continue
-                else:
-                    courses.append(c)
+                st = _mins(c.start_time.name)
+                et = _mins(c.end_time.name)
+                if st >= _mins(START_TIME) and et <= _mins(END_TIME):
+                    for d in expand_days(c):
+                        day_to_timeslots[d].append((c, st, et))
             else:
                 invalid_courses.append(c)
-    
-    if courses:
-        # build time grid
-        DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
-        START_TIME = '08:00'
-        END_TIME   = '21:00'
-        INTERVAL   = timedelta(minutes=1)
-        start_dt   = datetime.strptime(START_TIME, "%H:%M")
-        end_dt     = datetime.strptime(END_TIME, "%H:%M")
 
-        slots = {}
-        cur = start_dt
-        while cur < end_dt:
-            tstr = cur.strftime("%H:%M")
-            for d in DAYS:
-                slots[(d, tstr)] = []
-            cur += INTERVAL
+        # handle off-cycle courses
+        for c in off_cycle_courses:
+            has_5_things_on_slug = (c.code is not None and c.number is not None and c.section is not None and c.academic_year is not None and c.term is not None)
+            off_cycle_timeslots = c.timeslot_set.all()
+            if off_cycle_timeslots and has_5_things_on_slug:
+                course_has_invalid_timeslot = False
+                for timeslot in off_cycle_timeslots:
+                    is_valid_timeslot = (timeslot.day is not None and timeslot.start_time is not None and timeslot.end_time is not None) 
+                    if not is_valid_timeslot and course_has_invalid_timeslot:
+                        course_has_invalid_timeslot = True
+                        invalid_courses.append(c)
+                    elif is_valid_timeslot:
+                        st = _mins(timeslot.start_time.name)
+                        et = _mins(timeslot.end_time.name)
+                        if st >= _mins(START_TIME) and et <= _mins(END_TIME):
+                            day_to_timeslots[timeslot.day.name].append((c, st, et))
+            else:
+                invalid_courses.append(c)
+            
+        # sort monday experiment
+        layers = []
+        day_to_timeslots["Mon"].sort(key=lambda ts: (ts[2]))
+        curr_timeslots = day_to_timeslots["Mon"] 
+        rejected_timeslots = curr_timeslots
+        while rejected_timeslots: 
+            rejected_timeslots = []
+            prev_timeslot = None
+            layer = []
+            for timeslot in curr_timeslots: 
+                if prev_timeslot == None or prev_timeslot[2] < timeslot[1]:
+                    prev_timeslot = timeslot
+                    layer.append(timeslot)
+                else:
+                    rejected_timeslots.append(timeslot)
+            layers.append(layer) 
+            curr_timeslots = rejected_timeslots
+            print("Rejected Timeslots: ", end="")
+            print(rejected_timeslots)
         
-        # place courses into slots
-        for course in courses:
-            attached_days = expand_days(course)
-            start_str = course.start_time.name[:5]
-            end_str   = course.end_time.name[:5]
-            cur = datetime.strptime(start_str, "%H:%M")
-            end = datetime.strptime(end_str, "%H:%M")
-
-            for d in attached_days:
-                cur_time = cur
-                while cur_time < end:
-                    t = cur_time.strftime("%H:%M")
-                    if (d, t) in slots:
-                        slots[(d, t)].append(course)
-                    cur_time += INTERVAL
+        # print for debugging purposes
+        for i, layer in enumerate(layers):
+            print(f"Layer {i+1}: {layer}")
         
-        # compute overlaps
-        # Build day -> courses (sorted by start_time then id for stability)
-        day_to_courses = {"Mon": [], "Tue": [], "Wed": [], "Thu": [], "Fri": []}
-        for c in courses:
-            for d in expand_days(c):
-                day_to_courses[d].append(c)
-        
-        for d in day_to_courses:
-            # sort by start minutes first, then by id for a stable "older → newer" order
-            day_to_courses[d].sort(key=lambda c: (_mins(c.start_time.name[:5]), c.id))
+        # add attributes to dates
+        for k, layer in enumerate(layers):
+            width_pct = round(100.0 * (0.9 ** k), 2)
+            overlaps  = (k > 0)
 
-        # Chain widths: for each day list, walk in order and shrink width 10% each time
-        for day_key, day_list in day_to_courses.items():
-            # keep a list of active courses that cover the current start time
-            # but we only care about predecessors that cover *this* course's start
-            for idx, c in enumerate(day_list):
-                c_start = _mins(c.start_time.name[:5])
-                c_end   = _mins(c.end_time.name[:5])
-
-                # count predecessors whose interval covers c_start
-                predecessors = 0
-                for prev in day_list[:idx]:
-                    p_start = _mins(prev.start_time.name[:5])
-                    p_end   = _mins(prev.end_time.name[:5])
-                    if p_start <= c_start < p_end:
-                        predecessors += 1
-
-                k = predecessors
-                width_pct = round(100.0 * (0.9 ** k), 2)
-                overlaps  = (k > 0)
-
-                # stash per-day values the same way your template already expects
-                setattr(c, f"{day_key}_overlap_width", width_pct)
-                setattr(c, f"{day_key}_overlaps", overlaps)
-                # Optional: z-index so a later (smaller) card sits on top
-                setattr(c, f"{day_key}_zindex", 100 + k)
+            day_key = "Mon"
+            # stash per-day values the same way your template already expects
+            setattr(c, f"{day_key}_overlap_width", width_pct)
+            setattr(c, f"{day_key}_overlaps", overlaps)
+            # Optional: z-index so a later (smaller) card sits on top
+            setattr(c, f"{day_key}_zindex", 100 + k)
 
         # visual props (height, offset, color)
-        for c in courses:
+        for c in courses + off_cycle_courses:
             start = datetime.strptime(c.start_time.name[:5], "%H:%M")
             end   = datetime.strptime(c.end_time.name[:5], "%H:%M")
             c.duration_minutes = (end - start).seconds // 60
@@ -337,15 +331,125 @@ def landing_page(request):
             c.offset_top = (start.minute) * PIXELS_PER_MINUTE
             c.day_names = expand_days(c)
 
-        # per-day overlap data used by template
         for c in courses:
             c.day_data = {
                 "Mon":   {"overlap": getattr(c, 'Mon_overlaps',   None), "width": getattr(c, 'Mon_overlap_width',   None), "left": getattr(c, 'Mon_offset_left',   None), "z": getattr(c, 'Mon_zindex',   None)},
-                "Tue":  {"overlap": getattr(c, 'Tue_overlaps',  None), "width": getattr(c, 'Tue_overlap_width',  None), "left": getattr(c, 'Tue_offset_left',  None), "z": getattr(c, 'Tue_zindex',  None)},
-                "Wed":   {"overlap": getattr(c, 'Wed_overlaps',   None), "width": getattr(c, 'Wed_overlap_width',   None), "left": getattr(c, 'Wed_offset_left',   None), "z": getattr(c, 'Wed_zindex',   None)},
-                "Thu": {"overlap": getattr(c, 'Thu_overlaps', None), "width": getattr(c, 'Thu_overlap_width', None), "left": getattr(c, 'Thu_offset_left', None), "z": getattr(c, 'Thu_zindex', None)},
-                "Fri":   {"overlap": getattr(c, 'Fri_overlaps',   None), "width": getattr(c, 'Fri_overlap_width',   None), "left": getattr(c, 'Fri_offset_left',   None), "z": getattr(c, 'Fri_zindex',   None)},
+                # "Tue":  {"overlap": getattr(c, 'Tue_overlaps',  None), "width": getattr(c, 'Tue_overlap_width',  None), "left": getattr(c, 'Tue_offset_left',  None), "z": getattr(c, 'Tue_zindex',  None)},
+                # "Wed":   {"overlap": getattr(c, 'Wed_overlaps',   None), "width": getattr(c, 'Wed_overlap_width',   None), "left": getattr(c, 'Wed_offset_left',   None), "z": getattr(c, 'Wed_zindex',   None)},
+                # "Thu": {"overlap": getattr(c, 'Thu_overlaps', None), "width": getattr(c, 'Thu_overlap_width', None), "left": getattr(c, 'Thu_offset_left', None), "z": getattr(c, 'Thu_zindex', None)},
+                # "Fri":   {"overlap": getattr(c, 'Fri_overlaps',   None), "width": getattr(c, 'Fri_overlap_width',   None), "left": getattr(c, 'Fri_offset_left',   None), "z": getattr(c, 'Fri_zindex',   None)},
             }
+        
+
+    #     # A course is valid only if it has at least one day AND both times AND 5 things
+    #     courses = []
+    #     for c in all_courses:
+    #         has_times = (c.start_time is not None and c.end_time is not None)
+    #         has_days  = c.day.exists()
+    #         has_5_things_on_slug = (c.code is not None and c.number is not None and c.section is not None and c.academic_year is not None and c.term is not None)
+
+    #         if has_times and has_days and has_5_things_on_slug:
+    #             START_TIME = selected_starttime if selected_starttime else '8:00'
+    #             END_TIME = selected_endtime if selected_endtime else '21:00'
+    #             course_start_min = _mins(c.start_time.name[:5])
+    #             course_end_min = _mins(c.end_time.name[:5])
+    #             selected_start_min = _mins(START_TIME)
+    #             selected_end_min = _mins(END_TIME)
+    #             if course_start_min < selected_start_min or course_end_min > selected_end_min:
+    #                 continue
+    #             else:
+    #                 courses.append(c)
+    #         else:
+    #             invalid_courses.append(c)
+    
+    # if courses:
+    #     # build time grid
+    #     DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+    #     START_TIME = '08:00'
+    #     END_TIME   = '21:00'
+    #     INTERVAL   = timedelta(minutes=1)
+    #     start_dt   = datetime.strptime(START_TIME, "%H:%M")
+    #     end_dt     = datetime.strptime(END_TIME, "%H:%M")
+
+    #     slots = {}
+    #     cur = start_dt
+    #     while cur < end_dt:
+    #         tstr = cur.strftime("%H:%M")
+    #         for d in DAYS:
+    #             slots[(d, tstr)] = []
+    #         cur += INTERVAL
+        
+    #     # place courses into slots
+    #     for course in courses:
+    #         attached_days = expand_days(course)
+    #         start_str = course.start_time.name[:5]
+    #         end_str   = course.end_time.name[:5]
+    #         cur = datetime.strptime(start_str, "%H:%M")
+    #         end = datetime.strptime(end_str, "%H:%M")
+
+    #         for d in attached_days:
+    #             cur_time = cur
+    #             while cur_time < end:
+    #                 t = cur_time.strftime("%H:%M")
+    #                 if (d, t) in slots:
+    #                     slots[(d, t)].append(course)
+    #                 cur_time += INTERVAL
+        
+    #     # compute overlaps
+    #     # Build day -> courses (sorted by start_time then id for stability)
+    #     day_to_courses = {"Mon": [], "Tue": [], "Wed": [], "Thu": [], "Fri": []}
+    #     for c in courses:
+    #         for d in expand_days(c):
+    #             day_to_courses[d].append(c)
+        
+    #     for d in day_to_courses:
+    #         # sort by start minutes first, then by id for a stable "older → newer" order
+    #         day_to_courses[d].sort(key=lambda c: (_mins(c.start_time.name[:5]), c.id))
+
+    #     # Chain widths: for each day list, walk in order and shrink width 10% each time
+    #     for day_key, day_list in day_to_courses.items():
+    #         # keep a list of active courses that cover the current start time
+    #         # but we only care about predecessors that cover *this* course's start
+    #         for idx, c in enumerate(day_list):
+    #             c_start = _mins(c.start_time.name[:5])
+    #             c_end   = _mins(c.end_time.name[:5])
+
+    #             # count predecessors whose interval covers c_start
+    #             predecessors = 0
+    #             for prev in day_list[:idx]:
+    #                 p_start = _mins(prev.start_time.name[:5])
+    #                 p_end   = _mins(prev.end_time.name[:5])
+    #                 if p_start <= c_start < p_end:
+    #                     predecessors += 1
+
+    #             k = predecessors
+    #             width_pct = round(100.0 * (0.9 ** k), 2)
+    #             overlaps  = (k > 0)
+
+    #             # stash per-day values the same way your template already expects
+    #             setattr(c, f"{day_key}_overlap_width", width_pct)
+    #             setattr(c, f"{day_key}_overlaps", overlaps)
+    #             # Optional: z-index so a later (smaller) card sits on top
+    #             setattr(c, f"{day_key}_zindex", 100 + k)
+
+    #     # visual props (height, offset, color)
+    #     for c in courses:
+    #         start = datetime.strptime(c.start_time.name[:5], "%H:%M")
+    #         end   = datetime.strptime(c.end_time.name[:5], "%H:%M")
+    #         c.duration_minutes = (end - start).seconds // 60
+    #         c.pixel_height = c.duration_minutes * PIXELS_PER_MINUTE
+    #         c.offset_top = (start.minute) * PIXELS_PER_MINUTE
+    #         c.day_names = expand_days(c)
+
+    #     # per-day overlap data used by template
+    #     for c in courses:
+    #         c.day_data = {
+    #             "Mon":   {"overlap": getattr(c, 'Mon_overlaps',   None), "width": getattr(c, 'Mon_overlap_width',   None), "left": getattr(c, 'Mon_offset_left',   None), "z": getattr(c, 'Mon_zindex',   None)},
+    #             "Tue":  {"overlap": getattr(c, 'Tue_overlaps',  None), "width": getattr(c, 'Tue_overlap_width',  None), "left": getattr(c, 'Tue_offset_left',  None), "z": getattr(c, 'Tue_zindex',  None)},
+    #             "Wed":   {"overlap": getattr(c, 'Wed_overlaps',   None), "width": getattr(c, 'Wed_overlap_width',   None), "left": getattr(c, 'Wed_offset_left',   None), "z": getattr(c, 'Wed_zindex',   None)},
+    #             "Thu": {"overlap": getattr(c, 'Thu_overlaps', None), "width": getattr(c, 'Thu_overlap_width', None), "left": getattr(c, 'Thu_offset_left', None), "z": getattr(c, 'Thu_zindex', None)},
+    #             "Fri":   {"overlap": getattr(c, 'Fri_overlaps',   None), "width": getattr(c, 'Fri_overlap_width',   None), "left": getattr(c, 'Fri_offset_left',   None), "z": getattr(c, 'Fri_zindex',   None)},
+    #         }
 
     # render
     return render(request, 'timetable/landing_page.html', {
