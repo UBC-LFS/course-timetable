@@ -172,6 +172,7 @@ def landing_page(request):
 
     # Output collections
     courses = []          # timetable "occurrences"
+    timeslots =  None     # timeslots organized by layer
     invalid_courses = []  # Course rows missing day/time/5 things on slug
     all_courses = []      # all_courses = courses + invalid_courses
 
@@ -263,7 +264,7 @@ def landing_page(request):
                 et = _mins(c.end_time.name)
                 if st >= _mins(START_TIME) and et <= _mins(END_TIME):
                     for d in expand_days(c):
-                        day_to_timeslots[d].append((c, st, et))
+                        day_to_timeslots[d].append({"info": c, "start_time": st, "end_time": et})
             else:
                 invalid_courses.append(c)
 
@@ -282,64 +283,86 @@ def landing_page(request):
                         st = _mins(timeslot.start_time.name)
                         et = _mins(timeslot.end_time.name)
                         if st >= _mins(START_TIME) and et <= _mins(END_TIME):
-                            day_to_timeslots[timeslot.day.name].append((c, st, et))
+                            day_to_timeslots[timeslot.day.name].append({"info": c, "start_time": st, "end_time": et})
             else:
                 invalid_courses.append(c)
             
-        # sort monday experiment
-        layers = []
-        day_to_timeslots["Mon"].sort(key=lambda ts: (ts[2]))
-        curr_timeslots = day_to_timeslots["Mon"] 
-        rejected_timeslots = curr_timeslots
-        while rejected_timeslots: 
-            rejected_timeslots = []
-            prev_timeslot = None
-            layer = []
-            for timeslot in curr_timeslots: 
-                if prev_timeslot == None or prev_timeslot[2] < timeslot[1]:
-                    prev_timeslot = timeslot
-                    layer.append(timeslot)
-                else:
-                    rejected_timeslots.append(timeslot)
-            layers.append(layer) 
-            curr_timeslots = rejected_timeslots
-            print("Rejected Timeslots: ", end="")
-            print(rejected_timeslots)
-        
-        # print for debugging purposes
-        for i, layer in enumerate(layers):
-            print(f"Layer {i+1}: {layer}")
-        
-        # add attributes to dates
-        for k, layer in enumerate(layers):
-            width_pct = round(100.0 * (0.9 ** k), 2)
-            overlaps  = (k > 0)
+        # overlap handling algorithm ------------------------------------------------------ 
 
-            day_key = "Mon"
-            # stash per-day values the same way your template already expects
-            setattr(c, f"{day_key}_overlap_width", width_pct)
-            setattr(c, f"{day_key}_overlaps", overlaps)
-            # Optional: z-index so a later (smaller) card sits on top
-            setattr(c, f"{day_key}_zindex", 100 + k)
+        # organize 
+        day_to_layers = {"Mon": [], "Tue": [], "Wed": [], "Thu": [], "Fri": []}
+        for day, layers in day_to_layers.items():
+            day_to_timeslots[day].sort(key=lambda ts: (ts["end_time"]))
+            curr_timeslots = day_to_timeslots[day] 
+            while curr_timeslots: 
+                rejected_timeslots = []
+                prev_timeslot = None
+                layer = []
+                for timeslot in curr_timeslots: 
+                    if prev_timeslot == None or prev_timeslot["end_time"] < timeslot["start_time"]:
+                        prev_timeslot = timeslot
+                        layer.append(timeslot)
+                    else:
+                        rejected_timeslots.append(timeslot)
+                layers.append(layer) 
+                curr_timeslots = rejected_timeslots
+
+        # add attributes to specific timeslots
+        for day, layers in day_to_layers.items():
+            for k, layer in enumerate(layers):
+                width_pct = round(100.0 * (0.9 ** k), 2)
+                overlaps = (k > 0)
+
+                for timeslot in layer:
+                    timeslot["overlap_width"] = width_pct
+                    timeslot["overlaps"] = overlaps
+                    timeslot["z_index"] = 100+k
 
         # visual props (height, offset, color)
-        for c in courses + off_cycle_courses:
-            start = datetime.strptime(c.start_time.name[:5], "%H:%M")
-            end   = datetime.strptime(c.end_time.name[:5], "%H:%M")
-            c.duration_minutes = (end - start).seconds // 60
-            c.pixel_height = c.duration_minutes * PIXELS_PER_MINUTE
-            c.offset_top = (start.minute) * PIXELS_PER_MINUTE
-            c.day_names = expand_days(c)
+        for day, layers in day_to_layers.items():
+            for layer in layers:
+                for timeslot in layer:
+                    timeslot["duration_minutes"] = timeslot["end_time"] - timeslot["start_time"]
+                    timeslot["pixel_height"] = timeslot["duration_minutes"] * PIXELS_PER_MINUTE
+                    timeslot["offset_top"] = timeslot["start_time"] * PIXELS_PER_MINUTE
+                    if timeslot["info"].off_cycle:
+                        timeslot["day_names"] = expand_days(c)
+                    else:
+                        timeslot["day_names"] = expand_days(c)
+        # ----------------------------------------------------------------------------------
 
-        for c in courses:
-            c.day_data = {
-                "Mon":   {"overlap": getattr(c, 'Mon_overlaps',   None), "width": getattr(c, 'Mon_overlap_width',   None), "left": getattr(c, 'Mon_offset_left',   None), "z": getattr(c, 'Mon_zindex',   None)},
-                # "Tue":  {"overlap": getattr(c, 'Tue_overlaps',  None), "width": getattr(c, 'Tue_overlap_width',  None), "left": getattr(c, 'Tue_offset_left',  None), "z": getattr(c, 'Tue_zindex',  None)},
-                # "Wed":   {"overlap": getattr(c, 'Wed_overlaps',   None), "width": getattr(c, 'Wed_overlap_width',   None), "left": getattr(c, 'Wed_offset_left',   None), "z": getattr(c, 'Wed_zindex',   None)},
-                # "Thu": {"overlap": getattr(c, 'Thu_overlaps', None), "width": getattr(c, 'Thu_overlap_width', None), "left": getattr(c, 'Thu_offset_left', None), "z": getattr(c, 'Thu_zindex', None)},
-                # "Fri":   {"overlap": getattr(c, 'Fri_overlaps',   None), "width": getattr(c, 'Fri_overlap_width',   None), "left": getattr(c, 'Fri_offset_left',   None), "z": getattr(c, 'Fri_zindex',   None)},
-            }
+        timeslots = day_to_layers
         
+    
+    # render
+    return render(request, 'timetable/landing_page.html', {
+        'hour_list': hour_list,
+        'terms': terms,
+        'codes': codes,
+        'numbers': numbers,
+        'sections': sections,
+        'times': times,
+        'days': days,
+        'courses': courses,
+        'timeslots': timeslots,
+        'invalid_courses': invalid_courses,
+        'day_list': ['Mon','Tue','Wed','Thu','Fri'],
+        'submitted': submitted,
+        'dropdown_years': dropdown_years,
+        'selected_year': selected_year,
+        'selected_terms': selected_terms,
+        'major_names': major_names,
+        'selected_pname': selected_pname,
+        'selected_plevel': selected_plevel,
+        'selected_days': selected_days,
+        'selected_starttime': selected_starttime,
+        'selected_endtime': selected_endtime,
+        'available_levels_for_name': available_levels_for_name,
+        'available_terms_for_year': available_terms_for_year,
+        'course_filters_json': course_filters_json,
+        'numbers_by_code_json': numbers_by_code_json,
+        'form': popupform,
+    })
 
     #     # A course is valid only if it has at least one day AND both times AND 5 things
     #     courses = []
@@ -451,34 +474,34 @@ def landing_page(request):
     #             "Fri":   {"overlap": getattr(c, 'Fri_overlaps',   None), "width": getattr(c, 'Fri_overlap_width',   None), "left": getattr(c, 'Fri_offset_left',   None), "z": getattr(c, 'Fri_zindex',   None)},
     #         }
 
-    # render
-    return render(request, 'timetable/landing_page.html', {
-        'hour_list': hour_list,
-        'terms': terms,
-        'codes': codes,
-        'numbers': numbers,
-        'sections': sections,
-        'times': times,
-        'days': days,
-        'courses': courses,
-        'invalid_courses': invalid_courses,
-        'day_list': ['Mon','Tue','Wed','Thu','Fri'],
-        'submitted': submitted,
-        'dropdown_years': dropdown_years,
-        'selected_year': selected_year,
-        'selected_terms': selected_terms,
-        'major_names': major_names,
-        'selected_pname': selected_pname,
-        'selected_plevel': selected_plevel,
-        'selected_days': selected_days,
-        'selected_starttime': selected_starttime,
-        'selected_endtime': selected_endtime,
-        'available_levels_for_name': available_levels_for_name,
-        'available_terms_for_year': available_terms_for_year,
-        'course_filters_json': course_filters_json,
-        'numbers_by_code_json': numbers_by_code_json,
-        'form': popupform,
-    })
+    # # render
+    # return render(request, 'timetable/landing_page.html', {
+    #     'hour_list': hour_list,
+    #     'terms': terms,
+    #     'codes': codes,
+    #     'numbers': numbers,
+    #     'sections': sections,
+    #     'times': times,
+    #     'days': days,
+    #     'courses': courses,
+    #     'invalid_courses': invalid_courses,
+    #     'day_list': ['Mon','Tue','Wed','Thu','Fri'],
+    #     'submitted': submitted,
+    #     'dropdown_years': dropdown_years,
+    #     'selected_year': selected_year,
+    #     'selected_terms': selected_terms,
+    #     'major_names': major_names,
+    #     'selected_pname': selected_pname,
+    #     'selected_plevel': selected_plevel,
+    #     'selected_days': selected_days,
+    #     'selected_starttime': selected_starttime,
+    #     'selected_endtime': selected_endtime,
+    #     'available_levels_for_name': available_levels_for_name,
+    #     'available_terms_for_year': available_terms_for_year,
+    #     'course_filters_json': course_filters_json,
+    #     'numbers_by_code_json': numbers_by_code_json,
+    #     'form': popupform,
+    # })
 
 def redirect_root(request):
     if request.user.is_authenticated:
