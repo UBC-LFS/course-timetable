@@ -93,7 +93,7 @@ def landing_page(request):
         output_field=IntegerField(),
     )
 
-    hour_list = ["08","09","10","11","12","13","14","15","16","17","18","19","20","21"]
+    hour_list = [8,9,10,11,12,13,14,15,16,17,18,19,20,21]
     terms   = CourseTerm.objects.all()
     codes   = CourseCode.objects.all()
     numbers = CourseNumber.objects.all()
@@ -324,14 +324,19 @@ def landing_page(request):
                 for timeslot in layer:
                     timeslot["duration_minutes"] = timeslot["end_time"] - timeslot["start_time"]
                     timeslot["pixel_height"] = timeslot["duration_minutes"] * PIXELS_PER_MINUTE
-                    timeslot["offset_top"] = timeslot["start_time"] * PIXELS_PER_MINUTE
-                    if timeslot["info"].off_cycle:
-                        timeslot["day_names"] = expand_days(c)
-                    else:
-                        timeslot["day_names"] = expand_days(c)
+                    timeslot["offset_top"] = timeslot["start_time"] % 60 * PIXELS_PER_MINUTE
+                    # if timeslot["info"].off_cycle:
+                    #     timeslot["day_names"] = expand_days(c)
+                    # else:
+                    #     timeslot["day_names"] = expand_days(c)
+                    # timeslot["day_names"] = expand_days(timeslot["info"])
+                    # print(timeslot["day_names"])
         # ----------------------------------------------------------------------------------
 
         timeslots = day_to_layers
+        # for day, layers in day_to_layers.items():
+        #     for layer in layers:
+        #         print(layer)
         
     
     # render
@@ -472,7 +477,9 @@ def landing_page(request):
     #             "Wed":   {"overlap": getattr(c, 'Wed_overlaps',   None), "width": getattr(c, 'Wed_overlap_width',   None), "left": getattr(c, 'Wed_offset_left',   None), "z": getattr(c, 'Wed_zindex',   None)},
     #             "Thu": {"overlap": getattr(c, 'Thu_overlaps', None), "width": getattr(c, 'Thu_overlap_width', None), "left": getattr(c, 'Thu_offset_left', None), "z": getattr(c, 'Thu_zindex', None)},
     #             "Fri":   {"overlap": getattr(c, 'Fri_overlaps',   None), "width": getattr(c, 'Fri_overlap_width',   None), "left": getattr(c, 'Fri_offset_left',   None), "z": getattr(c, 'Fri_zindex',   None)},
-    #         }
+    #         } 
+    #         print(getattr(c, 'Mon_offset_left', None))
+
 
     # # render
     # return render(request, 'timetable/landing_page.html', {
