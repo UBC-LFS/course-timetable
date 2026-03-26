@@ -280,7 +280,14 @@ def landing_page(request):
                 et = _mins(c.end_time.name)
                 if st >= _mins(START_TIME) and et <= _mins(END_TIME):
                     for d in expand_days(c):
-                        day_to_timeslots[d].append({"info": c, "start_time": st, "end_time": et})
+                        day_to_timeslots[d].append({
+                            "info": c, 
+                            "start_time": st, 
+                            "end_time": et, 
+                            "start_time_text": c.start_time.name, 
+                            "end_time_text": c.end_time.name,
+                            "day_names": expand_days(c),
+                        })
             else:
                 invalid_courses.append(c)
 
@@ -299,7 +306,14 @@ def landing_page(request):
                         st = _mins(timeslot.start_time.name)
                         et = _mins(timeslot.end_time.name)
                         if st >= _mins(START_TIME) and et <= _mins(END_TIME):
-                            day_to_timeslots[timeslot.day.name].append({"info": c, "start_time": st, "end_time": et})
+                            day_to_timeslots[timeslot.day.name].append({
+                                "info": c,
+                                "start_time": st, 
+                                "end_time": et, 
+                                "start_time_text": timeslot.start_time.name, 
+                                "end_time_text": timeslot.end_time.name,
+                                "day_names": expand_days(c),
+                            })
             else:
                 invalid_courses.append(c)
             
@@ -332,16 +346,12 @@ def landing_page(request):
                     timeslot["overlaps"] = overlaps
                     timeslot["z_index"] = 100+k
 
-        # visual props (height, offset, color)
-        for day, layers in day_to_layers.items():
-            for layer in layers:
-                for timeslot in layer:
+                    # visual props (height, offset, color)
                     timeslot["duration_minutes"] = timeslot["end_time"] - timeslot["start_time"]
                     timeslot["pixel_height"] = timeslot["duration_minutes"] * PIXELS_PER_MINUTE
                     timeslot["offset_top"] = timeslot["start_time"] % 60 * PIXELS_PER_MINUTE
                     timeslot["start_hour"] = timeslot["start_time"] // 60
                     timeslot["end_hour"] = timeslot["end_time"] // 60
-                    timeslot["day_names"] = expand_days(timeslot["info"])
 
         timeslots = day_to_layers
     
