@@ -93,7 +93,23 @@ def landing_page(request):
         output_field=IntegerField(),
     )
 
-    hour_list = [8,9,10,11,12,13,14,15,16,17,18,19,20,21]
+    hour_list = [
+        ("08", 8),
+        ("09", 9),
+        ("10", 10),
+        ("11", 11),
+        ("12", 12),
+        ("13", 13),
+        ("14", 14),
+        ("15", 15),
+        ("16", 16),
+        ("17", 17),
+        ("18", 18),
+        ("19", 19),
+        ("20", 20),
+        ("21", 21),
+    ]
+
     terms   = CourseTerm.objects.all()
     codes   = CourseCode.objects.all()
     numbers = CourseNumber.objects.all()
@@ -325,6 +341,9 @@ def landing_page(request):
                     timeslot["duration_minutes"] = timeslot["end_time"] - timeslot["start_time"]
                     timeslot["pixel_height"] = timeslot["duration_minutes"] * PIXELS_PER_MINUTE
                     timeslot["offset_top"] = timeslot["start_time"] % 60 * PIXELS_PER_MINUTE
+                    
+                    timeslot["start_hour"] = timeslot["start_time"] // 60
+                    timeslot["end_hour"] = timeslot["end_time"] // 60
                     # if timeslot["info"].off_cycle:
                     #     timeslot["day_names"] = expand_days(c)
                     # else:

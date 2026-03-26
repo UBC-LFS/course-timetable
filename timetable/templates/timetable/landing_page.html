@@ -204,8 +204,41 @@
 
                 {% for hour in hour_list %}
                 <tr>
-                  <td class="time-col"><div class="time-text-offset">{{ hour }}:00</div></td>
-                  {% for day in day_list %}
+                  <td class="time-col"><div class="time-text-offset">{{ hour.0 }}:00</div></td>
+
+                  {% for day, layers in timeslots.items %}
+                    <td class="course-cell">
+                      {% for layer in layers %}
+                        {% for timeslot in layer %}
+                          {% if timeslot.start_time and timeslot.start_hour == hour.1 %}
+                          <a onclick ="" data-bs-toggle="modal" data-bs-target="#detailModal{{timeslot.info.id}}">
+                            <div class="course-item {% if timeslot.overlaps %}overlap{% endif %}"
+                              data-height="{{ timeslot.pixel_height }}"
+                              data-bg="{{ timeslot.info.code.color }}"
+                              data-top="{{ timeslot.offset_top }}"
+                              data-width="{{ timeslot.overlap_width|default:'100' }}"
+                              data-z="{{ timeslot.z_index|default:'1' }}"
+                              data-code="{{ timeslot.info.code.name|default:'None' }}"
+                              data-number="{{ timeslot.info.number.name|default:'None' }}"
+                              data-start="{{ timeslot.start_time.name|default:'None' }}"
+                              data-end="{{ timeslot.end_time.name|default:'None' }}"
+
+                              data-day="{{ timeslot.day_names|join:',' }}"  
+
+                              data-section="{{ timeslot.info.section.name|default:'None' }}"
+                              data-academic-year="{{ timeslot.info.academic_year.name|default:'None' }}"
+                              data-term="{{ timeslot.info.term.name|default:'None' }}">
+                              <strong> {{ timeslot.info.code.name|default:'None' }} {{ timeslot.info.number.name|default:'None' }} {{ timeslot.info.section.name|default:'None' }} </strong>
+                            </div>
+                          </a>
+                          {% endif %}
+                        {% endfor %}
+                      {% endfor %}
+                    </td>
+                  {% endfor %} 
+
+                  {% comment %} Legacy code {% endcomment %}
+                  {% comment %} {% for day in day_list %}
 
                   <td class="course-cell">
                     {% for course in courses %}
@@ -291,7 +324,7 @@
                     {% endfor %}
                   </td>
                   
-                  {% endfor %}
+                  {% endfor %} {% endcomment %}
                 </tr>
                 {% endfor %}
               </tbody>
