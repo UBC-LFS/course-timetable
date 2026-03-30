@@ -363,7 +363,7 @@
     <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <form id="editForm" method="post">
+          <form id="editForm" method="POST">
             {% csrf_token %}
             <div class="modal-header">
               <!-- This element should be empty. It's updated by the javascript -->
@@ -387,7 +387,7 @@
                 {{ form.end_time }}
               </div>
               <div class="mb-3">
-                {{ form.query }}
+                <input type="hidden" name="query" value="{{ request.build_absolute_uri }}"> 
               </div>
             </div>
             <div class="modal-footer">

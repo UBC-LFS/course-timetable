@@ -7,10 +7,10 @@ from .models import (
 )
 from .forms import (
     CourseForm, CourseTermForm, CourseCodeForm, CourseNumberForm,
-    CourseSectionForm, CourseTimeForm, CourseYearForm, CoursePopupForm,
+    CourseSectionForm, CourseTimeForm, CourseYearForm, CourseSchedulingForm,
     MajorNameForm, TimeslotForm
 )
-from django.forms.models import formset_factory, modelformset_factory
+from django.forms.models import formset_factory
 from django.db.models import Q, Min, Case, When, IntegerField
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST, require_GET
@@ -116,7 +116,7 @@ def landing_page(request):
     sections= CourseSection.objects.all()
     times   = CourseTime.objects.all()
     days    = CourseDay.objects.filter(name__in=["Mon", "Tue", "Wed", "Thu", "Fri"]).annotate(day_order=order_case).order_by("day_order")
-    popupform = CoursePopupForm()
+    popupform = CourseSchedulingForm()
 
     # Academic Year
     all_years = CourseYear.objects.values_list("name", flat=True)
@@ -605,16 +605,16 @@ def edit_course(request, course_id):
 @require_POST
 def modal_edit_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
-    form = CoursePopupForm(request.POST, instance=course)
+    form = CourseSchedulingForm(request.POST, instance=course)
     if form.is_valid():
         obj = form.save()
         messages.success(request, "Course successfully updated.")
     else:
         err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Update failed: {err}")
-    redirect_url_base = reverse("scheduler:landing_page")
-    search = form.cleaned_data["query"]
-    return redirect(f"{redirect_url_base}{search}")
+    
+    redirect_url = request.POST.get("query")
+    return redirect(redirect_url)
  
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')

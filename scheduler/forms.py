@@ -146,7 +146,7 @@ class CourseForm(forms.ModelForm):
 
         return cleaned
 
-class CoursePopupForm(forms.ModelForm):
+class CourseSchedulingForm(forms.ModelForm):
     class Meta:
         model  = Course
         fields = ["term","day","start_time","end_time"]
@@ -174,7 +174,6 @@ class CoursePopupForm(forms.ModelForm):
         required=False, empty_label="Select End Time",
         widget=forms.Select(attrs={"class": "form-select"})
     )
-    query = forms.CharField(required=False, widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
