@@ -488,13 +488,59 @@
   });
 })();
 
-// modals
 (function () {
 
+  // course detail modal
+  const detailModal = document.getElementById('detailModal');
+  if(detailModal) {
+    detailModal.addEventListener('show.bs.modal', function (event) {
+      const slot = event.relatedTarget.querySelector('div');
+      document.querySelector('span.course-code').textContent = slot.dataset['code'];
+      document.querySelector('span.course-number').textContent = slot.dataset['number'];
+      document.querySelector('span.course-section').textContent = slot.dataset['section'];
+      document.querySelector('span.course-term').textContent = slot.dataset['term'];
+      document.querySelector('span.course-off-cycle').textContent = slot.dataset['offCycle'];
+      document.querySelector('span.course-year').textContent = slot.dataset['academicYear'];
+
+      const serializedTimeslots = slot.dataset['timeslots'].trim();
+      const timeslotSection = document.querySelector('.course-timeslots');
+      $(timeslotSection).empty();
+
+      if(slot.dataset['offCycle'] === "True") {
+        console.log(serializedTimeslots);
+        const splitTimeslots = serializedTimeslots.split(';');
+        for(const timeslot of splitTimeslots) {
+          const timeslotInfo = timeslot.trim().split('.');
+          console.log(timeslotInfo)
+          const day = timeslotInfo[0];
+          const times = timeslotInfo[1].split(',');
+
+          const timeslotElement = document.createElement('div');
+          timeslotElement.classList.add('mb-3');
+          timeslotElement.textContent = `${day}: ${times[0]}-${times[1]}`;
+          timeslotSection.append(timeslotElement);
+        }
+
+      } else {
+        const timeslotInfo = serializedTimeslots.split('.');
+        const days = timeslotInfo[0].split(',');
+        const times = timeslotInfo[1].split(',');
+
+        for(const day of days) {
+          const timeslotElement = document.createElement('div');
+          timeslotElement.classList.add('mb-3');
+          timeslotElement.textContent = `${day}: ${times[0]}-${times[1]}`;
+          timeslotSection.append(timeslotElement)
+        }
+      }
+    });
+  }
+
+  // edit course modal
   const editModal = document.getElementById('editModal');
   if(editModal) {
     editModal.addEventListener('show.bs.modal', function (event) {
-      const courseFields = ['term', 'day', 'start_time', 'end_time', 'query'] 
+      const courseFields = ['term', 'day', 'start_time', 'end_time'] 
       const button = event.relatedTarget;
       const course_id = button.getAttribute(`data-course-id`); 
 
@@ -529,11 +575,6 @@
               document.getElementById(elementId).checked = false;
             }
           }
-
-        } else if (field == 'query') {
-          const id = 'id_query';
-          const query = window.location.search;
-          document.getElementById(id).value = query;
         } else {
           const id = `id_${field}`;
           const attrValue = button.getAttribute(attr);

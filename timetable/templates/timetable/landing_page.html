@@ -212,90 +212,35 @@
                         {% for timeslot in layer %}
                           {% if timeslot.start_time and timeslot.start_hour == hour.1 %}
                             <!-- Course item -->
-                            <a onclick ="" data-bs-toggle="modal" data-bs-target="#detailModal{{timeslot.info.id}}">
+                            <a onclick ="" data-bs-toggle="modal" data-bs-target="#detailModal">
                               <div class="course-item {% if timeslot.overlaps %}overlap{% endif %}"
                                 data-height="{{ timeslot.pixel_height }}"
                                 data-bg="{{ timeslot.info.code.color }}"
                                 data-top="{{ timeslot.offset_top }}"
                                 data-width="{{ timeslot.overlap_width|default:'100' }}"
                                 data-z="{{ timeslot.z_index|default:'1' }}"
+
                                 data-code="{{ timeslot.info.code.name|default:'None' }}"
                                 data-number="{{ timeslot.info.number.name|default:'None' }}"
+                                data-section="{{ timeslot.info.section.name|default:'None' }}"
+                                data-term="{{ timeslot.info.term.name|default:'None' }}"
+                                data-off-cycle="{{ timeslot.info.off_cycle }}"
+                                data-day="{{ timeslot.day_names|join:',' }}"  
                                 data-start="{{ timeslot.start_time_text|default:'None' }}"
                                 data-end="{{ timeslot.end_time_text|default:'None' }}" 
-                                data-day="{{ timeslot.day_names|join:',' }}"  
-                                data-section="{{ timeslot.info.section.name|default:'None' }}"
                                 data-academic-year="{{ timeslot.info.academic_year.name|default:'None' }}"
-                                data-term="{{ timeslot.info.term.name|default:'None' }}">
+
+                                data-timeslots="
+                                  {% if timeslot.info.off_cycle %} 
+                                    {% for ts in timeslot.info.timeslot_set.all %}{{ts.day}}.{{ts.start_time}},{{ts.end_time}}{% if not forloop.last %};{% endif %}{% endfor %}
+                                  {% else %}
+                                    {{timeslot.day_names|join:','}}.{{timeslot.start_time_text}},{{timeslot.end_time_text}}
+                                  {% endif %}
+                                ">
                                 <strong> {{ timeslot.info.code.name|default:'None' }} {{ timeslot.info.number.name|default:'None' }} {{ timeslot.info.section.name|default:'None' }} </strong>
                               </div>
                             </a>
            
-                            <!-- Course Details Modal -->
-                            <div class="modal fade" id="detailModal{{timeslot.info.id}}">
-                              <div class="modal-dialog">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h5> Course Details </h5>
-                                  </div>
-                                  <div class="modal-body">
-                                    <div class="mb-3">
-                                      <p> <strong> Course Code</strong>: {{ timeslot.info.code.name }}</p>
-                                    </div>
-                                    <div class="mb-3">
-                                      <p> <strong> Course Number</strong>: {{ timeslot.info.number.name }}</p>
-                                    </div>
-                                    <div class="mb-3">
-                                      <p> <strong> Course Section</strong>: {{ timeslot.info.section.name }}</p>
-                                    </div>
-                                    <div class="mb-3">
-                                      <p> <strong> Course Term</strong>: {{ timeslot.info.term.name }}</p>
-                                    </div>
-                                    <div class="mb-3">
-                                      <p> <strong> Off-cycle?</strong>: {{ timeslot.info.off_cycle }}</p>
-                                    </div>
-                                    {% if timeslot.info.off_cycle %}
-                                      <div class="mb-3"> 
-                                        <p> <strong> Course Days and Times</strong>: </p>
-                                      </div>
-                                        {% for ts in timeslot.info.timeslot_set.all %}
-                                          <div class="mb-3"> 
-                                            <p> {{ ts.day.name }}: {{ ts.start_time.name }} {{ ts.end_time.name }}</p>
-                                          </div>
-                                        {% endfor %}
-                                    {% else %}
-                                      <div class="mb-3">
-                                        <p> <strong> Course Days</strong>: {{ timeslot.day_names|join:',' }}</p>
-                                      </div>
-                                      <div class="mb-3">
-                                        <p> <strong> Start Time</strong>: {{ timeslot.start_time_text }}</p>
-                                      </div>
-                                      <div class="mb-3">
-                                        <p> <strong> End Time</strong>: {{ timeslot.end_time_text }}</p>
-                                      </div>
-                                    {% endif %}
-                                    <div class="mb-3">
-                                      <p> <strong> Academic Year</strong>: {{ timeslot.info.academic_year.name }}</p>
-                                    </div>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <button class="btn btn-sm btn-warning"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#editModal"
-                                            data-course-id="{{ timeslot.info.id }}"
-                                            data-course-code="{{ timeslot.info.code.name }}"
-                                            data-course-number="{{ timeslot.info.number.name }}"
-                                            data-course-section="{{ timeslot.info.section.name }}"
-                                            data-course-term="{{ timeslot.info.term.id }}"
-                                            data-course-day="{{ timeslot.day_names|join:',' }}"
-                                            data-course-start_time="{{ timeslot.info.start_time.id }}"
-                                            data-course-end_time="{{ timeslot.info.end_time.id }}">
-                                      Edit
-                                    </button> 
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
                           {% endif %}
                         {% endfor %}
                       {% endfor %}
@@ -358,6 +303,49 @@
         </div>
       {% endif %}
     {% endif %}
+
+  <!-- Course Details Modal -->
+  {% comment %} <!-- {% endcomment %}
+  <div class="modal fade" id="detailModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5> Scheduling Information for <span class="course-code"> </span> <span class="course-number"> </span> <span class="course-section"> </span> </h5>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <p> <strong> Course Term</strong>: <span class="course-term"> </span> </p>
+          </div>
+          <div class="mb-3">
+            <p> <strong>Is off-cycle?</strong>: <span class="course-off-cycle"> </span> </p>
+          </div>
+          <div class="mb-3"> 
+            <p> <strong> Course Days and Times</strong>: </p>
+          </div>
+          <div class="course-timeslots"> </div>
+          <div class="mb-3">
+            <p> <strong> Academic Year</strong>: <span class="course-year"> </span> </p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-sm btn-warning"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal"
+                  data-course-id=""
+                  data-course-code=""
+                  data-course-number=""
+                  data-course-section=""
+                  data-course-term=""
+                  data-course-day=""
+                  data-course-start_time=""
+                  data-course-end_time="">
+            Edit
+          </button> 
+        </div>
+      </div>
+    </div>
+  </div>
+      {% comment %} --> {% endcomment %}
 
   <!-- Update Course Modal -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
