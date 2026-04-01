@@ -488,9 +488,8 @@
   });
 })();
 
+// fill scheduling details for pop up
 (function () {
-
-  // course detail modal
   const detailModal = document.getElementById('detailModal');
   if(detailModal) {
     detailModal.addEventListener('show.bs.modal', function (event) {
@@ -506,12 +505,12 @@
       const timeslotSection = document.querySelector('.course-timeslots');
       $(timeslotSection).empty();
 
-      if(slot.dataset['offCycle'] === "True") {
-        console.log(serializedTimeslots);
+      if(slot.dataset['offCycle'] === 'True') {
+        // console.log(serializedTimeslots);
         const splitTimeslots = serializedTimeslots.split(';');
         for(const timeslot of splitTimeslots) {
           const timeslotInfo = timeslot.trim().split('.');
-          console.log(timeslotInfo)
+          // console.log(timeslotInfo)
           const day = timeslotInfo[0];
           const times = timeslotInfo[1].split(',');
 
@@ -533,30 +532,45 @@
           timeslotSection.append(timeslotElement)
         }
       }
+
+      // set data for edit course modal
+      const button = event.target.querySelector('button');
+      button.setAttribute('data-id', slot.dataset['id']);
+      button.setAttribute('data-code', slot.dataset['code']);
+      button.setAttribute('data-number', slot.dataset['number']);
+      button.setAttribute('data-section', slot.dataset['section']);
+      button.setAttribute('data-term', slot.dataset['term']);
+      button.setAttribute('data-off-cycle', slot.dataset['offCycle']);
+      button.setAttribute('data-timeslots', slot.dataset['timeslots']);
     });
   }
 
-  // edit course modal
+})();
+
+// fill course scheduling form
+(function () {
   const editModal = document.getElementById('editModal');
   if(editModal) {
     editModal.addEventListener('show.bs.modal', function (event) {
-      const courseFields = ['term', 'day', 'start_time', 'end_time'] 
+      const courseFields = ['term', 'day', 'startTime', 'endTime'] 
       const button = event.relatedTarget;
-      const course_id = button.getAttribute(`data-course-id`); 
 
       // TODO: If anyone figures out a way to not hardcode this link, then you should probably implement it 
-      const link = `update_modal/${course_id}/`;
+      const link = `update_modal/${button.dataset['courseId']}/`;
       document.getElementById('editForm').action = link;
 
-      // Update title of course we are editing
+      // Update title of modal
       document.getElementById('editForm').querySelector('h5').textContent = `Editing ${button.dataset.courseCode} ${button.dataset.courseNumber} ${button.dataset.courseSection}`
+
+      document.getElementById('id_term').value = button.dataset['term'];
+
+      console.log(button.dataset);
 
       // prefill form fields
       for(const field of courseFields) {
         const attr = `data-course-${field}`;
         if (field == 'day') {
 
-          // const attrValues = new Set(button.getAttribute(attr).split(',').map(s => s.trim()).map(Number).map(x => x-1));
           const attrValues = new Set(button.getAttribute(attr).split(',').map(s => s.trim()));
           console.log(attrValues);
 

@@ -94,20 +94,20 @@ def landing_page(request):
     )
 
     hour_list = [
-        ("08", 8),
-        ("09", 9),
-        ("10", 10),
-        ("11", 11),
-        ("12", 12),
-        ("13", 13),
-        ("14", 14),
-        ("15", 15),
-        ("16", 16),
-        ("17", 17),
-        ("18", 18),
-        ("19", 19),
-        ("20", 20),
-        ("21", 21),
+        { "name": "08", "num":  8 },
+        { "name": "09", "num":  9 },
+        { "name": "10",  "num": 10 },
+        { "name": "11",  "num": 11 },
+        { "name": "12",  "num": 12 },
+        { "name": "13",  "num": 13 },
+        { "name": "14",  "num": 14 },
+        { "name": "15",  "num": 15 },
+        { "name": "16",  "num": 16 },
+        { "name": "17",  "num": 17 },
+        { "name": "18",  "num": 18 },
+        { "name": "19",  "num": 19 },
+        { "name": "20",  "num": 20 },
+        { "name": "21",  "num": 21 },
     ]
 
     terms   = CourseTerm.objects.all()
@@ -281,11 +281,11 @@ def landing_page(request):
                 if st >= _mins(START_TIME) and et <= _mins(END_TIME):
                     for d in expand_days(c):
                         day_to_timeslots[d].append({
-                            "info": c, 
-                            "start_time": st, 
-                            "end_time": et, 
-                            "start_time_text": c.start_time.name, 
-                            "end_time_text": c.end_time.name,
+                            "course": c, 
+                            "start_time_mins": st, 
+                            "end_time_mins": et, 
+                            "start_time": c.start_time, 
+                            "end_time": c.end_time,
                             "day_names": expand_days(c),
                         })
             else:
@@ -307,27 +307,28 @@ def landing_page(request):
                         et = _mins(timeslot.end_time.name)
                         if st >= _mins(START_TIME) and et <= _mins(END_TIME):
                             day_to_timeslots[timeslot.day.name].append({
-                                "info": c,
-                                "start_time": st, 
-                                "end_time": et, 
-                                "start_time_text": timeslot.start_time.name, 
-                                "end_time_text": timeslot.end_time.name,
+                                "course": c,
+                                "start_time_mins": st, 
+                                "end_time_mins": et, 
+                                "start_time": timeslot.start_time, 
+                                "end_time": timeslot.end_time,
                                 "day_names": expand_days(c),
                             })
             else:
                 invalid_courses.append(c)
             
+        # Change overlapping algorithm here ------------------------------------------------------------------------------
         # Greedily find the most amount of courses to add to a layer without overlap
         day_to_layers = {"Mon": [], "Tue": [], "Wed": [], "Thu": [], "Fri": []}
         for day, layers in day_to_layers.items():
-            day_to_timeslots[day].sort(key=lambda ts: (ts["end_time"]))
+            day_to_timeslots[day].sort(key=lambda ts: (ts["end_time_mins"]))
             curr_timeslots = day_to_timeslots[day] 
             while curr_timeslots: 
                 rejected_timeslots = []
                 prev_timeslot = None
                 layer = []
                 for timeslot in curr_timeslots: 
-                    if prev_timeslot == None or prev_timeslot["end_time"] <= timeslot["start_time"]:
+                    if prev_timeslot == None or prev_timeslot["end_time_mins"] <= timeslot["start_time_mins"]:
                         prev_timeslot = timeslot
                         layer.append(timeslot)
                     else:
@@ -347,13 +348,14 @@ def landing_page(request):
                     timeslot["z_index"] = 100+k
 
                     # visual props (height, offset, color)
-                    timeslot["duration_minutes"] = timeslot["end_time"] - timeslot["start_time"]
+                    timeslot["duration_minutes"] = timeslot["end_time_mins"] - timeslot["start_time_mins"]
                     timeslot["pixel_height"] = timeslot["duration_minutes"] * PIXELS_PER_MINUTE
-                    timeslot["offset_top"] = timeslot["start_time"] % 60 * PIXELS_PER_MINUTE
-                    timeslot["start_hour"] = timeslot["start_time"] // 60
-                    timeslot["end_hour"] = timeslot["end_time"] // 60
+                    timeslot["offset_top"] = timeslot["start_time_mins"] % 60 * PIXELS_PER_MINUTE
+                    timeslot["start_hour"] = timeslot["start_time_mins"] // 60
+                    timeslot["end_hour"] = timeslot["end_time_mins"] // 60
 
         timeslots = day_to_layers
+        # ----------------------------------------------------------------------------------------------------------------
     
     # render
     return render(request, 'timetable/landing_page.html', {

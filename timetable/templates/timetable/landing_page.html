@@ -204,40 +204,43 @@
 
                 {% for hour in hour_list %}
                 <tr>
-                  <td class="time-col"><div class="time-text-offset">{{ hour.0 }}:00</div></td>
+                  <td class="time-col"><div class="time-text-offset">{{ hour.name }}:00</div></td>
 
                   {% for day, layers in timeslots.items %}
                     <td class="course-cell">
                       {% for layer in layers %}
                         {% for timeslot in layer %}
-                          {% if timeslot.start_time and timeslot.start_hour == hour.1 %}
+                          {% if timeslot.start_time and timeslot.start_hour == hour.num %}
                             <!-- Course item -->
                             <a onclick ="" data-bs-toggle="modal" data-bs-target="#detailModal">
                               <div class="course-item {% if timeslot.overlaps %}overlap{% endif %}"
                                 data-height="{{ timeslot.pixel_height }}"
-                                data-bg="{{ timeslot.info.code.color }}"
+                                data-bg="{{ timeslot.course.code.color }}"
                                 data-top="{{ timeslot.offset_top }}"
                                 data-width="{{ timeslot.overlap_width|default:'100' }}"
                                 data-z="{{ timeslot.z_index|default:'1' }}"
 
-                                data-code="{{ timeslot.info.code.name|default:'None' }}"
-                                data-number="{{ timeslot.info.number.name|default:'None' }}"
-                                data-section="{{ timeslot.info.section.name|default:'None' }}"
-                                data-term="{{ timeslot.info.term.name|default:'None' }}"
-                                data-off-cycle="{{ timeslot.info.off_cycle }}"
+                                data-code="{{ timeslot.course.code.name|default:'None' }}"
+                                data-number="{{ timeslot.course.number.name|default:'None' }}"
+                                data-section="{{ timeslot.course.section.name|default:'None' }}"
+                                data-term="{{ timeslot.course.term.name|default:'None' }}"
+                                data-off-cycle="{{ timeslot.course.off_cycle }}"
                                 data-day="{{ timeslot.day_names|join:',' }}"  
-                                data-start="{{ timeslot.start_time_text|default:'None' }}"
-                                data-end="{{ timeslot.end_time_text|default:'None' }}" 
-                                data-academic-year="{{ timeslot.info.academic_year.name|default:'None' }}"
+                                data-start="{{ timeslot.start_time.name|default:'None' }}"
+                                data-end="{{ timeslot.end_time.name|default:'None' }}" 
+                                data-academic-year="{{ timeslot.course.academic_year.name|default:'None' }}"
 
                                 data-timeslots="
-                                  {% if timeslot.info.off_cycle %} 
-                                    {% for ts in timeslot.info.timeslot_set.all %}{{ts.day}}.{{ts.start_time}},{{ts.end_time}}{% if not forloop.last %};{% endif %}{% endfor %}
+                                  {% if timeslot.course.off_cycle %} 
+                                    {% for ts in timeslot.course.timeslot_set.all %}{{ts.day}}.{{ts.start_time}},{{ts.end_time}}{% if not forloop.last %};{% endif %}{% endfor %}
                                   {% else %}
-                                    {{timeslot.day_names|join:','}}.{{timeslot.start_time_text}},{{timeslot.end_time_text}}
+                                    {{timeslot.day_names|join:','}}.{{timeslot.start_time.name}},{{timeslot.end_time.name}}
                                   {% endif %}
-                                ">
-                                <strong> {{ timeslot.info.code.name|default:'None' }} {{ timeslot.info.number.name|default:'None' }} {{ timeslot.info.section.name|default:'None' }} </strong>
+                                "
+                                
+                                data-id="{{ timeslot.course.id }}"
+                                >
+                                <strong> {{ timeslot.course.code.name|default:'None' }} {{ timeslot.course.number.name|default:'None' }} {{ timeslot.course.section.name|default:'None' }} </strong>
                               </div>
                             </a>
            
@@ -330,15 +333,7 @@
         <div class="modal-footer">
           <button class="btn btn-sm btn-warning"
                   data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                  data-course-id=""
-                  data-course-code=""
-                  data-course-number=""
-                  data-course-section=""
-                  data-course-term=""
-                  data-course-day=""
-                  data-course-start_time=""
-                  data-course-end_time="">
+                  data-bs-target="#editModal">
             Edit
           </button> 
         </div>
