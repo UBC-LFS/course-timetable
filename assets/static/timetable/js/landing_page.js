@@ -560,8 +560,16 @@
 
       // prefill form fields
       document.getElementById('id_term').value = button.dataset['term'];
+
       if(button.dataset['offCycle'] === 'True') {
         document.getElementById('id_off_cycle').checked = true;
+
+        for(const element of document.getElementsByClassName('regular-option')) {
+          element.style.display = 'none';
+        }
+        for(const element of document.getElementsByClassName('off-cycle-option')) {
+          element.style.display = '';
+        }
 
         const dayToNumMap = {
            'Mon': 0,
@@ -586,6 +594,14 @@
 
       } else {
         document.getElementById('id_off_cycle').checked = false;
+
+        for(const element of document.getElementsByClassName('regular-option')) {
+          element.style.display = '';
+        }
+        for(const element of document.getElementsByClassName('off-cycle-option')) {
+          element.style.display = 'none';
+        }
+
         const timeslotInfo = button.dataset['timeslots'].trim().split('.');
         const days = timeslotInfo[0]
         const times = timeslotInfo[1].split(',').map(t => Number(t.split('=')[0]))
@@ -609,6 +625,24 @@
         document.getElementById('id_start_time').value = times[0];  
         document.getElementById('id_end_time').value = times[1];  
 
+      }
+    });
+
+    editModal.querySelector('input#id_off_cycle').addEventListener('change', function (event) {
+      if(this.checked) {
+        for(const element of document.getElementsByClassName('regular-option')) {
+          element.style.display = 'none';
+        }
+        for(const element of document.getElementsByClassName('off-cycle-option')) {
+          element.style.display = '';
+        }
+      } else {
+        for(const element of document.getElementsByClassName('regular-option')) {
+          element.style.display = '';
+        }
+        for(const element of document.getElementsByClassName('off-cycle-option')) {
+          element.style.display = 'none';
+        }
       }
     });
   }
