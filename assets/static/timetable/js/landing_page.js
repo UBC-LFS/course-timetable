@@ -547,7 +547,6 @@
   const editModal = document.getElementById('editModal');
   if(editModal) {
     editModal.addEventListener('show.bs.modal', function (event) {
-      const courseFields = ['term', 'day', 'startTime', 'endTime'] 
       const button = event.relatedTarget;
 
       // TODO: If anyone figures out a way to not hardcode this link, then you should probably implement it 
@@ -564,26 +563,34 @@
       if(button.dataset['offCycle'] === 'True') {
         document.getElementById('id_off_cycle').checked = true;
 
-        const splitTimeslots = button.dataset['timeslot'].split('.');
+        const dayToNumMap = {
+           'Mon': 0,
+           'Tue': 1,
+           'Wed': 2,
+           'Thu': 3,
+           'Fri': 4,
+        }
+
+        const splitTimeslots = button.dataset['timeslots'].trim().split(';');
+        console.log(splitTimeslots);
         for(const timeslot of splitTimeslots) {
-          const info = timeslot.split('.');
-          const day = info[0];
-          const times = info[1];
+          const timeslotInfo = timeslot.split('.');
+          const day = timeslotInfo[0];
+          const times = timeslotInfo[1].split(',').map(t => Number(t.split('=')[0]));
+
+          const dayNum = dayToNumMap[day];
+          document.getElementById(`id_form-${dayNum}-select_day`).checked = true;
+          document.getElementById(`id_form-${dayNum}-start_time`).value = times[0];
+          document.getElementById(`id_form-${dayNum}-end_time`).value = times[1];
         }
 
       } else {
         document.getElementById('id_off_cycle').checked = false;
-
-        // timeslot information
         const timeslotInfo = button.dataset['timeslots'].trim().split('.');
         const days = timeslotInfo[0]
         const times = timeslotInfo[1].split(',').map(t => Number(t.split('=')[0]))
-        console.log(days);
-        console.log(times);
-
-        // handle days
         const scheduledDays = new Set(days.split(',').map(s => s.trim()));
-        console.log(scheduledDays);
+
         const numToDayMap = {
           0: 'Mon',
           1: 'Tue',
@@ -599,34 +606,10 @@
             document.getElementById(`id_day_${dayNum}`).checked = false;
           }
         }
-
         document.getElementById('id_start_time').value = times[0];  
         document.getElementById('id_end_time').value = times[1];  
 
       }
-
-
-
-
-
-      // document.getElementById('id_off_cycle').addEventListener('change', function (event) {
-      //   if(event.target.checked) {
-      //     for(const element of document.getElementsByClassName('regular-option')) {
-      //       element.style.display = 'none';
-      //     }
-      //     for(const element of document.getElementsByClassName('off-cycle-option')) {
-      //       element.style.display = '';
-      //     }
-      //   } else {
-      //     for(const element of document.getElementsByClassName('regular-option')) {
-      //       element.style.display = '';
-      //     }
-      //     for(const element of document.getElementsByClassName('off-cycle-option')) {
-      //       element.style.display = 'none';
-      //     }
-      //   }
-
-      // });
     });
   }
 })();
