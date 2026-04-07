@@ -229,16 +229,14 @@
                                 data-start="{{ timeslot.start_time.name|default:'None' }}"
                                 data-end="{{ timeslot.end_time.name|default:'None' }}" 
                                 data-academic-year="{{ timeslot.course.academic_year.name|default:'None' }}"
-
                                 data-timeslots="
                                   {% if timeslot.course.off_cycle %} 
-                                    {% for ts in timeslot.course.timeslot_set.all %}{{ts.day}}.{{ts.start_time}},{{ts.end_time}}{% if not forloop.last %};{% endif %}{% endfor %}
+                                    {% for ts in timeslot.course.timeslot_set.all %}{{ts.day}}.{{ts.start_time.id}}={{ts.start_time}},{{ts.end_time.id}}={{ts.end_time}}{% if not forloop.last %};{% endif %}{% endfor %}
                                   {% else %}
-                                    {{timeslot.day_names|join:','}}.{{timeslot.start_time.name}},{{timeslot.end_time.name}}
-                                  {% endif %}
-                                "
-                                
+                                    {{timeslot.day_names|join:','}}.{{timeslot.start_time.id}}={{timeslot.start_time.name}},{{timeslot.end_time.id}}={{timeslot.end_time.name}}
+                                  {% endif %}"
                                 data-id="{{ timeslot.course.id }}"
+                                data-term-id="{{ timeslot.course.term.id }}"
                                 >
                                 <strong> {{ timeslot.course.code.name|default:'None' }} {{ timeslot.course.number.name|default:'None' }} {{ timeslot.course.section.name|default:'None' }} </strong>
                               </div>
@@ -308,7 +306,6 @@
     {% endif %}
 
   <!-- Course Details Modal -->
-  {% comment %} <!-- {% endcomment %}
   <div class="modal fade" id="detailModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -340,7 +337,6 @@
       </div>
     </div>
   </div>
-      {% comment %} --> {% endcomment %}
 
   <!-- Update Course Modal -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
@@ -357,18 +353,32 @@
                 <label class="form-label">Term *</label>
                 {{ form.term }}
               </div>
-              <div class="mb-3">
-                <label class="form-label">Day *</label>
-                {{ form.day }}
+              <div class="row mb-3">
+                <div class="col-6"> <label class="form-label"> Day </div> <div class="col-6 text-center"> <label class="form-label"> {{ form.off_cycle }} Off-cycle </label> </div>
+                <span class="regular-option" > {{ form.day }} </span>
               </div>
-              <div class="mb-3">
+              <div class="mb-3 regular-option">
                 <label class="form-label">Start Time</label>
                 {{ form.start_time }}
               </div>
-              <div class="mb-3">
+              <div class="mb-3 regular-option">
                 <label class="form-label">End Time</label>
                 {{ form.end_time }}
               </div>
+              {{ formset.management_form }}
+              {% for form, day in formset_day_pair %}
+                <div class="mb-3 row off-cycle-option">
+                  <div class="col-4">
+                    {{ form.select_day }} {{ day.name }}
+                  </div>
+                  <div class="col-4">
+                    {{ form.start_time }}
+                  </div>
+                  <div class="col-4">
+                    {{ form.end_time }}
+                  </div>
+                </div>
+              {% endfor %}
               <div class="mb-3">
                 <input type="hidden" name="query" value="{{ request.build_absolute_uri }}"> 
               </div>

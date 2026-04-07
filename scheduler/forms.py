@@ -158,6 +158,12 @@ class CourseSchedulingForm(forms.ModelForm):
         widget=forms.Select(attrs={"class": "form-select"}),
         error_messages={"required": "Term field is required."},
     )
+    # Optional fields 
+    off_cycle = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput,
+        label="Is off cycle?",
+    )
     day = forms.ModelMultipleChoiceField(
         queryset=CourseDay.objects.none(),  # will be set in __init__
         required=False,

@@ -505,26 +505,22 @@
       const timeslotSection = document.querySelector('.course-timeslots');
       $(timeslotSection).empty();
 
+      console.log(serializedTimeslots);
       if(slot.dataset['offCycle'] === 'True') {
-        // console.log(serializedTimeslots);
         const splitTimeslots = serializedTimeslots.split(';');
         for(const timeslot of splitTimeslots) {
           const timeslotInfo = timeslot.trim().split('.');
-          // console.log(timeslotInfo)
           const day = timeslotInfo[0];
-          const times = timeslotInfo[1].split(',');
-
+          const times = timeslotInfo[1].split(',').map(t => t.split('=')[1]);
           const timeslotElement = document.createElement('div');
           timeslotElement.classList.add('mb-3');
           timeslotElement.textContent = `${day}: ${times[0]}-${times[1]}`;
           timeslotSection.append(timeslotElement);
         }
-
       } else {
         const timeslotInfo = serializedTimeslots.split('.');
         const days = timeslotInfo[0].split(',');
-        const times = timeslotInfo[1].split(',');
-
+        const times = timeslotInfo[1].split(',').map(t => t.split('=')[1]);
         for(const day of days) {
           const timeslotElement = document.createElement('div');
           timeslotElement.classList.add('mb-3');
@@ -539,12 +535,11 @@
       button.setAttribute('data-code', slot.dataset['code']);
       button.setAttribute('data-number', slot.dataset['number']);
       button.setAttribute('data-section', slot.dataset['section']);
-      button.setAttribute('data-term', slot.dataset['term']);
+      button.setAttribute('data-term', slot.dataset['termId']);
       button.setAttribute('data-off-cycle', slot.dataset['offCycle']);
       button.setAttribute('data-timeslots', slot.dataset['timeslots']);
     });
   }
-
 })();
 
 // fill course scheduling form
@@ -559,43 +554,79 @@
       const link = `update_modal/${button.dataset['courseId']}/`;
       document.getElementById('editForm').action = link;
 
-      // Update title of modal
-      document.getElementById('editForm').querySelector('h5').textContent = `Editing ${button.dataset.courseCode} ${button.dataset.courseNumber} ${button.dataset.courseSection}`
-
-      document.getElementById('id_term').value = button.dataset['term'];
-
       console.log(button.dataset);
 
+      // Update title of modal
+      document.getElementById('editForm').querySelector('h5').textContent = `Editing ${button.dataset.code} ${button.dataset.number} ${button.dataset.section}`
+
       // prefill form fields
-      for(const field of courseFields) {
-        const attr = `data-course-${field}`;
-        if (field == 'day') {
+      document.getElementById('id_term').value = button.dataset['term'];
+      if(button.dataset['offCycle'] === 'True') {
+        document.getElementById('id_off_cycle').checked = true;
 
-          const attrValues = new Set(button.getAttribute(attr).split(',').map(s => s.trim()));
-          console.log(attrValues);
-
-          for(const dayNum of [0,1,2,3,4]) {
-            const elementId = `id_day_${dayNum}`;
-            const numToDayMap = {
-              0: 'Mon',
-              1: 'Tue',
-              2: 'Wed',
-              3: 'Thu',
-              4: 'Fri',
-            }
-            if(attrValues.has(numToDayMap[dayNum])){
-              document.getElementById(elementId).checked = true;
-            } else {
-              document.getElementById(elementId).checked = false;
-            }
-          }
-        } else {
-          const id = `id_${field}`;
-          const attrValue = button.getAttribute(attr);
-          document.getElementById(id).value = attrValue;
+        const splitTimeslots = button.dataset['timeslot'].split('.');
+        for(const timeslot of splitTimeslots) {
+          const info = timeslot.split('.');
+          const day = info[0];
+          const times = info[1];
         }
+
+      } else {
+        document.getElementById('id_off_cycle').checked = false;
+
+        // timeslot information
+        const timeslotInfo = button.dataset['timeslots'].trim().split('.');
+        const days = timeslotInfo[0]
+        const times = timeslotInfo[1].split(',').map(t => Number(t.split('=')[0]))
+        console.log(days);
+        console.log(times);
+
+        // handle days
+        const scheduledDays = new Set(days.split(',').map(s => s.trim()));
+        console.log(scheduledDays);
+        const numToDayMap = {
+          0: 'Mon',
+          1: 'Tue',
+          2: 'Wed',
+          3: 'Thu',
+          4: 'Fri',
+        }
+
+        for(const dayNum of [0,1,2,3,4]) {
+          if(scheduledDays.has(numToDayMap[dayNum])) {
+            document.getElementById(`id_day_${dayNum}`).checked = true;
+          } else {
+            document.getElementById(`id_day_${dayNum}`).checked = false;
+          }
+        }
+
+        document.getElementById('id_start_time').value = times[0];  
+        document.getElementById('id_end_time').value = times[1];  
+
       }
 
+
+
+
+
+      // document.getElementById('id_off_cycle').addEventListener('change', function (event) {
+      //   if(event.target.checked) {
+      //     for(const element of document.getElementsByClassName('regular-option')) {
+      //       element.style.display = 'none';
+      //     }
+      //     for(const element of document.getElementsByClassName('off-cycle-option')) {
+      //       element.style.display = '';
+      //     }
+      //   } else {
+      //     for(const element of document.getElementsByClassName('regular-option')) {
+      //       element.style.display = '';
+      //     }
+      //     for(const element of document.getElementsByClassName('off-cycle-option')) {
+      //       element.style.display = 'none';
+      //     }
+      //   }
+
+      // });
     });
   }
 })();

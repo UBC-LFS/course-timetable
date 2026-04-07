@@ -116,7 +116,9 @@ def landing_page(request):
     sections= CourseSection.objects.all()
     times   = CourseTime.objects.all()
     days    = CourseDay.objects.filter(name__in=["Mon", "Tue", "Wed", "Thu", "Fri"]).annotate(day_order=order_case).order_by("day_order")
-    popupform = CourseSchedulingForm()
+    modalform = CourseSchedulingForm()
+    TimeslotFormSet = formset_factory(TimeslotForm, extra=len(days), max_num=len(days), absolute_max=len(days))
+    formset = TimeslotFormSet()
 
     # Academic Year
     all_years = CourseYear.objects.values_list("name", flat=True)
@@ -384,7 +386,9 @@ def landing_page(request):
         'available_terms_for_year': available_terms_for_year,
         'course_filters_json': course_filters_json,
         'numbers_by_code_json': numbers_by_code_json,
-        'form': popupform,
+        'form': modalform,
+        'formset': formset,
+        'formset_day_pair': zip(formset, days),
     })
 
 def redirect_root(request):
