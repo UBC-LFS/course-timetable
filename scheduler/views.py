@@ -640,8 +640,8 @@ def edit_course_schedule(request, course_id):
     scheduling_form = CourseSchedulingForm(request.POST, instance=course)
     timeslot_formset = TimeslotFormSet(request.POST, initial=formset_data)
     if scheduling_form.is_valid():
-        print(vars(scheduling_form))
         scheduling_form.save()
+
         # for idx, form in enumerate(timeslot_formset.forms):
         #     print(form)
         #     if form.is_valid():
@@ -662,6 +662,7 @@ def edit_course_schedule(request, course_id):
         #                 print("removed")
         #             else:
         #                 print('nothing to remove')
+
         messages.success(request, "Course successfully updated.")
     else:
         err = " ".join(scheduling_form.errors.get("name", [])) or "Please fix the errors and try again."
