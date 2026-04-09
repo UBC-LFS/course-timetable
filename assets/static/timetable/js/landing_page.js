@@ -505,7 +505,6 @@
       const timeslotSection = document.querySelector('.course-timeslots');
       $(timeslotSection).empty();
 
-      console.log(serializedTimeslots);
       if(slot.dataset['offCycle'] === 'True') {
         const splitTimeslots = serializedTimeslots.split(';');
         for(const timeslot of splitTimeslots) {
@@ -553,7 +552,6 @@
       const link = `update_schedule/${button.dataset['id']}/`;
       document.getElementById('editForm').action = link;
 
-      console.log(button.dataset);
 
       // Update title of modal
       document.getElementById('editForm').querySelector('h5').textContent = `Editing ${button.dataset.code} ${button.dataset.number} ${button.dataset.section}`
@@ -580,7 +578,6 @@
         }
 
         const splitTimeslots = button.dataset['timeslots'].trim().split(';');
-        console.log(splitTimeslots);
         for(const timeslot of splitTimeslots) {
           const timeslotInfo = timeslot.split('.');
           const day = timeslotInfo[0];

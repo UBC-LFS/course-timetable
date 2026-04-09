@@ -585,11 +585,6 @@ def edit_course(request, course_id):
                         )
                     else:
                         deleted, _ = Timeslot.objects.filter(course=course, day=days[idx]).delete()
-                        if deleted:
-                            print("removed")
-                        else:
-                            print('nothing to remove')
-
             messages.success(request, "Course edited.")
             return redirect("scheduler:view_courses")
         summary = _summarize_form_errors(course_form) or "Please fix the errors and try again."
@@ -641,28 +636,19 @@ def edit_course_schedule(request, course_id):
     timeslot_formset = TimeslotFormSet(request.POST, initial=formset_data)
     if scheduling_form.is_valid():
         scheduling_form.save()
-
-        # for idx, form in enumerate(timeslot_formset.forms):
-        #     print(form)
-        #     if form.is_valid():
-        #         # update timeslots or delete them
-        #         print(form.cleaned_data.get("select_day"))
-        #         if form.cleaned_data.get("select_day"):
-        #             Timeslot.objects.update_or_create(
-        #                 course=course,
-        #                 day=days[idx],
-        #                 defaults={
-        #                     "start_time": form.cleaned_data.get("start_time"),
-        #                     "end_time": form.cleaned_data.get("end_time"),
-        #                 }
-        #             )
-        #         else:
-        #             deleted, _ = Timeslot.objects.filter(course=course, day=days[idx]).delete()
-        #             if deleted:
-        #                 print("removed")
-        #             else:
-        #                 print('nothing to remove')
-
+        for idx, form in enumerate(timeslot_formset.forms):
+            if form.is_valid():
+                if form.cleaned_data.get("select_day"):
+                    Timeslot.objects.update_or_create(
+                        course=course,
+                        day=days[idx],
+                        defaults={
+                            "start_time": form.cleaned_data.get("start_time"),
+                            "end_time": form.cleaned_data.get("end_time"),
+                        }
+                    )
+                else:
+                    deleted, _ = Timeslot.objects.filter(course=course, day=days[idx]).delete()
         messages.success(request, "Course successfully updated.")
     else:
         err = " ".join(scheduling_form.errors.get("name", [])) or "Please fix the errors and try again."
