@@ -550,7 +550,7 @@
       const button = event.relatedTarget;
 
       // TODO: If anyone figures out a way to not hardcode this link, then you should probably implement it 
-      const link = `update_modal/${button.dataset['courseId']}/`;
+      const link = `update_schedule/${button.dataset['id']}/`;
       document.getElementById('editForm').action = link;
 
       console.log(button.dataset);

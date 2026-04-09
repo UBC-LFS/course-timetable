@@ -609,14 +609,62 @@ def edit_course(request, course_id):
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @login_required(login_url='accounts:ldap_login')
 @require_POST
-def modal_edit_course(request, course_id):
+def edit_course_schedule(request, course_id):
+
+    order_case = Case(
+        When(name="Mon", then=0),
+        When(name="Tue", then=1),
+        When(name="Wed", then=2),
+        When(name="Thu", then=3),
+        When(name="Fri", then=4),
+        output_field=IntegerField(),
+    )
+
+    days = list(CourseDay.objects.filter(name__in=["Mon", "Tue", "Wed", "Thu", "Fri"]).annotate(day_order=order_case).order_by("day_order"))
     course = get_object_or_404(Course, id=course_id)
-    form = CourseSchedulingForm(request.POST, instance=course)
-    if form.is_valid():
-        obj = form.save()
+    timeslots = {}
+    for timeslot in course.timeslot_set.all():
+        timeslots[timeslot.day.name] = {"select_day": True, "start_time": timeslot.start_time, "end_time": timeslot.end_time}
+
+    formset_data = []
+    for day in ["Mon", "Tue", "Wed", "Thu", "Fri"]:
+        form_data = timeslots.get(day)
+        if form_data:
+            formset_data.append(form_data)
+        else:
+            formset_data.append({"select_day": False, "start_time": None, "end_time": None})
+    
+
+    TimeslotFormSet = formset_factory(TimeslotForm, extra=len(days), max_num=len(days), absolute_max=len(days))
+
+    scheduling_form = CourseSchedulingForm(request.POST, instance=course)
+    timeslot_formset = TimeslotFormSet(request.POST, initial=formset_data)
+    if scheduling_form.is_valid():
+        print(vars(scheduling_form))
+        scheduling_form.save()
+        # for idx, form in enumerate(timeslot_formset.forms):
+        #     print(form)
+        #     if form.is_valid():
+        #         # update timeslots or delete them
+        #         print(form.cleaned_data.get("select_day"))
+        #         if form.cleaned_data.get("select_day"):
+        #             Timeslot.objects.update_or_create(
+        #                 course=course,
+        #                 day=days[idx],
+        #                 defaults={
+        #                     "start_time": form.cleaned_data.get("start_time"),
+        #                     "end_time": form.cleaned_data.get("end_time"),
+        #                 }
+        #             )
+        #         else:
+        #             deleted, _ = Timeslot.objects.filter(course=course, day=days[idx]).delete()
+        #             if deleted:
+        #                 print("removed")
+        #             else:
+        #                 print('nothing to remove')
         messages.success(request, "Course successfully updated.")
     else:
-        err = " ".join(form.errors.get("name", [])) or "Please fix the errors and try again."
+        err = " ".join(scheduling_form.errors.get("name", [])) or "Please fix the errors and try again."
         messages.error(request, f"Update failed: {err}")
     
     redirect_url = request.POST.get("query")

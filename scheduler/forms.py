@@ -149,7 +149,7 @@ class CourseForm(forms.ModelForm):
 class CourseSchedulingForm(forms.ModelForm):
     class Meta:
         model  = Course
-        fields = ["term","day","start_time","end_time"]
+        fields = ["term","off_cycle", "day","start_time","end_time"]
 
     term = forms.ModelChoiceField(
         queryset=CourseTerm.objects.all().order_by("name"),
