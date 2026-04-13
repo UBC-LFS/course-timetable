@@ -554,7 +554,7 @@
 
 
       // Update title of modal
-      document.getElementById('editForm').querySelector('h5').textContent = `Editing ${button.dataset.code} ${button.dataset.number} ${button.dataset.section}`
+      document.getElementById('editForm').querySelector('h5').textContent = `Editing ${button.dataset.code} ${button.dataset.number} ${button.dataset.section}`;
 
       // prefill form fields
       document.getElementById('id_term').value = button.dataset['term'];
@@ -565,6 +565,7 @@
         for(const element of document.getElementsByClassName('regular-option')) {
           element.style.display = 'none';
         }
+
         for(const element of document.getElementsByClassName('off-cycle-option')) {
           element.style.display = '';
         }
@@ -595,13 +596,14 @@
         for(const element of document.getElementsByClassName('regular-option')) {
           element.style.display = '';
         }
+
         for(const element of document.getElementsByClassName('off-cycle-option')) {
           element.style.display = 'none';
         }
 
         const timeslotInfo = button.dataset['timeslots'].trim().split('.');
-        const days = timeslotInfo[0]
-        const times = timeslotInfo[1].split(',').map(t => Number(t.split('=')[0]))
+        const days = timeslotInfo[0];
+        const times = timeslotInfo[1].split(',').map(t => Number(t.split('=')[0]));
         const scheduledDays = new Set(days.split(',').map(s => s.trim()));
 
         const numToDayMap = {
@@ -625,11 +627,13 @@
       }
     });
 
-    editModal.querySelector('input#id_off_cycle').addEventListener('change', function (event) {
+    // hide elements based on the checkbox
+    editModal.querySelector('input#id_off_cycle').addEventListener('change', function () {
       if(this.checked) {
         for(const element of document.getElementsByClassName('regular-option')) {
           element.style.display = 'none';
         }
+
         for(const element of document.getElementsByClassName('off-cycle-option')) {
           element.style.display = '';
         }
@@ -637,9 +641,26 @@
         for(const element of document.getElementsByClassName('regular-option')) {
           element.style.display = '';
         }
+
         for(const element of document.getElementsByClassName('off-cycle-option')) {
           element.style.display = 'none';
         }
+      }
+    });
+
+    // clear inputs from modal
+    editModal.addEventListener('hidden.bs.modal', function(event) {
+      const checkboxes = this.querySelectorAll('input[type="checkbox"]')
+      const selects = this.querySelectorAll('select');
+
+      for(const checkbox of checkboxes) {
+        if(checkbox.name !== 'off_cycle') {
+          checkbox.checked = false;
+        }
+      }
+
+      for(const select of selects) {
+        select.value = '';
       }
     });
   }
