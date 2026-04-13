@@ -1,9 +1,11 @@
+// display correct options to user
 (function () {
 
     function activateCorrectMode(element) {
 
-        const regularOptions = document.getElementById('regular-options');
-        const offCycleOptions = document.getElementById('off-cycle-options');
+        const form = document.querySelector('form');
+        const regularOptions = form.querySelector('div#regular-options');
+        const offCycleOptions = form.querySelector('div#off-cycle-options');
 
         if(element.checked) {
             regularOptions.style.display = 'none';
@@ -19,12 +21,48 @@
 
     }
 
-    const offCycleSelect = document.getElementById('id_off_cycle');
-    activateCorrectMode(offCycleSelect);
+    const offCycleCheckbox = document.querySelector('input#id_off_cycle');
+    activateCorrectMode(offCycleCheckbox);
 
-    offCycleSelect.addEventListener('click', (e) => {
-        console.log('Off cycle box clicked');
-        console.log(e.target)
-        activateCorrectMode(e.target);
+    offCycleCheckbox.addEventListener('click', function (event) {
+        activateCorrectMode(event.currentTarget);
+    });
+})();
+
+// clear out forms 
+(function () {
+
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', function (event) {
+        // for debugging
+        event.preventDefault();
+
+        const offCycleCheckbox = document.querySelector('input#id_off_cycle');
+        if(offCycleCheckbox.checked) {
+            const regularOptions = event.currentTarget.querySelector('div#regular-options');
+            const checkboxes = regularOptions.querySelectorAll('input[type="checkbox"]');
+            const selects =  regularOptions.querySelectorAll('select');
+
+            for(const checkbox of checkboxes) {
+                checkbox.checked = false;
+            }
+
+            for(const select of selects) {
+                select.value = '';
+            }
+        } else {
+            const offCycleOptions = event.currentTarget.querySelector('div#off-cycle-options');
+            const checkboxes = offCycleOptions.querySelectorAll('input[type="checkbox"]');
+            const selects = offCycleOptions.querySelectorAll('select');
+
+            for(const checkbox of checkboxes) {
+                checkbox.checked = false;
+            }
+
+            for(const select of selects) {
+                select.value = '';
+            }
+        }
     });
 })();
