@@ -592,32 +592,45 @@ def edit_course(request, course_id):
     TimeslotFormSet = formset_factory(TimeslotForm, extra=len(days), max_num=len(days), absolute_max=len(days))
 
     if request.method == "POST":
+        error = True 
         course_form = CourseForm(request.POST, instance=course)
         timeslot_formset = TimeslotFormSet(request.POST, initial=formset_data)
         if course_form.is_valid():
-            course_form.save()
-            for idx, form in enumerate(timeslot_formset.forms):
-                if form.is_valid():
-                    # update timeslots or delete them
-                    if form.cleaned_data.get("select_day"):
-                        Timeslot.objects.update_or_create(
-                            course=course,
-                            day=days[idx],
-                            defaults={
-                                "start_time": form.cleaned_data.get("start_time"),
-                                "end_time": form.cleaned_data.get("end_time"),
-                            }
-                        )
-                    else:
-                        deleted, _ = Timeslot.objects.filter(course=course, day=days[idx]).delete()
+            course = course_form.save(commit=False)
+            if course.off_cycle:
+                if timeslot_formset.is_valid():
+                    error = False
+                    course.start_time = None
+                    course.end_time = None
+                    course.save()
+                    course.day.clear()
+                    for idx, form in enumerate(timeslot_formset.forms):
+                        # update timeslots or delete them
+                        if form.cleaned_data.get("select_day"):
+                            Timeslot.objects.update_or_create(
+                                course=course,
+                                day=days[idx],
+                                defaults={
+                                    "start_time": form.cleaned_data.get("start_time"),
+                                    "end_time": form.cleaned_data.get("end_time"),
+                                }
+                            )
+                        else:
+                            deleted, _ = Timeslot.objects.filter(course=course, day=days[idx]).delete()
+            else:
+                error = False 
+                course.save()
+                course.m2m_save()
+
+        if error:
+            summary = _summarize_form_errors(course_form, timeslot_formset) or "Please fix the errors and try again."
+            messages.error(request, f"Create failed: {summary}")
+        else:
             messages.success(request, "Course edited.")
             return redirect("scheduler:view_courses")
-        summary = _summarize_form_errors(course_form) or "Please fix the errors and try again."
-        messages.error(request, f"Create failed: {summary}")
     else:
         course_form = CourseForm(instance=course)
         timeslot_formset = TimeslotFormSet(initial=formset_data)
-
 
     return render(request, "timetable/course_form.html", {
         "title": "Edit Course",
