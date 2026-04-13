@@ -412,7 +412,6 @@ def view_courses(request):
     page_obj = None
     
     if submitted:
-
         if not year_query:
             messages.error(request, "You have to select Academic Year.")
         else:
@@ -479,9 +478,9 @@ def view_courses(request):
     })
 
 # helper: append error based on error types
-def _summarize_form_errors(form):
+def _summarize_form_errors(form, formset):
     parts = []
-    # field-specific
+
     for field, errors in form.errors.items():
         if field == "__all__":
             continue
@@ -490,6 +489,17 @@ def _summarize_form_errors(form):
     # non-field
     for e in form.non_field_errors():
         parts.append(e)
+
+    for day, form in zip(["Mon", "Tue", "Wed", "Thu", "Fri"], formset):
+        for field, errors in form.errors.items():
+            if field == "__all__":
+                continue
+            for e in errors:
+                parts.append(f"{day}: {e}")
+        # non-field
+        for e in form.non_field_errors():
+            parts.append(f"{day}: {e}")
+
     return " ".join(parts)
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
@@ -510,21 +520,36 @@ def create_course(request):
     TimeslotFormSet = formset_factory(TimeslotForm, extra=len(days), max_num=len(days), absolute_max=len(days))
 
     if request.method == "POST":
+        error = True
         course_form = CourseForm(request.POST)
         timeslot_formset = TimeslotFormSet(request.POST)
         if course_form.is_valid():
-            course = course_form.save()
-            for idx, form in enumerate(timeslot_formset.forms):
-                if form.is_valid():
-                    if form.cleaned_data.get('select_day'):
-                        timeslot = form.save(commit=False) 
-                        timeslot.course = course
-                        timeslot.day = days[idx] 
-                        timeslot.save()
+
+            # do not save course if we have invalid inputs in the formset
+            course = course_form.save(commit=False)
+            if course.off_cycle:
+                course.start_time = None
+                course.end_time = None
+                if timeslot_formset.is_valid():
+                    error = False
+                    course.save()
+                    for idx, form in enumerate(timeslot_formset.forms):
+                        if form.cleaned_data.get('select_day'):
+                            timeslot = form.save(commit=False) 
+                            timeslot.course = course
+                            timeslot.day = days[idx] 
+                            timeslot.save()
+            else:
+                error = False
+                course.save()
+                course_form.save_m2m()
+            
+        if error: 
+            summary = _summarize_form_errors(course_form, timeslot_formset) or "Please fix the errors and try again."
+            messages.error(request, f"Create failed: {summary}")
+        else:
             messages.success(request, "Course created.")
             return redirect("scheduler:view_courses")
-        summary = _summarize_form_errors(course_form) or "Please fix the errors and try again."
-        messages.error(request, f"Create failed: {summary}")
     else:
         course_form = CourseForm()
         timeslot_formset = TimeslotFormSet()

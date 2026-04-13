@@ -36,7 +36,7 @@
 
     form.addEventListener('submit', function (event) {
         // for debugging
-        event.preventDefault();
+        // event.preventDefault();
 
         const offCycleCheckbox = document.querySelector('input#id_off_cycle');
         if(offCycleCheckbox.checked) {
