@@ -30,6 +30,7 @@
 })();
 
 // clear out forms 
+/*
 (function () {
 
     const form = document.querySelector('form');
@@ -66,3 +67,4 @@
         }
     });
 })();
+*/

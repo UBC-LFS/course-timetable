@@ -133,16 +133,21 @@ class CourseForm(forms.ModelForm):
     def clean(self):
         cleaned = super().clean()
 
-        # time order (only if both provided)
-        start = cleaned.get("start_time")
-        end   = cleaned.get("end_time")
-        if start and end:
-                s = datetime.strptime(start.name[:5], "%H:%M")
-                e = datetime.strptime(end.name[:5], "%H:%M")
-                if not e > s:
-                    raise ValidationError(
-                        "End time must be later than start time."
-                    )
+        if cleaned.get("off_cycle"):
+            # clear unused fields 
+            cleaned["start_time"] = None
+            cleaned["end_time"] = None
+        else:
+            # time order (only if both provided)
+            start = cleaned.get("start_time")
+            end   = cleaned.get("end_time")
+            if start and end:
+                    s = datetime.strptime(start.name[:5], "%H:%M")
+                    e = datetime.strptime(end.name[:5], "%H:%M")
+                    if not e > s:
+                        raise ValidationError(
+                            "End time must be later than start time."
+                        )
 
         return cleaned
 
@@ -205,16 +210,21 @@ class CourseSchedulingForm(forms.ModelForm):
     def clean(self):
         cleaned = super().clean()
 
-        # time order (only if both provided)
-        start = cleaned.get("start_time")
-        end   = cleaned.get("end_time")
-        if start and end:
-                s = datetime.strptime(start.name[:5], "%H:%M")
-                e = datetime.strptime(end.name[:5], "%H:%M")
-                if not e > s:
-                    raise ValidationError(
-                        "End time must be later than start time."
-                    )
+        if cleaned.get("off_cycle"):
+            # clear unused fields 
+            cleaned["start_time"] = None
+            cleaned["end_time"] = None
+        else:
+            # time order (only if both provided)
+            start = cleaned.get("start_time")
+            end   = cleaned.get("end_time")
+            if start and end:
+                    s = datetime.strptime(start.name[:5], "%H:%M")
+                    e = datetime.strptime(end.name[:5], "%H:%M")
+                    if not e > s:
+                        raise ValidationError(
+                            "End time must be later than start time."
+                        )
 
         return cleaned
 

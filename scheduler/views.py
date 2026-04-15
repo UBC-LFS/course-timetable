@@ -600,10 +600,8 @@ def edit_course(request, course_id):
             if course.off_cycle:
                 if timeslot_formset.is_valid():
                     error = False
-                    course.start_time = None
-                    course.end_time = None
                     course.save()
-                    course.day.clear()
+                    course_form.save_m2m()
                     for idx, form in enumerate(timeslot_formset.forms):
                         # update timeslots or delete them
                         if form.cleaned_data.get("select_day"):
@@ -620,7 +618,7 @@ def edit_course(request, course_id):
             else:
                 error = False 
                 course.save()
-                course.m2m_save()
+                course_form.save_m2m()
 
         if error:
             summary = _summarize_form_errors(course_form, timeslot_formset) or "Please fix the errors and try again."
