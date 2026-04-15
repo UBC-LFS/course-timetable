@@ -284,14 +284,21 @@
                         <button class="btn btn-sm btn-warning"
                                 data-bs-toggle="modal"
                                 data-bs-target="#editModal"
-                                data-course-id="{{ course.id }}"
-                                data-course-code="{{ course.code.name }}"
-                                data-course-number="{{ course.number.name }}"
-                                data-course-section="{{ course.section.name }}"
-                                data-course-term="{{ course.term.id }}"
-                                data-course-day="{{ course.day_names|join:',' }}"
-                                data-course-start_time="{{ course.start_time.id }}"
-                                data-course-end_time="{{ course.end_time.id }}">
+                                data-code="{{ course.code.name }}"
+                                data-number="{{ course.number.name }}"
+                                data-section="{{ course.section.name }}"
+                                data-term="{{ course.term.id }}"
+
+                                data-off-cycle="{{ course.off_cycle }}"
+                                data-day="{{ course.day_names|join:',' }}"
+                                data-timeslots="
+                                  {% if course.off_cycle %} 
+                                    {% for ts in course.timeslot_set.all %}{{ts.day}}.{{ts.start_time.id}}={{ts.start_time}},{{ts.end_time.id}}={{ts.end_time}}{% if not forloop.last %};{% endif %}{% endfor %}
+                                  {% else %}
+                                    {{course.day_names|join:','}}.{{course.start_time.id}}={{course.start_time.name}},{{course.end_time.id}}={{course.end_time.name}}
+                                  {% endif %}"
+                                data-id="{{ course.id }}"
+                                data-term-id="{{ course.term.id }}">
                           Edit
                         </button>
                       </td>
