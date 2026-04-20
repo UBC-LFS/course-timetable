@@ -52,9 +52,16 @@ PIXELS_PER_MINUTE = 1
 
 # helper: sort the array in the order of "Mon, Tue, Wed, Thu, Fri"
 def expand_days(course):
-    parts = [d.name for d in course.day.all()]
-    order = ["Mon", "Tue", "Wed", "Thu", "Fri"]
-    return sorted(parts, key=lambda d: order.index(d))
+    if course.off_cycle:
+        parts = []
+        for ts in course.timeslot_set.all():
+            parts.append(ts.day.name)
+        order = ["Mon", "Tue", "Wed", "Thu", "Fri"]
+        return sorted(parts, key=lambda d: order.index(d))
+    else:
+        parts = [d.name for d in course.day.all()]
+        order = ["Mon", "Tue", "Wed", "Thu", "Fri"]
+        return sorted(parts, key=lambda d: order.index(d))
 
 # --- AJAX: terms available for a given academic year ---
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
