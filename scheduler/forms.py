@@ -44,6 +44,9 @@ class TimeslotForm(forms.ModelForm):
 
         return cleaned
 
+# 5 for the days in the week
+TimeslotFormSet = forms.formset_factory(TimeslotForm, extra=5, max_num=5, absolute_max=5)
+
 class CourseForm(forms.ModelForm):
     # Required dropdowns (add * in labels)
     code          = forms.ModelChoiceField(
