@@ -10,7 +10,6 @@ from .forms import (
     CourseSectionForm, CourseTimeForm, CourseYearForm, CourseSchedulingForm,
     MajorNameForm, TimeslotFormSet
 )
-from django.forms.models import formset_factory
 from django.db.models import Q, Min, Case, When, IntegerField
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST, require_GET
@@ -582,22 +581,12 @@ def edit_course(request, course_id):
 
     days = list(CourseDay.objects.filter(name__in=["Mon", "Tue", "Wed", "Thu", "Fri"]).annotate(day_order=order_case).order_by("day_order"))
     course = get_object_or_404(Course, id=course_id)
-    timeslots = {}
-    for timeslot in course.timeslot_set.all():
-        timeslots[timeslot.day.name] = {"select_day": True, "start_time": timeslot.start_time, "end_time": timeslot.end_time}
-
-    formset_data = []
-    for day in ["Mon", "Tue", "Wed", "Thu", "Fri"]:
-        form_data = timeslots.get(day)
-        if form_data:
-            formset_data.append(form_data) 
-        else:
-            formset_data.append({"select_day": False, "start_time": None, "end_time": None})
 
     if request.method == "POST":
+        print(request.POST)
         error = True 
         course_form = CourseForm(request.POST, instance=course)
-        timeslot_formset = TimeslotFormSet(request.POST, initial=formset_data)
+        timeslot_formset = TimeslotFormSet(request.POST)
         if course_form.is_valid():
             course = course_form.save(commit=False)
             if course.off_cycle:
@@ -625,11 +614,22 @@ def edit_course(request, course_id):
 
         if error:
             summary = _summarize_form_errors(course_form, timeslot_formset) or "Please fix the errors and try again."
-            messages.error(request, f"Create failed: {summary}")
+            messages.error(request, f"Edit failed: {summary}")
         else:
             messages.success(request, "Course edited.")
             return redirect("scheduler:view_courses")
     else:
+        timeslots = {}
+        for timeslot in course.timeslot_set.all():
+            timeslots[timeslot.day.name] = {"select_day": True, "start_time": timeslot.start_time, "end_time": timeslot.end_time}
+
+        formset_data = []
+        for day in ["Mon", "Tue", "Wed", "Thu", "Fri"]:
+            form_data = timeslots.get(day)
+            if form_data:
+                formset_data.append(form_data) 
+            else:
+                formset_data.append({"select_day": False, "start_time": None, "end_time": None})
         course_form = CourseForm(instance=course)
         timeslot_formset = TimeslotFormSet(initial=formset_data)
 
@@ -656,44 +656,31 @@ def edit_course_schedule(request, course_id):
 
     days = list(CourseDay.objects.filter(name__in=["Mon", "Tue", "Wed", "Thu", "Fri"]).annotate(day_order=order_case).order_by("day_order"))
     course = get_object_or_404(Course, id=course_id)
-    timeslots = {}
-    for timeslot in course.timeslot_set.all():
-        timeslots[timeslot.day.name] = {"select_day": True, "start_time": timeslot.start_time, "end_time": timeslot.end_time}
 
-    formset_data = []
-    for day in ["Mon", "Tue", "Wed", "Thu", "Fri"]:
-        form_data = timeslots.get(day)
-        if form_data:
-            formset_data.append(form_data)
-        else:
-            formset_data.append({"select_day": False, "start_time": None, "end_time": None})
-    
     error = True
     scheduling_form = CourseSchedulingForm(request.POST, instance=course)
-    timeslot_formset = TimeslotFormSet(request.POST, initial=formset_data)
-    print(request.POST)
+    timeslot_formset = TimeslotFormSet(request.POST)
     if scheduling_form.is_valid():
         course = scheduling_form.save(commit=False)
-        if timeslot_formset.is_valid():
-            error = False
-            course.save()
-            for idx, form in enumerate(timeslot_formset.forms):
-                print(formset_data)
-                print(form.cleaned_data)
-                print(form.cleaned_data.get("select_day"))
-
-                if form.cleaned_data.get("select_day"):
-                    Timeslot.objects.update_or_create(
-                        course=course,
-                        day=days[idx],
-                        defaults={
-                            "start_time": form.cleaned_data.get("start_time"),
-                            "end_time": form.cleaned_data.get("end_time"),
-                        }
-                    )
-                else:
-                    deleted, _ = Timeslot.objects.filter(course=course, day=days[idx]).delete()
+        if course.off_cycle:
+            if timeslot_formset.is_valid():
+                error = False
+                course.save()
+                scheduling_form.save_m2m()
+                for idx, form in enumerate(timeslot_formset.forms):
+                    if form.cleaned_data.get("select_day"):
+                        Timeslot.objects.update_or_create(
+                            course=course,
+                            day=days[idx],
+                            defaults={
+                                "start_time": form.cleaned_data.get("start_time"),
+                                "end_time": form.cleaned_data.get("end_time"),
+                            }
+                        )
+                    else:
+                        deleted, _ = Timeslot.objects.filter(course=course, day=days[idx]).delete()
         else:
+            error = False
             course.save()
             scheduling_form.save_m2m()
 
