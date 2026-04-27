@@ -196,7 +196,7 @@ class TimeslotFormTest(TestCase):
             academic_year=self.year,
         )
     
-    def test_successful_input(self):
+    def test_all_valid_inputs(self):
         form = TimeslotForm(data={
             "course": self.course,
             "select_day": False,
@@ -206,7 +206,7 @@ class TimeslotFormTest(TestCase):
 
         self.assertTrue(form.is_valid())
 
-    def test_incorrect_input(self):
+    def test_validation_start_and_end_times(self):
         form = TimeslotForm(data={
             "course": self.course,
             "select_day": True,
@@ -215,3 +215,15 @@ class TimeslotFormTest(TestCase):
         })
         self.assertFalse(form.is_valid())
         self.assertIn("End time must be later than start time.", form.errors["__all__"])
+    
+    def test_validation_start_and_end_times_given_when_day_selected(self):
+        form = TimeslotForm(data={
+            "course": self.course,
+            "select_day": True,
+            "start_time": None,
+            "end_time": None
+        })
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("Start and end times must be specified for selected days.", form.errors["__all__"])
+        

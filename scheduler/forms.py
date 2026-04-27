@@ -34,7 +34,13 @@ class TimeslotForm(forms.ModelForm):
         # time order (only if both provided)
         start = cleaned.get("start_time")
         end   = cleaned.get("end_time")
-        if start and end:
+
+        if cleaned.get("select_day"):
+            if not start or not end:
+                raise ValidationError(
+                    "Start and end times must be specified for selected days."
+                )
+            else:
                 s = datetime.strptime(start.name[:5], "%H:%M")
                 e = datetime.strptime(end.name[:5], "%H:%M")
                 if not e > s:
