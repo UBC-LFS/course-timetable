@@ -1,4 +1,17 @@
 (function () {
+
+  // helper function
+  function rgbToHex(rgbStr) {
+    const rgbChannels = rgbStr.slice(4, -1).split(",").map(x => {
+      let hexChannelNum = Number(x).toString(16);
+      if(hexChannelNum.length === 1) {
+        hexChannelNum = "0" + hexChannelNum;
+      }
+      return hexChannelNum;
+    });
+    return "#" + rgbChannels.reduce((acc, channel) => acc + channel); 
+  }
+
   const root = document.getElementById('course-codes-root');
   if (!root) return;
 
@@ -45,19 +58,56 @@
 
       form.dataset.codeId = id;
 
-      const picker = document.getElementById('editColorPicker');
+      // const picker = document.getElementById('editColorPicker');
+      const picker = document.getElementById('edit-color-options');
       const hidden = document.getElementById('editColorHidden');
+
+      // for(const element of picker.getElementsByClassName('color-box')) {
+      //   const option =  rgbToHex(element.style.background).toUpperCase();
+      //   // console.log(color);
+      //   // console.log(option);
+      //   if(option === color) {
+      //     element.id = 'selected';
+      //     console.log(element)
+      //     break;
+      //   }
+      // }
 
       function apply(val) {
         const norm = val.toUpperCase();
-        picker.value = norm;
+        for(const element of picker.getElementsByClassName('color-box')) {
+          const selectedColorHex = rgbToHex(element.style.background).toUpperCase();
+          if(selectedColorHex === norm) {
+            element.id = 'selected';
+          } else {
+            element.id = '';
+          }
+        }
         hidden.value = norm;
       }
 
       apply(color);
-      picker.oninput = () => apply(picker.value);
     });
   }
+
+  // color picker
+  const colorOptions = document.getElementById('edit-color-options');
+  colorOptions.addEventListener('click', function (event) {
+    const color = event.target;
+    if(color.tagName !== 'BUTTON') {
+      return;
+    }
+
+    const selectedColor = document.getElementById('selected');
+    if(selectedColor) {
+      selectedColor.id = '';
+    }
+
+    color.id = 'selected';
+
+    const hiddenColorInput = document.getElementById('editColorHidden');
+    hiddenColorInput.value = rgbToHex(color.style.background).toUpperCase();
+  });
 
   // Intercept EDIT submit
   const editForm = document.getElementById('editForm');

@@ -123,10 +123,36 @@
           </div>
           <div class="mb-2">
             <label class="form-label">Color *</label><br>
-            <input type="color"
+            {% comment %} <input type="color"
                    id="editColorPicker"
                    value="#A8A8A8"
-                   style="width:64px;height:36px;padding:0;border:none;">
+                   style="width:64px;height:36px;padding:0;border:none;"> {% endcomment %}
+            <div id="edit-color-options">
+              <div id="edit-color-top-row">
+                <button type="button" class="color-box" style="border-color:#1F77B4;background:#1F77B4;"/>
+                <button type="button" class="color-box" style="border-color:#FF7F0E;background:#FF7F0E;"/>
+                <button type="button" class="color-box" style="border-color:#2CA02C;background:#2CA02C;"/>
+                <button type="button" class="color-box" style="border-color:#D62728;background:#D62728;"/>
+                <button type="button" class="color-box" style="border-color:#9467BD;background:#9467BD;"/>
+                <button type="button" class="color-box" style="border-color:#8C564B;background:#8C564B;"/>
+                <button type="button" class="color-box" style="border-color:#E377C2;background:#E377C2;"/>
+                <button type="button" class="color-box" style="border-color:#7F7F7F;background:#7F7F7F;"/>
+                <button type="button" class="color-box" style="border-color:#BCBD22;background:#BCBD22;"/>
+                <button type="button" class="color-box" style="border-color:#17BECF;background:#17BECF;"/>
+              </div>
+              <div id="edit-color-bottom-row">
+                <button type="button" class="color-box" style="border-color:#AEC7E8;background:#AEC7E8;"/>
+                <button type="button" class="color-box" style="border-color:#FFBB78;background:#FFBB78;"/>
+                <button type="button" class="color-box" style="border-color:#98DF8A;background:#98DF8A;"/>
+                <button type="button" class="color-box" style="border-color:#FF9896;background:#FF9896;"/>
+                <button type="button" class="color-box" style="border-color:#C5B0D5;background:#C5B0D5;"/>
+                <button type="button" class="color-box" style="border-color:#C49C94;background:#C49C94;"/>
+                <button type="button" class="color-box" style="border-color:#F7B6D2;background:#F7B6D2;"/>
+                <button type="button" class="color-box" style="border-color:#C7C7C7;background:#C7C7C7;"/>
+                <button type="button" class="color-box" style="border-color:#DBDB8D;background:#DBDB8D;"/>
+                <button type="button" class="color-box" style="border-color:#9EDAE5;background:#9EDAE5;"/>
+              </div>
+            </div>
             <input id="editColorHidden" name="color" type="hidden" value="#A8A8A8">
           </div>
         </div>
