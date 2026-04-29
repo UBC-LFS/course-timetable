@@ -15,11 +15,11 @@
 .color-box:hover {
   border: 2px solid;
   border-color: black !important;
-  /* border-color: black; */
   z-index: 200;
 }
 
 #selected {
   border: 2px solid;
   border-color: black !important;
+  z-index: 199;
 }
