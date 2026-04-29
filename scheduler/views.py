@@ -583,7 +583,6 @@ def edit_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
     if request.method == "POST":
-        print(request.POST)
         error = True 
         course_form = CourseForm(request.POST, instance=course)
         timeslot_formset = TimeslotFormSet(request.POST)
@@ -593,7 +592,7 @@ def edit_course(request, course_id):
                 if timeslot_formset.is_valid():
                     error = False
                     course.save()
-                    course_form.save_m2m()
+                    course.day.clear()
                     for idx, form in enumerate(timeslot_formset.forms):
                         # update timeslots or delete them
                         if form.cleaned_data.get("select_day"):
@@ -605,6 +604,7 @@ def edit_course(request, course_id):
                                     "end_time": form.cleaned_data.get("end_time"),
                                 }
                             )
+                            course.day.add(days[idx])
                         else:
                             deleted, _ = Timeslot.objects.filter(course=course, day=days[idx]).delete()
             else:
@@ -666,7 +666,7 @@ def edit_course_schedule(request, course_id):
             if timeslot_formset.is_valid():
                 error = False
                 course.save()
-                scheduling_form.save_m2m()
+                course.day.clear()
                 for idx, form in enumerate(timeslot_formset.forms):
                     if form.cleaned_data.get("select_day"):
                         Timeslot.objects.update_or_create(
@@ -677,6 +677,7 @@ def edit_course_schedule(request, course_id):
                                 "end_time": form.cleaned_data.get("end_time"),
                             }
                         )
+                        course.day.add(days[idx])
                     else:
                         deleted, _ = Timeslot.objects.filter(course=course, day=days[idx]).delete()
         else:
