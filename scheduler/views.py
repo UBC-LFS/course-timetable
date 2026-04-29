@@ -685,8 +685,9 @@ def edit_course_schedule(request, course_id):
             scheduling_form.save_m2m()
 
     if error:
-        err = " ".join(scheduling_form.errors.get("name", [])) or "Please fix the errors and try again."
-        messages.error(request, f"Update failed: {err}")
+        summary = _summarize_form_errors(scheduling_form, timeslot_formset) or "Please fix the errors and try again."
+        # err = " ".join(scheduling_form.errors.get("name", [])) or "Please fix the errors and try again."
+        messages.error(request, f"Update failed: {summary}")
     else:
         messages.success(request, "Course successfully updated.")
     
@@ -1886,6 +1887,16 @@ DISTINCT_COLORS = [
     "#7F7F7F",  # gray
     "#BCBD22",  # olive
     "#17BECF",  # cyan
+    "#AEC7E8",
+    "#FFBB78",
+    "#98DF8A",
+    "#FF9896",
+    "#C5B0D5",
+    "#C49C94",
+    "#F7B6D2",
+    "#C7C7C7",
+    "#DBDB8D",
+    "#9EDAE5",
 ]
 
 def _next_code_color(used_colors: set):
