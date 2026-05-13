@@ -29,6 +29,23 @@
     });
 })();
 
+// clear boxes for undisplayed options
+(function () {
+    const form = document.querySelector('form');
+    const offCycleCheckbox = document.querySelector('input#id_off_cycle');
+    if(offCycleCheckbox.checked) {
+        const daysCheckbox = form.querySelectorAll('div#regular-options input');
+        for(const box of daysCheckbox) {
+            box.checked = false;
+        }
+    } else {
+        const daysCheckbox = form.querySelectorAll('div#off-cycle-options input');
+        for(const box of daysCheckbox) {
+            box.checked = false;
+        }
+    }
+})();
+
 // clear out forms 
 /*
 (function () {
